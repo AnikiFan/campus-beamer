@@ -23,7 +23,7 @@ import zipfile
 FILES = (
     'README.md', 'README.en.md', 'LICENSE', 'SECURITY.md', 'ACCESSIBILITY.md', 'CHANGELOG.md',
     'release-please-config.json', '.release-please-manifest.json',
-    'CONTRIBUTING.md', 'AGENTS.md', '.editorconfig', '.gitignore', '.latexmkrc', 'Makefile',
+    'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md', 'AGENTS.md', '.editorconfig', '.gitignore', '.latexmkrc', 'Makefile',
     'docker/Dockerfile', 'docker/Dockerfile.dockerignore', 'docker/entrypoint.sh',
     'example.tex', 'prompt.md', 'materials/.gitkeep',
     'theme/campusbeamer.cls', 'theme/beamerthemecampus.sty',
