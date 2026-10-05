@@ -19,18 +19,22 @@ page. The example PPTX includes per-slide PowerPoint speaker notes. These repres
 
 <p>
   <img src="docs/images/preview-cover.png" alt="Cover" width="240">
+  <img src="docs/images/preview-toc.png" alt="Table of contents" width="240">
   <img src="docs/images/preview-paper.png" alt="Paper section" width="240">
-  <img src="docs/images/preview-layout.png" alt="Equation page" width="240">
-  <img src="docs/images/preview-code.png" alt="Code window" width="240">
+  <img src="docs/images/preview-fullheight.png" alt="Right full-height image" width="240">
 </p>
 <p>
+  <img src="docs/images/preview-layout.png" alt="Equation page" width="240">
+  <img src="docs/images/preview-code.png" alt="Code window" width="240">
   <img src="docs/images/preview-callouts.png" alt="Callouts" width="240">
   <img src="docs/images/preview-media.png" alt="Video link" width="240">
+</p>
+<p>
   <img src="docs/images/preview-references.png" alt="References" width="240">
   <img src="docs/images/preview-closing.png" alt="Closing page" width="240">
 </p>
 
-These thumbnails are rendered from the current example PDF. The emblems,
+These thumbnails come from rasterized slides in the converted example PPTX; the video page includes the embedded video's poster frame. The emblems,
 wordmarks and campus images follow the [asset source and rights notice](assets/README.md).
 
 Tsinghua is the default school profile. Colors, emblems and wordmarks

@@ -3,10 +3,38 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Typeset the project wordmark; export outlined SVGs and PDF/PNG previews."""
 from pathlib import Path
+import math
 import subprocess
 from xml.etree import ElementTree as ET
 
 import pymupdf
+
+
+def frame_wordmark(path, padding=12):
+    """Frame the visible letter outlines with equal padding on all four sides."""
+    with pymupdf.open(path) as source, pymupdf.open() as framed:
+        bounds = pymupdf.Rect()
+        for kind, box in source[0].get_bboxlog():
+            if kind == 'fill-text':
+                # MuPDF adds a 1-point safety margin to text ink bounds.
+                bounds |= pymupdf.Rect(box) + (1, 1, -1, -1)
+        if bounds.is_empty:
+            raise ValueError('The logo contains no visible text.')
+        clip = bounds + (-padding, -padding, padding, padding)
+        page = framed.new_page(width=clip.width, height=clip.height)
+        page.draw_rect(page.rect, color=None, fill=(1, 1, 1))
+        midpoint = .618 * page.rect.width
+        shift = .5 * page.rect.height / math.tan(math.radians(72))
+        panel = [(midpoint + shift, 0), (page.rect.width, 0),
+                 (page.rect.width, page.rect.height),
+                 (midpoint - shift, page.rect.height)]
+        page.draw_polyline(panel, color=None, fill=(85/255, 33/255, 116/255),
+                           closePath=True)
+        page.show_pdf_page(page.rect, source, 0, clip=clip)
+        data = framed.tobytes()
+    path.write_bytes(data)
+    print(f'Wordmark canvas: {clip.width:.2f} x {clip.height:.2f} pt; '
+          f'padding: {padding} pt on all sides')
 
 
 def main():
@@ -18,6 +46,8 @@ def main():
                         '-output-directory=' + str(output),
                         'assets/campus-beamer-logo.tex'], cwd=root,
                        stdout=log, stderr=subprocess.STDOUT, check=True)
+
+    frame_wordmark(output / 'campus-beamer-logo.pdf')
 
     svg_ns = 'http://www.w3.org/2000/svg'
     ET.register_namespace('', svg_ns)
@@ -32,9 +62,9 @@ def main():
         (root / 'assets' / 'campus-beamer-logo.svg').write_bytes(ET.tostring(svg, encoding='utf-8'))
         pdf[0].get_pixmap(dpi=192, alpha=True).save(output / 'campus-beamer-logo.png')
 
-        for element in svg.iter():
-            if element.get('fill') not in (None, 'none'):
-                element.set('fill', '#ffffff')
+        # The icon already contains the cover's white-left/purple-right panels.
+        # Keep the dark-mode asset identical so the split remains visible on a
+        # dark README background; turning every fill white would erase the icon.
         white = ET.tostring(svg, encoding='utf-8')
         (root / 'assets' / 'campus-beamer-logo-white.svg').write_bytes(white)
         with pymupdf.open(stream=white, filetype='svg') as image:

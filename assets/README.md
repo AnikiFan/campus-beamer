@@ -9,16 +9,16 @@
 
 ## Campus Beamer 项目字标
 
-- [`campus-beamer-logo.svg`](campus-beamer-logo.svg)：透明背景的紫色字标，颜色为 `#552174`。
-- [`campus-beamer-logo-white.svg`](campus-beamer-logo-white.svg)：透明背景的白色反白版，用于深色背景。
-- [`campus-beamer-logo.tex`](campus-beamer-logo.tex)：可编辑的 LaTeX 排版源码，包含字号、升降量和字距。
+- [`campus-beamer-logo.svg`](campus-beamer-logo.svg)：仿封面白左紫右的 16:9 项目标志，紫色为 `#552174`。
+- [`campus-beamer-logo-white.svg`](campus-beamer-logo-white.svg)：深色 README 背景使用的同款分割标志，保留白左紫右面板。
+- [`campus-beamer-logo.tex`](campus-beamer-logo.tex)：可编辑的 LaTeX 排版源码，包含封面斜线、字号、升降量和字距。
 
-字标使用 `Campus Beamer` 的完整文字，以 Latin Modern Roman 衬线字形排版。
-`Campus` 的 A 缩小并上提，顶端与大写字母对齐；`Beamer` 的第一个 E 下沉，
-呼应 TeX 字标的排版方式。两份 SVG 已将字形转为路径，缩放时保持清晰，显示时无需安装字体。
-README 根据浅色／深色模式选择版本；项目字标不替代幻灯片中的学校校徽或校名标志。
+标志沿用封面的 61.8% 中点和 72° 斜线。画布由两个单词的可见字形外接矩形加四边相等的
+12 pt padding 自动生成。`Campus` 保持自然字形；`Beamer` 放在紫色区域，第一个 E 和 M
+采用等比例缩小并配合紧字距，同时把 M 向左上方微移。两份 SVG 已将字形转为路径，缩放时保持清晰，
+显示时无需安装字体。项目字标不替代幻灯片中的学校校徽或校名标志。
 
-在项目根目录执行 `make logo` 可重建两份 SVG，并在 `build/logo/` 中生成透明 PNG、
+在项目根目录执行 `make logo` 可重建两份 SVG，并在 `build/logo/` 中生成 PNG、
 PDF 和双色背景预览 `preview.png`。生成使用 XeLaTeX、`standalone`、`fontspec`、
 `xcolor`、Latin Modern 字体及已有的 PyMuPDF，无需新增 Python 依赖。
 
@@ -90,7 +90,7 @@ uv run --frozen python tools/generate_demo_video.py
 
 [`docs/images/cover.png`](../docs/images/cover.png)、
 [`docs/images/citations.png`](../docs/images/citations.png) 和
-`docs/images/preview-*.png` 从本项目 PDF 渲染而来，
+`docs/images/preview-*.png` 来自当前示例 PPTX 转换后的幻灯片图像；视频预览页还合成了 PPTX 内嵌视频的首帧，
 其中的清华素材适用上述声明；缩略图用于 README 页面预览。
 
 随仓库分发的 PNG 已进行无损编码优化，保留原尺寸、像素、透明度、ICC 颜色配置、

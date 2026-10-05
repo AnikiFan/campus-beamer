@@ -1,16 +1,34 @@
-% Campus Beamer wordmark: raised A, lowered E, optically adjusted spacing.
+% Campus Beamer icon: the cover split with a compact wordmark.
 % Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
 % SPDX-License-Identifier: GPL-3.0-or-later
-% Latin Modern font outlines retain their own license; see assets/README.md.
+%
 % Rebuild the SVG assets and PDF/PNG previews with `make logo`.
-\documentclass[border=16pt]{standalone}
-\usepackage{fontspec,xcolor}
+\documentclass[border=0pt]{standalone}
+\usepackage{fontspec,xcolor,tikz}
 \setmainfont{Latin Modern Roman}
 \definecolor{brand}{HTML}{552174}
+
+% The first E and M are uniformly reduced and brought closer to their
+% neighbours; no glyph is compressed in only one direction.
+\newcommand{\beamerword}{%
+  B\kern-.055em%
+  \raisebox{-.16em}{\scalebox{.72}{E}}%
+  \kern-.09em A\kern-.09em%
+  \kern-.035em\raisebox{.08em}{\scalebox{.72}{M}}%
+  \kern-.045em E\kern-.045em R%
+}
+
 \begin{document}
-\color{brand}\fontsize{52}{62}\selectfont
-% The small A shares the capital-height line; the E descends like TeX's E.
-C\kern-.09em\raisebox{.24em}{\fontsize{35}{35}\selectfont A}\kern-.03em
-MPUS\kern.25em
-B\kern-.055em\raisebox{-.20em}{E}\kern-.025em AMER
+\begin{tikzpicture}[x=1pt,y=1pt]
+  % The generator measures the visible glyphs, adds equal padding, and
+  % draws the cover split around the resulting wordmark rectangle.
+  \path[use as bounding box] (0,0) rectangle (640,220);
+
+  % CAMPUS uses the normal glyphs with no letter deformation.
+  \node[anchor=base west,inner sep=0pt,text=brand,
+    font=\fontsize{82}{82}\selectfont] at (45,115) {CAMPUS};
+  % BEAMER is white on purple; only the first E and M are scaled uniformly.
+  \node[anchor=base west,inner sep=0pt,text=white,
+    font=\fontsize{58}{58}\selectfont] at (400,105) {\beamerword};
+\end{tikzpicture}
 \end{document}
