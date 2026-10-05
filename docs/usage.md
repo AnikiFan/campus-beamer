@@ -81,7 +81,7 @@ build/
 不要并行运行清理与构建，例如 `make -j clean all`。
 
 `materials/.gitkeep` 随仓库和源码包提供，克隆或解压后素材目录已经存在。
-放进 `materials/` 的文件、`main.tex`、`chapters/talk/`、`bibliography/main.bib` 和 `build/` 只留在本地：Git 会忽略它们，源码包也不包含它们。
+放进 `materials/` 的文件、`main.tex`、`chapters/talk/`、`bibliography/main.bib` 和 `build/` 中的其他构建产物只留在本地：Git 会忽略它们，源码包也不包含它们；公开示例备注 `build/example.notes.json` 是版本控制例外。
 自己的图片和论文放在 `materials/`，不要放进 `assets/`；`assets/` 是模板自带的标志、校园图片和示例视频。
 `prompt.md` 是随仓库提供的通用示例，把自己的思路直接发给 agent。
 

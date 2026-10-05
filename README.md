@@ -102,7 +102,7 @@ make                     # 有 main.tex 时构建自己的汇报，否则构建 
 
 `materials/` 通过 `.gitkeep` 随仓库和源码包预置，克隆或解压后即可放入素材。
 放进 `materials/` 的文件、生成的 `main.tex`、`chapters/talk/`、
-`bibliography/main.bib`，以及 `build/` 中的产物，都只留在本地，不会进入源码 ZIP。
+`bibliography/main.bib`，以及 `build/` 中除公开示例备注外的产物，都只留在本地，不会进入源码 ZIP。
 `prompt.md` 是随仓库提供的通用示例；自己的思路直接发给 agent 即可。
 VS Code、Overleaf 和命令行用法见[环境说明](docs/workflows.md)。
 

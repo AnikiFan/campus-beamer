@@ -104,7 +104,7 @@ defaults; see [class options](docs/class-options.md).
 
 </details>
 
-The repository and source ZIP include `materials/.gitkeep`, so the folder is ready after cloning or unpacking. Files you add under `materials/`, generated `main.tex`, `chapters/talk/`, `bibliography/main.bib`, and output in `build/` stay local: Git ignores them and source ZIPs omit them. `prompt.md` is a generic sample; send your own brief to the agent.
+The repository and source ZIP include `materials/.gitkeep`, so the folder is ready after cloning or unpacking. Files you add under `materials/`, generated `main.tex`, `chapters/talk/`, `bibliography/main.bib`, and build outputs other than the public demo notes stay local: Git ignores them and source ZIPs omit them. `prompt.md` is a generic sample; send your own brief to the agent.
 See [environment workflows](docs/workflows.md) for VS Code, Overleaf and the command line.
 
 ## Another university

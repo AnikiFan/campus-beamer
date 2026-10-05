@@ -89,7 +89,7 @@ make release DPI=200
 源码 ZIP 只包含 `tools/package_source.py` 的逐文件 `FILES` 白名单，包括两份 Release Please 配置。
 新增公开文件必须审核后登记；清单外文件默认不打包，清单文件及父目录不得为符号链接。
 发布前保留通用 `prompt.md`，并审核已登记文件的内容；白名单不能识别文件中的私人信息。
-发行包与演示产物均保存在忽略的 `build/`，不提交源码仓库。
+发行包与其他演示产物均保存在忽略的 `build/`；公开示例备注 `build/example.notes.json` 是版本控制例外。
 
 ## 手动构建与附件重试
 
