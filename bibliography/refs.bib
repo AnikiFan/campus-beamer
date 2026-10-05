@@ -1,0 +1,37 @@
+% This example uses biblatex with Biber (style=ieee, giveninits=true, sorting=none).
+% The entry key (e.g. Zadeh2017TensorFN) is passed to \cornercite{...}.
+% author: separate authors with "and"; the style controls name abbreviation.
+% title: full paper title, used in both corner citations and the bibliography.
+% year: publication year, printed automatically in the default corner form.
+% booktitle: proceedings title, printed in the bibliography, not the corner form.
+% usera: optional replacement for the author/year prefix in corner citations;
+%        the full title is still appended. Include year/venue here if desired.
+% userb: optional institution/affiliation shown by paperframe.
+% userc: optional publication venue/status, for example EMNLP 2017 or arXiv.
+% usere: optional citation count shown by paperframe.
+% userf: optional citation-count source and date, shown in parentheses.
+% shorttitle: corner-citation fallback ONLY when title is absent.
+% Keep title for a complete bibliography; usera does not replace numeric labels.
+
+@inproceedings{Zadeh2017TensorFN,
+  author = {Zadeh, Amir and Chen, Minghai and Poria, Soujanya and Cambria, Erik and Morency, Louis-Philippe},
+  title = {Tensor Fusion Network for Multimodal Sentiment Analysis},
+  booktitle = {Proceedings of the 2017 Conference on Empirical Methods in Natural Language Processing},
+  shorttitle = {Tensor Fusion Network},
+  year = {2017},
+  usera = {Zadeh et al., EMNLP 2017},
+  % The following values are display placeholders for the template example.
+  % Replace them with verified metadata when reusing this entry.
+  userb = {<论文署名机构>},
+  userc = {<会议或期刊，发表年月；预印本填写 arXiv>},
+  usere = {<引用次数>},
+  userf = {<统计来源，截至 YYYY-MM-DD>},
+}
+
+@inproceedings{Liu2018EfficientLM,
+  author = {Liu, Zhun and Shen, Ying and Lakshminarasimhan, Varun and Liang, Paul Pu and Zadeh, AmirAli Bagher and Morency, Louis-Philippe},
+  title = {Efficient Low-rank Multimodal Fusion With Modality-Specific Factors},
+  booktitle = {Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics},
+  shorttitle = {Low-rank Multimodal Fusion},
+  year = {2018},
+}

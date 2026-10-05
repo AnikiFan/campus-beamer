@@ -1,0 +1,87 @@
+% !TeX root = ../example.tex
+\section{基础页面与图像}
+% 本示例每节显式插入起始页：图片直接在本次汇报中选择。
+% 实际使用时，可按需省略目录页或起始页，也可交换两者顺序。
+\sectioncoverpage[assets/sigs_building]{本节介绍页面布局、公式排版、图像适配与图注。}
+\subsection{基础页面}
+
+% 红色参考线只显示在这一页，不改变其他页面的主题设置。
+\input{chapters/layout-guide.tex}
+\input{chapters/font-guide.tex}
+
+% section 组织整节内容，subsection 自动显示在页眉上方。
+% frame 的标题参数即 frametitle，只填写本页标题，无需额外设置副标题。
+\begin{frame}{三级内容结构}
+      \begin{description}[Subsection]
+            \item[Section] 组织整节内容，用于起始页和页脚导航。
+            \item[Subsection] 组织节内主题，自动显示在页眉上方。
+            \item[Frametitle] 概括本页内容，在页眉下方以小字号显示。
+            \item[连续页面] 同一 subsection 下可放多页，每页只需填写自己的标题。
+      \end{description}
+\end{frame}
+
+% 公式与图像沿用本 subsection，保留单小节的导航示例。
+\input{chapters/math-examples.tex}
+
+\input{chapters/code-guide.tex}
+
+\begin{frame}[fragile]{自动适配素材}
+      \begin{columns}[T,onlytextwidth]
+            \begin{column}{.48\textwidth}
+                  \textbf{适配素材并添加图注}
+                  \begin{verbatim}
+\begin{figure}
+  \fitgraphic[
+    width=.42,
+    height=.40
+  ]{assets/sigs_wordmark.png}
+  \caption{标志素材的适配效果}
+\end{figure}
+                  \end{verbatim}
+                  宽、高分别是整页宽、高的比例，图片在范围内保持纵横比。
+            \end{column}
+            \begin{column}{.48\textwidth}
+                  \begin{figure}
+                        \fitgraphic[width=.42,height=.40]{assets/sigs_wordmark.png}
+                        \caption{标志素材的适配效果}
+                  \end{figure}
+            \end{column}
+      \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{自动适配图片与图注}
+      \begin{columns}[T,onlytextwidth]
+            \begin{column}{.48\textwidth}
+                  \textbf{同时设置图像与图注}
+                  \begin{verbatim}
+\fitfigure[
+  width=.42,
+  height=.28
+]{\schoolwordmarkonlight}
+ {横向标志素材的适配效果}
+                  \end{verbatim}
+                  最后一项填写图注，留空则不显示。
+            \end{column}
+            \begin{column}{.48\textwidth}
+                  \fitfigure[width=.42,height=.28]{\schoolwordmarkonlight}%
+                        {横向标志素材的适配效果}
+            \end{column}
+      \end{columns}
+\end{frame}
+
+\begin{rightimageframe}[image width=.40]{右侧满高图片}{assets/tsinghua_temple.png}
+      \begin{description}[高度]
+            \item[高度] 图片从页面顶端延伸到导航上边缘。
+            \item[宽度] \texttt{image width} 控制右侧图片区域占页面宽度的比例。
+            \item[正文] 左侧仍可放置列表、公式和提示框。
+      \end{description}
+\end{rightimageframe}
+
+\begin{frame}[fragile]{图像命令速查}
+      \begin{description}[适配素材]
+            \item[适配素材] \verb|\fitgraphic[width=.8,height=.6]{file}|
+            \item[添加图注] \verb|\fitfigure[width=.8,height=.6]{file}{caption}|
+            \item[右侧图片] \verb|\begin{rightimageframe}{标题}{file}|
+            \item[PDF 页面] 可选参数 \texttt{page=2} 指定 PDF 的第 2 页。
+      \end{description}
+\end{frame}

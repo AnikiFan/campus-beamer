@@ -1,0 +1,43 @@
+% Campus Beamer: school colors, emblem and wordmark paths.
+% Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
+% SPDX-License-Identifier: GPL-3.0-or-later
+%
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program.  If not, see <https://www.gnu.org/licenses/>.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{campuscolor}[2026/10/02 Institution-independent theme colors]
+\RequirePackage{xcolor}
+% School identity and functional colors. Talk images belong in the talk source.
+% Default profile: Tsinghua University. Keep layout in beamerthemecampus.sty.
+% Loaded automatically by the campus theme after xcolor; do not load it twice.
+% Presentation metadata belongs in chapters/metadata.tex, not this profile.
+
+% Main theme color: cover panels, section pages, headings, navigation and footer.
+% The footer uses this color automatically; it has no separate color option.
+\definecolor{maincolor}{RGB/cmyk}{85,33,116/27,72,0,55}
+
+% Callout colors: name the role, not the hue. The theme derives each box's
+% background, title shade and border from its role color.
+\definecolor{tipcolor}{HTML}{22A7E5}
+\colorlet{notecolor}{maincolor} % Follows the main color unless set independently.
+\definecolor{alertcolor}{HTML}{EC008C}
+\definecolor{examplecolor}{RGB/cmyk}{20,185,120/.73,0,.67,0}
+\definecolor{definitioncolor}{HTML}{B36B16} % Distinct from the purple note color.
+
+% Transparent emblems: white artwork for dark blocks, colored artwork for light blocks.
+% Paths may include extensions. Supply your own local artwork in assets/.
+\newcommand{\schoolemblemondark}{assets/emblem_on_dark}
+\newcommand{\schoolemblemonlight}{assets/emblem_on_light}
+% Transparent university wordmarks: white artwork for dark grounds, colored for light grounds.
+\newcommand{\schoolwordmarkondark}{assets/wordmark_on_dark}
+\newcommand{\schoolwordmarkonlight}{assets/wordmark_on_light}

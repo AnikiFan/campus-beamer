@@ -1,0 +1,101 @@
+% Campus Beamer: terminal-style code windows for slides.
+% Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
+% SPDX-License-Identifier: GPL-3.0-or-later
+%
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License
+% along with this program.  If not, see <https://www.gnu.org/licenses/>.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{campuscode}[2026/10/02 Flat terminal-style code windows]
+\RequirePackage{tcolorbox}
+\tcbuselibrary{listings,skins}
+\RequirePackage{fontawesome5}
+% The class loads xeCJK after the theme. Install its listings bridge only
+% after all preamble packages are known; English-only decks stay CJK-free.
+\AtEndPreamble{\@ifpackageloaded{xeCJK}{\RequirePackage{xeCJK-listings}}{}}
+
+% Neutral UI colors, independent of the institution's brand palette.
+\definecolor{campuscodebackground}{HTML}{20242C}
+\definecolor{campuscodebar}{HTML}{303640}
+\definecolor{campuscodetext}{HTML}{EDF0F5}
+\definecolor{campuscodemuted}{HTML}{A9B4C3}
+\definecolor{campuscodekeyword}{HTML}{C5ADFF}
+\definecolor{campuscodestring}{HTML}{B7D99B}
+\definecolor{campuscodeaccent}{HTML}{87CEEB}
+
+\lstdefinestyle{campus-code}{
+  basicstyle=\ttfamily\small\color{campuscodetext},
+  keywordstyle=\color{campuscodekeyword},
+  commentstyle=\color{campuscodemuted},
+  stringstyle=\color{campuscodestring},
+  numberstyle=\ttfamily\scriptsize\color{campuscodemuted},
+  numbersep=10pt,stepnumber=1,
+  columns=fullflexible,keepspaces=true,tabsize=4,
+  showstringspaces=false,showspaces=false,showtabs=false,
+  breaklines=true,breakatwhitespace=false,breakindent=1em,
+  aboveskip=0pt,belowskip=0pt,
+  mathescape=false,texcl=false,escapeinside={},
+}
+
+\newcommand{\campus@codelanguage}[1]{%
+  \def\campus@listinglanguage{#1}%
+  \def\campus@codelabel{#1}%
+  \def\campus@codeicon{\faCode}%
+  \ifstrequal{#1}{Python}{\def\campus@codeicon{\faPython}}{}%
+  \ifstrequal{#1}{bash}{%
+    \def\campus@codeicon{\faTerminal}\def\campus@codelabel{Shell}}{}%
+  \ifstrequal{#1}{text}{%
+    \def\campus@listinglanguage{}%
+    \def\campus@codeicon{\faTerminal}\def\campus@codelabel{Terminal}}{}%
+  \ifstrequal{#1}{Java}{\def\campus@codeicon{\faJava}}{}%
+}
+\pgfkeys{/campus/code/.is family,/campus/code,
+  language/.code={\campus@codelanguage{#1}},
+  label/.store in=\campus@codelabel,
+  icon/.store in=\campus@codeicon,
+  numbers/.is choice,
+  numbers/true/.code={\def\campus@codenumbers{left}\def\campus@codegutter{2em}},
+  numbers/false/.code={\def\campus@codenumbers{none}\def\campus@codegutter{0pt}},
+  numbers/.default=true,
+  firstnumber/.store in=\campus@codefirstnumber,
+  firstline/.store in=\campus@codefirstline,
+  lastline/.store in=\campus@codelastline,
+}
+\newcommand{\campus@codetitle}[1]{%
+  {\color{campuscodeaccent}\campus@codeicon}\hspace{.5em}%
+  \texttt{\detokenize{#1}}\hfill
+  {\color{campuscodemuted}\campus@codelabel}%
+}
+\tcbset{campus code/.style={
+  enhanced,listing only,listing engine=listings,
+  colback=campuscodebackground,colframe=campuscodebar,
+  colbacktitle=campuscodebar,coltitle=campuscodetext,
+  fonttitle=\small,boxrule=0pt,arc=2pt,outer arc=2pt,
+  boxsep=0pt,left=10pt,right=10pt,top=8pt,bottom=8pt,
+  lefttitle=10pt,righttitle=10pt,toptitle=5pt,bottomtitle=5pt,
+  before skip=6pt,after skip=6pt,
+},campus code listing/.style={
+  listing options/.expanded={style=campus-code,language=\campus@listinglanguage,
+    numbers=\campus@codenumbers,xleftmargin=\campus@codegutter,
+    firstnumber=\campus@codefirstnumber,
+    firstline=\campus@codefirstline,lastline=\campus@codelastline},
+},campus code setup/.code={%
+  \pgfqkeys{/campus/code}{language=Python,numbers=false,firstnumber=1,
+    firstline=1,lastline=999999,#1}%
+}}
+
+% Literal code requires a surrounding frame[fragile]. File input does not.
+\newtcblisting{campuscode}[2][]{campus code,campus code setup={#1},campus code listing,
+  title={\campus@codetitle{#2}}}
+\newtcbinputlisting{\campusinputcode}[3][]{campus code,campus code setup={#1},campus code listing,
+  title={\campus@codetitle{#2}},listing file={#3}}
+\endinput

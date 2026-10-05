@@ -1,0 +1,50 @@
+% !TeX root = ../example.tex
+\section{提示框}
+\sectioncoverpage[assets/sigs_dom]{本节展示提示框样式与使用方法。} % 原图右边缘贴齐页面右边缘
+\subsection{样式演示}
+
+\begin{frame}{提示、备注与警告}
+      \begin{tipbox}[提示]
+            使用 \texttt{tipbox} 放置操作建议，例如推荐的实验配置。
+      \end{tipbox}
+
+      \begin{notebox}[备注]
+            使用 \texttt{notebox} 放置补充说明，例如数据来源或实验条件。
+      \end{notebox}
+
+      \begin{alertbox}[警告]
+            使用 \texttt{alertbox} 强调易错点，例如复现时需要核对的设置。
+      \end{alertbox}
+\end{frame}
+
+\subsection{定义与示例}
+
+\begin{frame}{定义与示例}
+      \begin{definitionbox}[定义]
+            \textbf{Modality}：信息的一种表示形式，如文本、图像、音频等。
+            多模态学习关注如何联合建模这些异构来源。
+      \end{definitionbox}
+
+      \begin{examplebox}[示例]
+            以 Tensor Fusion 为例，它通过外积显式保留单模态、双模态、
+            三模态的交互，从而得到更丰富的联合表示。
+      \end{examplebox}
+
+\end{frame}
+
+\subsection{使用方法}
+
+\begin{frame}[fragile]{提示框用法}
+      \begin{verbatim}
+\begin{tipbox}[自定义标题]
+  需要强调的内容。
+\end{tipbox}
+      \end{verbatim}
+      \begin{itemize}
+            \item 将环境名替换为 \texttt{notebox}、\texttt{alertbox}、\texttt{examplebox} 或 \texttt{definitionbox}。
+            \item 省略可选标题时，使用对应环境的默认标题。
+      \end{itemize}
+      \begin{tipbox}
+            这是省略可选标题后的显示效果。
+      \end{tipbox}
+\end{frame}

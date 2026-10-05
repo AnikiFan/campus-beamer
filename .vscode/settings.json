@@ -1,0 +1,50 @@
+{
+  "editor.wordWrap": "on",
+  "[latex]": {
+    "editor.snippetSuggestions": "top",
+    "editor.suggest.showSnippets": true
+  },
+  "latex-workshop.intellisense.unimathsymbols.enabled": true,
+  "latex-workshop.intellisense.atSuggestion.trigger.latex": "@",
+
+  // 输入反斜杠和命令前缀即可看到这些模板命令；Tab 会依次选中中文占位提示。
+  "latex-workshop.intellisense.command.user": {
+    "fitgraphic[]{}": "fitgraphic[width=${1:.8},height=${2:.6}]{${3:assets/图片或PDF}}",
+    "fitfigure[]{}{}": "fitfigure[width=${1:.8},height=${2:.6}]{${3:assets/图片或PDF}}{${4:图注；留空则不显示}}",
+    "cornercite[]{}": "cornercite[${1|top-right,bottom-left,bottom-right|}]{${2:文献键；多篇用逗号分隔}}",
+    "referencespage": "referencespage",
+    "referencespage[break]": "referencespage[break]",
+    "backmatter": "backmatter",
+    "backmatter[notitle]": "backmatter[notitle]"
+  },
+
+  // 在 .tex 文件中输入 @campus- 浏览完整代码块；名称按用途分类，插入后按 Tab 填写。
+  "latex-workshop.intellisense.atSuggestion.user": {
+    "@campus-frame": "\\begin{frame}{${1:页面标题}}\n\t${0:正文内容}\n\\end{frame}",
+    "@campus-frame-subtitle": "\\begin{frame}{${1:页面标题}}\n\t\\framesubtitle{${2:页面副标题}}\n\t${0:正文内容}\n\\end{frame}",
+    "@campus-fragile": "\\begin{frame}[fragile]{${1:页面标题}}\n\t${0:代码或 verbatim 内容}\n\\end{frame}",
+    "@campus-chapter": "\\begin{chapter}[${1:assets/背景图片}]{${2:maincolor}}{${3:章节标题}}\n\t${0:章节说明}\n\\end{chapter}",
+    "@campus-paper": "\\begin{paperframe}[${1:阶段，如 Method}]{${2:论文标题}}{${3:引用键；多篇用逗号分隔}}\n\t${0:论文讲解内容}\n\\end{paperframe}",
+    "@campus-paper-figure": "\\begin{paperframe}[${1:阶段，如 Method}]{${2:论文标题}}{${3:引用键；多篇用逗号分隔}}\n\t\\fitfigure[width=${4:.9},height=${5:.58},page=${6:1}]{${7:assets/论文图.pdf}}{${8:图注}}\n\\end{paperframe}",
+    "@campus-right-image": "\\begin{rightimageframe}[image width=${1:.40}]{${2:页面标题}}{${3:assets/右侧图片}}\n\t\\framesubtitle{${4:页面副标题}}\n\t${0:左侧正文内容}\n\\end{rightimageframe}",
+    "@campus-columns": "\\begin{columns}[T,onlytextwidth]\n\t\\begin{column}{${1:.48}\\textwidth}\n\t\t${2:左栏内容}\n\t\\end{column}\n\t\\begin{column}{${3:.48}\\textwidth}\n\t\t${0:右栏内容}\n\t\\end{column}\n\\end{columns}",
+    "@campus-two-figures": "\\begin{columns}[T,onlytextwidth]\n\t\\begin{column}{.48\\textwidth}\n\t\t\\fitfigure[width=${1:.40},height=${2:.50}]{${3:assets/左图}}{${4:左图图注}}\n\t\\end{column}\n\t\\begin{column}{.48\\textwidth}\n\t\t\\fitfigure[width=${5:.40},height=${6:.50}]{${7:assets/右图}}{${8:右图图注}}\n\t\\end{column}\n\\end{columns}",
+    "@campus-callout": "\\begin{${1|tipbox,notebox,alertbox,examplebox,definitionbox|}}[${2:提示框标题}]\n\t${0:提示内容}\n\\end{${1}}",
+    "@campus-color-block": "\\begin{colorblock}[${1:white}]{${2:maincolor}}{${3:色块标题}}\n\t${0:色块内容}\n\\end{colorblock}",
+    "@campus-description": "\\begin{description}\n\t\\item[${1:术语或标签}] ${2:对应说明}\n\t\\item[${3:术语或标签}] ${0:对应说明}\n\\end{description}",
+    "@campus-video": "\\centering\n\\href{run:${1:../assets/video.mp4}}{%\n\t\\fbox{\\parbox[c][${2:.5}\\textwidth][c]{${3:.5}\\textwidth}{\\centering ${4:点击播放视频}}}%\n}",
+    "@campus-finish": "\\referencespage[${1|shrink,break|}]\n\\backmatter"
+  },
+  "latex-workshop.latex.recipe.default": "latexmk (xelatex)",
+  "latex-workshop.latex.outDir": "%DIR%/build",
+  "latex-workshop.latex.autoClean.run": "onSucceeded",
+  "latex-workshop.latex.clean.method": "command",
+  "latex-workshop.latex.clean.command": "latexmk",
+  "latex-workshop.latex.clean.args": ["-c", "%TEX%"],
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latexmk (xelatex)",
+      "tools": ["xelatexmk"]
+    }
+  ]
+}

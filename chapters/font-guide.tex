@@ -1,0 +1,39 @@
+% Read sizes from the active LaTeX commands rather than duplicating pt values.
+\begingroup
+\makeatletter
+\newcommand{\fontGuideSize}[1]{%
+  \begingroup #1\edef\fontGuideValue{\f@size}%
+    \footnotesize\fontGuideValue\,pt\endgroup}
+\makeatother
+\newcommand{\fontGuideSample}[1]{%
+  \makebox[24mm][l]{{\color{maincolor}#1 字 Aa}}}
+\begin{frame}{模板字号与用途}
+  \footnotesize
+  \setlength{\tabcolsep}{0pt}
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabular}{@{}l@{\hspace{2mm}}p{28mm}@{\hspace{2mm}}p{15mm}@{\hspace{2mm}}p{72mm}@{}}
+    \textbf{实际大小} & \textbf{字号命令} & \textbf{字号} & \textbf{主要用途} \\[.15mm]
+    \fontGuideSample{\Huge\bfseries} & \texttt{\string\Huge} & \fontGuideSize{\Huge} &
+      封面/章节/致谢页主标题 \\[.15mm]
+    \fontGuideSample{\LARGE} & \texttt{\string\LARGE} & \fontGuideSize{\LARGE} &
+      单行页眉（目录/参考文献等）；致谢页两行感谢语 \\[.15mm]
+    \fontGuideSample{\Large\bfseries} & \texttt{\string\Large} & \fontGuideSize{\Large} &
+      双行页眉上行、section 编号；封面／致谢页副标题 \\[.15mm]
+    \fontGuideSample{\large} & \texttt{\string\large} & \fontGuideSize{\large} &
+      可选的正文强调字号 \\[.15mm]
+    \fontGuideSample{\normalsize} & \texttt{\string\normalsize} & \fontGuideSize{\normalsize} &
+      正文/页眉下行；课题组/个人信息；小节导读 \\[.15mm]
+    \fontGuideSample{\small} & \texttt{\string\small} & \fontGuideSize{\small} &
+      提示框正文、二级列表；本例参考文献 \\[.15mm]
+    \fontGuideSample{\footnotesize} & \texttt{\string\footnotesize} & \fontGuideSize{\footnotesize} &
+      提示框标题、三级列表、图表题注 \\[.15mm]
+    \fontGuideSample{\scriptsize} & \texttt{\string\scriptsize} & \fontGuideSize{\scriptsize} &
+      三行页脚（两行导航与信息行） \\[.15mm]
+    \fontGuideSample{\tiny} & \texttt{\string\tiny} & \fontGuideSize{\tiny} &
+      红色标注、角落引用、论文元信息
+  \end{tabular}
+  \par\smallskip
+  {\scriptsize 字号由当前文档实际读取，单位为 TeX pt。粗细由元素样式决定；数学上下标自动缩小。\par
+  参考文献字号可通过命令参数调整；使用 shrink 时，整页缩放可能使最终显示更小。\par}
+\end{frame}
+\endgroup

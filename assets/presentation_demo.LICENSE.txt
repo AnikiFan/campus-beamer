@@ -1,0 +1,15 @@
+presentation_demo.mp4
+SPDX-License-Identifier: CC0-1.0
+
+This original procedural animation was created for Campus Beamer using
+tools/generate_demo_video.py. All imagery and lettering are geometric
+primitives defined in that script. No external footage, images, audio,
+fonts, trademarks or university artwork are used.
+
+To the extent copyright and related rights arise in this video, it is
+dedicated to the public domain under CC0 1.0 Universal:
+https://creativecommons.org/publicdomain/zero/1.0/
+Legal code: https://creativecommons.org/publicdomain/zero/1.0/legalcode
+
+This dedication applies only to presentation_demo.mp4. The generator's
+source code remains under the repository's GPL-3.0-or-later license.

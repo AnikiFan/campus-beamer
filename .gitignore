@@ -1,0 +1,39 @@
+# Local build output; retain source assets and curated docs/images previews.
+/build/
+.venv/
+__pycache__/
+*.py[cod]
+
+# Local input materials and agent-authored presentation sources.
+/materials/*
+!/materials/.gitkeep
+/main.tex
+/chapters/talk/
+/bibliography/main.bib
+
+# TeX intermediates and generated slides, including nested examples.
+*.aux
+*.bbl
+*.bcf
+*.blg
+*-blx.bib
+*.fdb_latexmk
+*.fls
+*.log
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.xdv
+*-SAVE-ERROR
+/*.pdf
+/*.pptx
+
+# Editor/OS temporary files.
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

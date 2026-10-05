@@ -1,0 +1,49 @@
+% Formula examples use the amsmath environments already loaded by Beamer.
+\begin{frame}{行内公式与多行推导}
+  对样本 $\mathbf{x}_i\in\mathbb{R}^{d}$，用线性模型预测标量目标 $y_i$：
+  \begin{align*}
+    \widehat{y}_i &= \mathbf{w}^{\mathsf T}\mathbf{x}_i+b, \\
+    \mathcal{L}(\mathbf{w},b)
+      &= \frac{1}{N}\sum_{i=1}^{N}(\widehat{y}_i-y_i)^2
+         +\lambda\lVert\mathbf{w}\rVert_2^2, \\
+    \nabla_{\mathbf{w}}\mathcal{L}
+      &= \frac{2}{N}\sum_{i=1}^{N}(\widehat{y}_i-y_i)\mathbf{x}_i
+         +2\lambda\mathbf{w}.
+  \end{align*}
+  \begin{notebox}[排版要点]
+    行内公式用 \texttt{\$...\$}；多行公式用 \texttt{align*}，
+    在等号前放置 \texttt{\&} 对齐，星号表示不显示编号。
+  \end{notebox}
+\end{frame}
+
+\begin{frame}{矩阵、分段函数与公式说明}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.47\textwidth}
+      \textbf{矩阵：批量预测}
+      \[
+        \mathbf{X}=\begin{bmatrix}
+          \mathbf{x}_1^{\mathsf T}\\
+          \vdots\\
+          \mathbf{x}_N^{\mathsf T}
+        \end{bmatrix},\qquad
+        \widehat{\mathbf{y}}=\mathbf{X}\mathbf{w}+b\mathbf{1}.
+      \]
+      \texttt{bmatrix} 自动生成方括号；矩阵中的列用 \texttt{\&} 分隔。
+    \end{column}
+    \begin{column}{.47\textwidth}
+      \textbf{分段函数：ReLU}
+      \[
+        f(z)=\begin{cases}
+          z, & z\geq 0,\\
+          0, & z<0.
+        \end{cases}
+      \]
+      \texttt{cases} 排列函数值与条件；公式中的文字可用 \texttt{\string\text\{...\}}。
+    \end{column}
+  \end{columns}
+  \medskip
+  \begin{tipbox}[符号与说明]
+    $N$ 是样本数，$d$ 是特征维数；$\mathbf{1}\in\mathbb{R}^{N}$ 为全一向量。
+    公式与符号解释放在同一页，便于阅读。
+  \end{tipbox}
+\end{frame}

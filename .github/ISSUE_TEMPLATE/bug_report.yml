@@ -1,0 +1,32 @@
+name: Bug report / 问题报告
+description: Report a reproducible layout, citation, export or build issue.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        请附最小可复现示例，隐去无关个人信息。Please include a minimal reproducer.
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment / 环境
+      description: OS, TeX distribution, XeLaTeX, biber, uv and Python versions.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps and minimal source / 步骤与最小源码
+      description: Exact command and a small source example that reproduces the issue.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior / 预期与实际行为
+      description: Include PDF page numbers for layout, notes and link problems.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Relevant log or screenshot / 日志或截图

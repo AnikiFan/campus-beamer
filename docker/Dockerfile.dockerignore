@@ -1,0 +1,12 @@
+# Only environment inputs are needed. Presentations/assets stay on the host.
+*
+!docker/
+docker/*
+!docker/Dockerfile
+!docker/Dockerfile.dockerignore
+!docker/entrypoint.sh
+!pyproject.toml
+!uv.lock
+!tools/
+tools/*
+!tools/doctor.py

@@ -1,0 +1,38 @@
+% !TeX root = ../example.tex
+\section{媒体与收尾}
+\sectioncoverpage[assets/sigs_night]{本节演示视频链接、参考文献与致谢。}
+\subsection{视频链接}
+
+\begin{frame}{视频链接示例}
+      \centering
+      \href{run:../assets/presentation_demo.mp4}{% 原创 CC0 动画；路径相对于 build/ 中的 PDF
+            \XeTeXLinkBox{\fbox{\parbox[c][.30\textheight][c]{0.65\textwidth}{\centering 点击打开示例视频}}}%
+      }
+      \par\medskip
+      {\small 原创动画：大纲 \(\rightarrow\) 幻灯片 \(\rightarrow\) 备注（6 秒，无音轨，CC0）。}
+\end{frame}
+
+\subsection{参考文献与致谢}
+
+\begin{frame}[fragile]{参考文献与致谢用法}
+      \begin{description}[汇总单页]
+            \item[汇总单页] \texttt{\string\referencespage[shrink][\string\small]} 可指定字号并缩放到一页。
+            \item[汇总续页] \texttt{\string\referencespage[break][\string\footnotesize]} 内容过多时自动续页。
+            \item[双栏汇总] 命令末尾加 \texttt{[twocolumn]}；省略时默认为单栏。
+            \item[致谢页面] \texttt{\string\backmatter} 会同步显示封面的标题、副标题、课程/课题组、作者、指导教师和日期；加入 \texttt{[notitle]} 可隐藏主标题。
+      \end{description}
+\end{frame}
+
+\subsection{收尾说明}
+\begin{frame}{收尾页选项}
+  \begin{itemize}
+    \item 参考文献页可以选择字号、续页和栏数。
+    \item 致谢页可以保留或隐藏主标题。
+  \end{itemize}
+\end{frame}
+
+\subsection{参考文献汇总}
+\referencespage[break][\small][onecolumn] % 第三个参数改为 [twocolumn] 可使用双栏
+
+\subsection{致谢}
+\backmatter     % 不显示主标题时改为 \backmatter[notitle]

@@ -1,0 +1,37 @@
+% English-only class options; this document must not load xeCJK.
+\documentclass[
+  language=english,
+  bibstyle=authoryear,
+  bibsorting=nyt,
+  mathfont=sans,
+  navigation=false,
+  cornerwidth=5.2cm
+]{campusbeamer}
+\campusbibresource{class-options.bib}
+\titlebackground{primary}
+\title{Class options}
+\subtitle{An English presentation}
+\course{Fixture Group}
+\author{Ada Sample}
+\advisor{Alan Example}
+\date{2026-10-02}
+\makeatletter
+\@ifpackageloaded{xeCJK}{%
+  \ClassError{fixture}{English auto mode unexpectedly loaded xeCJK}{}%
+}{}
+\makeatother
+\begin{document}
+\maketitle
+\section{Class configuration}
+\sectiontocpage
+\sectioncoverpage[primary]{Packages and labels follow the class options.}
+\subsection{Bibliography}
+\begin{paperframe}{English metadata punctuation}{SyntheticExample}[bottom-left]
+  \begin{itemize}
+    \item Custom bibliography style, with no manual package loading.
+    \item Sans math: $x+y=z$.
+  \end{itemize}
+\end{paperframe}
+\referencespage[break][\small]
+\backmatter
+\end{document}

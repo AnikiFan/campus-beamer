@@ -1,0 +1,43 @@
+\documentclass[language=english,cjk=true]{campusbeamer}
+\title{Code windows}
+\author{Template check}
+\begin{document}
+\section{Code}
+\subsection{Window checks}
+\begin{frame}[fragile]{Python and Unicode}
+\begin{campuscode}[language=Python,numbers,firstnumber=10]{train_model.py}
+# 中文注释与特殊字符
+message = "Hello_#%{}\\world"
+print(message)
+\end{campuscode}
+\end{frame}
+\begin{frame}[fragile]{Defaults reset between windows}
+\begin{campuscode}[language=bash]{Terminal}
+$ echo "shell output"
+shell output
+\end{campuscode}
+\begin{campuscode}{reset.py}
+print("Python again")
+\end{campuscode}
+\end{frame}
+\begin{frame}{External source selection}
+\campusinputcode[language=Python,numbers,firstline=2,lastline=5,firstnumber=2]
+  {normalize.py}{chapters/code/normalize.py}
+\end{frame}
+\begin{frame}[fragile]{Columns and wrapping}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\begin{campuscode}[language=C++]{demo.cpp}
+int main() {
+    return 0;
+}
+\end{campuscode}
+\end{column}
+\begin{column}{.48\textwidth}
+\begin{campuscode}[language=text,label=Output]{Log}
+A long output line wraps inside its own column without covering the neighbour.
+\end{campuscode}
+\end{column}
+\end{columns}
+\end{frame}
+\end{document}

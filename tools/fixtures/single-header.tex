@@ -1,0 +1,45 @@
+\documentclass{beamer}
+\usetheme{campus}
+\usepackage{xeCJK} % 启用中文排版；请使用 XeLaTeX 编译
+
+% ============================== 用户配置区 ==============================
+\usefonttheme[onlymath]{serif} % 数学公式使用衬线字体；删除此行可改用正文字体
+\titlebackground{primary} % 固定主色斜边封面
+
+\usepackage[
+      backend=biber,   % 文献处理器；需配合 biber 编译
+      style=ieee,      % 参考文献样式
+      giveninits=true, % 作者名字仅显示首字母
+      sorting=none     % 按正文中的引用顺序排列
+]{biblatex}
+\addbibresource{bibliography/refs.bib} % 文献数据库文件
+
+\campussetlayout{
+      template language=english, % 可改为 english，切换主题自动生成的文字
+      section navigation=on, % 关闭导航可改为 off
+      corner width=4.8cm     % 角落引用宽度；其余版式由主题固定
+}
+
+\input{chapters/metadata.tex}
+% ============================ 用户配置区结束 ============================
+
+
+\begin{document}
+\section{Overview}
+\sectiontocpage
+\begin{frame}{Single Header}
+A content frame without a subsection header.
+\end{frame}
+\begingroup
+\setbeamertemplate{frametitle}[campus page title]
+\begin{frame}[allowframebreaks]{References}
+First page.\par
+\framebreak
+\par Continuation page.
+\end{frame}
+\endgroup
+\subsection{Context}
+\begin{frame}{Two-line header}
+The lower header keeps normalsize.
+\end{frame}
+\end{document}

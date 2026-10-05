@@ -1,0 +1,26 @@
+name: Source checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python-and-package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        run: python3 -m pip install uv==0.12.3
+      - name: Install video test tool
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+      - name: Test converter and supporting tools
+        run: make test
+      - name: Check the lockfile matches the project version and dependencies
+        run: uv lock --check --offline
+      - name: Validate source distribution
+        run: make dist

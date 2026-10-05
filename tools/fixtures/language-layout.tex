@@ -1,0 +1,27 @@
+% Same content in both UI languages: only theme-supplied labels may change.
+\documentclass{campusbeamer}
+\titlebackground{primary}
+\title{Language layout}
+\subtitle{Shared typography}
+\course{Research Group}
+\author{Ada Lovelace}
+\advisor{Alan Turing}
+\date{\today}
+\newcommand{\languagepages}{%
+  \maketitle
+  \section{Layout checks}
+  \sectioncoverpage[primary]{One layout for both languages.}
+  \subsection{Alignment}
+  \begin{frame}{Shared header}
+    The language switch preserves the font sizes and header grid.
+    \par{\usebeamerfont{author}\mdseries Speaker\quad Advisor}
+  \end{frame}
+  \backmatter
+  \backmatter[notitle]
+}
+\begin{document}
+\campussetlayout{template language=chinese}
+\languagepages
+\campussetlayout{template language=english}
+\languagepages
+\end{document}

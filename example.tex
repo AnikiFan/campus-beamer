@@ -1,0 +1,34 @@
+% 功能与版式参考示例；自己的汇报由 agent 根据 prompt.md 和本地素材生成 main.tex。
+\documentclass[
+      language=chinese,  % 主题文字：chinese / english
+      cjk=auto,          % 中文支持：auto 随语言选择；也可设为 true / false
+      bibstyle=ieee,     % 文献样式：ieee；例如可改为 authoryear
+      bibsorting=none,   % 文献排序：none 按引用顺序；例如 nyt 按姓名、年份、标题
+      mathfont=serif,    % 数学字体：serif / sans
+      navigation=true,  % 页脚章节导航：true / false
+      cornerwidth=4.8cm, % 角落引用默认宽度，填写长度
+      layoutguides=false % 封面、章节页与致谢页的红线诊断：true / false
+]{campusbeamer}
+
+% ============================== 示例配置区 ==============================
+% 上方列出全部模板选项及其默认值，直接修改即可；页面保持固定 16:9。
+
+\campusbibresource{bibliography/refs.bib} % 只指定本次汇报的文献文件，无需自行加载 biblatex
+% 版式微调时可打开此开关：封面、章节起始页和致谢页会叠加红色
+% 定位框、对齐线、各部分字号及其实际 baselineskip；交付前保持关闭。
+% 仅通过 documentclass 选项 layoutguides=true 开启；省略或设为 false 则关闭。
+
+\input{chapters/metadata.tex} % 标题、作者、导师与日期
+% ============================ 示例配置区结束 ============================
+
+\begin{document}
+\maketitle
+\input{chapters/harness-guide.tex} % 推荐用法：思路和素材交给 agent
+
+% 章节按这里的顺序组合；正文与演示片段统一放在 chapters/。
+\input{chapters/01_basics.tex}
+\input{chapters/02_papers.tex}
+\input{chapters/03_callouts.tex}
+\input{chapters/04_navigation.tex}
+\input{chapters/05_media.tex}
+\end{document}

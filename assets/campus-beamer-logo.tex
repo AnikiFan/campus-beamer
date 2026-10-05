@@ -1,0 +1,16 @@
+% Campus Beamer wordmark: raised A, lowered E, optically adjusted spacing.
+% Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
+% SPDX-License-Identifier: GPL-3.0-or-later
+% Latin Modern font outlines retain their own license; see assets/README.md.
+% Rebuild the SVG assets and PDF/PNG previews with `make logo`.
+\documentclass[border=16pt]{standalone}
+\usepackage{fontspec,xcolor}
+\setmainfont{Latin Modern Roman}
+\definecolor{brand}{HTML}{552174}
+\begin{document}
+\color{brand}\fontsize{52}{62}\selectfont
+% The small A shares the capital-height line; the E descends like TeX's E.
+C\kern-.09em\raisebox{.24em}{\fontsize{35}{35}\selectfont A}\kern-.03em
+MPUS\kern.25em
+B\kern-.055em\raisebox{-.20em}{E}\kern-.025em AMER
+\end{document}

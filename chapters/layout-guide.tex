@@ -1,0 +1,160 @@
+% Diagnostic instrumentation is local to this frame; the theme is unchanged.
+\begingroup
+  % Horizontal dimensions use mm; vertical dimensions use the named font's
+  % baseline grid (header: tiny/Large/normalsize; footer: scriptsize).
+\newcommand{\layoutGuideDistance}[2]{%
+  \begingroup
+    \pgfextractx{\dimen0}{\pgfpointdiff{\pgfpointanchor{#1}{center}}{\pgfpointanchor{#2}{center}}}%
+    \pgfextracty{\dimen2}{\pgfpointdiff{\pgfpointanchor{#1}{center}}{\pgfpointanchor{#2}{center}}}%
+    \pgfmathparse{veclen(\the\dimen0,\the\dimen2)/(1mm)}%
+    \pgfmathprintnumber[fixed,precision=2]{\pgfmathresult}\,mm%
+  \endgroup
+}
+% Vertical dimensions are expressed in the same grid unit used by the
+% navigation and footer rows. Horizontal dimensions continue to use mm.
+\newcommand{\layoutGuideBaselineDistance}[3][\campusfooterbaseline]{%
+  \begingroup
+    \pgfextracty{\dimen2}{\pgfpointdiff{\pgfpointanchor{#2}{center}}{\pgfpointanchor{#3}{center}}}%
+    \pgfmathparse{abs(\the\dimen2)/(1mm) / ((\the#1)/(1mm))}%
+    \pgfmathprintnumber[fixed,precision=2]{\pgfmathresult}\,\mbox{baselineskip}%
+  \endgroup
+}
+\newcommand{\layoutGuideHorizontalBaselineDistance}[3][\campusheadertextgap]{%
+  \begingroup
+    \pgfextractx{\dimen0}{\pgfpointdiff{\pgfpointanchor{#2}{center}}{\pgfpointanchor{#3}{center}}}%
+    \pgfmathparse{abs(\the\dimen0)/(1mm) / ((\the#1)/(1mm))}%
+    \pgfmathprintnumber[fixed,precision=2]{\pgfmathresult}\,\mbox{baselineskip}%
+  \endgroup
+}
+\begin{frame}{版式对齐检查}
+  % Draw last, above Beamer's headline/footline, on this page only.
+  \AddToHookNext{shipout/foreground}{%
+    \begin{tikzpicture}[remember picture,overlay]
+      \tikzset{layout guide/.style={red,line width=.4pt},
+        layout label/.style={text=red,font=\tiny,fill=white,inner sep=.7pt},
+        layout dimension/.style={layout guide,<->}}
+      % Both transparent assets are square and cropped to the emblem bounds.
+      \coordinate (emblem-left) at
+        ([xshift=\dimexpr\campuslogoleftskip+\campuslogopadding\relax,
+          yshift=\dimexpr-\campuslogoheight+\campuslogopadding+.5\campuslogoimagewidth\relax]
+          current page.north west);
+      \coordinate (emblem-right) at ([xshift=\campuslogoimagewidth]emblem-left);
+      \coordinate (emblem-bottom) at
+        ([xshift=\dimexpr\campuslogoleftskip+.5\campuslogowidth\relax,
+          yshift=\dimexpr-\campuslogoheight+\campuslogopadding\relax]
+          current page.north west);
+      \draw[layout guide]
+        ([yshift=.5\campuslogoimagewidth]emblem-left) rectangle
+        ([yshift=-.5\campuslogoimagewidth]emblem-right);
+      \draw[layout dimension] ([xshift=-\campuslogopadding]emblem-left) -- (emblem-left);
+      \draw[layout dimension] (emblem-right) -- ([xshift=\campuslogopadding]emblem-right);
+      \draw[layout dimension] (emblem-bottom) -- ([yshift=-\campuslogopadding]emblem-bottom);
+      \node[layout label,anchor=north west] at
+        ([xshift=\campuslogoleftskip,yshift=\dimexpr-\campuslogoheight-2mm\relax]
+          current page.north west)
+        {校徽左右/下方留白：\the\campuslogopadding};
+      \foreach \offset/\tag in {
+        \campuslogoleftskip/V1,
+        {\dimexpr\campuslogoleftskip+\campuslogowidth\relax}/V2,
+        {\dimexpr\campuslogoleftskip+\campusframetitleleftskip\relax}/V3,
+        {\dimexpr\paperwidth-\campuslogoleftskip\relax}/V4}{%
+        \coordinate (\tag) at ([xshift=\offset]current page.north west);
+        \draw[layout guide] (\tag) -- (\tag |- current page.south);
+        \node[layout label,anchor=north] at
+          ([yshift=-16mm]\tag) {\tag};
+      }
+      \draw[layout guide,dashed] (current page.north) -- (current page.south);
+      \node[layout label,anchor=north] at ([yshift=-16mm]current page.north) {中轴};
+
+      % H1, H2 and H3 are the actual boundaries of the three header grid
+      % rows: after the empty row, after the title row, and after the
+      % subtitle row.
+      \coordinate (H1) at ([yshift=-\campusheaderemptybaseline]current page.north west);
+      \coordinate (H2) at ([yshift=-\dimexpr\campusheaderemptybaseline+\campusheaderbaseline\relax]current page.north west);
+      \coordinate (H3) at ([yshift=-\dimexpr\campusheaderemptybaseline+\campusheaderbaseline+\campusheadersubtitlebaseline\relax]current page.north west);
+      \coordinate (H5) at ([yshift=\dimexpr\campusnavigationfooterheight+\campusfootlineheight+\campusfootlinedepth\relax]current page.south west);
+      \coordinate (H6) at ([yshift=\dimexpr\campussectionnavigationheight+\campusfootlineheight+2\campusfootlinedepth\relax]current page.south west);
+      \coordinate (H7) at ([yshift=\dimexpr\campusfootlineheight+\campusfootlinedepth\relax]current page.south west);
+      \coordinate (H8) at (current page.south west);
+      % H4 is the body safety boundary: keep a baseline-grid breathing room
+      % above the first footer band (H5).
+      \coordinate (H4) at ([yshift=2.4\campusfooterbaseline]H5);
+      \foreach \tag in {H1,H2,H3,H4,H5,H6,H7}{%
+        \draw[layout guide] (\tag) -- (current page.east |- \tag);
+        \node[layout label,anchor=east] at
+          ([xshift=-2mm]current page.east |- \tag) {\tag};
+      }
+      \coordinate (safe-a) at ([xshift=15mm]current page.west |- H4);
+      \coordinate (safe-b) at (safe-a |- H5);
+      \draw[layout dimension] (safe-a) -- (safe-b)
+        node[midway,right,layout label] {\layoutGuideBaselineDistance{safe-a}{safe-b}};
+      % An inset half-stroke keeps the bottom boundary visible in the PDF.
+      \draw[layout guide] ([yshift=.2pt]current page.south west)
+        -- ([yshift=.2pt]current page.south east);
+
+      % Show all three header grid rows separately.  These coordinates are
+      % layout boundaries, so glyph ascenders and descenders do not change the
+      % reported one-baseline lengths.
+      \coordinate (header-top) at (current page.north west);
+      \foreach \upper/\lower/\pos/\label/\unit in {
+        header-top/H1/.70/上方空行 (\string\tiny)/\campusheaderemptybaseline,
+        H1/H2/.78/标题 (\string\Large)/\campusheaderbaseline,
+        H2/H3/.86/副标题 (\string\normalsize)/\campusheadersubtitlebaseline}{%
+        \coordinate (header-a) at ([xshift=\pos\paperwidth]current page.west |- \upper);
+        \coordinate (header-b) at (header-a |- \lower);
+        \draw[layout dimension] (header-a) -- (header-b)
+          node[midway,left,layout label] {\label：\layoutGuideBaselineDistance[\unit]{header-a}{header-b}};
+      }
+
+      % Horizontal dimensions occupy the open area below the diagnostic text.
+      \coordinate (logo-a) at ([yshift=-63mm]V1);
+      \coordinate (logo-b) at (V2 |- logo-a);
+      \draw[layout dimension] (logo-a) -- (logo-b)
+        node[midway,above,anchor=south west,layout label] {校徽色块：%
+          \layoutGuideHorizontalBaselineDistance[\campuslogowidth]{logo-a}{logo-b}
+          (\string\Huge)};
+      \coordinate (gap-a) at ([yshift=-67mm]V2);
+      \coordinate (gap-b) at (V3 |- gap-a);
+      \draw[layout dimension] (gap-a) -- (gap-b)
+        node[midway,above,anchor=south west,layout label] {%
+          \layoutGuideHorizontalBaselineDistance{gap-a}{gap-b} (\string\normalsize)};
+      \coordinate (body-a) at ([yshift=-70mm]V1);
+      \coordinate (body-b) at (V4 |- body-a);
+      \draw[layout dimension] (body-a) -- (body-b)
+        node[midway,above,layout label] {正文宽度：\layoutGuideDistance{body-a}{body-b}};
+      \coordinate (margin-a) at ([yshift=-72mm]current page.north west);
+      \coordinate (margin-b) at (V1 |- margin-a);
+      \draw[layout dimension] (margin-a) -- (margin-b)
+        node[midway,above,anchor=south west,layout label] {%
+          \layoutGuideHorizontalBaselineDistance[\campusheaderbaseline]{margin-a}{margin-b} (\string\Large)};
+      \coordinate (margin-c) at (V4 |- margin-a);
+      \coordinate (margin-d) at (current page.east |- margin-a);
+      \draw[layout dimension] (margin-c) -- (margin-d)
+        node[midway,above,anchor=south east,layout label] {%
+          \layoutGuideHorizontalBaselineDistance[\campusheaderbaseline]{margin-c}{margin-d} (\string\Large)};
+
+      % Footer heights are read from the theme, so changes remain in sync.
+      % Callouts above the bands keep their text clear of the navigation.
+      \foreach \upper/\lower/\pos/\label in {
+        H5/H6/.55/subsection (\string\scriptsize),
+        H6/H7/.72/section (\string\scriptsize),
+        H7/H8/.76/信息行 (\string\scriptsize)}{%
+        \coordinate (band-a) at ([xshift=\pos\paperwidth]current page.west |- \upper);
+        \coordinate (band-b) at (band-a |- \lower);
+        \draw[layout dimension] (band-a) -- (band-b)
+          node[midway,right,layout label] {\label：\layoutGuideBaselineDistance{band-a}{band-b}};
+      }
+    \end{tikzpicture}%
+  }%
+  \vspace*{11mm}
+  \hspace*{-2pt}%
+  \begin{minipage}{\dimexpr\textwidth-6pt\relax}
+    \begin{description}[竖线]
+      \item[竖线] V1 正文左界；V2 校徽色块右界；V3 页眉文字起点；V4 正文右界。
+      \item[页眉] H1/H2/H3 为三行网格分界线；箭头以对应字号的 baselineskip 为单位。
+      \item[页脚] H5--H7 为三行色带的上边界；间距以 \texttt{\string\scriptsize} 字号的 baselineskip 为单位。
+      \item[参考] H4 为正文安全线，安全余量按页脚基线网格设置；虚线为页面中轴。
+    \end{description}
+  \end{minipage}
+\end{frame}
+\endgroup

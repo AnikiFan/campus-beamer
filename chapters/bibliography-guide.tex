@@ -1,0 +1,83 @@
+% These rules describe the theme's current biblatex/IEEE configuration.
+\begin{frame}{从文献字段到角落引用}
+  \begin{description}[\texttt{shorttitle}]
+    \item[\texttt{author}] 默认输出作者；姓名缩写和多人省略由引用样式决定。
+    \item[\texttt{year}] 默认接在作者后，显示发表年份。
+    \item[\texttt{title}] 接在作者、年份后，显示论文完整标题。
+    \item[\texttt{shorttitle}] 仅在缺少 \texttt{title} 时作为替代标题。
+  \end{description}
+  \medskip
+  本页右上角使用 Liu 条目，展示未设置 \texttt{usera} 时的默认输出。
+  \cornercite{Liu2018EfficientLM}
+\end{frame}
+
+\begin{frame}[fragile]{自定义短文本：usera 的作用}
+  以下摘自 \texttt{bibliography/refs.bib} 的 Zadeh 条目（其余字段省略）：
+  \begin{verbatim}
+usera      = {Zadeh et al., EMNLP 2017},
+title      = {Tensor Fusion Network for
+              Multimodal Sentiment Analysis},
+shorttitle = {Tensor Fusion Network},
+year       = {2017},
+  \end{verbatim}
+  \begin{itemize}
+    \item 设置 \texttt{usera} 后：角落显示“自定义文本 + 完整标题”。
+    \item 此时不会另加作者和年份；年份、会议简称需写在 \texttt{usera} 中。
+    \item 本条目有 \texttt{title}，因此不会改用 \texttt{shorttitle}。
+  \end{itemize}
+  \cornercite{Zadeh2017TensorFN}
+\end{frame}
+
+\begin{frame}[fragile]{论文讲解页：补充论文信息}
+  在文献条目中补充以下字段，\texttt{paperframe} 会自动追加信息：
+  \begin{verbatim}
+userb = {<论文署名机构>},
+userc = {<会议或期刊，发表年月；预印本填写 arXiv>},
+usere = {<引用次数>},
+userf = {<统计来源，截至 YYYY-MM-DD>},
+  \end{verbatim}
+  \begin{itemize}
+    \item 尖括号为填写提示；未核实的信息可以省略，对应行自动隐藏。
+    \item 信息在同一段中连续显示，以竖线分隔，不额外占用多行。
+    \item 普通角落引用与文末参考文献保持原格式。
+  \end{itemize}
+\end{frame}
+
+\begin{paperframe}[字段实际呈现]{论文信息字段示例}{Zadeh2017TensorFN}[bottom-left][7cm]
+  \begin{itemize}
+    \item 左下角沿用普通引用的灰色文字、字号和紧凑行距。
+    \item 论文标题仍由引用中的 \texttt{title} 自动输出。
+    \item 机构、发表 venue 或 arXiv、引用量和统计日期来自 \texttt{userb}、\texttt{userc}、\texttt{usere}、\texttt{userf}。
+    \item 本页尖括号内容是待填写占位符，替换后即可用于正式汇报。
+  \end{itemize}
+\end{paperframe}
+
+\begin{frame}{文末参考文献：保留完整出处}
+  \begin{description}[\texttt{booktitle}]
+    \item[\texttt{author}] 按当前 IEEE 样式显示作者，名字使用首字母。
+    \item[\texttt{title}] 显示论文题名；\texttt{usera} 不会替换这部分。
+    \item[\texttt{booktitle}] 对 \texttt{@inproceedings} 条目，显示会议论文集名称。
+    \item[\texttt{year}] 显示发表年份；页码、DOI 等按条目类型与样式输出。
+  \end{description}
+  \begin{notebox}[角落与文末的区别]
+    角落引用不自动输出会议、页码或 DOI。
+    文末页从已引用条目生成完整列表，按首次引用顺序编号；
+    \texttt{usera} 不会改变这些数字标签。
+  \end{notebox}
+\end{frame}
+
+\begin{frame}[fragile]{文献键与编译流程}
+  \begin{verbatim}
+\addbibresource{bibliography/refs.bib}  % 导言区加载数据库
+\cornercite{Zadeh2017TensorFN}
+\referencespage[break][\small][onecolumn]
+  \end{verbatim}
+  \begin{description}[文献键]
+    \item[文献键] \texttt{@inproceedings\{Zadeh2017TensorFN,...\}} 中的
+      \texttt{Zadeh2017TensorFN} 是查找标识，不是打印出来的标题。
+    \item[作者名] 多位作者在 \texttt{author} 字段内用 \texttt{and} 分隔。
+    \item[编译] 使用 XeLaTeX 与 Biber；修改 \texttt{.bib} 后重新运行 \texttt{latexmk}。
+  \end{description}
+  \medskip
+  只存入数据库但未引用的条目，默认不会出现在文末参考文献中。
+\end{frame}

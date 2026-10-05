@@ -1,0 +1,61 @@
+% !TeX root = ../example.tex
+\section{论文讲解与引用}
+\sectiontocpage
+\sectioncoverpage[assets/tsinghua_door]{本节演示论文讲解、文献字段与引用的显示规则。}
+\subsection{论文讲解}
+
+\begin{paperframe}{论文页面示例}{Zadeh2017TensorFN,Liu2018EfficientLM}[bottom-left][5.5cm]
+      \begin{description}[引用]
+            \item[正文] 放置论文要点、方法图或结果；每页聚焦一个主要信息。
+            \item[页眉] 上行沿用当前小节，下行显示本页标题。
+            \item[引用] 文献键关联 \texttt{bibliography/refs.bib}，本页自动在左下角列出两篇文献。
+      \end{description}
+      \medskip
+      下一页展示生成本页的命令；文献仅用于演示引用排版。
+\end{paperframe}
+
+\begin{frame}[fragile]{论文页面示例：对应源码}
+      \begin{verbatim}
+\begin{paperframe}{论文页面示例}
+  {Zadeh2017TensorFN,Liu2018EfficientLM}
+  [bottom-left][5.5cm]
+  % 论文要点、方法图或实验结果
+\end{paperframe}
+      \end{verbatim}
+      \begin{description}[文献键]
+            \item[页眉] 自动沿用当前 subsection；论文标题作为本页 frametitle。
+            \item[文献键] 逗号分隔多篇文献，自动显示引用。
+            \item[位置] 末尾可选 \texttt{top-right}（默认）、\texttt{bottom-left} 或 \texttt{bottom-right}。
+            \item[宽度] 位置之后可继续填写引用宽度，例如 \texttt{[5.5cm]} 或 \texttt{[0.35\string\paperwidth]}。
+      \end{description}
+\end{frame}
+
+\subsection{文献引用}
+
+\begin{frame}{角落引用位置}
+      \setcornercitewidth{5.5cm} % 仅本页引用加宽，下一页恢复全局宽度
+      \begin{description}[右上]
+            \item[右上] 默认位置支持用逗号分隔多篇文献。
+            \item[左下] 最后一行引用与页脚上边缘保持设定距离。
+            \item[右下] 适合左侧已有正文内容的页面。
+      \end{description}
+
+      \cornercite{Zadeh2017TensorFN,Liu2018EfficientLM}
+      \cornercite[bottom-left]{Zadeh2017TensorFN}
+      \cornercite[bottom-right]{Liu2018EfficientLM}
+\end{frame}
+
+\begin{frame}[fragile]{角落引用用法}
+      \begin{verbatim}
+\setcornercitewidth{5.5cm}
+\cornercite{key1,key2}
+\cornercite[bottom-left]{key1}
+\cornercite[bottom-right]{key2}
+      \end{verbatim}
+      \begin{description}[引用宽度]
+            \item[引用宽度] 调整命令放在引用之前，仅影响当前页。
+            \item[文献信息] 在 \texttt{bibliography/refs.bib} 中维护，汇总页自动收集已引用条目。
+      \end{description}
+\end{frame}
+
+\input{chapters/bibliography-guide.tex}
