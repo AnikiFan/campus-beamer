@@ -94,7 +94,7 @@ make                     # 有 main.tex 时构建自己的汇报，否则构建 
 - 固定 16:9 布局，支持中英文；默认全主色章节页，清华配置下为紫色。
 - 自动适配图片、公式、论文讲解页及[终端风格代码窗口](docs/usage.md#代码与终端窗口)。
 - `biblatex` / `biber` 文献管理，角落引用与已引用文献汇总；可按需使用 [DBLP 与引用数工具](docs/literature.md)。
-- PDF → PPTX 保留跳转、外部链接、本地视频与逐页备注；视频导出需要 FFmpeg。
+- PDF → PPTX 保留跳转、外部链接、本地视频与逐页备注；PDF 和 PPTX 的视频首帧预览需要 FFmpeg。
 - `make draft` 提供逐页预览和排版诊断，帮助 agent 精简、拆页并检查溢出。
 
 <details>

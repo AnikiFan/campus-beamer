@@ -57,7 +57,7 @@ FILES = (
     'docs/images/preview-fullheight.png', 'docs/installation.md', 'docs/literature.md',
     'docs/notes.example.json', 'docs/releases.md', 'docs/usage.md',
     'docs/workflows.md',
-    'tools/check_theme.py', 'tools/compare_pdf.py', 'tools/doctor.py',
+    'tools/add_video_posters.py', 'tools/check_theme.py', 'tools/compare_pdf.py', 'tools/doctor.py',
     'tools/draft_preview.py', 'tools/generate_demo_video.py',
     'tools/generate_logo.py', 'tools/images_to_ppt.py', 'tools/literature.py',
     'tools/package_release.py', 'tools/package_source.py',

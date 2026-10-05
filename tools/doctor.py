@@ -81,7 +81,7 @@ def check():
     print(f'[{"OK" if ok else "OPTIONAL MISSING"}] ffmpeg (local video export): '
           f'{detail.splitlines()[0]}')
     if not ok:
-        print('Install FFmpeg to embed local videos with previews. PDF-only and non-video exports do not need it.')
+        print('Install FFmpeg to generate local-video previews in PDF/PPTX. Non-video exports do not need it.')
     return int(bool(failures))
 
 

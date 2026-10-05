@@ -13,7 +13,7 @@ agent 新建 `main.tex` 完成汇报。
 推荐完整 TeX Live 或 MacTeX，包含中文字体、`biblatex`、IEEE 样式、TikZ、
 `tcolorbox`、`listings`、`fontawesome5`、`xeCJK-listings`、Caladea 和 Carlito。
 代码展示不需要 shell escape 或 Pygments。TeX 工具应来自同一套发行版，以免 biber 与 biblatex 版本不匹配。
-嵌入本地视频并生成预览时还需要 FFmpeg；无视频的转换和 PDF 编译不需要它。
+本地视频的 PDF/PPTX 首帧预览和视频嵌入需要 FFmpeg；无视频的构建不需要它。
 
 Debian / Ubuntu 的 TeX 依赖可用以下命令安装。`texlive-fonts-extra` 体积较大，
 但提供本模板所需的 `caladea.sty` 和 `carlito.sty`，仅安装系统同名字体不足以替代它。

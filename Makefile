@@ -60,6 +60,7 @@ pdf: pdf-build
 
 pdf-build:
 	$(LATEXMK) -xelatex -interaction=nonstopmode -halt-on-error -file-line-error "$(MAIN).tex"
+	$(UV) run --frozen python tools/add_video_posters.py "$(BUILD_DIR)/$(MAIN).pdf"
 
 # Use the final layout, but skip high-DPI PPTX conversion and notes validation.
 draft: pdf-build

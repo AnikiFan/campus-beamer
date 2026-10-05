@@ -24,6 +24,7 @@ from pptx.oxml.ns import qn
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import images_to_ppt as converter
+import add_video_posters as poster_tool
 
 
 class ConversionTests(unittest.TestCase):
@@ -281,6 +282,28 @@ class ConversionTests(unittest.TestCase):
         with pymupdf.open(self.pdf) as doc:
             before = doc[0].get_pixmap(dpi=72, alpha=False)
             self.assertEqual(image.pixel(25, 178), before.pixel(25, 178))
+
+    def test_pdf_video_poster_is_visible_and_idempotent(self):
+        video = self.video_fixture(self.root / 'demo.mp4')
+        frame = pymupdf.Rect(100, 50, 300, 150)
+        with pymupdf.open() as doc:
+            page = doc.new_page(width=400, height=200)
+            page.draw_rect(frame, color=(0, 0, 0), fill=(1, 1, 1))
+            page.insert_text((170, 105), 'PLAY')
+            page.insert_link({'kind': pymupdf.LINK_LAUNCH,
+                              'from': pymupdf.Rect(170, 90, 210, 110), 'file': video.name})
+            doc.save(self.pdf)
+        self.assertEqual(poster_tool.add_video_posters(self.pdf), 1)
+        first = self.pdf.read_bytes()
+        with pymupdf.open(self.pdf) as doc:
+            self.assertIn(poster_tool.MARKER, doc.metadata.get('keywords', ''))
+            self.assertEqual(len(doc[0].get_links()), 1)
+            images = doc[0].get_images()
+            self.assertTrue(images)
+            poster = pymupdf.Pixmap(doc.extract_image(images[-1][0])['image'])
+            self.assertGreater(poster.pixel(poster.width // 2, poster.height // 2)[0], 200)
+        self.assertEqual(poster_tool.add_video_posters(self.pdf), 0)
+        self.assertEqual(self.pdf.read_bytes(), first)
 
     def test_portrait_video_fits_rotated_pdf_placeholder(self):
         video = self.video_fixture(self.root / 'portrait.mp4', '90x160')
