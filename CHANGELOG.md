@@ -5,6 +5,19 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.2.0](https://github.com/AnikiFan/campus-beamer/compare/v0.1.2...v0.2.0) (2026-10-05)
+
+
+### Features
+
+* add PDF video poster previews ([c836f71](https://github.com/AnikiFan/campus-beamer/commit/c836f71c0f4b22e0dad3bf8138583b1202b483d6))
+* refresh branding and PPTX previews ([f2a5016](https://github.com/AnikiFan/campus-beamer/commit/f2a5016fa0816d922b8e1c2f047699b254929346))
+
+
+### Bug Fixes
+
+* handle rotated PDF video frames ([c9bed76](https://github.com/AnikiFan/campus-beamer/commit/c9bed76a30d2070476bbc440b6cacd9d59672f04))
+
 ## [0.1.2](https://github.com/AnikiFan/campus-beamer/compare/v0.1.1...v0.1.2) (2026-10-05)
 
 
