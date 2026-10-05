@@ -15,6 +15,7 @@
 
 `example.tex` 是版式与功能演示；完整的 `example.pdf` 和 `example.pptx` 请前往
 [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 下载。
+Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲者视图查看。
 下面选取几页代表性画面，帮助快速了解模板支持的版式：
 
 <p>

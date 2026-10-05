@@ -194,6 +194,8 @@ draft 使用正式版相同的排版与全部图片，由 `latexmk` 增量编译
 [`docs/notes.example.json`](notes.example.json) 是格式示例，不能直接作为任意演示文稿的完整备注。
 实际备注是 agent 生成的产物，写入 `build/<入口名>.notes.json`，不纳入版本控制或源码包。
 新复制的源码不带生成的备注；按当前内容和最终页序重新生成。
+公开功能演示的逐页讲解保存在 `build/example.notes.json`；它与 PDF 同目录，转换器会按默认规则自动读取，
+因此 GitHub Release 中的示例 PPTX 也带有备注。
 默认 `make` 在备注文件存在时严格要求条目数与 PDF 页数相同；无备注的页用 `""` 占位。
 没有备注文件时会提示并生成空备注，方便直接构建模板示例。agent 生成新演示文稿时必须
 提供完整备注。页数相同仍可能出现顺序错位，调整页面后需要人工或 agent 核对。
@@ -331,6 +333,7 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 - `chapters/01_*.tex` 至 `05_*.tex`：完整示例的五节正文，每个文件包含本节起始页和 frames。
 - `theme/campusbeamer.cls`：文档类选项、中文支持、字体与文献宏包的统一入口。
 - `build/main.notes.json`：agent 生成的逐页 speaker notes；转换器会自动读取它并写入 PPTX 备注。
+- `build/example.notes.json`：公开功能演示的逐页备注，转换器按 PDF 同名路径自动读取。
 - `docs/notes.example.json`：备注文件格式示例，不会被自动加载。
 - `theme/beamerthemecampus.sty`：标题页、页眉、页脚、致谢页和引用命令等主题实现。
 - `theme/campuscolor.sty`：加载 xcolor 并定义学校的功能配色与品牌标志；演示元信息和汇报插图路径在正文中维护。

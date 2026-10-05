@@ -1,5 +1,8 @@
 # Local build output; retain source assets and curated docs/images previews.
 /build/
+!/build/
+/build/*
+!/build/example.notes.json
 .venv/
 __pycache__/
 *.py[cod]

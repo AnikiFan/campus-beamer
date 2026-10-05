@@ -83,6 +83,7 @@ make release DPI=200
 
 本地 ZIP 只是便于一次性归档和校验。GitHub Release 会把源码 ZIP、PDF、PPTX、发行说明和校验文件分别列出，
 不要求用户为查看示例而下载源码压缩包。
+示例 PPTX 的逐页备注保存在 `build/example.notes.json`；它与演示 PDF 同目录，转换器会自动读取并写入 PowerPoint speaker notes。
 
 查看 `build/draft/example/` 的全部页面预览与报告；编译成功不替代视觉检查。
 源码 ZIP 只包含 `tools/package_source.py` 的逐文件 `FILES` 白名单，包括两份 Release Please 配置。

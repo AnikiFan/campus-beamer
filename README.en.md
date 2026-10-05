@@ -15,7 +15,7 @@
 
 `example.tex` is the layout and feature tour. Download the complete
 `example.pdf` and `example.pptx` from the [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases)
-page. These representative pages show the range of layouts:
+page. The example PPTX includes per-slide PowerPoint speaker notes. These representative pages show the range of layouts:
 
 <p>
   <img src="docs/images/preview-cover.png" alt="Cover" width="240">
