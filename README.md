@@ -11,6 +11,28 @@
 
 ![默认学校配置的封面预览](docs/images/cover.png)
 
+## 示例页面
+
+`example.tex` 是版式与功能演示；完整的 `example.pdf` 和 `example.pptx` 请前往
+[GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 下载。
+下面选取几页代表性画面，帮助快速了解模板支持的版式：
+
+<p>
+  <img src="docs/images/preview-cover.png" alt="封面" width="240">
+  <img src="docs/images/preview-paper.png" alt="论文讲解章节页" width="240">
+  <img src="docs/images/preview-layout.png" alt="公式页" width="240">
+  <img src="docs/images/preview-code.png" alt="代码窗口页" width="240">
+</p>
+<p>
+  <img src="docs/images/preview-callouts.png" alt="提示框页" width="240">
+  <img src="docs/images/preview-media.png" alt="视频链接页" width="240">
+  <img src="docs/images/preview-references.png" alt="参考文献页" width="240">
+  <img src="docs/images/preview-closing.png" alt="收尾页" width="240">
+</p>
+
+缩略图来自当前示例 PDF 的渲染页面；其中的校徽、校名和校园图像适用
+[素材来源与使用声明](assets/README.md)。
+
 默认学校配置为清华；配色、校徽和校名标志集中在
 [`theme/campuscolor.sty`](theme/campuscolor.sty)。主题实现和变量使用通用的 `campus` 命名。
 `example.tex` 展示模板的版式与功能；自己的汇报由 agent 根据你的需求生成。
@@ -60,7 +82,8 @@ make                     # 有 main.tex 时构建自己的汇报，否则构建 
 ```
 
 [`example.tex`](example.tex) 是供人和 agent 查阅的功能演示，正文在 `chapters/`，
-包含章节页、图像、公式、引用、代码窗口、导航与视频。agent 根据汇报目标挑选适合的版式，
+包含章节页、图像、公式、引用、代码窗口、导航与视频。要直接查看完整 PDF/PPTX，请使用
+[GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 中的附件；agent 根据汇报目标挑选适合的版式，
 另行生成你的内容。全部文档类选项及默认值也列在示例入口中，见[选项说明](docs/class-options.md)。
 
 - 固定 16:9 布局，支持中英文；默认全主色章节页，清华配置下为紫色。
@@ -152,9 +175,9 @@ GitHub Actions 读取仓库根目录下的 `.github/workflows/`。
 
 版本变化记录在 [CHANGELOG.md](CHANGELOG.md)。`make dist` 只收录
 `tools/package_source.py` 中逐一登记的公开文件，新增文件默认不进入源码包。
-`make release` 生成 `build/releases/campus-beamer-v<版本>-release.zip`，包含源码 ZIP、
-公开演示 PDF/PPTX、双语发行说明和 SHA-256 校验和；始终构建 `example.tex`。
-GitHub 的 **Release Please** 工作流维护发行 PR，合并后创建 Release 并上传发行包，也保留手动构建入口；配置与发布步骤见
+`make release` 生成本地校验用的 `build/releases/campus-beamer-v<版本>-release.zip`。
+GitHub Release 会将源码 ZIP、`example.pdf`、`example.pptx`、发行说明和 SHA-256 校验文件分别作为附件，
+方便单独下载；始终构建 `example.tex`。GitHub 的 **Release Please** 工作流维护发行 PR，合并后创建 Release 并上传发行包，也保留手动构建入口；配置与发布步骤见
 [发布指南](docs/releases.md)。
 
 ## 许可与素材

@@ -88,9 +88,10 @@ uv run --frozen python tools/generate_demo_video.py
   PNG 经无损重新编码，保留 2205×2476 尺寸、RGBA 像素及 ICC 颜色配置，约 3.08 MB。
 - [`tsinghua_temple.png`](tsinghua_temple.png)：校园建筑图像。
 
-[`docs/images/cover.png`](../docs/images/cover.png) 与
-[`docs/images/citations.png`](../docs/images/citations.png) 从本项目 PDF 渲染而来，
-其中的清华素材适用上述声明。
+[`docs/images/cover.png`](../docs/images/cover.png)、
+[`docs/images/citations.png`](../docs/images/citations.png) 和
+`docs/images/preview-*.png` 从本项目 PDF 渲染而来，
+其中的清华素材适用上述声明；缩略图用于 README 页面预览。
 
 随仓库分发的 PNG 已进行无损编码优化，保留原尺寸、像素、透明度、ICC 颜色配置、
 DPI 和已有元数据；其中 `tsinghua_door.png` 从约 11.12 MB 缩至 3.27 MB。
@@ -99,7 +100,7 @@ JPEG 仅优化无损熵编码并保留已有元数据，未重新量化图像；
 
 ## 素材核查与权利人联系
 
-截至 2026-10-05，随仓库分发的两份项目字标 SVG、11 个清华图像文件、2 张派生预览图和原创演示视频都有来源说明。
+截至 2026-10-05，随仓库分发的两份项目字标 SVG、11 个清华图像文件、10 张派生预览图和原创演示视频都有来源说明。
 此外没有来源不明的图片、音视频或字体文件。源码采用 GPL-3.0-or-later；
 主题文件中的作者声明和 README 致谢说明模板来源。
 

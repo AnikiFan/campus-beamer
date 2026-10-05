@@ -11,6 +11,28 @@
 
 ![Cover rendered with the default school profile](docs/images/cover.png)
 
+## Example pages
+
+`example.tex` is the layout and feature tour. Download the complete
+`example.pdf` and `example.pptx` from the [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases)
+page. These representative pages show the range of layouts:
+
+<p>
+  <img src="docs/images/preview-cover.png" alt="Cover" width="240">
+  <img src="docs/images/preview-paper.png" alt="Paper section" width="240">
+  <img src="docs/images/preview-layout.png" alt="Equation page" width="240">
+  <img src="docs/images/preview-code.png" alt="Code window" width="240">
+</p>
+<p>
+  <img src="docs/images/preview-callouts.png" alt="Callouts" width="240">
+  <img src="docs/images/preview-media.png" alt="Video link" width="240">
+  <img src="docs/images/preview-references.png" alt="References" width="240">
+  <img src="docs/images/preview-closing.png" alt="Closing page" width="240">
+</p>
+
+These thumbnails are rendered from the current example PDF. The emblems,
+wordmarks and campus images follow the [asset source and rights notice](assets/README.md).
+
 Tsinghua is the default school profile. Colors, emblems and wordmarks
 live in `theme/campuscolor.sty`; the theme and its identifiers use the neutral `campus` name.
 `example.tex` demonstrates the layouts and features; the agent creates your presentation from your brief.
@@ -122,9 +144,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for bug reports and pull requests.
 Track public changes in [CHANGELOG.md](CHANGELOG.md). Source ZIPs include only
 the individually reviewed files in `tools/package_source.py`; new files are
 excluded by default. `make release` creates
-`build/releases/campus-beamer-v<version>-release.zip` containing the source ZIP,
-public example PDF/PPTX, bilingual release notes and SHA-256 checksums. It always
-builds `example.tex`. The **Release Please** GitHub workflow maintains release
+`build/releases/campus-beamer-v<version>-release.zip` as a local checksummed bundle.
+GitHub Releases expose the source ZIP, `example.pdf`, `example.pptx`, release notes
+and SHA-256 checksums as separate downloadable assets. It always builds `example.tex`.
+The **Release Please** GitHub workflow maintains release
 PRs, creates releases and uploads bundles after merging, with a manual build
 entry point as well. See the [release guide](docs/releases.md) for setup and publishing.
 

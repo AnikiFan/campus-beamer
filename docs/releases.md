@@ -77,9 +77,12 @@ make release DPI=200
 `build/releases/campus-beamer-vX.Y.Z-release.zip` 包含：
 
 - `campus-beamer-X.Y.Z-source.zip`：可作为独立仓库根目录的源码包。
-- `campus-beamer-X.Y.Z-example.pdf` 与 `campus-beamer-X.Y.Z-example.pptx`：公开功能演示。
+- `campus-beamer-X.Y.Z-example.pdf` 与 `campus-beamer-X.Y.Z-example.pptx`：公开功能演示；GitHub Release 中分别上传。
 - `RELEASE_NOTES.md`：本版变更与素材许可范围。
-- `SHA256SUMS`：上述文件的 SHA-256 校验和，解压后运行 `sha256sum -c SHA256SUMS` 校验。
+- `SHA256SUMS`：上述文件的 SHA-256 校验和；下载同目录文件后运行 `sha256sum -c SHA256SUMS` 校验。
+
+本地 ZIP 只是便于一次性归档和校验。GitHub Release 会把源码 ZIP、PDF、PPTX、发行说明和校验文件分别列出，
+不要求用户为查看示例而下载源码压缩包。
 
 查看 `build/draft/example/` 的全部页面预览与报告；编译成功不替代视觉检查。
 源码 ZIP 只包含 `tools/package_source.py` 的逐文件 `FILES` 白名单，包括两份 Release Please 配置。
@@ -120,8 +123,9 @@ demo pages before merging.
 
 On merging, the **Release Please** workflow creates `vX.Y.Z` and a GitHub Release,
 then checks out that tag and runs Docker `make release` in the same workflow.
-It attaches the checksummed source/demo bundle and updates the release body with
-bundled notes, including the shared license scope and image-based PPTX limitation.
+It attaches the source ZIP, PDF, PPTX, release notes and checksum as separate
+assets, then updates the release body with the notes, including the shared license
+scope and image-based PPTX limitation.
 Keep the top-level license section in the changelog. Releases are created before
 the artifact build; retry a failed build manually with the existing tag.
 
@@ -134,7 +138,7 @@ checks must still be run and reviewed.
 
 Manual **Run workflow** with an empty `tag` builds only an Actions artifact,
 retained for 14 days. Supplying an existing `vX.Y.Z` rebuilds and replaces its
-release bundle and notes, after checking the tag against the project version.
+five individual release assets and notes, after checking the tag against the project version.
 Run `make release` locally for the same 600-DPI public-demo build; `DPI=200`
 is available for previews. Keep dependency locks on official PyPI and review
 every public source file before packaging.

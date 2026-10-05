@@ -77,13 +77,24 @@ jobs:
           path: build/releases/campus-beamer-v*-release.zip
           if-no-files-found: error
           retention-days: 14
-      - name: Attach the bundle and notices to the GitHub Release
+      - name: Attach individual release assets and notices
         if: env.RELEASE_TAG != ''
         run: |
           BUNDLE="build/releases/campus-beamer-${RELEASE_TAG}-release.zip"
-          unzip -p "$BUNDLE" RELEASE_NOTES.md > build/releases/RELEASE_NOTES.md
-          gh release upload "$RELEASE_TAG" "$BUNDLE" --clobber
-          gh release edit "$RELEASE_TAG" --notes-file build/releases/RELEASE_NOTES.md
+          PUBLISH_DIR="build/releases/publish"
+          rm -rf "$PUBLISH_DIR"
+          mkdir -p "$PUBLISH_DIR"
+          unzip -j "$BUNDLE" \
+            "campus-beamer-*-source.zip" \
+            "campus-beamer-*-example.pdf" \
+            "campus-beamer-*-example.pptx" \
+            RELEASE_NOTES.md SHA256SUMS -d "$PUBLISH_DIR"
+          gh release upload "$RELEASE_TAG" \
+            "$PUBLISH_DIR"/campus-beamer-*-source.zip \
+            "$PUBLISH_DIR"/campus-beamer-*-example.pdf \
+            "$PUBLISH_DIR"/campus-beamer-*-example.pptx \
+            "$PUBLISH_DIR"/RELEASE_NOTES.md "$PUBLISH_DIR"/SHA256SUMS --clobber
+          gh release edit "$RELEASE_TAG" --notes-file "$PUBLISH_DIR/RELEASE_NOTES.md"
       - name: Upload build diagnostics on failure
         if: failure()
         uses: actions/upload-artifact@v4
