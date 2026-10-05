@@ -5,6 +5,18 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.1.2](https://github.com/AnikiFan/campus-beamer/compare/v0.1.1...v0.1.2) (2026-10-05)
+
+
+### Bug Fixes
+
+* include speaker notes in public demo builds ([085b1c7](https://github.com/AnikiFan/campus-beamer/commit/085b1c79eaebae2446e5878c48414bdcac10c92b))
+
+
+### Documentation
+
+* explain tracked demo speaker notes ([ff212e0](https://github.com/AnikiFan/campus-beamer/commit/ff212e0d94b4c3a9db55133d7b5f056671dc8b43))
+
 ## [0.1.1](https://github.com/AnikiFan/campus-beamer/compare/v0.1.0...v0.1.1) (2026-10-05)
 
 
