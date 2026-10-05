@@ -9,7 +9,7 @@
 
 **Give an agent your ideas and prepared materials; get a complete PDF and PowerPoint with speaker notes.**
 
-[中文](README.md) · [User guide (Chinese)](docs/usage.md) · [Contributing](CONTRIBUTING.md) · [Releases](docs/releases.md) · [Acknowledgements](#acknowledgements)
+[中文](README.md) · [User guide (Chinese)](docs/usage.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Accessibility](ACCESSIBILITY.md) · [Releases](docs/releases.md) · [Acknowledgements](#acknowledgements)
 
 ![Cover rendered with the default school profile](docs/images/cover.png)
 

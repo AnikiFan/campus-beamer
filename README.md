@@ -9,7 +9,7 @@
 
 **把思路和备好的素材交给 agent，生成排版完整、带讲解备注的 PDF 与 PowerPoint。**
 
-[English](README.en.md) · [使用手册](docs/usage.md) · [贡献指南](CONTRIBUTING.md) · [版本与发布](docs/releases.md) · [致谢](#致谢)
+[English](README.en.md) · [使用手册](docs/usage.md) · [贡献指南](CONTRIBUTING.md) · [安全政策](SECURITY.md) · [无障碍说明](ACCESSIBILITY.md) · [版本与发布](docs/releases.md) · [致谢](#致谢)
 
 ![默认学校配置的封面预览](docs/images/cover.png)
 

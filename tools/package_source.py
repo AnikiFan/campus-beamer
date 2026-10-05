@@ -21,7 +21,7 @@ import argparse
 import zipfile
 
 FILES = (
-    'README.md', 'README.en.md', 'LICENSE', 'CHANGELOG.md',
+    'README.md', 'README.en.md', 'LICENSE', 'SECURITY.md', 'ACCESSIBILITY.md', 'CHANGELOG.md',
     'release-please-config.json', '.release-please-manifest.json',
     'CONTRIBUTING.md', 'AGENTS.md', '.editorconfig', '.gitignore', '.latexmkrc', 'Makefile',
     'docker/Dockerfile', 'docker/Dockerfile.dockerignore', 'docker/entrypoint.sh',
