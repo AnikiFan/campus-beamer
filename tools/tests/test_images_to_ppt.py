@@ -305,6 +305,21 @@ class ConversionTests(unittest.TestCase):
         self.assertEqual(poster_tool.add_video_posters(self.pdf), 0)
         self.assertEqual(self.pdf.read_bytes(), first)
 
+    def test_pdf_video_poster_handles_rotated_page(self):
+        video = self.video_fixture(self.root / 'rotated.mp4')
+        with pymupdf.open() as doc:
+            page = doc.new_page(width=400, height=200)
+            frame = pymupdf.Rect(100, 50, 300, 150)
+            page.draw_rect(frame, color=(0, 0, 0), fill=(1, 1, 1))
+            page.insert_link({'kind': pymupdf.LINK_LAUNCH, 'from': frame, 'file': video.name})
+            page.set_rotation(90)
+            doc.save(self.pdf)
+        self.assertEqual(poster_tool.add_video_posters(self.pdf), 1)
+        with pymupdf.open(self.pdf) as doc:
+            pixmap = doc[0].get_pixmap(alpha=False)
+            self.assertGreater(pixmap.pixel(100, 200)[0], 200)
+            self.assertLess(pixmap.pixel(100, 200)[1], 20)
+
     def test_portrait_video_fits_rotated_pdf_placeholder(self):
         video = self.video_fixture(self.root / 'portrait.mp4', '90x160')
         with pymupdf.open() as doc:

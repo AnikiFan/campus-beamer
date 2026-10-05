@@ -52,6 +52,9 @@ def add_video_posters(pdf_path: Path) -> int:
                 frame = video_placeholder_rect(page, link['from']) & page.rect
                 if frame.is_empty:
                     continue
+                # Link rectangles are in the displayed page orientation;
+                # drawing APIs place images in unrotated page coordinates.
+                frame *= page.derotation_matrix
                 # Leave the existing frame stroke visible while covering its
                 # text with the same proportional fit used by the PPTX export.
                 frame = pymupdf.Rect(frame.x0 + 1, frame.y0 + 1,
