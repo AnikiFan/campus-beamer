@@ -1,9 +1,11 @@
-<h1>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/campus-beamer-logo-white.svg">
-    <img src="assets/campus-beamer-logo.svg" alt="Campus Beamer" width="480">
-  </picture>
-</h1>
+<div align="center">
+  <h1>
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/campus-beamer-logo-white.svg">
+      <img src="assets/campus-beamer-logo.svg" alt="Campus Beamer" width="480">
+    </picture>
+  </h1>
+</div>
 
 **Give an agent your ideas and prepared materials; get a complete PDF and PowerPoint with speaker notes.**
 
@@ -17,22 +19,24 @@
 `example.pdf` and `example.pptx` from the [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases)
 page. The example PPTX includes per-slide PowerPoint speaker notes. These representative pages show the range of layouts:
 
-<p>
-  <img src="docs/images/preview-cover.png" alt="Cover" width="240">
-  <img src="docs/images/preview-toc.png" alt="Table of contents" width="240">
-  <img src="docs/images/preview-paper.png" alt="Paper section" width="240">
-  <img src="docs/images/preview-fullheight.png" alt="Right full-height image" width="240">
-</p>
-<p>
-  <img src="docs/images/preview-layout.png" alt="Equation page" width="240">
-  <img src="docs/images/preview-code.png" alt="Code window" width="240">
-  <img src="docs/images/preview-callouts.png" alt="Callouts" width="240">
-  <img src="docs/images/preview-media.png" alt="Video link" width="240">
-</p>
-<p>
-  <img src="docs/images/preview-references.png" alt="References" width="240">
-  <img src="docs/images/preview-closing.png" alt="Closing page" width="240">
-</p>
+<div align="center">
+  <p>
+    <img src="docs/images/preview-cover.png" alt="Cover" width="200">
+    <img src="docs/images/preview-toc.png" alt="Table of contents" width="200">
+    <img src="docs/images/preview-paper.png" alt="Paper section" width="200">
+    <img src="docs/images/preview-fullheight.png" alt="Right full-height image" width="200">
+  </p>
+  <p>
+    <img src="docs/images/preview-layout.png" alt="Equation page" width="200">
+    <img src="docs/images/preview-code.png" alt="Code window" width="200">
+    <img src="docs/images/preview-callouts.png" alt="Callouts" width="200">
+    <img src="docs/images/preview-media.png" alt="Video link" width="200">
+  </p>
+  <p>
+    <img src="docs/images/preview-references.png" alt="References" width="200">
+    <img src="docs/images/preview-closing.png" alt="Closing page" width="200">
+  </p>
+</div>
 
 These thumbnails come from rasterized slides in the converted example PPTX; the video page includes the embedded video's poster frame. The emblems,
 wordmarks and campus images follow the [asset source and rights notice](assets/README.md).

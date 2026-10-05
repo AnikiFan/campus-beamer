@@ -1,9 +1,11 @@
-<h1>
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/campus-beamer-logo-white.svg">
-    <img src="assets/campus-beamer-logo.svg" alt="Campus Beamer" width="480">
-  </picture>
-</h1>
+<div align="center">
+  <h1>
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="assets/campus-beamer-logo-white.svg">
+      <img src="assets/campus-beamer-logo.svg" alt="Campus Beamer" width="480">
+    </picture>
+  </h1>
+</div>
 
 **把思路和备好的素材交给 agent，生成排版完整、带讲解备注的 PDF 与 PowerPoint。**
 
@@ -18,22 +20,24 @@
 Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲者视图查看。
 下面选取几页代表性画面，帮助快速了解模板支持的版式：
 
-<p>
-  <img src="docs/images/preview-cover.png" alt="封面" width="240">
-  <img src="docs/images/preview-toc.png" alt="目录页" width="240">
-  <img src="docs/images/preview-paper.png" alt="论文讲解章节页" width="240">
-  <img src="docs/images/preview-fullheight.png" alt="右侧满高图片页" width="240">
-</p>
-<p>
-  <img src="docs/images/preview-layout.png" alt="公式页" width="240">
-  <img src="docs/images/preview-code.png" alt="代码窗口页" width="240">
-  <img src="docs/images/preview-callouts.png" alt="提示框页" width="240">
-  <img src="docs/images/preview-media.png" alt="视频链接页" width="240">
-</p>
-<p>
-  <img src="docs/images/preview-references.png" alt="参考文献页" width="240">
-  <img src="docs/images/preview-closing.png" alt="收尾页" width="240">
-</p>
+<div align="center">
+  <p>
+    <img src="docs/images/preview-cover.png" alt="封面" width="200">
+    <img src="docs/images/preview-toc.png" alt="目录页" width="200">
+    <img src="docs/images/preview-paper.png" alt="论文讲解章节页" width="200">
+    <img src="docs/images/preview-fullheight.png" alt="右侧满高图片页" width="200">
+  </p>
+  <p>
+    <img src="docs/images/preview-layout.png" alt="公式页" width="200">
+    <img src="docs/images/preview-code.png" alt="代码窗口页" width="200">
+    <img src="docs/images/preview-callouts.png" alt="提示框页" width="200">
+    <img src="docs/images/preview-media.png" alt="视频链接页" width="200">
+  </p>
+  <p>
+    <img src="docs/images/preview-references.png" alt="参考文献页" width="200">
+    <img src="docs/images/preview-closing.png" alt="收尾页" width="200">
+  </p>
+</div>
 
 缩略图来自当前示例 PPTX 转换后的幻灯片图像；视频页还包含 PPTX 内嵌视频的首帧预览。其中的校徽、校名和校园图像适用
 [素材来源与使用声明](assets/README.md)。
