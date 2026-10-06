@@ -5,11 +5,25 @@
       <img src="assets/campus-beamer-logo.svg" alt="Campus Beamer" width="480">
     </picture>
   </h1>
+  <h2>A clean, elegant academic Beamer template for AI agents</h2>
+  <p>
+    <a href="https://github.com/AnikiFan/campus-beamer/releases/latest"><img src="https://img.shields.io/github/v/release/AnikiFan/campus-beamer?color=552174&amp;label=release" alt="Latest release"></a>
+    <a href="https://github.com/AnikiFan/campus-beamer/actions/workflows/ci.yml"><img src="https://github.com/AnikiFan/campus-beamer/actions/workflows/ci.yml/badge.svg?branch=main" alt="Source checks status"></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/code-GPL--3.0%2B-blue" alt="Code license: GPL-3.0-or-later"></a>
+    <a href="https://github.com/AnikiFan/campus-beamer/releases"><img src="https://img.shields.io/badge/export-PDF%20%2B%20PPTX-552174" alt="PDF and PowerPoint export"></a>
+  </p>
+  <p>Give an agent your ideas and prepared materials; get a complete PDF and PowerPoint with speaker notes.</p>
+  <p>
+    <a href="README.md">中文</a> ·
+    <a href="docs/usage.md">User guide (Chinese)</a> ·
+    <a href="CONTRIBUTING.md">Contributing</a> ·
+    <a href="docs/releases.md">Releases</a>
+    <br>
+    <a href="SECURITY.md">Security</a> ·
+    <a href="ACCESSIBILITY.md">Accessibility</a> ·
+    <a href="#acknowledgements">Acknowledgements</a>
+  </p>
 </div>
-
-**Give an agent your ideas and prepared materials; get a complete PDF and PowerPoint with speaker notes.**
-
-[中文](README.md) · [User guide (Chinese)](docs/usage.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Accessibility](ACCESSIBILITY.md) · [Releases](docs/releases.md) · [Acknowledgements](#acknowledgements)
 
 ![Cover rendered with the default school profile](docs/images/cover.png)
 

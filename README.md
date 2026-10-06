@@ -5,11 +5,25 @@
       <img src="assets/campus-beamer-logo.svg" alt="Campus Beamer" width="480">
     </picture>
   </h1>
+  <h2>简洁、优雅，面向 Agent 的学术 Beamer 模板</h2>
+  <p>
+    <a href="https://github.com/AnikiFan/campus-beamer/releases/latest"><img src="https://img.shields.io/github/v/release/AnikiFan/campus-beamer?color=552174&amp;label=release" alt="最新发布版本"></a>
+    <a href="https://github.com/AnikiFan/campus-beamer/actions/workflows/ci.yml"><img src="https://github.com/AnikiFan/campus-beamer/actions/workflows/ci.yml/badge.svg?branch=main" alt="源码检查状态"></a>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/code-GPL--3.0%2B-blue" alt="代码许可：GPL-3.0-or-later"></a>
+    <a href="https://github.com/AnikiFan/campus-beamer/releases"><img src="https://img.shields.io/badge/export-PDF%20%2B%20PPTX-552174" alt="导出 PDF 与 PowerPoint"></a>
+  </p>
+  <p>把思路和备好的素材交给 agent，生成排版完整、带讲解备注的 PDF 与 PowerPoint。</p>
+  <p>
+    <a href="README.en.md">English</a> ·
+    <a href="docs/usage.md">使用手册</a> ·
+    <a href="CONTRIBUTING.md">贡献指南</a> ·
+    <a href="docs/releases.md">版本与发布</a>
+    <br>
+    <a href="SECURITY.md">安全政策</a> ·
+    <a href="ACCESSIBILITY.md">无障碍说明</a> ·
+    <a href="#致谢">致谢</a>
+  </p>
 </div>
-
-**把思路和备好的素材交给 agent，生成排版完整、带讲解备注的 PDF 与 PowerPoint。**
-
-[English](README.en.md) · [使用手册](docs/usage.md) · [贡献指南](CONTRIBUTING.md) · [安全政策](SECURITY.md) · [无障碍说明](ACCESSIBILITY.md) · [版本与发布](docs/releases.md) · [致谢](#致谢)
 
 ![默认学校配置的封面预览](docs/images/cover.png)
 
