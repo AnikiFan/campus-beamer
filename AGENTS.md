@@ -343,8 +343,9 @@ packages/fonts. Local-video PPTX export additionally needs FFmpeg (included in
 the Docker image); PDF-only and non-video exports do not. The converter extracts
 a first-frame poster, scales proportionally and centers within the PDF video
 placeholder, and removes the placeholder border/text from the PPT background.
-Use `\XeTeXLinkBox{\fbox{...}}` inside the local-video `\href` so the PDF link
-covers the complete placeholder. Keep the source PDF intact. A missing decoder
+Use `\XeTeXLinkBox{\parbox[c][.30\textheight][c]{.65\textwidth}{\mbox{}}}`
+inside the local-video `\href` so the PDF link covers a borderless placeholder.
+Keep the source PDF intact. A missing decoder
 or undecodable video must fail without replacing the previous PPTX.
 `uv run --frozen` creates/syncs `.venv` automatically; do not
 copy `.venv` between machines. Keep `pyproject.toml` and `uv.lock` with the

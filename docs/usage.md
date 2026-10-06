@@ -281,12 +281,11 @@ PowerPoint movie 对象嵌入 PPTX；视频文件随 PPTX 一起打包，文件�
 时不会执行这一步；需要时可手动运行
 `uv run --frozen python tools/add_video_posters.py build/main.pdf`。如果链接只包住框内文字，
 转换器会尝试识别包围文字的最小矩形边框；
-没有边框时使用链接区域本身。建议让整个框成为链接，示例写法为：
+没有边框时使用链接区域本身。建议使用无边框的占位区域，并让整个区域成为链接，示例写法为：
 
 ```tex
 \href{run:../assets/video.mp4}{%
-  \XeTeXLinkBox{\fbox{\parbox[c][.30\textheight][c]{.65\textwidth}{%
-    \centering 点击播放视频}}}%
+  \XeTeXLinkBox{\parbox[c][.30\textheight][c]{.65\textwidth}{\mbox{}}}%
 }
 ```
 

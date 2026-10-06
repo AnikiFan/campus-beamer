@@ -76,7 +76,7 @@ make release DPI=200
 
 `build/releases/campus-beamer-vX.Y.Z-release.zip` 包含：
 
-- `campus-beamer-X.Y.Z-source.zip`：可作为独立仓库根目录的源码包。
+- `campus-beamer-X.Y.Z-source.zip`：解压后直接得到项目根目录，可直接运行 `make`。
 - `campus-beamer-X.Y.Z-example.pdf` 与 `campus-beamer-X.Y.Z-example.pptx`：公开功能演示；GitHub Release 中分别上传。
 - `RELEASE_NOTES.md`：本版变更与素材许可范围。
 - `SHA256SUMS`：上述文件的 SHA-256 校验和；下载同目录文件后运行 `sha256sum -c SHA256SUMS` 校验。

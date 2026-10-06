@@ -42,22 +42,22 @@ class SourcePackageTests(unittest.TestCase):
         package(self.root, self.output)
         with ZipFile(self.output) as archive:
             names = archive.namelist()
-            self.assertIn('campus-beamer/docs/notes.example.json', names)
-            self.assertNotIn('campus-beamer/main.notes.json', names)
-            self.assertNotIn('campus-beamer/starter.notes.json', names)
-            self.assertIn('campus-beamer/docs/usage.md', names)
-            self.assertIn('campus-beamer/chapters/01_basics.tex', names)
-            self.assertIn('campus-beamer/bibliography/refs.bib', names)
-            self.assertNotIn('campus-beamer/bibliography/another.bib', names)
+            self.assertIn('docs/notes.example.json', names)
+            self.assertNotIn('main.notes.json', names)
+            self.assertNotIn('starter.notes.json', names)
+            self.assertIn('docs/usage.md', names)
+            self.assertIn('chapters/01_basics.tex', names)
+            self.assertIn('bibliography/refs.bib', names)
+            self.assertNotIn('bibliography/another.bib', names)
             for name in ('Dockerfile', 'Dockerfile.dockerignore', 'entrypoint.sh'):
-                self.assertIn('campus-beamer/docker/' + name, names)
+                self.assertIn('docker/' + name, names)
             for name in ('refs.bib', 'Dockerfile', '.dockerignore', 'tools/docker-entrypoint.sh'):
-                self.assertNotIn('campus-beamer/' + name, names)
+                self.assertNotIn(name, names)
             for name in ('campusbeamer.cls', 'beamerthemecampus.sty', 'campuscolor.sty', 'campuscode.sty'):
-                self.assertIn('campus-beamer/theme/' + name, names)
-                self.assertNotIn('campus-beamer/' + name, names)
+                self.assertIn('theme/' + name, names)
+                self.assertNotIn(name, names)
             self.assertFalse(any('private-talk' in name or '__pycache__' in name
-                                 or '/.venv/' in name or '/build/' in name
+                                 or name.startswith('.venv/') or name.startswith('build/')
                                  or name.endswith('.log') for name in names))
 
     def test_repeated_archives_are_byte_identical(self):
@@ -77,12 +77,12 @@ class SourcePackageTests(unittest.TestCase):
         package(self.root, self.output)
         with ZipFile(self.output) as archive:
             names = archive.namelist()
-            self.assertIn('campus-beamer/example.tex', names)
-            self.assertIn('campus-beamer/prompt.md', names)
-            self.assertEqual([name for name in names if name.startswith('campus-beamer/materials/')],
-                             ['campus-beamer/materials/.gitkeep'])
+            self.assertIn('example.tex', names)
+            self.assertIn('prompt.md', names)
+            self.assertEqual([name for name in names if name.startswith('materials/')],
+                             ['materials/.gitkeep'])
             for name in private_files:
-                self.assertNotIn('campus-beamer/' + name, names)
+                self.assertNotIn(name, names)
 
     def test_rejects_symlinks_in_source(self):
         (self.root / 'README.md').unlink()
@@ -100,8 +100,7 @@ class SourcePackageTests(unittest.TestCase):
         (self.root / 'docs/unknown-link').symlink_to(self.root / 'README.md')
         package(self.root, self.output)
         with ZipFile(self.output) as archive:
-            self.assertEqual(set(archive.namelist()),
-                             {'campus-beamer/' + name for name in FILES})
+            self.assertEqual(set(archive.namelist()), set(FILES))
 
     def test_symlinked_parent_directory_does_not_replace_previous_zip(self):
         package(self.root, self.output)

@@ -51,6 +51,18 @@ Release Please 根据 Conventional Commits 维护后续版本章节；此处可�
 Release Please generates subsequent version sections from Conventional Commits;
 use this section for release-note drafts that still need review.
 
+### Bug Fixes
+
+- 视频海报现在填满 PDF 的链接区域，不再保留占位黑框。
+  Video posters now fill the PDF link area without retaining a placeholder frame.
+
+### Documentation
+
+- 示例说明页归入第一个 section，避免封面后出现无 section 的页面。
+  The example workflow page now belongs to the first section instead of sitting before all sections.
+- 源码 ZIP 解压后直接得到项目根目录文件。
+  Source ZIPs now unpack directly to the project root.
+
 ## [0.1.0] - 2026-10-05
 
 - 面向 agent 的 Beamer 汇报流程：本地素材、独立用户正文、逐页预览与讲解备注。

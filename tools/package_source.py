@@ -95,7 +95,8 @@ def package(root, output):
     try:
         with zipfile.ZipFile(temporary, 'w', compression=zipfile.ZIP_DEFLATED) as archive:
             for path in paths:
-                name = 'campus-beamer/' + path.relative_to(root).as_posix()
+                # The archive is unpacked directly into the project root.
+                name = path.relative_to(root).as_posix()
                 info = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
                 info.compress_type = zipfile.ZIP_DEFLATED
                 info.external_attr = 0o100644 << 16
