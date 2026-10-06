@@ -1,0 +1,49 @@
+% Fictional names exercise cover and closing layout independently of metadata.
+\documentclass[language=chinese]{campusbeamer}
+\title{Name layout}
+\author{张晓明}
+\date{2026-10-06}
+\newcommand{\namepages}{\maketitle\backmatter}
+\begin{document}
+% Advisor omitted entirely.
+\namepages
+% Short presenter, longer advisor; title must not affect the name column.
+\author{王芳}
+\advisor[副教授]{张晓明}
+\namepages
+% Reverse lengths and keep a contact outside the aligned name column.
+\author{张晓明}
+\IDnumber{test@example.org}
+\advisor[副教授]{王芳}
+\namepages
+% Equal lengths and no title; the preceding title must not leak.
+\author{王芳}
+\IDnumber{}
+\advisor{李明}
+\namepages
+% Explicitly empty advisor, including after a populated value.
+\advisor{}
+\namepages
+% A single-character name cannot be distributed; keep it left-aligned.
+\author{王}
+\advisor{欧阳明德}
+\namepages
+% English spacing and an English title.
+\campussetlayout{template language=english}
+\author{Ada Lovelace}
+\advisor[Professor]{Alan Turing}
+\namepages
+% Chinese names in the English layout retain natural spacing.
+\author{王芳}
+\advisor{张晓明}
+\namepages
+% Legacy free-form advisor content remains valid.
+\campussetlayout{template language=chinese}
+\author{王芳}
+\advisor{王智\,副教授}
+\namepages
+% Preserve standard Beamer author formatting and short-author handling.
+\author[王芳]{\textbf{王芳}}
+\advisor{张晓明}
+\namepages
+\end{document}

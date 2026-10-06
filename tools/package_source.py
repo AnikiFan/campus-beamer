@@ -65,7 +65,7 @@ FILES = (
     'tools/fixtures/class-metadata.tex', 'tools/fixtures/class-mixed-language.tex',
     'tools/fixtures/class-options.bib', 'tools/fixtures/class-options.tex',
     'tools/fixtures/code-windows.tex', 'tools/fixtures/demo-without-guides.tex',
-    'tools/fixtures/language-layout.tex', 'tools/fixtures/layout-guides-off.tex',
+    'tools/fixtures/language-layout.tex', 'tools/fixtures/name-layout.tex', 'tools/fixtures/layout-guides-off.tex',
     'tools/fixtures/layout-guides.tex', 'tools/fixtures/single-header.tex',
     'tools/tests/test_compare_pdf.py', 'tools/tests/test_doctor.py',
     'tools/tests/test_draft_preview.py', 'tools/tests/test_images_to_ppt.py',

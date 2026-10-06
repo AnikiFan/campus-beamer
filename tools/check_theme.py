@@ -30,7 +30,7 @@ EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 
                   'single-header': 5,
                   'demo-without-guides': 42, 'language-layout': 10,
                   'class-options': 6, 'class-handout': 1, 'class-mixed-language': 2,
-                  'code-windows': 4, 'class-metadata': 3}
+                  'code-windows': 4, 'class-metadata': 3, 'name-layout': 20}
 
 
 def check_class_fixture(name, document, log):
@@ -83,6 +83,70 @@ def check_class_fixture(name, document, log):
             raise RuntimeError('class-metadata: PDF metadata contains unsupported formatting')
         if document.get_toc() != [[1, '章节 & 结果', 2], [2, '子节', 3]]:
             raise RuntimeError('class-metadata: section bookmarks did not survive PDF encoding')
+
+
+def check_name_layout(document, log):
+    """Check rendered name edges, title spacing and optional advisor rows."""
+    if any(warning in log for warning in ('Overfull', 'Missing character:')):
+        raise RuntimeError('name-layout: overflow or missing glyphs')
+
+    def close(a, b, label):
+        if abs(a - b) > 0.05:
+            raise RuntimeError(f'name-layout: {label}: {a} != {b}')
+
+    def rows(page):
+        chars = [char for block in page.get_text('rawdict')['blocks']
+                 for line in block.get('lines', []) for span in line['spans']
+                 for char in span['chars']]
+        colons = sorted((c for c in chars if c['c'] in (':', '：')),
+                        key=lambda c: c['origin'][1])
+        return [sorted((c for c in chars if not c['c'].isspace()
+                        and abs(c['origin'][1] - colon['origin'][1]) < 0.05
+                        and c['bbox'][0] >= colon['bbox'][2] - 0.05),
+                       key=lambda c: c['bbox'][0]) for colon in colons]
+
+    def name_box(row, name):
+        chars = row[:len(name)]
+        if ''.join(c['c'] for c in chars) != name:
+            raise RuntimeError(f'name-layout: missing name {name!r}')
+        return pymupdf.Rect(chars[0]['bbox']) | pymupdf.Rect(chars[-1]['bbox'])
+
+    for start, presenter, advisor in ((2, '王芳', '张晓明'), (4, '张晓明', '王芳'),
+                                      (6, '王芳', '李明'), (10, '王', '欧阳明德')):
+        for page in (document[start], document[start + 1]):
+            speaker_row, advisor_row = rows(page)
+            speaker = name_box(speaker_row, presenter)
+            teacher = name_box(advisor_row, advisor)
+            close(speaker.x0, teacher.x0, 'name left edges')
+            if len(presenter) > 1:
+                close(speaker.x1, teacher.x1, 'name right edges')
+            glyph_width = advisor_row[0]['bbox'][2] - advisor_row[0]['bbox'][0]
+            close(teacher.width, max(len(presenter), len(advisor)) * glyph_width,
+                  'name column excludes title/contact')
+            if start in (2, 4):
+                if ''.join(c['c'] for c in advisor_row[len(advisor):]) != '副教授':
+                    raise RuntimeError('name-layout: missing advisor title')
+                close(advisor_row[len(advisor)]['bbox'][0] - teacher.x1,
+                      glyph_width, 'one-character title gap')
+            elif len(advisor_row) != len(advisor):
+                raise RuntimeError('name-layout: previous advisor title leaked')
+    for start, name in ((0, '张晓明'), (8, '王芳')):
+        for page in (document[start], document[start + 1]):
+            content = rows(page)
+            if len(content) != 1:
+                raise RuntimeError('name-layout: omitted/empty advisor is visible')
+            box = name_box(content[0], name)
+            glyph_width = content[0][0]['bbox'][2] - content[0][0]['bbox'][0]
+            close(box.width, len(name) * glyph_width, 'natural name without advisor')
+    for start in (14, 16, 18):
+        for page in (document[start], document[start + 1]):
+            speaker_row = rows(page)[0]
+            box = name_box(speaker_row, '王芳')
+            glyph_width = speaker_row[0]['bbox'][2] - speaker_row[0]['bbox'][0]
+            close(box.width, 2 * glyph_width, 'natural English/legacy/formatted name')
+    for page in (document[12], document[13]):
+        if not page.search_for('Ada Lovelace') or not page.search_for('Alan Turing Professor'):
+            raise RuntimeError('name-layout: English names/title no longer use natural spacing')
 
 
 def check_class_errors(root, output):
@@ -214,6 +278,8 @@ def check(root, output):
                     raise RuntimeError(f'{name}: expected {expected} pages, got {pages}')
                 if name == 'language-layout':
                     check_language_layout(document)
+                if name == 'name-layout':
+                    check_name_layout(document, result.stdout)
                 check_class_fixture(name, document, result.stdout)
             shutil.copy2(pdf, output / f'{name}.pdf')
             print(f'{name}: {pages} pages compiled; inspect {output / f"{name}.pdf"}')

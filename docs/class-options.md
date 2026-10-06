@@ -11,6 +11,8 @@
 
 封面元信息使用 `\title`、`\subtitle`、`\author`、`\course`、`\advisor`、`\date` 和
 `\IDnumber`。类会自动将这些字段嵌入 PDF，供 PPTX 导出写入文档属性；无需另外设置导出元信息。
+导师职称用 `\advisor[副教授]{姓名}` 填写；中文版将两人的中文姓名按最大宽度两端对齐，
+姓名与职称间留一个汉字宽度。导师可省略，详见[姓名与职称](usage.md#姓名与职称)。
 `\section` 的 PDF 书签自动成为 PowerPoint 原生分节，见[转换说明](usage.md#转换为-powerpoint保留跳转链接)。
 
 ```tex
