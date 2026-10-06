@@ -5,6 +5,13 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.3.0](https://github.com/AnikiFan/campus-beamer/compare/v0.2.4...v0.3.0) (2026-10-06)
+
+
+### Features
+
+* align Chinese presenter and advisor names ([97f0870](https://github.com/AnikiFan/campus-beamer/commit/97f0870d0cd0694d951e83bdd4e73a432c427b1e))
+
 ## [0.2.4](https://github.com/AnikiFan/campus-beamer/compare/v0.2.3...v0.2.4) (2026-10-06)
 
 
