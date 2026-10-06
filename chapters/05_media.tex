@@ -5,8 +5,9 @@
 
 \begin{frame}{视频链接示例}
       \centering
+      % Match the demo video's 16:9 ratio so its first frame fills the area.
       \href{run:../assets/presentation_demo.mp4}{% 原创 CC0 动画；路径相对于 build/ 中的 PDF
-            \XeTeXLinkBox{\parbox[c][.30\textheight][c]{0.65\textwidth}{\mbox{}}}%
+            \XeTeXLinkBox{\parbox[c][.60\textheight][c]{\dimexpr .60\textheight*16/9\relax}{\mbox{}}}%
       }
       \par\medskip
       {\small 原创动画：大纲 \(\rightarrow\) 幻灯片 \(\rightarrow\) 备注（6 秒，无音轨，CC0）。}
