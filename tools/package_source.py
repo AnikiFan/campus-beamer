@@ -55,6 +55,7 @@ FILES = (
     'docs/images/preview-media.png', 'docs/images/preview-paper.png',
     'docs/images/preview-references.png', 'docs/images/preview-toc.png',
     'docs/images/preview-fullheight.png', 'docs/installation.md', 'docs/literature.md',
+    'docs/agent-authoring.md', 'docs/agent-theme.md', 'docs/agent-validation.md',
     'docs/notes.example.json', 'docs/releases.md', 'docs/usage.md',
     'docs/workflows.md',
     'tools/add_video_posters.py', 'tools/check_theme.py', 'tools/compare_pdf.py', 'tools/doctor.py',
