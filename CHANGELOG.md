@@ -5,6 +5,13 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.3.2](https://github.com/AnikiFan/campus-beamer/compare/v0.3.1...v0.3.2) (2026-10-07)
+
+
+### Bug Fixes
+
+* normalize sample mmlab casing ([084322c](https://github.com/AnikiFan/campus-beamer/commit/084322c611dce6362b6289aeee678903c0dd7f45))
+
 ## [0.3.1](https://github.com/AnikiFan/campus-beamer/compare/v0.3.0...v0.3.1) (2026-10-07)
 
 
