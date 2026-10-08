@@ -5,6 +5,13 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.3.4](https://github.com/AnikiFan/campus-beamer/compare/v0.3.3...v0.3.4) (2026-10-08)
+
+
+### Bug Fixes
+
+* remove phantom TOC rows and define editable presentation style ([83bc358](https://github.com/AnikiFan/campus-beamer/commit/83bc358d40a6749c91463884afed743ba8dae8b7))
+
 ## [0.3.3](https://github.com/AnikiFan/campus-beamer/compare/v0.3.2...v0.3.3) (2026-10-08)
 
 
