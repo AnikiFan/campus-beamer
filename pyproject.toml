@@ -1,6 +1,6 @@
 [project]
 name = "beamer-to-pptx"
-version = "0.3.4"
+version = "0.4.0"
 description = "Convert Beamer PDFs to image-based PPTX slides with links, notes, and embedded local video"
 requires-python = ">=3.10"
 dependencies = [

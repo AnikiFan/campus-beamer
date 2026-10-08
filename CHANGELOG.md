@@ -5,6 +5,13 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.4.0](https://github.com/AnikiFan/campus-beamer/compare/v0.3.4...v0.4.0) (2026-10-08)
+
+
+### Features
+
+* move code captions outside listings and document visual rules ([a24468a](https://github.com/AnikiFan/campus-beamer/commit/a24468a731359141fec5501599b24840e94fc84b))
+
 ## [0.3.4](https://github.com/AnikiFan/campus-beamer/compare/v0.3.3...v0.3.4) (2026-10-08)
 
 
