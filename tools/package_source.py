@@ -70,6 +70,7 @@ FILES = (
     'tools/fixtures/layout-guides.tex', 'tools/fixtures/single-header.tex',
     'tools/fixtures/section-toc-spacing.tex', 'tools/fixtures/date-display.tex',
     'tools/fixtures/citation-top-right.tex', 'tools/fixtures/citation-top-right.bib',
+    'tools/fixtures/flow-layout.tex', 'tools/fixtures/url-layout.tex',
     'tools/tests/test_compare_pdf.py', 'tools/tests/test_doctor.py',
     'tools/tests/test_draft_preview.py', 'tools/tests/test_images_to_ppt.py',
     'tools/tests/test_literature.py', 'tools/tests/test_make_entry.py',

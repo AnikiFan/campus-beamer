@@ -15,7 +15,7 @@
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <https://www.gnu.org/licenses/>.
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{campuscode}[2026/10/02 Flat terminal-style code windows]
+\ProvidesPackage{campuscode}[2026/10/09 Flat terminal-style code windows]
 \RequirePackage{tcolorbox}
 \tcbuselibrary{listings,skins}
 \RequirePackage{fontawesome5}
@@ -52,10 +52,10 @@
   \def\campus@codeicon{\faCode}%
   \ifstrequal{#1}{Python}{\def\campus@codeicon{\faPython}}{}%
   \ifstrequal{#1}{bash}{%
-    \def\campus@codeicon{\faTerminal}\def\campus@codelabel{Shell}}{}%
+    \def\campus@codeicon{\faTerminal}\def\campus@codelabel{}}{}%
   \ifstrequal{#1}{text}{%
     \def\campus@listinglanguage{}%
-    \def\campus@codeicon{\faTerminal}\def\campus@codelabel{Terminal}}{}%
+    \def\campus@codeicon{\faTerminal}\def\campus@codelabel{}}{}%
   \ifstrequal{#1}{Java}{\def\campus@codeicon{\faJava}}{}%
 }
 \pgfkeys{/campus/code/.is family,/campus/code,
@@ -70,19 +70,23 @@
   firstline/.store in=\campus@codefirstline,
   lastline/.store in=\campus@codelastline,
 }
-\newcommand{\campus@codetitle}[1]{%
-  {\color{campuscodeaccent}\campus@codeicon}\hspace{.5em}%
-  \texttt{\detokenize{#1}}\hfill
-  {\color{campuscodemuted}\campus@codelabel}%
+% The caption is deliberately outside the dark listing.  Bash/text leave the
+% optional language label empty so `Terminal` is not shown twice.
+\newcommand{\campus@codecaption}[1]{%
+  \par\smallskip\noindent
+  {\usebeamerfont{caption}\usebeamercolor[fg]{caption name}%
+    {\color{campuscodeaccent}\campus@codeicon}\hspace{.5em}%
+    \detokenize{#1}%
+    \ifstrempty{\campus@codelabel}{}{%
+      \hspace{.6em}{\color{campuscodemuted}\campus@codelabel}}%
+  }\par
 }
 \tcbset{campus code/.style={
   enhanced,listing only,listing engine=listings,
   colback=campuscodebackground,colframe=campuscodebar,
-  colbacktitle=campuscodebar,coltitle=campuscodetext,
-  fonttitle=\small,boxrule=0pt,arc=2pt,outer arc=2pt,
+  boxrule=0pt,arc=2pt,outer arc=2pt,
   boxsep=0pt,left=10pt,right=10pt,top=8pt,bottom=8pt,
-  lefttitle=10pt,righttitle=10pt,toptitle=5pt,bottomtitle=5pt,
-  before skip=6pt,after skip=6pt,
+  before skip=4pt,after skip=0pt,
 },campus code listing/.style={
   listing options/.expanded={style=campus-code,language=\campus@listinglanguage,
     numbers=\campus@codenumbers,xleftmargin=\campus@codegutter,
@@ -95,7 +99,7 @@
 
 % Literal code requires a surrounding frame[fragile]. File input does not.
 \newtcblisting{campuscode}[2][]{campus code,campus code setup={#1},campus code listing,
-  title={\campus@codetitle{#2}}}
+  after={\campus@codecaption{#2}}}
 \newtcbinputlisting{\campusinputcode}[3][]{campus code,campus code setup={#1},campus code listing,
-  title={\campus@codetitle{#2}},listing file={#3}}
+  after={\campus@codecaption{#2}},listing file={#3}}
 \endinput

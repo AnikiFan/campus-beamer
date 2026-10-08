@@ -127,6 +127,26 @@ for collisions; shorten titles or verified citation short forms first rather
 than silently moving citations. Position examples in the public demo document
 the available API and do not override these talk-authoring defaults.
 
+Keep both body-header lines short and specific. Use noun phrases or compact topic
+labels such as `SSH 配置示例`, `规则搜索路径`, or `Agent 职责与边界`; do not turn
+a frame title into a complete causal sentence or a chain of actions. The body
+carries the conclusion and conditions, while notes carry the spoken explanation.
+Do not impose an unrequested character limit; check the rendered width at the
+normal font size.
+
+When a slide expresses multiple nodes, steps, branches, device boundaries, or
+spatial relationships, draw a node-based diagram with TikZ or a separately
+generated Mermaid/PDF/SVG source. Use profile-derived colors and theme-matched
+fonts and size; preserve editable source and generation metadata. Plain prose
+and a single mathematical arrow do not need a diagram.
+
+For resources the audience must visit, show the resource name and visible URL
+in the body and keep the hyperlink target identical. Use `\url` or `\href` with
+the URL as visible text, let long addresses wrap or split across pages, and
+retain meaningful query parameters such as video `watch?v=...`. Short labels
+remain appropriate for speaker-only provenance. Show local inputs as relative
+paths such as `materials/AGENTS.md`, never as machine-specific absolute paths.
+
 Create `build/<MAIN>.notes.json` with exactly one entry per final PDF page,
 including title, section, overview, reference continuation, and closing pages.
 Use `""` for an intentional blank. Recheck order after adding, deleting, or

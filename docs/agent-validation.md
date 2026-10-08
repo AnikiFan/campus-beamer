@@ -45,6 +45,19 @@ the first body frame after each new section. Generated TOC/references pages use
 single-line headers; cover, section-opening, and closing pages have dedicated
 layouts. Check rendered output as well as declarations in the source.
 
+Review body-header text as short, specific topic phrases. Keep conclusions,
+causal explanations, and conditions in the body or notes rather than turning the
+lower header into a sentence. For code pages, confirm the dark code area has no
+internal title bar and that its external caption uses the figure caption style;
+check Terminal, configuration-file, source-file, line-number, fragile, and
+column cases. For node-based diagrams, inspect node/arrow anchors, profile-derived
+colors, final font size, wrapping, clipping, and editable source/generation
+metadata. A plain sentence or single mathematical arrow does not need a diagram.
+
+For audience-facing resources, verify the visible URL is the actual PDF link
+target, including required query parameters. Check long URLs for natural wrapping,
+readable size, and page-edge clearance; local resources should use relative paths.
+
 Inspect section lists for phantom blank rows as well as genuine wrapped titles.
 Verify top-right citation placement and clearance from both header lines;
 report any user-approved position exceptions. Check the specified date on the

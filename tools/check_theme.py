@@ -30,9 +30,9 @@ EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 
                   'single-header': 5,
                   'demo-without-guides': 42, 'language-layout': 10,
                   'class-options': 6, 'class-handout': 1, 'class-mixed-language': 2,
-                  'code-windows': 4, 'class-metadata': 3, 'name-layout': 20,
+                  'code-windows': 5, 'class-metadata': 3, 'name-layout': 20,
                   'section-toc-spacing': 42, 'date-display': 12,
-                  'citation-top-right': 3}
+                  'citation-top-right': 3, 'flow-layout': 1, 'url-layout': 2}
 
 
 def check_section_toc_spacing(document, log):
@@ -118,6 +118,43 @@ def check_citation_top_right(document, log):
             raise RuntimeError('citation-top-right: missing inline reference link')
 
 
+def check_flow_layout(document, log):
+    """Check the public node-and-edge diagram fixture for readable output."""
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('flow-layout: overflow or missing glyphs')
+    text = ''.join(page.get_text() for page in document)
+    for label in ('本机', '代理', 'SSH', '通道', '远程', '服务器', '请求', '转发'):
+        if label not in text:
+            raise RuntimeError(f'flow-layout: missing node/edge label {label!r}')
+    page = document[0]
+    node_boxes = [box for label in ('本机', 'SSH', '远程')
+                  for box in page.search_for(label)]
+    if len(node_boxes) < 3:
+        raise RuntimeError('flow-layout: expected three visible nodes')
+    if max(box.y1 for box in node_boxes) - min(box.y0 for box in node_boxes) > 80:
+        raise RuntimeError('flow-layout: nodes are not aligned')
+
+
+def check_url_layout(document, log):
+    """Check audience URLs remain visible and retain their exact targets."""
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('url-layout: overflow or missing glyphs')
+    expected = (
+        'https://missing.csail.mit.edu/',
+        'https://guide.bash.academy/',
+        'https://themodernsoftware.dev/',
+        'https://www.youtube.com/watch?v=example123',
+    )
+    visible = ''.join(''.join(page.get_text().split()) for page in document)
+    targets = {link.get('uri') for page in document for link in page.get_links()
+               if link.get('uri')}
+    for url in expected:
+        if url not in visible:
+            raise RuntimeError(f'url-layout: URL is not visible: {url}')
+        if url not in targets:
+            raise RuntimeError(f'url-layout: URL target changed: {url}')
+
+
 def check_class_fixture(name, document, log):
     if 'biblatex.sty' not in log:
         raise RuntimeError(f'{name}: automatic bibliography support did not load')
@@ -138,12 +175,24 @@ def check_class_fixture(name, document, log):
         for warning in ('Missing character:', 'Overfull'):
             if warning in log:
                 raise RuntimeError(f'{name}: {warning} in code fixture')
-        for expected in ('train_model.py', '中文注释', 'Python again', 'shell output'):
+        for expected in ('train_model.py', '中文注释', 'Python again', 'shell output',
+                         '输出日志', '~/.ssh/config', 'RemoteForward'):
             if expected not in text:
                 raise RuntimeError(f'{name}: missing code text {expected!r}')
         selected = document[2].get_text()
         if 'total = sum(values)' not in selected or 'print(' in selected:
             raise RuntimeError(f'{name}: external source line selection failed')
+        caption = document[0].search_for('train_model.py')
+        code = document[0].search_for('中文注释')
+        if not caption or not code or caption[0].y0 <= code[0].y1:
+            raise RuntimeError(f'{name}: code caption is not outside the code area')
+        if 'Shell' in document[1].get_text():
+            raise RuntimeError(f'{name}: terminal caption still uses Shell')
+        config_page = document[4]
+        if config_page.search_for('~/.ssh/config') and config_page.search_for('Shell'):
+            raise RuntimeError(f'{name}: configuration file was labelled Shell')
+        if not config_page.search_for('RemoteForward'):
+            raise RuntimeError(f'{name}: configuration content missing')
     if name == 'class-options':
         for expected in ('References', 'Citations:', 'Fixture source', 'Institution:', 'Thank you'):
             if expected not in text:
@@ -374,6 +423,10 @@ def check(root, output):
                     check_date_display(document)
                 if name == 'citation-top-right':
                     check_citation_top_right(document, result.stdout)
+                if name == 'flow-layout':
+                    check_flow_layout(document, result.stdout)
+                if name == 'url-layout':
+                    check_url_layout(document, result.stdout)
                 check_class_fixture(name, document, result.stdout)
             print(f'{name}: {pages} pages compiled; inspect {output / f"{name}.pdf"}')
     check_class_errors(root, output)

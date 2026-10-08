@@ -1,0 +1,24 @@
+\documentclass[language=chinese]{campusbeamer}
+\usetikzlibrary{arrows.meta,positioning}
+\title{流程图布局}
+\author{Template check}
+\begin{document}
+\section{流程图}
+\subsection{节点与连接}
+\begin{frame}{服务器与本地代理}
+\centering
+\begin{tikzpicture}[
+  node distance=1.2cm and 1.7cm,
+  flow node/.style={draw=maincolor, fill=maincolor!8, rounded corners=2pt,
+    minimum width=3.3cm, minimum height=0.9cm, align=center,
+    font=\small\sffamily, text=black},
+  flow edge/.style={-{Latex[length=2.2mm]}, draw=maincolor, line width=.7pt}
+]
+\node[flow node] (local) {本机\\代理};
+\node[flow node, right=of local] (ssh) {SSH\\通道};
+\node[flow node, right=of ssh] (server) {远程\\服务器};
+\draw[flow edge] (local) -- node[above,font=\scriptsize]{请求} (ssh);
+\draw[flow edge] (ssh) -- node[above,font=\scriptsize]{转发} (server);
+\end{tikzpicture}
+\end{frame}
+\end{document}

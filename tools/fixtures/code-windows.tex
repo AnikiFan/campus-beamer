@@ -34,10 +34,17 @@ int main() {
 \end{campuscode}
 \end{column}
 \begin{column}{.48\textwidth}
-\begin{campuscode}[language=text,label=Output]{Log}
+\begin{campuscode}[language=text,label=Output]{输出日志}
 A long output line wraps inside its own column without covering the neighbour.
 \end{campuscode}
 \end{column}
 \end{columns}
+\end{frame}
+\begin{frame}[fragile]{Configuration file}
+\begin{campuscode}[language=text,icon=\faFileCode,label={}]{~/.ssh/config}
+Host lab
+    HostName example.org
+    RemoteForward 9000 localhost:9000
+\end{campuscode}
 \end{frame}
 \end{document}
