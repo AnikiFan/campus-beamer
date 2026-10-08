@@ -24,6 +24,14 @@ intermediates while retaining final outputs and notes.
 
 ## Visual review
 
+Use [STYLE.md](../STYLE.md) to review the communication, not just geometry.
+For every page record its one message, retained visible evidence/actions, and
+explanations moved to notes. Review density (usually 3–4 main points), duplicate
+summaries, font size, notes usefulness and total speaking time. Essential
+conditions, grading/submission requirements, and evidence remain visible.
+Confirm all additions in both slides and notes are within the user's authorized
+scope; pending suggestions stay outside the deck.
+
 After the first successful draft, read `build/draft/<MAIN>/report.txt` (or
 `report.json`), inspect every contact sheet, and open every rendered page at a
 readable size. Review title, section, overview, ordinary, citation, reference
@@ -36,6 +44,11 @@ frame title below. If one is missing, fix the source structure/title, including
 the first body frame after each new section. Generated TOC/references pages use
 single-line headers; cover, section-opening, and closing pages have dedicated
 layouts. Check rendered output as well as declarations in the source.
+
+Inspect section lists for phantom blank rows as well as genuine wrapped titles.
+Verify top-right citation placement and clearance from both header lines;
+report any user-approved position exceptions. Check the specified date on the
+cover and closing page, plus PDF/PPTX metadata; `\date` exports its display text.
 
 Before delivery, run a full unfiltered `make draft`, then `make`. If the final
 compile changes page order or count, repeat the visual review and regenerate

@@ -1,0 +1,14 @@
+\documentclass{campusbeamer}
+\campusbibresource{citation-top-right.bib}
+\begin{document}
+\section{引用检查}
+\subsection{双行页眉布局}
+\begin{frame}{较长中文标题与多篇引用共存}
+  \cornercite{LayoutA,LayoutB}
+  \vfill 主要内容置于正文区域。正文引用\cite{LayoutA,LayoutB}。\vfill
+\end{frame}
+\begin{paperframe}{论文讲解页沿用右上角引用}{LayoutA,LayoutB}
+  \vfill 检查默认位置及正文引用\cite{LayoutA,LayoutB}的链接。\vfill
+\end{paperframe}
+\referencespage
+\end{document}

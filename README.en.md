@@ -76,8 +76,16 @@ For example:
 > Complete the narrative, figures, citations, layout review and PDF/PPTX export. Ask me about missing key facts.
 
 `prompt.md` is a sample, not a required form. You can send your own brief and file paths directly.
+[`STYLE.md`](STYLE.md) describes the author's preferred presentation style.
+**Edit it to suit your needs:** slide density, what belongs in notes, note detail,
+citation placement and date formatting. The agent reads it when authoring or
+revising; explicit requirements in the current brief take precedence. Ask the
+agent to apply changed preferences; `make` does not read Markdown or rewrite slides.
 The agent unpacks source archives and reads the paper's text, captions, figures and bibliography; you do not need to turn the paper into slide content first.
 External research or new assets require confirmation; supplied local materials can be used directly.
+New facts, advice, examples, tutorials or demos outside the authorized scope also
+need approval, whether in slides or notes. Previously approved additions do not
+require repeated confirmation.
 
 The agent creates `main.tex`, content under `chapters/talk/` and, when needed,
 `bibliography/main.bib`. It runs `make draft`, inspects the actual pages, revises

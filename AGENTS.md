@@ -7,7 +7,8 @@ workflow guide only when the task needs it.
 
 ## Choose the smallest relevant guide
 
-- **Create or revise a talk:** read [`docs/agent-authoring.md`](docs/agent-authoring.md),
+- **Create or revise a talk:** read [`STYLE.md`](STYLE.md) for editable author
+  preferences and [`docs/agent-authoring.md`](docs/agent-authoring.md),
   then inspect the supplied brief/materials and the specific template files you
   need. `prompt.md` is only a generic example.
 - **Change theme geometry, colors, class options, or visual behavior:** read
@@ -30,11 +31,15 @@ when the task touches their subject.
 
 - Preserve user-provided facts, intent, metadata, citations, and assets. Never
   invent results, quotations, affiliations, dates, permissions, or images.
-- Ask one bundled clarification only when an unknown would change the meaning,
+- Bundle necessary clarifications when an unknown would change the meaning,
   require external/proprietary material, or cross a privacy or safety boundary.
   Routine condensation, layout choices, local inspection, and safe local tests
   are authorized work. If a missing fact does not change the argument, use a
   clear placeholder and report it.
+- New facts, advice, examples, tutorials, demos, or conclusions outside the
+  authorized brief/materials need approval before inclusion, in slides or notes.
+  Continue within previously approved scope without asking again; verification
+  alone is not permission to expand a talk.
 - Keep the institution-neutral `campus` API. School identity and functional
   colors belong in `theme/campuscolor.sty`; talk content belongs in `main.tex`,
   `chapters/talk/`, `materials/`, and (when needed) `bibliography/main.bib`.

@@ -6,6 +6,9 @@ details.
 
 ## Before writing
 
+Read [STYLE.md](../STYLE.md) for the user's editable presentation preferences.
+Explicit instructions in the current brief take precedence over those defaults.
+
 Read the user's chat brief (or `prompt.md`) and inspect only the supplied paths
 under `materials/`. An archive may be unpacked into a working copy while the
 original is retained. For a paper project, follow its entry file, inputs,
@@ -26,6 +29,17 @@ Use routine judgment for the rest: keep the 16:9 layout, source language,
 concise slide wording, local assets, primary-color section pages, and a slide
 count derived from the brief. State a consequential but non-blocking assumption
 and continue.
+
+Rewriting, condensing, reordering, splitting, date formatting, and moving
+authorized explanations into notes are routine authoring. Before adding facts,
+opinions, recommendations, examples, tutorial steps, demos, or conclusions not
+provided or authorized for expansion, bundle the proposed additions, sources,
+and impact on slide count/duration for approval. This applies to notes as well
+as visible slides. Continue with supported content while approval is pending;
+list optional additions separately, outside the deck. Silence is not approval.
+Explicit requests to expand a topic or include a type of supplement authorize
+work within that scope without repeated confirmation. Reading supplied material
+or verifying a fact does not authorize an unrelated expansion of the talk.
 
 ## Source layout
 
@@ -51,6 +65,13 @@ duplicate package loads or add a biblatex class option. New covers use the
 fixed primary-color split automatically. Use `\sectioncoverpage[primary]{...}`
 for section openings unless the user confirms another treatment. Select talk
 images in the talk source, not through school-profile image aliases.
+
+For a Chinese talk, format a supplied complete ISO date as `\date{2026年10月14日}`,
+preserving its value. Do not substitute `\today` for a specified event date.
+Keep empty/custom dates and English formatting as requested. The existing
+`\date` interface does not parse ISO dates: PDF date metadata and PPTX
+`PresentationDate` contain the same resolved text as the display, so a Chinese
+formatted date is also a Chinese metadata string (not a separate ISO value).
 
 ## Content and notes
 
@@ -83,14 +104,28 @@ header, or manually add line breaks or `\framesubtitle` to bypass this structure
 
 ### Slide text and speaker notes
 
+Apply the density and notes criteria in [STYLE.md](../STYLE.md). For each frame,
+identify its one message, select the evidence/actions that must be visible,
+move remaining authorized explanation to notes, then remove the duplication
+from the body. Keep a brief page-by-page record of message, visible content,
+and moved explanation under `build/` when reviewing a deck. Recheck time budget
+after splitting. Do not equate merely creating a notes file with reducing density.
+
 Give each frame one message. Use short scan-friendly text, figures, equations,
 and existing layout environments; put transitions, definitions, derivation
 details, caveats, and source reminders in speaker notes when they do not belong
 on the slide. Essential evidence and limiting conditions must remain visible.
-Use `\cornercite` for slide citations, and create a references summary before
+Use `\cornercite{key}` for slide citations, and create a references summary before
 the closing page when citations are present. For code, use a `fragile` frame.
 For paper walkthroughs, use `paperframe`; for a full-height right image, use
 `rightimageframe`; use `fitgraphic`/`fitfigure` for fitted graphics.
+
+Keep citations at the default top-right position, including `paperframe`.
+Use bottom-corner arguments only when the user requests or approves them;
+report the pages and reason. Check long two-line headers and multiple citations
+for collisions; shorten titles or verified citation short forms first rather
+than silently moving citations. Position examples in the public demo document
+the available API and do not override these talk-authoring defaults.
 
 Create `build/<MAIN>.notes.json` with exactly one entry per final PDF page,
 including title, section, overview, reference continuation, and closing pages.

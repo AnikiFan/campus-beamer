@@ -30,7 +30,92 @@ EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 
                   'single-header': 5,
                   'demo-without-guides': 42, 'language-layout': 10,
                   'class-options': 6, 'class-handout': 1, 'class-mixed-language': 2,
-                  'code-windows': 4, 'class-metadata': 3, 'name-layout': 20}
+                  'code-windows': 4, 'class-metadata': 3, 'name-layout': 20,
+                  'section-toc-spacing': 42, 'date-display': 12,
+                  'citation-top-right': 3}
+
+
+def check_section_toc_spacing(document, log):
+    """Reject invisible strut-only rows while allowing real wrapped titles."""
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('section-toc-spacing: overflow or missing glyphs')
+    baseline = 13.6 * 72 / 72.27  # normalsize baseline, TeX pt -> PDF pt
+    cover = 0
+    for section, count in ((1, 3), (2, 4), (3, 5), (4, 6), (5, 6), (10, 12)):
+        page = document[cover]
+        lines = [line for block in page.get_text('rawdict')['blocks']
+                 for line in block.get('lines', [])]
+        chars = [char for line in lines for span in line['spans']
+                 for char in span['chars'] if not char['c'].isspace()]
+        # XeTeX destinations may be reported as named links with resolved pages.
+        # Locate numbers by their linked glyphs, independent of font ToUnicode.
+        links = [link for link in page.get_links()
+                 if link.get('page', -1) in range(cover + 1, cover + count + 1)]
+        anchors = {}
+        for number in range(1, count + 1):
+            linked_chars = [char for char in chars if any(
+                link['page'] == cover + number
+                and (pymupdf.Rect(char['bbox']).tl + pymupdf.Rect(char['bbox']).br) / 2
+                in link['from'] for link in links)]
+            if not linked_chars:
+                raise RuntimeError(f'section-toc-spacing: broken link {section}.{number}')
+            anchors[number] = min(linked_chars, key=lambda c: (c['origin'][1], c['origin'][0]))
+        stride = 1 if count < 4 else 2
+        starts = [anchors[i]['origin'][1] for i in range(1, count + 1, stride)]
+        for i in range(1, count + 1, stride):
+            if stride == 2 and i < count:
+                if abs(anchors[i]['origin'][1] - anchors[i+1]['origin'][1]) > 0.05:
+                    raise RuntimeError('section-toc-spacing: paired cells not top aligned')
+        for top, following in zip(starts, starts[1:]):
+            last_visible = max(c['origin'][1] for c in chars
+                               if top - 0.05 <= c['origin'][1] < following - 0.05)
+            if abs(following - last_visible - baseline) > 0.1:
+                raise RuntimeError(f'section-toc-spacing: phantom row in section {section}')
+        if section == 5 and starts[1] - starts[0] < 2 * baseline - 0.1:
+            raise RuntimeError('section-toc-spacing: real multiline title was flattened')
+        cover += count + 1
+
+
+def check_date_display(document):
+    """Keep fixed dates, today, empty and custom dates distinct in both layouts."""
+    expected = ('2026年10月14日', '2026年10月8日', '', '秋季学期',
+                '2026-10-14', 'October 8, 2026')
+    for pair, date in enumerate(expected):
+        for page in (document[2 * pair], document[2 * pair + 1]):
+            text = ''.join(page.get_text().split())
+            if date and ''.join(date.split()) not in text:
+                raise RuntimeError(f'date-display: missing {date!r}')
+            if not date and ('2026' in text or '秋季学期' in text):
+                raise RuntimeError('date-display: empty date retained previous value')
+    if campus_metadata(document).get('Date') != expected[0]:
+        raise RuntimeError('date-display: initial display date metadata changed')
+
+
+def check_citation_top_right(document, log):
+    """Check default citation position, links and clearance from both headers."""
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('citation-top-right: overflow or missing glyphs')
+    for page in (document[0], document[1]):
+        spans = [span for block in page.get_text('dict')['blocks']
+                 for line in block.get('lines', []) for span in line['spans']]
+        citations = [pymupdf.Rect(span['bbox']) for span in spans
+                     if span['size'] < 7 and span['bbox'][1] < page.rect.height / 3]
+        for label in ('第一条较长的中文引用', '第二条合成引用'):
+            if not page.search_for(label):
+                raise RuntimeError('citation-top-right: missing citation text')
+        headers = page.search_for('双行页眉布局')
+        headers += page.search_for('较长中文标题与多篇引用共存')
+        headers += page.search_for('论文讲解页沿用右上角引用')
+        headers = [box for box in headers if box.y0 < page.rect.height / 3]
+        if len(headers) != 2 or not citations:
+            raise RuntimeError('citation-top-right: missing header/citation boxes')
+        for box in citations:
+            if box.x0 < page.rect.width / 2:
+                raise RuntimeError('citation-top-right: citation not on right')
+            if any(box.intersects(header) for header in headers):
+                raise RuntimeError('citation-top-right: header/citation collision')
+        if not any(link.get('page') == 2 for link in page.get_links()):
+            raise RuntimeError('citation-top-right: missing inline reference link')
 
 
 def check_class_fixture(name, document, log):
@@ -76,7 +161,7 @@ def check_class_fixture(name, document, log):
     elif name == 'class-metadata':
         expected = {'Title': '中文 (标题) & PPT', 'Subtitle': '方法 & 结果',
                     'Group': '实验组 <A>', 'Advisor': '王老师 副教授',
-                    'Date': '2026-10-12', 'Contact': 'test@example.org', 'Language': 'chinese'}
+                    'Date': '2026年10月12日', 'Contact': 'test@example.org', 'Language': 'chinese'}
         if campus_metadata(document) != expected or document.metadata['author'] != '甲乙':
             raise RuntimeError('class-metadata: cover metadata did not survive PDF encoding')
         if 'Token not allowed in a PDF string' in log:
@@ -260,8 +345,9 @@ def check(root, output):
             shutil.copytree(root / 'chapters', workspace / 'chapters')
             (workspace / 'assets').symlink_to(root / 'assets', target_is_directory=True)
             shutil.copy2(root / 'tools/fixtures' / f'{name}.tex', workspace / f'{name}.tex')
-            if name == 'class-options':
-                shutil.copy2(root / 'tools/fixtures/class-options.bib', workspace / 'class-options.bib')
+            bibliography = root / 'tools/fixtures' / f'{name}.bib'
+            if bibliography.exists():
+                shutil.copy2(bibliography, workspace / bibliography.name)
             result = subprocess.run(['latexmk', '-xelatex', '-interaction=nonstopmode',
                                      '-halt-on-error', '-file-line-error', f'{name}.tex'],
                                     cwd=workspace, text=True, stdout=subprocess.PIPE,
@@ -272,6 +358,8 @@ def check(root, output):
             if result.returncode:
                 raise RuntimeError(f'{name} failed; see {output / f"{name}.build.log"}')
             pdf = workspace / 'build' / f'{name}.pdf'
+            # Keep the compiled evidence even when a geometry assertion fails.
+            shutil.copy2(pdf, output / f'{name}.pdf')
             with pymupdf.open(pdf) as document:
                 pages = len(document)
                 if pages != expected:
@@ -280,8 +368,13 @@ def check(root, output):
                     check_language_layout(document)
                 if name == 'name-layout':
                     check_name_layout(document, result.stdout)
+                if name == 'section-toc-spacing':
+                    check_section_toc_spacing(document, result.stdout)
+                if name == 'date-display':
+                    check_date_display(document)
+                if name == 'citation-top-right':
+                    check_citation_top_right(document, result.stdout)
                 check_class_fixture(name, document, result.stdout)
-            shutil.copy2(pdf, output / f'{name}.pdf')
             print(f'{name}: {pages} pages compiled; inspect {output / f"{name}.pdf"}')
     check_class_errors(root, output)
 

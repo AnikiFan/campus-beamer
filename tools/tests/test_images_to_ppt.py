@@ -193,6 +193,19 @@ class ConversionTests(unittest.TestCase):
             self.assertEqual(rel[0].get('Target'), 'docProps/custom.xml')
             self.assertIn(b'custom-properties+xml', archive.read('[Content_Types].xml'))
 
+    def test_display_date_text_is_preserved_without_inventing_empty_date(self):
+        for date in ('2026年10月14日', '2026-10-14', '秋季学期', ''):
+            with self.subTest(date=date):
+                self.document_fixture(campus={'Date': date})
+                self.convert()
+                with zipfile.ZipFile(self.pptx) as archive:
+                    if 'docProps/custom.xml' in archive.namelist():
+                        props = ET.fromstring(archive.read('docProps/custom.xml'))
+                        values = {p.get('name'): p[0].text for p in props}
+                    else:
+                        values = {}
+                self.assertEqual(values.get('PresentationDate'), date or None)
+
     def test_long_core_property_is_preserved_in_custom_properties(self):
         title = '中文标题' * 100
         self.document_fixture(metadata={'title': title, 'creationDate': 'invalid'})

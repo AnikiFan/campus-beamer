@@ -1033,8 +1033,9 @@
   \hyperlink{Navigation\csname campus@subsectionlink@#1\endcsname}{%
     \makebox[\campus@subsectionnumberwidth][l]{%
       \thesection.\csname campus@subsectionnumber@#1\endcsname\enspace}%
-    \csname campus@subsectiontitle@#1\endcsname}
-  \strut\par
+    \csname campus@subsectiontitle@#1\endcsname}%
+  % Keep the final strut on the last text line, never on a phantom blank line.
+  \unskip\nobreak\strut\par
 }
 
 % Four or more entries use pairs of top-aligned cells in row-major order.

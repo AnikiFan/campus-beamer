@@ -1,0 +1,28 @@
+% Synthetic fixed clock separates the event date from compilation/today.
+\documentclass{campusbeamer}
+% Preserve numeric text extraction on XeTeX/font combinations without ToUnicode.
+\XeTeXgenerateactualtext=1
+\title{日期展示测试}
+\author{测试作者}
+\date{2026年10月14日}
+\year=2026 \month=10 \day=8
+\begin{document}
+\maketitle
+\backmatter
+\date{\today}
+\maketitle
+\backmatter
+\date{}
+\maketitle
+\backmatter
+\date{秋季学期}
+\maketitle
+\backmatter
+\campussetlayout{template language=english}
+\date{2026-10-14}
+\maketitle
+\backmatter
+\date{\today}
+\maketitle
+\backmatter
+\end{document}
