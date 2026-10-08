@@ -31,6 +31,12 @@ continuation, and closing pages; inspect all overlays. Fix condensation and
 splitting before changing geometry. Review every overfull warning in context;
 underfull warnings are spacing hints, not proof of quality.
 
+Check every ordinary body page for two visible header lines: subsection above,
+frame title below. If one is missing, fix the source structure/title, including
+the first body frame after each new section. Generated TOC/references pages use
+single-line headers; cover, section-opening, and closing pages have dedicated
+layouts. Check rendered output as well as declarations in the source.
+
 Before delivery, run a full unfiltered `make draft`, then `make`. If the final
 compile changes page order or count, repeat the visual review and regenerate
 notes.

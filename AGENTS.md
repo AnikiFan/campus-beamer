@@ -39,6 +39,9 @@ when the task touches their subject.
   colors belong in `theme/campuscolor.sty`; talk content belongs in `main.tex`,
   `chapters/talk/`, `materials/`, and (when needed) `bibliography/main.bib`.
   Do not alter the demo to make a user talk.
+- Ordinary body frames use two header lines: the current `\subsection` above
+  the frame title. Give every body frame a meaningful subsection and a title;
+  keep single-line headers for generated TOC and references pages.
 - Treat compiler output in `build/` as generated. The editable exception is an
   agent-authored `build/<MAIN>.notes.json` file. Do not commit private talks,
   materials, generated outputs, or local environments.

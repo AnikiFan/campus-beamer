@@ -54,6 +54,35 @@ images in the talk source, not through school-profile image aliases.
 
 ## Content and notes
 
+### Two-line body headers
+
+Organize body content as `section → subsection → frametitle`. Every ordinary
+body frame, including `paperframe` and `rightimageframe`, needs a non-empty
+current subsection and its own title. The theme displays the subsection on the
+upper line and the frame title on the lower line. After each new `\section`,
+declare a meaningful `\subsection` before the first body frame; the previous
+section's subsection does not carry over. A short section can have one
+subsection shared by several frames. Choose a topic for the subsection and a
+specific message for each frame, rather than repeating the same text twice.
+
+```tex
+\section{实验结果}
+\sectioncoverpage[primary]{本节介绍实验设置与结果分析。}
+\subsection{性能对比}
+\begin{frame}{主要结果}
+  % Upper line: 性能对比; lower line: 主要结果.
+  本页的核心证据。
+\end{frame}
+```
+
+Generated TOC and references pages (including continuations) retain single-line
+headers; cover, section-opening, and closing pages retain their dedicated
+layouts. The no-subsection single-line fallback exists for compatibility, not
+as an authoring choice for ordinary body pages. Do not use `plain`, clear the
+header, or manually add line breaks or `\framesubtitle` to bypass this structure.
+
+### Slide text and speaker notes
+
 Give each frame one message. Use short scan-friendly text, figures, equations,
 and existing layout environments; put transitions, definitions, derivation
 details, caveats, and source reminders in speaker notes when they do not belong

@@ -475,7 +475,7 @@ section 起始页的编号标签、指导教师标签、参考文献页标题、
 - `\sectiontocpage`：无参数，按需生成列出全部 section 的目录页；标题自动显示为“目录”或“Table of Contents”。
   `\sectioncoverpage` 和 `\sectiontocpage` 都不会由 `\section` 自动调用，二者可以单独使用、同时使用，
   也可以按任意顺序排列。
-- 目录、参考文献（含续页）等单行页眉使用 `\LARGE`，文字框底部位于校徽色块底边上方一个 `\tiny` 的 `\baselineskip`（当前为 7 pt）。间隔由主题的 `\campusheaderemptybaseline` 从实际字号读取。没有小节页眉的普通内容页也使用此样式；标题左边缘和正文起始位置与双行页眉相同。
+- 目录、参考文献（含续页）等单行页眉使用 `\LARGE`，文字框底部位于校徽色块底边上方一个 `\tiny` 的 `\baselineskip`（当前为 7 pt）。间隔由主题的 `\campusheaderemptybaseline` 从实际字号读取。缺少小节时也会触发这个兼容回退，但正文制作应补齐小节以使用两行页眉；两种样式的标题左边缘和正文起始位置相同。
 - `\cornercite{key}`：在右上角插入一篇默认格式的引用。
 - `\cornercite{key1,key2}`：用逗号分隔文献键，每篇引用独立成行。
 - `\cornercite[bottom-left]{key}`：将引用放在左下角；也可使用
@@ -694,7 +694,7 @@ userf = {<统计来源，截至 YYYY-MM-DD>},
 `\campussetlayout` 的 `section navigation`、`corner width` 和
 `template language` 可以做局部覆盖，但不会改变宏包加载。
 普通页正文的左右边界采用相同页边距，并与左上角校徽色块的左边缘对齐；普通页标题和副标题从校徽色块右侧
-再留一个 `\normalsize` 的 `\baselineskip`，避免与校徽重叠。上方使用 frametitle 字号显示 subsection，下方的页眉副标题行使用 `\normalsize` 显示 frametitle；尚未设置 subsection 时只显示主标题。
+再留一个 `\normalsize` 的 `\baselineskip`，避免与校徽重叠。上方使用 frametitle 字号显示 subsection，下方的页眉副标题行使用 `\normalsize` 显示 frametitle；正文应同时具备非空的小节和本页标题，避免触发缺少 subsection 时的单行兼容回退。
 页眉纵向采用三行基线网格：最上方空行占一个 `\tiny` 字体的 `\baselineskip`，中间标题行占一个 `frametitle` 字体的 `\baselineskip`，副标题行占一个 `framesubtitle` 字体的 `\baselineskip`。
 该网格从幻灯片上边缘开始，校徽色块作为左上角独立元素覆盖在网格旁边。
 校徽色块底边与副标题行的底部对齐；色块左边距以及正文左右边距均采用普通页眉标题字号的一个
@@ -750,11 +750,13 @@ description 标签按同一环境内的最长标签右对齐；最长标签的�
   未引用的数据库条目默认不会列入汇总页。
 
 
-普通页面推荐按 `section → subsection → frametitle` 组织，不需要逐页填写 `\framesubtitle`：
+正文页应按 `section → subsection → frametitle` 组织，保持两行页眉：上行是小节主题，下行是本页标题。
+每个新 section 的第一张正文页之前都要声明非空的 `\subsection`，短章节也可只设一个小节供多页共用。
+小节名称概括主题，本页标题表达具体信息，不需要逐页填写 `\framesubtitle`：
 
 ```tex
 \section{实验结果}
-\sectioncoverpage{本节介绍实验设置与结果分析。}
+\sectioncoverpage[primary]{本节介绍实验设置与结果分析。}
 \subsection{性能对比}
 \begin{frame}{主要结果}
   % 页眉上方自动显示“性能对比”，下方显示“主要结果”。
