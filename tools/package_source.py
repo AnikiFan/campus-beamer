@@ -47,7 +47,7 @@ FILES = (
     'chapters/04_navigation.tex', 'chapters/05_media.tex',
     'chapters/bibliography-guide.tex', 'chapters/code-guide.tex',
     'chapters/code/normalize.py', 'chapters/font-guide.tex',
-    'chapters/harness-guide.tex', 'chapters/layout-guide.tex',
+    'chapters/harness-guide.tex', 'chapters/callout-layout.tex', 'chapters/layout-guide.tex',
     'chapters/math-examples.tex', 'chapters/metadata.tex',
     'docs/class-options.md', 'docs/docker.md', 'docs/images/citations.png',
     'docs/images/cover.png', 'docs/images/preview-callouts.png',
@@ -72,10 +72,13 @@ FILES = (
     'tools/fixtures/section-toc-spacing.tex', 'tools/fixtures/date-display.tex',
     'tools/fixtures/citation-top-right.tex', 'tools/fixtures/citation-top-right.bib',
     'tools/fixtures/flow-layout.tex', 'tools/fixtures/url-layout.tex',
+    'tools/fixtures/doc-citations.tex', 'tools/fixtures/description-alignment.tex',
+    'tools/fixtures/callout-layout.tex',
     'tools/tests/test_compare_pdf.py', 'tools/tests/test_doctor.py',
     'tools/tests/test_draft_preview.py', 'tools/tests/test_images_to_ppt.py',
     'tools/tests/test_literature.py', 'tools/tests/test_make_entry.py',
     'tools/tests/test_package_release.py', 'tools/tests/test_package_source.py',
+    'tools/tests/test_theme_inspection.py',
 )
 
 

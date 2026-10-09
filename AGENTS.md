@@ -9,7 +9,8 @@ workflow guide only when the task needs it.
 
 - **Create or revise a talk:** read [`STYLE.md`](STYLE.md), [`outline.md`](outline.md)
   and [`docs/agent-authoring.md`](docs/agent-authoring.md), then inspect the supplied
-  brief/materials and the specific template files you need. A request such as
+  brief/materials and the specific template files you need. Inventory authorized
+  materials with ignore rules disabled and review coverage before confirmation. A request such as
   “根据大纲制作 PPT” starts this workflow.
 - **Change theme geometry, colors, class options, or visual behavior:** read
   [`docs/agent-theme.md`](docs/agent-theme.md) and the affected files under

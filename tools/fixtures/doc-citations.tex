@@ -1,0 +1,45 @@
+\documentclass[language=english,cjk=true]{campusbeamer}
+\title{Web source layout}
+\author{Template check}
+\campusbibresource{bibliography/refs.bib}
+\newcommand{\configsourceurl}{https://example.org/config\#Options}
+\begin{document}
+\section{Sources}
+\subsection{Visible web references}
+\begin{frame}{English source}
+  \campusdoccite{Example documentation}{https://example.org/}
+  \vfill Body evidence stays in the content area.\vfill
+\end{frame}
+\begin{frame}{中文来源}
+  \campusdoccite{配置文档}{\configsourceurl}
+  \vfill 本页资料入口显示完整地址。\vfill
+\end{frame}
+\begin{frame}{Multiple sources}
+  \begin{campusdoccites}
+    \campusdoccite{Configuration reference}{https://example.org/config\#Forward}
+    \campusdoccite{Video reference}{https://example.org/watch?v=demo123\&lang=zh\&q=alpha\%20beta}
+  \end{campusdoccites}
+  \vfill Sources share one citation block.\vfill
+\end{frame}
+\begin{frame}{Wrapped path}
+  \campusdoccite{Detailed reference}{https://example.org/documentation/configuration/network/connection/settings?mode=reference\&lang=en\#Forward}
+  \vfill A long path wraps at the normal citation size.\vfill
+\end{frame}
+\begin{frame}{Long resource address}
+  \campusdoccite*{Extended reference}{https://example.org/documentation/configuration/network/connection/settings/advanced/troubleshooting?mode=reference\&lang=en\#Forward}
+  Extended reference\par
+  \url{https://example.org/documentation/configuration/network/connection/settings/advanced/troubleshooting?mode=reference\&lang=en\#Forward}
+\end{frame}
+\begin{frame}{Frame-local width}
+  \setcornercitewidth{5cm}
+  \begin{campusdoccites}
+    \cornercite{Liu2018EfficientLM}
+    \campusdoccite{Wide reference}{https://example.org/width}
+  \end{campusdoccites}
+  \vfill Width applies to this frame only.\vfill
+\end{frame}
+\begin{frame}{Default width restored}
+  \campusdoccite{Default reference}{https://example.org/reset}
+  \vfill The next frame uses the configured default.\vfill
+\end{frame}
+\end{document}

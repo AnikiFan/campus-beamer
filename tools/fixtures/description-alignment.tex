@@ -1,0 +1,48 @@
+\documentclass[language=english,cjk=true]{campusbeamer}
+\title{Description alignment}
+\author{Template check}
+\begin{document}
+\section{Labels}
+\subsection{Width samples}
+\begin{frame}{English labels}
+\begin{description}[Host / HostName]
+  \item[Host / HostName] TextA: explanation with enough words to wrap naturally onto a following line without changing the description column.
+  \item[User] TextB: a short explanation.
+  \item[IdentityFile] TextC: another explanation.
+  \item[IdentitiesOnly] TextD: the final explanation.
+\end{description}
+\end{frame}
+\begin{frame}{中文标签}
+\begin{description}[主机别名与地址]
+  \item[主机别名与地址] TextA: a description for the longest label.
+  \item[用户] TextB: a short explanation.
+  \item[认证文件] TextC: another explanation.
+\end{description}
+\end{frame}
+\begin{frame}{Mixed labels at small size}
+\small
+\begin{description}[IdentityFile 密钥路径]
+  \item[Host 主机名] TextA: explanation for a mixed label.
+  \item[User 用户] TextB: a short explanation.
+  \item[IdentityFile 密钥路径] TextC: another explanation.
+\end{description}
+\end{frame}
+\begin{frame}{Columns and wrapped explanations}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\small
+\begin{description}[IdentitiesOnly]
+  \item[User] TextA: this longer description wraps within its column while keeping the first-word alignment.
+  \item[IdentitiesOnly] TextB: the next description.
+\end{description}
+\end{column}
+\begin{column}{.48\textwidth}
+\footnotesize
+\begin{description}[本地材料路径]
+  \item[来源] TextC: this description wraps in its own column.
+  \item[本地材料路径] TextD: the next description.
+\end{description}
+\end{column}
+\end{columns}
+\end{frame}
+\end{document}

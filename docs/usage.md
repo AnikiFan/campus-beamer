@@ -35,6 +35,10 @@ agent 按 `AGENTS.md` 和[制作指南](agent-authoring.md) 组织内容并完�
 第一阶段是**内容扩充与大纲组织**。agent 根据草稿和已提供材料，生成
 `build/outline-normalized.md`：按 `section` / `subsection` 展开演讲内容，写明各节目的、
 关键要点、必要解释、证据与来源、过渡、限制和时间分配，供你审阅。
+详细大纲还记录材料的相对路径、类型、读取／查看状态、主题或视觉用途、采用范围、
+对应章节及排除理由。枚举授权目录时使用 `rg --files -uuu materials`，使已忽略的
+素材也参与核对；Markdown／TeX 引用的本地资产一并检查。材料覆盖表示有依据的取舍，
+重复、无关或超出明确范围的内容可不采用。
 在演讲目标和材料范围内的扩充由 agent 完成；外部检索、新素材、事实修改或缺少依据的
 内容集中列为待确认事项。这个阶段完成内容补充、重组与取舍，用户确认详细大纲后进入制作。
 
@@ -185,7 +189,8 @@ draft 使用正式版相同的排版与全部图片，由 `latexmk` 增量编译
 ## 作为 PPT 生成 harness 使用
 
 在 `outline.md` 中写下演讲思路，并注明 `materials/` 中的素材路径。agent 按 `AGENTS.md`
-读取风格偏好、草稿及本地材料，先扩充每个 section/subsection 的内容、解释和证据，供用户确认。
+读取风格偏好、草稿及本地材料，先清点并查看材料，记录覆盖与取舍，再扩充每个
+section/subsection 的内容、解释和证据，供用户确认。
 确认后，它会新建 `main.tex`，将元信息和正文写入 `chapters/talk/`，按需建立
 `bibliography/main.bib`，并编写 `build/main.notes.json`。
 
@@ -536,7 +541,26 @@ PDF/PPTX 的作者和导师属性保持正常姓名文本，不写入用于视�
 一致，先在插入尺寸下检查节点间距、连线、换行、裁切和可读字号。保留 `.mmd` 或
 TikZ 源文件以及生成命令；Mermaid 不加入默认构建依赖，也不在 `make` 时联网下载。
 
-课程仓库、学习网站、工具入口、文档和视频等需要听众访问的资源，在正文同时显示
+内容图包括内联 TikZ、预生成 Mermaid 图、流程、拓扑、外部图片与截图。使用标准
+`figure + \caption` 或已有图注辅助接口，图注紧邻图下方，说明对象与关系。例如：
+
+```tex
+\begin{figure}
+  \centering
+  \begin{tikzpicture}[node distance=1cm]
+    \node[draw=maincolor] (draft) {草稿};
+    \node[draw=maincolor,right=of draft] (outline) {详细大纲};
+    \draw[->,draw=maincolor] (draft) -- (outline);
+  \end{tikzpicture}
+  \caption{从用户草稿到详细大纲的内容整理流程}
+\end{figure}
+```
+
+示例需在导言区加载 `\usetikzlibrary{positioning}`。图注沿用主题字体与间距，
+节点标签和页面标题分别定位节点与页面主题。校徽、背景和装饰图形不要求内容图注。
+图与图注放不下时精简或拆页，保留正常字号。
+
+课程仓库、学习网站、工具入口、文档和视频等需要听众访问的资源，同页显示
 名称和实际 URL，并让可见文字与点击目标完全一致。例如：
 
 ```tex
@@ -547,6 +571,20 @@ Missing Semester\par\url{https://missing.csail.mit.edu/}
 长网址自然折行、拆页或增加条目间距；保留视频 `watch?v=...` 等必要参数。仅供讲者
 溯源的辅助来源可以使用短标签并把完整地址写入备注。本地资源显示相对路径，不使用
 本机绝对路径作为听众入口。
+
+## 辅助说明框
+
+比较表或流程图作为页面主结构时，相关且必须可见的条件可用一个有具体标题的辅助框组织：
+
+```tex
+\begin{notebox}[制作前提]
+  详细大纲已确认；正文保留必要证据与限制。
+\end{notebox}
+```
+
+按语义选择 `tipbox`（操作建议）、`notebox`（条件与补充说明）、`alertbox`（关键限制），
+以及定义、示例环境。标题概括说明类别，框内内容与主结构相关；避免机械套框和重复总结。
+完整的“主结构 + 条件框”示例见 `chapters/callout-layout.tex`。
 
 ## 代码与终端窗口
 
@@ -755,9 +793,57 @@ userf = {<统计来源，截至 YYYY-MM-DD>},
 因此当前校徽宽度为 `30 - 2 × 3 = 24 pt`；
 上方留白由色块高度与校徽高度自动确定。图片尺寸和留白分别由主题中的
 `\campuslogoimagewidth`、`\campuslogopadding` 推导，色块本身的几何尺寸保持独立。
-description 标签按同一环境内的最长标签右对齐；最长标签的左边缘与正文左边界对齐。使用
-`\begin{description}[最长标签]` 指定该环境的最长标签，说明文字会保持统一的起始位置。
+description 的可选参数是标签列的**宽度样本**，Beamer 不自动寻找最宽标签。使用当前
+字体与字号下实际最宽的标签作为样本，标签右边界和说明文字起点才能对齐；
+按字符数估计会受中英文、空格和字体差异影响。例如：
+
+```tex
+\begin{description}[Host / HostName]
+  \item[Host / HostName] 主机别名与服务器地址
+  \item[User] 登录账号
+  \item[IdentityFile] 密钥文件
+  \item[IdentitiesOnly] 认证选项
+\end{description}
+```
+
+换字号或放入双栏后重新核对实际宽度；保留正常换行，避免手工空格和负间距。
 右侧图片页会依据相同的正文区域自动调整左侧内容宽度。
+
+### 网页来源引用
+
+文献使用 `\cornercite{key}`。网页、教程或工具文档使用
+`\campusdoccite{来源名称}{URL}`，默认在右上角同时显示名称和完整可点击地址，
+沿用角落引用的字号、灰色、宽度与边距，URL 使用等宽字体；它不新增文献编号或修改 `.bib`。
+
+```tex
+\campusdoccite{示例文档}{https://example.org/config\#Options}
+```
+
+URL 参数按普通 LaTeX 参数书写，特殊字符如 `#`、`&`、`%` 分别写成
+`\#`、`\&`、`\%`；输出保留实际 fragment 和 query。多来源合并到一个引用块：
+
+```tex
+\begin{campusdoccites}
+  \campusdoccite{配置文档}{https://example.org/config\#Forward}
+  \campusdoccite{视频资料}{https://example.org/watch?v=demo123\&lang=zh}
+\end{campusdoccites}
+```
+
+同页文献与网页也可将 `\cornercite` 放入该环境。单独多次放置角落块会占用同一锚点，
+同页来源应合并。上面的地址是接口测试示例；正式演讲填写已核实的来源。
+
+超长地址不能在正常引用字号下与双行页眉共存时，用 `\campusdoccite*` 在角落显示
+简洁来源名，并在同页正文显示具名完整 URL。星号形式只用于这个布局备选方案：
+
+```tex
+\campusdoccite*{扩展文档}{https://example.org/documentation/network/settings\#Options}
+扩展文档\par
+\url{https://example.org/documentation/network/settings\#Options}
+```
+
+检查来源名与正文地址的对应关系、点击目标及页眉净空。页面正在讲解的配置文档
+或学习入口保持可见地址；只有辅助讲者溯源的信息可放入备注。传统论文引用仍按原有格式输出。
+来源汇总页复用大纲中已核实的名称与 URL；简单 URL 宏可传入接口，以共享同一条地址。
 
 单页需要不同宽度时，在 frame 内、引用命令之前使用 `\setcornercitewidth`：
 

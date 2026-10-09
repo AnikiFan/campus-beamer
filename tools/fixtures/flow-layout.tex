@@ -6,6 +6,7 @@
 \section{流程图}
 \subsection{节点与连接}
 \begin{frame}{服务器与本地代理}
+\begin{figure}
 \centering
 \begin{tikzpicture}[
   node distance=1.2cm and 1.7cm,
@@ -20,5 +21,7 @@
 \draw[flow edge] (local) -- node[above,font=\scriptsize]{请求} (ssh);
 \draw[flow edge] (ssh) -- node[above,font=\scriptsize]{转发} (server);
 \end{tikzpicture}
+\caption{本机代理经 SSH 通道连接远程服务器的示意路径}
+\end{figure}
 \end{frame}
 \end{document}

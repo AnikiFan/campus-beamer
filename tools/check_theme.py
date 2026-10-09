@@ -28,11 +28,12 @@ from images_to_ppt import campus_metadata
 
 EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 3,
                   'single-header': 5,
-                  'demo-without-guides': 42, 'language-layout': 10,
+                  'demo-without-guides': 43, 'language-layout': 10,
                   'class-options': 6, 'class-handout': 1, 'class-mixed-language': 2,
                   'code-windows': 5, 'class-metadata': 3, 'name-layout': 20,
                   'section-toc-spacing': 42, 'date-display': 12,
-                  'citation-top-right': 3, 'flow-layout': 1, 'url-layout': 2}
+                  'citation-top-right': 3, 'flow-layout': 1, 'url-layout': 2,
+                  'doc-citations': 7, 'description-alignment': 4, 'callout-layout': 1}
 
 
 def check_section_toc_spacing(document, log):
@@ -127,12 +128,146 @@ def check_flow_layout(document, log):
         if label not in text:
             raise RuntimeError(f'flow-layout: missing node/edge label {label!r}')
     page = document[0]
+    caption = '本机代理经 SSH 通道连接远程服务器的示意路径'
+    caption_boxes = caption_rects(page, caption)
+    caption_top = min((box.y0 for box in caption_boxes), default=page.rect.height - 40)
     node_boxes = [box for label in ('本机', 'SSH', '远程')
-                  for box in page.search_for(label)]
-    if len(node_boxes) < 3:
+                  for box in page.search_for(label) if 45 < box.y0 < caption_top]
+    if len(node_boxes) != 3:
         raise RuntimeError('flow-layout: expected three visible nodes')
     if max(box.y1 for box in node_boxes) - min(box.y0 for box in node_boxes) > 80:
         raise RuntimeError('flow-layout: nodes are not aligned')
+    bottom = max(box.y1 for label in ('本机', '代理', 'SSH', '通道', '远程', '服务器', '请求', '转发')
+                 for box in page.search_for(label) if 45 < box.y0 < caption_top)
+    # Node rectangles extend beyond their text; use their painted geometry too.
+    bodies = [drawing['rect'] for drawing in page.get_drawings()
+              if drawing.get('fill') and 45 < drawing['rect'].y0
+              and drawing['rect'].y1 < caption_top]
+    if bodies:
+        bottom = max(bottom, max(box.y1 for box in bodies))
+    check_caption_below(page, caption, bottom, footer_top=page.rect.height - 40)
+
+
+def check_description_rows(page, labels, markers, *, tolerance=.5):
+    """Check logical text edges rather than inferring widths from character counts."""
+    right_edges = []
+    starts = []
+    for label, marker in zip(labels, markers):
+        boxes = page.search_for(label)
+        bodies = page.search_for(marker)
+        if not boxes or len(bodies) != 1:
+            raise RuntimeError(f'description-alignment: missing or ambiguous row {label!r}')
+        right_edges.append(max(box.x1 for box in boxes))
+        starts.append(bodies[0].x0)
+    if max(right_edges) - min(right_edges) > tolerance:
+        raise RuntimeError('description-alignment: label right edges differ')
+    if max(starts) - min(starts) > tolerance:
+        raise RuntimeError('description-alignment: explanation column starts differ')
+    if min(starts) <= max(right_edges):
+        raise RuntimeError('description-alignment: labels overlap explanations')
+
+
+def check_description_alignment(document, log):
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('description-alignment: overflow or missing glyphs')
+    cases = (
+        (0, ('Host / HostName', 'User', 'IdentityFile', 'IdentitiesOnly'),
+         ('TextA', 'TextB', 'TextC', 'TextD')),
+        (1, ('主机别名与地址', '用户', '认证文件'), ('TextA', 'TextB', 'TextC')),
+        (2, ('Host 主机名', 'User 用户', 'IdentityFile 密钥路径'), ('TextA', 'TextB', 'TextC')),
+        (3, ('User', 'IdentitiesOnly'), ('TextA', 'TextB')),
+        (3, ('来源', '本地材料路径'), ('TextC', 'TextD')),
+    )
+    for index, labels, markers in cases:
+        check_description_rows(document[index], labels, markers)
+
+
+def caption_rects(page, text):
+    boxes = page.search_for(text)
+    if boxes:
+        return boxes
+    # CJK/Latin spacing in PDF extraction can differ from the TeX source.
+    needle = ''.join(text.split())
+    return [pymupdf.Rect(line['bbox']) for block in page.get_text('dict')['blocks']
+            for line in block.get('lines', [])
+            if needle in ''.join(''.join(span['text'] for span in line['spans']).split())]
+
+
+def check_caption_below(page, text, graphic_bottom, *, footer_top):
+    """A visible caption must follow the graphic and clear the footer."""
+    boxes = caption_rects(page, text)
+    if not boxes:
+        raise RuntimeError('flow-layout: missing figure caption')
+    if min(box.y0 for box in boxes) <= graphic_bottom:
+        raise RuntimeError('flow-layout: caption overlaps the graphic')
+    if max(box.y1 for box in boxes) >= footer_top:
+        raise RuntimeError('flow-layout: caption overlaps the footer')
+
+
+def check_callout_layout(document, log):
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('callout-layout: overflow or missing glyphs')
+    page = document[0]
+    labels = [box for text in ('大纲阶段', '制作阶段') for box in page.search_for(text)]
+    title = page.search_for('制作前提')
+    condition = page.search_for('详细大纲已确认')
+    if len(labels) != 2 or not title or not condition:
+        raise RuntimeError('callout-layout: missing primary structure or condition heading')
+    if title[0].y0 <= max(box.y1 for box in labels) or condition[0].y0 <= title[0].y1:
+        raise RuntimeError('callout-layout: conditions do not follow the primary structure')
+    if condition[0].y1 >= page.rect.height - 40:
+        raise RuntimeError('callout-layout: condition box touches the footer')
+
+
+DOC_SOURCE_CASES = (
+    (('Example documentation', 'https://example.org/'),),
+    (('配置文档', 'https://example.org/config#Options'),),
+    (('Configuration reference', 'https://example.org/config#Forward'),
+     ('Video reference', 'https://example.org/watch?v=demo123&lang=zh&q=alpha%20beta')),
+    (('Detailed reference', 'https://example.org/documentation/configuration/network/connection/settings?mode=reference&lang=en#Forward'),),
+    (('Extended reference', 'https://example.org/documentation/configuration/network/connection/settings/advanced/troubleshooting?mode=reference&lang=en#Forward'),),
+    (('Wide reference', 'https://example.org/width'),),
+    (('Default reference', 'https://example.org/reset'),),
+)
+
+
+def check_doc_citations(document, log):
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('doc-citations: overflow or missing glyphs')
+    for index, (page, sources) in enumerate(zip(document, DOC_SOURCE_CASES)):
+        spans = [span for block in page.get_text('dict')['blocks']
+                 for line in block.get('lines', []) for span in line['spans']]
+        corner = [span for span in spans if span['bbox'][0] > page.rect.width / 2
+                  and span['bbox'][1] < 90 and span['size'] < 7]
+        headers = [pymupdf.Rect(span['bbox']) for span in spans
+                   if span['bbox'][1] < 45 and span['size'] > 10]
+        visible = ''.join(page.get_text().split())
+        corner_text = ''.join(''.join(span['text'].split()) for span in corner)
+        for label, url in sources:
+            if ''.join(label.split()) not in corner_text:
+                raise RuntimeError(f'doc-citations: missing corner source {label!r}')
+            if url not in visible or (index != 4 and url not in corner_text):
+                raise RuntimeError(f'doc-citations: URL is not visible in its source block: {url}')
+            links = [link for link in page.get_links() if link.get('uri') == url]
+            if not links or (index != 4 and not all(link['from'].y0 < 90 for link in links)):
+                raise RuntimeError(f'doc-citations: URL target/position changed: {url}')
+            if index == 4 and not any(link['from'].y0 > 90 for link in links):
+                raise RuntimeError('doc-citations: compact source lacks a full body URL')
+        for span in corner:
+            box = pymupdf.Rect(span['bbox'])
+            gray = all(abs(((span['color'] >> shift) & 255) - 128) <= 1
+                       for shift in (16, 8, 0))
+            if abs(span['size'] - 6 * 72 / 72.27) > .05 or not gray:
+                raise RuntimeError('doc-citations: citation font/color changed or was reduced')
+            if any(box.intersects(header) for header in headers) or box.x1 > page.rect.width - 10:
+                raise RuntimeError('doc-citations: header/page-edge collision')
+        if not corner or min(span['bbox'][1] for span in corner) > 20:
+            raise RuntimeError('doc-citations: top-right anchor changed')
+    # Explicit frame width must not leak into the next frame.
+    wide = document[5].search_for('Wide reference')[0]
+    default = document[6].search_for('Default reference')[0]
+    if abs(default.x0 - wide.x0 - (5 * 72 / 2.54 - document[6].rect.width * .3)) > .5:
+        raise RuntimeError('doc-citations: width override leaked between frames')
 
 
 def check_url_layout(document, log):
@@ -453,6 +588,12 @@ def check(root, output):
                     check_flow_layout(document, result.stdout)
                 if name == 'url-layout':
                     check_url_layout(document, result.stdout)
+                if name == 'doc-citations':
+                    check_doc_citations(document, result.stdout)
+                if name == 'description-alignment':
+                    check_description_alignment(document, result.stdout)
+                if name == 'callout-layout':
+                    check_callout_layout(document, result.stdout)
                 check_class_fixture(name, document, result.stdout)
             print(f'{name}: {pages} pages compiled; inspect {output / f"{name}.pdf"}')
     check_class_errors(root, output)

@@ -39,6 +39,27 @@ The user supplies basic information and a free-form draft in `outline.md`.
 Read the draft for its purpose, priorities, facts, and material paths. Use
 [STYLE.md](../STYLE.md) to guide the eventual presentation.
 
+### Inventory the supplied materials
+
+Before outline confirmation, enumerate each user-specified materials directory
+with `rg --files -uuu <directory>` so Git ignore rules cannot hide inputs.
+Limit enumeration to the authorized directories. Inspect actual file types,
+read relevant documents, view relevant images directly, and check local assets
+referenced by Markdown or TeX. If enumeration is empty, verify the directory
+and the explicit referenced paths before reporting a missing asset.
+
+Add a material-coverage section to the detailed outline. For each relevant file,
+record its relative path and type, read/view status, extracted topic/evidence
+or visual role, intended section/subsection, and usage: full, partial,
+notes/source only, or excluded with a reason. Record unreadable, inaccessible,
+damaged or uncertain-version inputs and their effect on the argument. Exclude
+`.gitkeep` from the content inventory. Coverage means inspected inputs with
+reviewable choices; unrelated, duplicate or out-of-scope material can be omitted.
+Preserve explicit scope limits. A screenshot is evidence of its captured content,
+not proof of the website's current state. Local use does not authorize public
+redistribution. Content-bearing omissions found after confirmation return to
+outline review before entering slides or notes.
+
 ### Stage 1: develop the detailed outline
 
 Expand and organize the draft into substantive `section` and `subsection`
@@ -56,6 +77,7 @@ The reviewable outline must contain:
   figures/data/code/citations, and explanations to cover in the talk;
 - source paths or references for factual claims, required visible evidence,
   speaker-note material, transitions, and necessary limitations;
+- the material inventory, coverage mapping, and explained exclusions;
 - proposed content changes and unresolved facts or material gaps.
 
 Within the supplied purpose and materials, use judgment to develop explanations
@@ -150,6 +172,23 @@ layouts. The no-subsection single-line fallback exists for compatibility, not
 as an authoring choice for ordinary body pages. Do not use `plain`, clear the
 header, or manually add line breaks or `\framesubtitle` to bypass this structure.
 
+### Semantic boxes and description labels
+
+Keep the main comparison, table or diagram as the page's primary structure.
+Organize necessary related conditions or constraints with a specific heading
+or one compact titled box: `tipbox` for operational advice, `notebox` for
+conditions or context, `alertbox` for critical restrictions, and the matching
+definition/example environments. Use descriptive titles. Select by meaning;
+avoid mechanical boxing or repeated summaries. Condense or split when a box
+makes the page crowded.
+
+The optional argument to `description` is a width sample; Beamer does not scan
+labels for the widest one. Select the actual widest label at the current font
+and size, then check right edges and the explanation column in the PDF. For
+example, use `[Host / HostName]` for a list containing `Host / HostName`, `User`,
+`IdentityFile` and `IdentitiesOnly`. Check each column separately; keep wrapping
+natural without spaces or negative-spacing fixes.
+
 ### Slide text and speaker notes
 
 Apply the density and notes criteria in [STYLE.md](../STYLE.md). For each frame,
@@ -181,7 +220,15 @@ transcripts; use a file/config icon and a label such as `Config` for SSH or
 other configuration files; use the source-file name for program code. Keep
 `language` for highlighting and `label`/`icon` for the visible category.
 
-Keep citations at the default top-right position, including `paperframe`.
+Keep literature citations at the default top-right position, including `paperframe`.
+Use `\campusdoccite{title}{URL}` for web sources and `campusdoccites` for a
+shared block of multiple sources. The default prints both source name and the
+clickable full URL in the standard corner style; keep BibTeX files read-only
+for web-source additions. Use `\campusdoccite*{title}{URL}` only when a long
+address cannot fit readably beside both header lines, and show the same named
+full URL in the body on that page. Preserve fragments and required query
+parameters. A configuration document being taught is an audience reference,
+not speaker-only provenance.
 Use bottom-corner arguments only when the user requests or approves them;
 report the pages and reason. Check long two-line headers and multiple citations
 for collisions; shorten titles or verified citation short forms first rather
@@ -198,14 +245,21 @@ normal font size.
 When a slide expresses multiple nodes, steps, branches, device boundaries, or
 spatial relationships, draw a node-based diagram with TikZ or a separately
 generated Mermaid/PDF/SVG source. Use profile-derived colors and theme-matched
-fonts and size; preserve editable source and generation metadata. Plain prose
-and a single mathematical arrow do not need a diagram.
+fonts and size; preserve editable source and generation metadata. Place each
+content diagram, image or screenshot in `figure` with `\caption`, or use an
+existing caption-bearing image helper. The nearby caption below the graphic
+explains its objects and relationships, using the theme caption style. Node
+labels and page titles do not replace this explanation. Decorative graphics,
+logos, theme backgrounds, plain prose and a single mathematical arrow do not
+need content-figure captions.
 
 For resources the audience must visit, show the resource name and visible URL
-in the body and keep the hyperlink target identical. Use `\url` or `\href` with
+on the same page and keep the hyperlink target identical. Web citations use
+the corner URL by default; a long-address fallback uses a named full body URL. Use `\url` or `\href` with
 the URL as visible text, let long addresses wrap or split across pages, and
 retain meaningful query parameters such as video `watch?v=...`. Short labels
-remain appropriate for speaker-only provenance. Show local inputs as relative
+remain appropriate only for auxiliary speaker-only provenance, not formal
+references or learning resources being discussed on the page. Show local inputs as relative
 paths such as `materials/AGENTS.md`, never as machine-specific absolute paths.
 
 Create `build/<MAIN>.notes.json` with exactly one entry per final PDF page,

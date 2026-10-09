@@ -38,7 +38,11 @@ copy in `build/outline-normalized.md`.
 For a new or content-bearing revision, confirm that `build/outline-normalized.md`
 contains developed section/subsection content, metadata, audience, goal, time
 budget, explanations, evidence, sources, and open questions. Verify that the user
-confirmed this content before production. Review the final slides and notes
+confirmed this content before production. Check the material inventory against
+the actual authorized directories (including ignored inputs and referenced
+assets); every relevant input has a read/view status and a documented use or
+exclusion. Check unexplained omissions, unread images, and broken paths. Respect
+the approved scope rather than requiring all material to appear in slides. Review the final slides and notes
 against that revision: substantive additions belong in outline review. Frame
 splits, concise wording, and redistribution of approved detail into notes are
 layout decisions; check their coverage and time budget without treating page
@@ -69,6 +73,25 @@ metadata. A plain sentence or single mathematical arrow does not need a diagram.
 For audience-facing resources, verify the visible URL is the actual PDF link
 target, including required query parameters. Check long URLs for natural wrapping,
 readable size, and page-edge clearance; local resources should use relative paths.
+
+Check necessary conditions or restrictions for recognizable headings. A titled
+auxiliary box can organize related conditions beside a main table/diagram;
+confirm its semantic type, readable height and absence of repeated summaries.
+For description lists, confirm that the width sample is the actual widest label
+at the selected font/size, and inspect aligned right edges, explanation starts,
+column boundaries and wrapped text.
+
+Every content diagram/image/screenshot has a nearby caption below it describing
+objects or relationships; check the visible text, spacing and clearance from
+body/footer. Exempt logos, decorative backgrounds and theme overlay TikZ.
+Source scanning is a supporting check, not a general detector for uncaptained
+content figures.
+
+Web sources use the standard gray top-right citation style. Verify both the
+source name and actual URL are visible and clickable, including fragments and
+query parameters. For the long-address fallback, match the corner label to the
+named full URL on that page. Keep the configured citation font readable;
+shorten a title, relocate the full URL or split rather than shrink text.
 
 Search rendered body text for authoring-process phrases such as “作者提供”、
 “本次材料”、“作者截图”、“本页来自草稿” and “素材来源”. Replace them with

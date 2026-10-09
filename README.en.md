@@ -113,6 +113,7 @@ defaults; see [class options](docs/class-options.md).
 - Fixed 16:9 layout with Chinese and English support; full primary-color section pages by default (purple in the Tsinghua profile).
 - Fitted figures, equations, paper walkthroughs and [terminal-style code windows](docs/usage.md#代码与终端窗口).
 - `biblatex` / `biber`, corner citations and cited references; optional [DBLP and citation-count tools](docs/literature.md).
+- [Web source references](docs/usage.md#网页来源引用) show the source name and actual URL in the shared corner-citation style.
 - PDF-to-PPTX export preserving navigation, external links, embedded local video and per-page notes. Video poster previews in both PDF and PPTX need FFmpeg.
 - `make draft` page previews and diagnostics for density, alignment and overflow review.
 

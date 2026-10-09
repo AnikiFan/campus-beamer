@@ -1428,7 +1428,7 @@
   \endgroup
 }
 
-\newcommand{\campus@placecornercite}[5]{%
+\newcommand{\campus@placecornercontent}[5]{%
   \begin{tikzpicture}[remember picture,overlay]
     \node[
       anchor=#1,
@@ -1442,11 +1442,43 @@
         \raggedright
         \setlength{\parskip}{0pt}%
         \setlength{\lineskip}{0pt}%
-        \forcsvlist{\campus@cornerciteprinter}{#5}%
+        #5%
       }%
     }};
   \end{tikzpicture}%
 }
+
+% Bibliographic and web sources share the same positioning and typography.
+\newcommand{\campus@placecornercite}[5]{%
+  \campus@placecornercontent{#1}{#2}{#3}{#4}{%
+    \forcsvlist{\campus@cornerciteprinter}{#5}}%
+}
+\newcommand{\campus@placedocsource}[1]{%
+  \campus@placecornercontent
+    {north east}{current page.north east}
+    {-\campuscornerxmargin}{-\campuscornertopmargin}{#1}%
+}
+% Starred form pairs the compact corner label with a full URL in the body.
+\NewDocumentCommand{\campusdoccite}{s m m}{%
+  \campus@placedocsource{%
+    \begingroup
+      \hypersetup{urlcolor=.}% keep the configured slide-citation color
+      \urlstyle{tt}% preserve literal URL characters at the citation size
+      \IfBooleanTF{#1}
+        {\href{#3}{#2}\par}
+        {#2\par\href{#3}{\expandafter\nolinkurl\expandafter{#3}}\par}%
+    \endgroup
+  }%
+}
+% Group multiple sources into one corner block, including ordinary cornercite.
+\NewDocumentEnvironment{campusdoccites}{+b}{%
+  \campus@placedocsource{%
+    \begingroup
+      \renewcommand{\campus@placecornercontent}[5]{##5}%
+      #1%
+    \endgroup
+  }%
+}{}
 
 % Local assignment: when used inside a frame, its group restores the default
 % on exit. Put this before citations (or in the body of a paperframe).
