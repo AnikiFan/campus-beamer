@@ -33,7 +33,8 @@ EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 
                   'code-windows': 5, 'class-metadata': 3, 'name-layout': 20,
                   'section-toc-spacing': 42, 'date-display': 12,
                   'citation-top-right': 3, 'flow-layout': 1, 'url-layout': 2,
-                  'doc-citations': 7, 'description-alignment': 4, 'callout-layout': 1}
+                  'doc-citations': 7, 'description-alignment': 4, 'callout-layout': 1,
+                  'overlays': 6, 'overlays-handout': 3}
 
 
 def check_section_toc_spacing(document, log):
@@ -268,6 +269,34 @@ def check_doc_citations(document, log):
     default = document[6].search_for('Default reference')[0]
     if abs(default.x0 - wide.x0 - (5 * 72 / 2.54 - document[6].rect.width * .3)) > .5:
         raise RuntimeError('doc-citations: width override leaked between frames')
+
+
+def check_overlays(document, log, *, handout=False):
+    """Reveal states must survive compilation without shifting retained content."""
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('overlays: overflow or missing glyphs')
+    states = (('Alpha', 'Beta', 'Gamma'), ('AfterState',), ()) if handout else (
+        ('Alpha',), ('Alpha', 'Beta'), ('Alpha', 'Beta', 'Gamma'),
+        ('BeforeState',), ('AfterState',), ())
+    labels = ('Alpha', 'Beta', 'Gamma', 'BeforeState', 'AfterState')
+    for index, (page, expected) in enumerate(zip(document, states)):
+        text = page.get_text()
+        for label in labels:
+            if (label in text) != (label in expected):
+                raise RuntimeError(f'overlays: wrong reveal state on page {index + 1}: {label}')
+        if 'Ordered explanation' not in text:
+            raise RuntimeError('overlays: missing subsection header')
+        style = document.xref_get_key(page.xref, 'Trans/S')[1]
+        expected_style = '/Fade' if not handout and index in (1, 2) else (
+            '/Dissolve' if not handout and index == 4 else '/R')
+        if style != expected_style:
+            raise RuntimeError(f'overlays: transition leaked or disappeared on page {index + 1}')
+        if document.xref_get_key(page.xref, 'Dur')[0] != 'null':
+            raise RuntimeError('overlays: unexpected automatic advance')
+    if not handout:
+        boxes = [page.search_for('Alpha')[0] for page in list(document)[:3]]
+        if max(box.y0 for box in boxes) - min(box.y0 for box in boxes) > .5:
+            raise RuntimeError('overlays: cumulative list jumps between stages')
 
 
 def check_url_layout(document, log):
@@ -594,6 +623,8 @@ def check(root, output):
                     check_description_alignment(document, result.stdout)
                 if name == 'callout-layout':
                     check_callout_layout(document, result.stdout)
+                if name in ('overlays', 'overlays-handout'):
+                    check_overlays(document, result.stdout, handout=name.endswith('-handout'))
                 check_class_fixture(name, document, result.stdout)
             print(f'{name}: {pages} pages compiled; inspect {output / f"{name}.pdf"}')
     check_class_errors(root, output)

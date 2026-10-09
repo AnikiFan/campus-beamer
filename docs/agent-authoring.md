@@ -172,6 +172,33 @@ layouts. The no-subsection single-line fallback exists for compatibility, not
 as an authoring choice for ordinary body pages. Do not use `plain`, clear the
 header, or manually add line breaks or `\framesubtitle` to bypass this structure.
 
+### Progressive reveals
+
+Use Beamer overlays when approved content has a meaningful explanation order:
+derivations, process steps, dependencies, or before/after states. Simple claims
+and comparisons needing simultaneous inspection can stay fully visible. Choose
+reveals during layout; no new content approval is needed merely to stage the
+approved argument. New claims still return to outline review.
+
+Prefer cumulative `\item<1->`, `\uncover` or `\onslide` to reserve layout space.
+For replacement states, use `\only` inside a fixed `overlayarea`; select the
+final state explicitly for handouts, e.g. `\only<2|handout:1>{...}` and exclude
+earlier states with `handout:0`. Keep both header lines, captions, source URLs
+and retained evidence stable across stages. Necessary conditions must be visible
+whenever the associated conclusion is visible. Do not use overlays to disguise
+an overcrowded final page.
+
+Each overlay becomes a PDF page and a PPTX slide. For a useful smooth reveal,
+use `\transfade<2-|handout:0>[duration=0.2]` on subsequent stages; the converter
+preserves Fade and Dissolve as native slide transitions. Whole-slide rendering
+does not recover editable object animations. Do not add effects to every frame
+or infer overlay groups from similar page images. Keep manual advancement unless
+timed playback is requested. See the [overlay example](usage.md#逐步显示与换页效果).
+
+Write notes for each final rendered stage: explain what becomes visible and how
+to advance, without repeating the entire frame's script at every step. Recheck
+page counts, order, links and final-state coverage after adding overlays.
+
 ### Semantic boxes and description labels
 
 Keep the main comparison, table or diagram as the page's primary structure.

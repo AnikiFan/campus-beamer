@@ -92,6 +92,9 @@ author, subtitle, group, advisor and presentation date.
 Give edits to the agent or edit the generated `.tex` source.
 Make compiles and converts existing content; the agent performs the writing.
 
+Beamer overlays can reveal content in meaningful stages. PPTX exports preserve each stage
+and explicit fade/dissolve transitions; see [progressive reveals](docs/usage.md#逐步显示与换页效果).
+
 ## Environment and reference example
 
 The build environment needs GNU Make, uv, XeLaTeX, latexmk, biber and the template's TeX packages/fonts.

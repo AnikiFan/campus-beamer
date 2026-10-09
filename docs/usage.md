@@ -337,6 +337,49 @@ PowerPoint movie 对象嵌入 PPTX；视频文件随 PPTX 一起打包，文件�
 PDF 专有动作（如 JavaScript）不转换；无法解析或无有效热区的链接会被计数并警告，
 可用 `--verbose` 查看细节或用 `--strict-links` 阻止保存。
 
+## 逐步显示与换页效果
+
+推导、流程或前后状态有明确讲解顺序时，可用 Beamer overlays 分步展示。
+下面的累积列表生成三个 PDF 页面，位置保持稳定；PPTX 对应三张幻灯片：
+
+```tex
+\subsection{处理流程}
+\begin{frame}{处理步骤}
+  \transfade<2-|handout:0>[duration=0.2]
+  \begin{itemize}
+    \item<1-> 明确输入。
+    \item<2-> 展示处理。
+    \item<3-> 核对输出。
+  \end{itemize}
+\end{frame}
+```
+
+`\uncover`、`\onslide` 和列表 overlay 适合保留空间的累积显示；`\pause` 可用于
+简单顺序显示。替换内容使用固定高度的 `overlayarea` 和 `\only`，避免页面跳动。
+需要讲义时，早期替换状态写 `\only<1|handout:0>{...}`，最终状态写
+`\only<2|handout:1>{...}`，使 handout 只保留最终状态；累积列表保留全部内容。
+公开可编译示例见 [overlay 夹具](../tools/fixtures/overlays.tex) 与
+[handout 夹具](../tools/fixtures/overlays-handout.tex)，共用
+[页面片段](../chapters/overlay-layout.tex)。
+
+转换器读取 PDF 的明确换页设置，将 `\transfade`、`\transdissolve` 分别导出为
+PowerPoint 原生淡入、溶解切换。支持的时长以毫秒写入 Office 2010+ 属性；较旧客户端
+使用快／中／慢速度近似。其他效果会报告警告并保留普通换页，所有内容阶段仍按原顺序导出。
+未设置效果的页面保持普通换页；不依据页面相似度自动添加效果或合并阶段。
+PPTX 的正文仍为整页图像，各阶段保留为独立幻灯片，不包含文字对象级动画。
+
+默认由讲者点击推进。仅需计时播放时使用 `\transduration{秒数}`，其明确的 PDF 页面
+停留时间会转为 PPTX 自动翻页时间。需要关闭全部切换与自动计时，可直接导出：
+
+```bash
+uv run --frozen python tools/images_to_ppt.py build/main.pdf --no-transitions --strict-links --strict-notes
+```
+
+每个最终 PDF 页面都对应一条备注，包括同一 frame 的不同阶段；备注说明新增内容及
+推进时机。添加 overlay 后重新核对备注、链接目标和总时长。各阶段保留双行页眉、
+图注、引用及必要条件，最后一步保持完整可回看。PDF 切换效果依赖阅读器；PowerPoint
+客户端的实际播放需另行检查。
+
 ## 重构时校验 PDF
 
 修改主题前先保存一次成功编译的 PDF；修改后用逐页比较工具检查：

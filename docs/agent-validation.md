@@ -106,6 +106,22 @@ Before delivery, run a full unfiltered `make draft`, then `make`. If the final
 compile changes page order or count, repeat the visual review and regenerate
 notes.
 
+## Overlay and transition review
+
+Inspect every rendered stage, including the final complete state. Check reveal
+order, retained evidence/conditions, stable headers/captions/URLs and geometry;
+replacement states must not overlap. Count physical PDF/PPTX pages separately
+from logical frames and align notes with each stage. Verify jumps to the intended
+stage rather than accepting only the slide count.
+
+The converter maps explicit PDF Fade/Dissolve transitions and page durations to
+native PPTX settings. Check the per-slide transition type/duration and absence
+of automatic advance unless it was requested; effects must not leak into the next
+ordinary frame. Unsupported effects warn and use a plain slide change. For a
+static export use `--no-transitions`; this also disables automatic page durations.
+If delivering a handout, inspect its separate final-state output and notes count.
+PPTX XML evidence does not establish playback in a PowerPoint client.
+
 ## PDF/PPTX contract
 
 The converter defaults to 600 DPI and keeps the rendered slide as an image,
@@ -118,6 +134,7 @@ Verify:
 
 - PDF and PPTX page counts match and notes cover every final PDF page exactly;
 - internal jumps and external links survive, including local video links;
+- overlay order and explicit transition/timing settings match the final PDF;
 - level-one bookmarks map to the expected PowerPoint section names/boundaries;
 - title/author and supplied custom properties (`Subtitle`, `Group`, `Advisor`,
   `PresentationDate`, `Contact`) match the source;

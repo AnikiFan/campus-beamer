@@ -28,6 +28,8 @@ Level-one PDF bookmarks become native PowerPoint sections. Standard PDF
 document properties and the Campus class's cover metadata are copied to PPTX.
 Only PyMuPDF and python-pptx are direct dependencies. Slide content remains an
 image; each PDF page (including each Beamer overlay) becomes one slide.
+PDF Fade/Dissolve transitions and explicit page durations become native PPTX
+slide transitions; no effect is added to pages without transition settings.
 """
 
 from __future__ import annotations
@@ -559,6 +561,48 @@ def save_presentation(prs, path: Path) -> None:
         temporary_path.unlink(missing_ok=True)
 
 
+def set_slide_transition(slide, page) -> bool:
+    """Preserve explicit PDF effects/timing without guessing overlay boundaries."""
+    pdf = page.parent
+    _, style = pdf.xref_get_key(page.xref, 'Trans/S')
+    effect = {'/Fade': 'fade', '/Dissolve': 'dissolve'}.get(style)
+    if style not in ('null', '/R', '/Fade', '/Dissolve'):
+        print(f'WARNING: page {page.number + 1}: unsupported PDF transition {style}; '
+              'using an ordinary slide change. Use transfade or transdissolve.', file=sys.stderr)
+
+    def milliseconds(key, default=None):
+        kind, value = pdf.xref_get_key(page.xref, key)
+        if kind == 'null':
+            return default
+        if kind in ('int', 'float'):
+            seconds = float(value)
+            if math.isfinite(seconds) and 0 <= seconds <= 4294967.295:
+                return round(seconds * 1000)
+        print(f'WARNING: page {page.number + 1}: invalid {key} duration; ignored.', file=sys.stderr)
+        return default
+
+    duration = milliseconds('Trans/D', 1000) if effect else None
+    advance = milliseconds('Dur')
+    if effect is None and advance is None:
+        return False
+    transition = OxmlElement('p:transition')
+    transition.set('advClick', '1')
+    if effect:
+        # Office 2010+ reads the exact milliseconds; older clients use spd.
+        transition = parse_xml(
+            '<p:transition xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" '
+            'xmlns:p14="http://schemas.microsoft.com/office/powerpoint/2010/main" '
+            'xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" '
+            'mc:Ignorable="p14" advClick="1"/>')
+        transition.set('{http://schemas.microsoft.com/office/powerpoint/2010/main}dur', str(duration))
+        transition.set('spd', 'fast' if duration <= 500 else 'med' if duration <= 1000 else 'slow')
+        transition.append(OxmlElement('p:' + effect))
+    if advance is not None:
+        transition.set('advTm', str(advance))
+    slide._element.insert_element_before(transition, 'p:timing', 'p:extLst')
+    return True
+
+
 def convert_pdf_to_pptx(
     pdf_path: str | Path,
     pptx_path: str | Path,
@@ -569,6 +613,7 @@ def convert_pdf_to_pptx(
     auto_notes: bool = True,
     strict_notes: bool = False,
     notes_dir: str | Path | None = None,
+    preserve_transitions: bool = True,
 ) -> LinkSummary:
     pdf_path = Path(pdf_path).resolve()
     pptx_path = Path(pptx_path).resolve()
@@ -618,6 +663,7 @@ def convert_pdf_to_pptx(
         for slide, note in zip(slides, notes):
             set_slide_notes(slide, note)
         summary = LinkSummary()
+        transition_count = 0
         posters: dict[Path, bytes] = {}
         print(f'Input: {pdf_path}\nPages: {len(pdf)} | DPI: {dpi}')
 
@@ -694,6 +740,8 @@ def convert_pdf_to_pptx(
                     destination = f'slide {target_page + 1}' if target_page is not None else uri
                     print(f'  page {page_index + 1} -> {destination}')
             print(f'Converted page {page_index + 1}/{len(pdf)}')
+            if preserve_transitions:
+                transition_count += set_slide_transition(slide, page)
 
         if summary.skipped:
             message = f'{summary.skipped} link(s) could not be preserved; use --verbose for details.'
@@ -703,6 +751,7 @@ def convert_pdf_to_pptx(
         set_export_properties(prs, summary.embedded)
         save_presentation(prs, pptx_path)
         print(f'Saved: {pptx_path}')
+        print(f'Transitions: {transition_count} slides with explicit PDF effects/timing')
         print(
             f'Links: {summary.internal} internal, {summary.external} external, '
             f'{summary.embedded} embedded video, {summary.skipped} skipped'
@@ -721,6 +770,7 @@ def main() -> None:
     parser.add_argument('-v', '--verbose', action='store_true', help='Show link destinations and skipped links')
     parser.add_argument('--strict-links', action='store_true', help='Do not save if any link is unsupported or invalid')
     parser.add_argument('--strict-notes', action='store_true', help='If notes are loaded, require exactly one entry per PDF page')
+    parser.add_argument('--no-transitions', action='store_true', help='Ignore PDF transition effects and automatic page durations')
     args = parser.parse_args()
     try:
         convert_pdf_to_pptx(
@@ -728,6 +778,7 @@ def main() -> None:
             args.dpi, args.verbose, args.strict_links,
             args.notes, auto_notes=not args.no_notes, strict_notes=args.strict_notes,
             notes_dir=args.notes_dir,
+            preserve_transitions=not args.no_transitions,
         )
     except (OSError, RuntimeError, ValueError) as exc:
         parser.exit(1, f'Error: {exc}\n')

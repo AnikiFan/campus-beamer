@@ -115,6 +115,7 @@ make                     # 有 main.tex 时构建自己的汇报，否则构建 
 - 自动适配图片、公式、论文讲解页及[终端风格代码窗口](docs/usage.md#代码与终端窗口)。
 - `biblatex` / `biber` 文献管理，角落引用与已引用文献汇总；[网页来源引用](docs/usage.md#网页来源引用)同时显示来源名与实际 URL。可按需使用 [DBLP 与引用数工具](docs/literature.md)。
 - PDF → PPTX 保留跳转、外部链接、本地视频与逐页备注；PDF 和 PPTX 的视频首帧预览需要 FFmpeg。
+- [逐步显示与换页效果](docs/usage.md#逐步显示与换页效果)：按讲解顺序使用 overlays，PPTX 保留各阶段及明确设置的淡入／溶解切换。
 - `make draft` 提供逐页预览和排版诊断，帮助 agent 精简、拆页并检查溢出。
 
 <details>

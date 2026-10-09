@@ -1,0 +1,24 @@
+% Public fixture content: cumulative reveals and stable replacement geometry.
+\section{Progressive reveal}
+\subsection{Ordered explanation}
+\begin{frame}[label=overlay-list]{Cumulative steps}
+  \transfade<2-|handout:0>[duration=0.2]
+  \begin{itemize}
+    \item<1-> Alpha: establish the input.
+    \item<2-> Beta: explain the transformation.
+    \item<3-> Gamma: inspect the output.
+  \end{itemize}
+  \hyperlink{overlay-summary}{Summary}
+\end{frame}
+\begin{frame}{Replacement states}
+  \transdissolve<2-|handout:0>[duration=0.4]
+  \begin{overlayarea}{\textwidth}{1.5cm}
+    \only<1|handout:0>{BeforeState: the input is visible.}
+    \only<2|handout:1>{AfterState: the output replaces the input.}
+  \end{overlayarea}
+\end{frame}
+\begin{frame}[label=overlay-summary]{Complete summary}
+  The final state remains available for review.
+  \hyperlink{overlay-list}{First step}
+  \url{https://example.org/}
+\end{frame}
