@@ -32,6 +32,9 @@ conditions, grading/submission requirements, and evidence remain visible.
 Confirm all additions in both slides and notes are within the user's authorized
 scope; pending suggestions stay outside the deck.
 
+Keep the root `outline.md` as the user's original draft; do not insert workflow
+instructions or overwrite it with the normalized copy.
+
 For a new or content-bearing revision, confirm that `build/outline-normalized.md`
 records the goal, audience, duration, section order, per-page messages, visible
 evidence, notes, sources, metadata, planned restructuring, and pending external
@@ -105,5 +108,6 @@ cannot write the default uv cache.
 `make dist` packages only the explicit `FILES` allowlist in
 `tools/package_source.py`. New public files, including agent guides, must be
 listed deliberately; user materials, private talks, build output, notes, and
-`.venv` stay out. Use `CONTRIBUTING.md` and `docs/releases.md` for release
+`.venv` stay out. The archive always contains an empty `outline.md`; packaging
+must leave the user's root draft unchanged. Use `CONTRIBUTING.md` and `docs/releases.md` for release
 workflow and CI details.

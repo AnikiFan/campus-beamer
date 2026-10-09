@@ -8,15 +8,16 @@
 关键 TeX 包和默认 Fandol 字体；无需先建立 `.venv`，不会下载或编译文件。
 若系统只有 `python` 命令，可用 `make doctor PYTHON=python`，解释器需要 Python 3.10 或更新版本。
 检查通过后可运行 `make MAIN=example` 验证编译与导出。
-日常使用采用两阶段流程，工作指令见 [`prompt.md`](../prompt.md)：
+日常使用时，直接在根目录的 [`outline.md`](../outline.md) 写草稿，再对 agent 说
+“根据大纲制作 PPT”。它会按 `AGENTS.md` 执行两阶段流程：
 
-1. 将 [`outline.md`](../outline.md) 复制到 `materials/outline.md` 后填写，保持公开模板为空白。
-   agent 读取 `AGENTS.md`、`STYLE.md`、大纲及明确提供的材料，先生成
+1. agent 读取 `AGENTS.md`、`STYLE.md`、大纲及明确提供的材料，先生成
    `build/outline-normalized.md`。审阅每页主旨、证据、备注、来源、时间分配和待确认变更。
 2. 确认这个版本后，agent 才编写正文和备注、编译 PDF 并导出 PPTX。
    后续内容修改也先更新并确认大纲；已确认范围内的排版和拼写修正可直接进行。
 
-私人大纲、素材和确认记录保留在已忽略的 `materials/` 与 `build/`，不进入源码 ZIP。
+原始草稿保留在根目录 `outline.md`，审阅副本和确认记录保存在 `build/`；不要用审阅副本覆盖原稿。
+源码 ZIP 始终包含空的 `outline.md`，不会读取或改动本地草稿；素材和确认记录不进入源码包。
 扩充内容、增加例子、引入外部资料或改变事实、论点、时长前先说明依据和影响并询问，
 未确认的内容不写入正文或备注。确认步骤由 agent 执行，命令行和编辑器构建不会代为批准。
 检查不判断 biber / biblatex 的版本兼容，也不检查自定义系统字体和学校素材。

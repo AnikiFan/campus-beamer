@@ -5,7 +5,7 @@
 
 [返回首页](../README.md) · [English overview](../README.en.md) · [贡献指南](../CONTRIBUTING.md)
 
-所有命令均从项目根目录执行。`outline.md` 提供内容模板，`prompt.md` 只描述工作流程，
+所有命令均从项目根目录执行。根目录的 `outline.md` 直接承载用户草稿，
 `example.tex` 展示功能，`main.tex` 由 agent 按用户确认的大纲生成。
 
 ## 快速开始
@@ -13,9 +13,9 @@
 用户只需提供两样东西：**想表达的内容**和**已收集的素材**。
 整体风格由可编辑的 [STYLE.md](../STYLE.md) 描述，包括正文密度、备注分工、
 引用位置和日期格式。用户可修改该文件，agent 会在制作与修订时应用；单次简报优先。
-将 [`outline.md`](../outline.md) 复制到 `materials/outline.md` 后填写，保留根目录模板
-为空白通用版本。也可在对话中提供等价的大纲。再在能读写本地文件、运行命令的 agent 中
-打开本目录，将 [`prompt.md`](../prompt.md) 中的流程交给它。
+直接在根目录的 [`outline.md`](../outline.md) 写下自己的草稿。它默认留空，无需复制、
+删除说明或套用固定表单。可写标题、听众、时长、目标、章节、素材路径和待确认项。
+在能读写本地文件、运行命令的 agent 中打开本目录，说“根据大纲制作 PPT”即可。
 
 将素材放到本地 `materials/`，例如：
 
@@ -30,7 +30,7 @@ materials/
 只需提供实际用到的文件；不要求具备上面的全部目录。
 也可以直接放入下载的论文源码压缩包，由 agent 保留原包并解压工作副本。
 告诉 agent 哪个路径对应哪份材料，哪些论点最重要、哪些细节可以放进备注。
-例如：“请先根据 materials/outline.md 和已提供的论文整理规范化大纲，标出证据、备注和待确认项；我确认后再制作 PDF/PPTX。”
+工作流程由 `AGENTS.md` 和制作指南约定，无需另写一份提示词文件。
 
 第一阶段，agent 阅读材料并生成 `build/outline-normalized.md`，列出目标、听众、时间分配、
 章节顺序、每页主旨、可见证据、备注内容、来源和元数据；同时列出删除、合并、拆分、重排、
@@ -74,7 +74,7 @@ PDF/PPTX、备注和临时文件统一在 `build/`：
 
 ```text
 main.tex                      agent 生成的汇报入口
-materials/outline.md          用户填写的大纲，忽略且不分发
+outline.md                   用户直接写入的草稿；源码包中始终为空
 chapters/talk/                agent 生成的元信息和章节
 bibliography/main.bib         核实后的汇报文献
 build/
@@ -96,12 +96,13 @@ build/
 `materials/.gitkeep` 随仓库和源码包提供，克隆或解压后素材目录已经存在。
 放进 `materials/` 的文件、`main.tex`、`chapters/talk/`、`bibliography/main.bib` 和 `build/` 中的其他构建产物只留在本地：Git 会忽略它们，源码包也不包含它们；公开示例备注 `build/example.notes.json` 是版本控制例外。
 自己的图片和论文放在 `materials/`，不要放进 `assets/`；`assets/` 是模板自带的标志、校园图片和示例视频。
-`outline.md` 是公开空白模板；私人草稿保存到已忽略的 `materials/outline.md`，
-规范化大纲保存在 `build/outline-normalized.md`，两者均不打包。`prompt.md` 只保留工作流程。
+根目录的 `outline.md` 专门承载草稿，使用说明放在文档中。规范化审阅副本保存在
+`build/outline-normalized.md`，不覆盖原稿。`make dist` 将空的 `outline.md` 放入源码包，
+不读取或清空本地草稿。该文件受 Git 跟踪，向公共模板贡献时不要提交私人内容。
 
 样式文件在 `theme/`，`.latexmkrc` 自动配置 TeX 搜索路径；始终从项目根目录构建。
 正文与图像路径相对于项目根目录，PDF 内的本地附件链接相对于 `build/`。
-复制这个文件夹时保留源码、`outline.md`、`prompt.md`、`STYLE.md`、`AGENTS.md`、Makefile、`.latexmkrc`、`theme/`、
+复制这个文件夹时保留源码、`outline.md`、`STYLE.md`、`AGENTS.md`、Makefile、`.latexmkrc`、`theme/`、
 `tools/`、`chapters/`、`bibliography/`、`assets/`、`docs/`、`pyproject.toml` 和 `uv.lock`；
 无需复制 `.venv` 或已有构建产物。直接调用 XeLaTeX 时须自行设置主题搜索路径、创建输出目录并处理 biber，推荐交由 Make 完成。
 
@@ -345,8 +346,7 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 - `Makefile`：供人和 agent 共用的一键编译、转换、测试及清理入口。
 - `tools/draft_preview.py`：draft 页面图像、缩略图及排版告警报告，不增加依赖。
 - `tools/compare_pdf.py`：重构前后 PDF 的完整逐页像素与链接回归比较。
-- `outline.md`：供用户复制填写的通用空白大纲。
-- `prompt.md`：规范化大纲、用户确认、制作汇报的两阶段流程。
+- `outline.md`：根目录中的草稿入口，默认留空，用户直接写入内容。
 - `materials/`：用户提供的论文源码、PDF、图片和数据，本地目录。
 - `example.tex`：完整功能演示入口与配置参考。
 - `main.tex`：agent 生成的汇报入口、文献资源及章节顺序。
@@ -418,7 +418,7 @@ chapters/
 查看示例时从根目录运行 `make MAIN=example` 或 `make draft MAIN=example`，不单独编译章节；
 `latexmk` 会追踪这些文件的变化。调整顺序后同步核对逐页备注。
 演示片段与所属章节同放在 `chapters/`，由章节中的 `\input` 引入。
-自己的汇报先按 `outline.md` 整理并确认大纲，再由 agent 组织在 `main.tex` 与 `chapters/talk/` 中，流程见 `prompt.md`。
+自己的汇报先按 `outline.md` 整理并确认大纲，再由 agent 组织在 `main.tex` 与 `chapters/talk/` 中，流程见 [Agent 制作指南](agent-authoring.md)。
 
 `example.tex` 在封面后先介绍推荐使用方式，再按“基础页面与图像、论文讲解与引用、提示框、导航布局、媒体与收尾”组织示例，
 五节分别包含 1、2、3、4、5 个 subsection，覆盖单列、两列及奇数项最后一行的排列。

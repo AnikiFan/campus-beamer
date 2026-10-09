@@ -25,7 +25,7 @@ FILES = (
     'release-please-config.json', '.release-please-manifest.json',
     'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md', 'AGENTS.md', '.editorconfig', '.gitignore', '.latexmkrc', 'Makefile',
     'docker/Dockerfile', 'docker/Dockerfile.dockerignore', 'docker/entrypoint.sh',
-    'example.tex', 'prompt.md', 'outline.md', 'STYLE.md', 'materials/.gitkeep',
+    'example.tex', 'outline.md', 'STYLE.md', 'materials/.gitkeep',
     'theme/campusbeamer.cls', 'theme/beamerthemecampus.sty',
     'theme/campuscolor.sty',
     'theme/campuscode.sty',
@@ -104,7 +104,9 @@ def package(root, output):
                 info = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
                 info.compress_type = zipfile.ZIP_DEFLATED
                 info.external_attr = 0o100644 << 16
-                archive.writestr(info, path.read_bytes())
+                # The root outline is user input, never public source content.
+                content = b'' if name == 'outline.md' else path.read_bytes()
+                archive.writestr(info, content)
         temporary.replace(output)
     finally:
         temporary.unlink(missing_ok=True)

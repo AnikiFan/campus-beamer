@@ -2,7 +2,7 @@
 
 [返回首页](../README.md) · [完整手册](usage.md) · [编辑器与在线用法](workflows.md)
 
-命令从项目根目录执行。`example.tex` 是功能演示；用户参考 `prompt.md` 提供思路与素材，
+命令从项目根目录执行。`example.tex` 是功能演示；用户在根目录 `outline.md` 中写草稿并准备素材，
 agent 新建 `main.tex` 完成汇报。
 本项目需要 XeLaTeX；不支持用 pdfLaTeX 编译中文示例。
 如希望免去本机 TeX 和 uv 安装，可使用 [Docker 构建环境](docker.md)。

@@ -42,7 +42,7 @@ README 的封面与引用截图从当前 `build/example.pdf` 以至少 **600 DPI
 
 ## 组织与提交
 
-- 提示词 `prompt.md` 和功能示例 `example.tex` 保留在根目录；用户汇报由 agent 生成在 `main.tex` 与 `chapters/talk/`，文档类、主题、配色和学校配置统一放在 `theme/`，通过 `.latexmkrc` 配置搜索路径。
+- 草稿入口 `outline.md` 和功能示例 `example.tex` 保留在根目录；用户汇报由 agent 生成在 `main.tex` 与 `chapters/talk/`，文档类、主题、配色和学校配置统一放在 `theme/`，通过 `.latexmkrc` 配置搜索路径。
 - 演示元信息、章节正文与可复用演示片段统一放在 `chapters/`；示例代码源文件放在 `chapters/code/`。
 - 文献数据库放在 `bibliography/`，Dockerfile、构建上下文清单与容器入口放在 `docker/`。
 - 手册与少量精选预览放在 `docs/`；测试源码放在 `tools/fixtures/`。
@@ -66,9 +66,10 @@ README 的封面与引用截图从当前 `build/example.pdf` 以至少 **600 DPI
 所有公开文件逐一登记在 `tools/package_source.py` 的 `FILES` 白名单中，不递归收录目录中的新文件。
 新增文件默认不打包；审核其内容可公开后，再将路径加入白名单并运行 `make test`、`make dist`。
 清单文件及其父目录不能是符号链接。已登记文件的内容仍需审核，白名单不代替隐私检查。
-`prompt.md` 与 `outline.md` 也随源码分发，发布前请保留通用流程和空白大纲。
-填写后的私人大纲放入 `materials/outline.md`，规范化大纲放入 `build/outline-normalized.md`；
-这两个目录中的私人文件不提交、不打包。白名单内的模板不要写入私人需求。
+`outline.md` 在根目录直接承载用户草稿；公共仓库中的初始文件为空，不内嵌使用说明。
+打包器始终写入空的 `outline.md`，不读取或修改本地草稿。Git 仍会显示草稿的修改，
+向公共模板提交时不要暂存私人内容；不要为打包而清空用户文件。规范化审阅副本
+保存在忽略的 `build/outline-normalized.md`。其余白名单文件仍需审核私人信息。
 清华素材的来源、使用范围和权利人联系方式见 [assets/README.md](assets/README.md)。
 打包这些素材不表示已经取得授权。如有权利或署名问题，按该说明中的邮箱或本仓库 Issue 联系维护者。
 

@@ -67,7 +67,7 @@ class SourcePackageTests(unittest.TestCase):
         self.assertEqual(first, self.output.read_bytes())
 
     def test_agent_authored_talk_and_materials_are_not_distributed(self):
-        private_files = ('main.tex', 'chapters/talk/metadata.tex',
+        private_files = ('main.tex', 'prompt.md', 'chapters/talk/metadata.tex',
                          'chapters/talk/01_intro.tex', 'bibliography/main.bib',
                          'materials/paper/main.tex', 'materials/derived/figure.png',
                          'materials/outline.md', 'build/outline-normalized.md')
@@ -79,12 +79,27 @@ class SourcePackageTests(unittest.TestCase):
         with ZipFile(self.output) as archive:
             names = archive.namelist()
             self.assertIn('example.tex', names)
-            self.assertIn('prompt.md', names)
+            self.assertNotIn('prompt.md', names)
             self.assertIn('outline.md', names)
             self.assertEqual([name for name in names if name.startswith('materials/')],
                              ['materials/.gitkeep'])
             for name in private_files:
                 self.assertNotIn(name, names)
+
+    def test_root_outline_is_empty_in_archive_without_changing_local_draft(self):
+        outline = self.root / 'outline.md'
+        outline.write_text('# Private draft\nUnpublished results and personal notes.\n')
+        original = outline.read_bytes()
+        package(self.root, self.output)
+        first_archive = self.output.read_bytes()
+        with ZipFile(self.output) as archive:
+            self.assertEqual(archive.read('outline.md'), b'')
+        self.assertEqual(outline.read_bytes(), original)
+
+        outline.write_text('A different private draft')
+        package(self.root, self.output)
+        self.assertEqual(self.output.read_bytes(), first_archive)
+        self.assertEqual(outline.read_text(), 'A different private draft')
 
     def test_rejects_symlinks_in_source(self):
         (self.root / 'README.md').unlink()
