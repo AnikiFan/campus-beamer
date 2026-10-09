@@ -36,11 +36,13 @@ Keep the user's original draft in the root `outline.md` and the normalized revie
 copy in `build/outline-normalized.md`.
 
 For a new or content-bearing revision, confirm that `build/outline-normalized.md`
-records the goal, audience, duration, section order, per-page messages, visible
-evidence, notes, sources, metadata, planned restructuring, and pending external
-lookups or new assets. Verify that presentation source and notes were written
-only after the user confirmed that outline; later content changes should return
-to this outline step.
+contains developed section/subsection content, metadata, audience, goal, time
+budget, explanations, evidence, sources, and open questions. Verify that the user
+confirmed this content before production. Review the final slides and notes
+against that revision: substantive additions belong in outline review. Frame
+splits, concise wording, and redistribution of approved detail into notes are
+layout decisions; check their coverage and time budget without treating page
+count as a fixed outline requirement.
 
 After the first successful draft, read `build/draft/<MAIN>/report.txt` (or
 `report.json`), inspect every contact sheet, and open every rendered page at a

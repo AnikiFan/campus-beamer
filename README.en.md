@@ -64,23 +64,23 @@ This is not an official university template.
 
 1. Clone the repository or extract the source ZIP, then open the project with an agent that supports local file access and command execution.
 2. Put prepared materials in `materials/`: for example an arXiv LaTeX source archive, a paper PDF, figures or your own results.
-3. Fill in the basic information, goals and draft outline in the root [`outline.md`](outline.md). Use prose, notes or a section list for the content.
+3. Fill in the basic information in the root [`outline.md`](outline.md), then write your ideas in the draft area using prose, notes or a section list. Include goals, material paths and speaking preferences as useful.
 4. Ask the agent:
 
 > Make a presentation from the outline.
 
-The agent follows [`AGENTS.md`](AGENTS.md), reads the outline and materials, and prepares sections, per-slide messages and speaker-note plans for review.
-After you confirm the outline, it creates the presentation source, inspects the rendered pages and exports `build/main.pdf` and `build/main.pptx`.
-The outline can include the title, audience, duration, goals, material paths, links and open questions.
+The agent follows [`AGENTS.md`](AGENTS.md), reads the draft and materials, and develops a detailed outline with substantive content for each section and subsection.
+It expands key points, explanations, evidence and the narrative for your review. Content development and restructuring happen at this stage.
+After confirmation, it composes pages, distributes content between slides and notes, checks the layout and exports `build/main.pdf` and `build/main.pptx`.
 
 [`STYLE.md`](STYLE.md) defines the default presentation style. **Edit it to suit your needs:**
 slide density, the split between slides and notes, note detail, citation placement and date formatting.
 The agent applies these preferences when authoring and revising; explicit requirements in the current outline take precedence.
 It also unpacks paper source archives and reads the text, captions, figures and bibliography.
-For external research, new assets or content additions, it presents the proposed changes and sources for your confirmation.
+Outline development follows the talk's goals and supplied materials. External research, new assets or changes to facts are collected as questions for your confirmation.
 
-To revise a presentation, give the agent your feedback. It updates the outline, slides and notes and rebuilds the outputs.
-Content changes return to outline review; layout and spelling fixes can proceed directly.
+Content revisions return to the detailed outline for confirmation before updating slides and notes.
+During production, the agent can split frames, condense wording and adjust layouts within the approved content and time budget.
 
 PPTX exports automatically include native sections and document properties: title,
 author, subtitle, group, advisor and presentation date.

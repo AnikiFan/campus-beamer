@@ -13,8 +13,8 @@
 用户只需提供两样东西：**想表达的内容**和**已收集的素材**。
 整体风格由可编辑的 [STYLE.md](../STYLE.md) 描述，包括正文密度、备注分工、
 引用位置和日期格式。用户可修改该文件，agent 会在制作与修订时应用；单次简报优先。
-在根目录的 [`outline.md`](../outline.md) 中填写基本信息、演讲目标和草稿大纲。
-模板提供素材、链接、讲解备注、限制和待确认事项等栏目，供你补充相关内容。
+在根目录的 [`outline.md`](../outline.md) 中填写基本信息，并在草稿区写下演讲思路。
+草稿可用段落、笔记或章节列表，包含已有想法、素材路径、讲解偏好和待确认事项。
 在能读写本地文件、运行命令的 agent 中打开本目录，说“根据大纲制作 PPT”即可。
 
 将素材放到本地 `materials/`，例如：
@@ -32,19 +32,19 @@ materials/
 告诉 agent 哪个路径对应哪份材料，哪些论点最重要、哪些细节可以放进备注。
 agent 按 `AGENTS.md` 和[制作指南](agent-authoring.md) 组织内容并完成交付。
 
-第一阶段，agent 阅读材料并生成 `build/outline-normalized.md`，列出目标、听众、时间分配、
-章节顺序、每页主旨、可见证据、备注内容、来源和元数据；同时列出删除、合并、拆分、重排、
-改写建议，以及需要外部检索、新素材或可能改变事实、论点、例子和时长的事项。此时先审阅并
-确认大纲，不写新的 PPT 正文或推测性备注。扩充内容、改变论点、加入例子、外部资料或修改
-事实前，agent 需说明依据和影响并询问；等待超时不代表确认。
+第一阶段是**内容扩充与大纲组织**。agent 根据草稿和已提供材料，生成
+`build/outline-normalized.md`：按 `section` / `subsection` 展开演讲内容，写明各节目的、
+关键要点、必要解释、证据与来源、过渡、限制和时间分配，供你审阅。
+在演讲目标和材料范围内的扩充由 agent 完成；外部检索、新素材、事实修改或缺少依据的
+内容集中列为待确认事项。这个阶段完成内容补充、重组与取舍，用户确认详细大纲后进入制作。
 
-第二阶段，确认后 agent 按确认版生成 `main.tex`、`chapters/talk/` 及
-需要时的 `bibliography/main.bib`。它会运行 `make draft` 检查实际排版，逐页修正密度和溢出，
-按最终页序生成 `build/main.notes.json`，再运行 `make` 导出 PDF 与带备注的 PPTX。
-需要补充影响含义的事实、改变核心表达或获取外部材料时先集中确认；常规精简、拆页与排版由 agent 完成。
-新增未授权的事实、建议、案例、教程或演示也应先确认，备注与正文遵循相同边界。
-后续内容修改先更新并确认大纲，再同步正文及备注。已确认范围内的排版、拼写修正和编译
-可直接进行。`make` 不读取大纲或判断批准状态，这个确认步骤由 agent 执行。
+第二阶段是**页面编排与输出检查**。agent 按确认的大纲生成 `main.tex`、`chapters/talk/`、
+需要时的文献资源和 `build/main.notes.json`，主要处理页面划分、短标题、图表与代码布局、
+正文与备注分配。它会用 `make draft` 检查密度和溢出，再用 `make` 导出 PDF/PPTX。
+
+拆页、合并稀疏页面、精简措辞和移动已确认的讲解内容属于排版工作，可在演讲时长范围内
+直接完成。制作中若需要新增论点、例子或实质性解释，先补入详细大纲供确认，再同步正文
+和备注。后续内容修订遵循同一流程。`make` 负责编译与转换，大纲审阅由 agent 组织。
 
 ### 环境与构建入口
 
@@ -74,11 +74,11 @@ PDF/PPTX、备注和临时文件统一在 `build/`：
 
 ```text
 main.tex                      agent 生成的汇报入口
-outline.md                   基本信息与汇报草稿大纲
+outline.md                   用户填写的基本信息与自由草稿
 chapters/talk/                agent 生成的元信息和章节
 bibliography/main.bib         核实后的汇报文献
 build/
-├── outline-normalized.md     规范化大纲及确认版本记录
+├── outline-normalized.md     section/subsection 详细内容与确认记录
 ├── main.pdf / main.pptx       最终交付
 ├── main.notes.json           逐页备注，清理时保留
 ├── main.aux / main.log / ...  临时文件，成功后清理、失败时保留
@@ -96,7 +96,7 @@ build/
 `materials/.gitkeep` 随仓库和源码包提供，克隆或解压后素材目录已经存在。
 放进 `materials/` 的文件、`main.tex`、`chapters/talk/`、`bibliography/main.bib` 和 `build/` 中的其他构建产物只留在本地：Git 会忽略它们，源码包也不包含它们；公开示例备注 `build/example.notes.json` 是版本控制例外。
 自己的图片和论文放在 `materials/`，不要放进 `assets/`；`assets/` 是模板自带的标志、校园图片和示例视频。
-根目录的 `outline.md` 保存原始草稿，`build/outline-normalized.md` 保存整理后的审阅大纲。
+根目录的 `outline.md` 保存原始草稿，`build/outline-normalized.md` 保存 agent 扩充后的详细大纲。
 `make dist` 在源码包中提供起始大纲模板，本地草稿保持原样。`outline.md` 受 Git 跟踪；
 向公共仓库提交修改时，请确认其中没有私人内容。
 
@@ -185,7 +185,7 @@ draft 使用正式版相同的排版与全部图片，由 `latexmk` 增量编译
 ## 作为 PPT 生成 harness 使用
 
 在 `outline.md` 中写下演讲思路，并注明 `materials/` 中的素材路径。agent 按 `AGENTS.md`
-读取风格偏好、大纲及本地材料，先整理章节顺序、每页主旨、证据与备注分工，供用户确认。
+读取风格偏好、草稿及本地材料，先扩充每个 section/subsection 的内容、解释和证据，供用户确认。
 确认后，它会新建 `main.tex`，将元信息和正文写入 `chapters/talk/`，按需建立
 `bibliography/main.bib`，并编写 `build/main.notes.json`。
 
@@ -347,7 +347,7 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 - `Makefile`：供人和 agent 共用的一键编译、转换、测试及清理入口。
 - `tools/draft_preview.py`：draft 页面图像、缩略图及排版告警报告，不增加依赖。
 - `tools/compare_pdf.py`：重构前后 PDF 的完整逐页像素与链接回归比较。
-- `outline.md`：根目录中的草稿入口，包含基本信息与内容大纲等栏目。
+- `outline.md`：根目录中的输入文件，包含基本信息栏与自由草稿区。
 - `materials/`：用户提供的论文源码、PDF、图片和数据，本地目录。
 - `example.tex`：完整功能演示入口与配置参考。
 - `main.tex`：agent 生成的汇报入口、文献资源及章节顺序。

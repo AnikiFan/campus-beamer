@@ -35,40 +35,59 @@ and continue.
 
 ## Two-stage outline workflow
 
-For a new talk or a content-bearing revision, first normalize the supplied
-outline before writing presentation source. Save a reviewable
-`build/outline-normalized.md` containing the goal, audience, duration budget,
-section order, per-page core message, visible evidence, notes content, sources
-and metadata, planned deletions/merges/splits/reordering/rewrites, and items
-requiring external lookup or new assets. Include any change that could affect
-facts, claims, examples, page count, or duration as a pending question with its
-source and expected impact.
+The user supplies basic information and a free-form draft in `outline.md`.
+Read the draft for its purpose, priorities, facts, and material paths. Use
+[STYLE.md](../STYLE.md) to guide the eventual presentation.
 
-Wait for the user's confirmation before creating or expanding `main.tex`,
-`chapters/talk/`, `bibliography/main.bib`, or speaker notes. Do not put guesses
-into the deck while confirmation is pending; continue source inspection and
-keep optional additions outside the deck. After confirmation, implement only
-the confirmed outline, then compile and validate the final PDF/PPTX. For later
-content changes, update and re-confirm the normalized outline before syncing
-the presentation. Purely mechanical checks or an explicitly requested typo and
-layout fix may proceed without inventing content.
+### Stage 1: develop the detailed outline
 
-Within a confirmed outline, rewriting, condensing, date formatting, and moving
-authorized explanations into notes are routine authoring. Preserve the root
-`outline.md` as user input and write the normalized review copy under `build/`.
-Keep the original draft intact. Public-template commits must exclude filled
-private outlines. Source packaging uses `tools/templates/outline.md` for the
-distributed starter outline. Record which outline revision the user actually
-confirmed. Before adding facts, opinions, recommendations, examples, tutorial
-steps, demos, or conclusions not
-provided or authorized for expansion, bundle the proposed additions, sources,
-and impact on slide count/duration for approval. This applies to notes as well
-as visible slides. While the outline awaits confirmation, continue inspection
-and planning only; keep optional additions outside the deck. Silence is not
-approval. An explicit expansion request authorizes planning within that scope
-without asking again about scope, but the resulting outline still needs review.
-Reading supplied material
-or verifying a fact does not authorize an unrelated expansion of the talk.
+Expand and organize the draft into substantive `section` and `subsection`
+content in `build/outline-normalized.md`. This is the content-development stage:
+explain the ideas, build the argument, fill in supported definitions or steps,
+select evidence and examples from the authorized material, and plan transitions
+and limitations. Do this work before creating slide source or speaker notes.
+Do not limit the result to a list of headings or repeat the draft verbatim.
+
+The reviewable outline must contain:
+
+- the supplied metadata, audience, goal, and speaking-time budget;
+- each section's title, purpose, order, and approximate speaking time;
+- each subsection's topic, developed content and key points, supporting
+  figures/data/code/citations, and explanations to cover in the talk;
+- source paths or references for factual claims, required visible evidence,
+  speaker-note material, transitions, and necessary limitations;
+- proposed content changes and unresolved facts or material gaps.
+
+Within the supplied purpose and materials, use judgment to develop explanations
+and restructure the narrative. Present proposed additions with their evidence
+in the outline for review. External research, proprietary assets, or changes to
+user-provided facts require prior authorization. Label unsupported items as
+questions; never invent results, examples presented as facts, or citations.
+Keep the user's original draft intact and record which outline revision the
+user actually confirmed. While awaiting confirmation, continue inspection and
+outline work. Confirmation authorizes the reviewed content for production.
+
+### Stage 2: compose and lay out the slides
+
+After confirmation, create `main.tex`, `chapters/talk/`, verified citation
+resources when needed, and `build/<MAIN>.notes.json` from the approved outline.
+Map sections and subsections to the Beamer hierarchy, choose frame boundaries,
+condense visible text, distribute approved explanations between slides and
+notes, and select layouts for the figures, equations, code, and links.
+Compile, inspect the actual pages, and validate PDF/PPTX output.
+
+Frame count and boundaries are layout decisions. Split crowded frames, combine
+sparse ones, shorten titles, or move approved detail into notes as needed while
+preserving the argument, evidence, necessary conditions, and time budget.
+A layout split does not require another content approval. Keep notes aligned
+with the final PDF pages.
+
+New claims, examples, recommendations, or substantive explanations discovered
+necessary during production return to the detailed outline for review before
+entering slides or notes. Later content-bearing revisions follow the same loop;
+layout, spelling, and formatting fixes can proceed within the approved content.
+Public-template commits must exclude filled private outlines. Source packaging
+uses `tools/templates/outline.md` for the distributed starter outline.
 
 ## Source layout
 

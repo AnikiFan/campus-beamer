@@ -70,7 +70,7 @@ README 的封面与引用截图从当前 `build/example.pdf` 以至少 **600 DPI
 清单文件及其父目录不能是符号链接。已登记文件的内容仍需审核，白名单不代替隐私检查。
 `outline.md` 是用户草稿入口。源码包从 `tools/templates/outline.md` 提供起始模板，
 本地草稿保持原样；修改大纲模板时同步更新这两份文件。
-规范化审阅副本保存在忽略的 `build/outline-normalized.md`。公共提交应排除已填写的
+agent 扩充后的详细大纲保存在忽略的 `build/outline-normalized.md`。公共提交应排除已填写的
 私人大纲；其余白名单文件同样需要审核内容是否适合公开。
 清华素材的来源、使用范围和权利人联系方式见 [assets/README.md](assets/README.md)。
 打包这些素材不表示已经取得授权。如有权利或署名问题，按该说明中的邮箱或本仓库 Issue 联系维护者。

@@ -36,14 +36,16 @@ when the task touches their subject.
   Routine condensation, layout choices, local inspection, and safe local tests
   are authorized work. If a missing fact does not change the argument, use a
   clear placeholder and report it.
-- New facts, advice, examples, tutorials, demos, or conclusions outside the
-  authorized brief/materials need approval before inclusion, in slides or notes.
-  Continue within previously approved scope without asking again; verification
-  alone is not permission to expand a talk.
-- For a new talk or a content-bearing revision, normalize the outline and obtain
-  user confirmation before writing or expanding presentation source or notes.
-  Keep the normalized outline reviewable under `build/`; routine tool checks may
-  proceed before confirmation, but conjectured content may not enter the deck.
+- Develop content in the outline stage: expand the user's free-form draft into
+  sections and subsections with substantive explanations, evidence, and sources
+  within the supplied purpose/materials. External research, proprietary assets,
+  and changes to user-provided facts require prior authorization; unsupported
+  claims remain open questions.
+- For a new talk or a content-bearing revision, present the detailed outline in
+  `build/outline-normalized.md` for confirmation before creating slides or notes.
+  During production, focus on layout, concise wording, slide/notes allocation,
+  and output validation. Content additions return to outline review; layout
+  changes such as splitting a crowded frame can proceed within approved content.
 - Keep the institution-neutral `campus` API. School identity and functional
   colors belong in `theme/campuscolor.sty`; talk content belongs in `main.tex`,
   `chapters/talk/`, `materials/`, and (when needed) `bibliography/main.bib`.
@@ -86,12 +88,11 @@ explicit `MAIN` wins. Use `make help` for the complete command list.
 
 ## Repository map
 
-- `outline.md`: primary user-authored draft at the repository root, with fields
-  for metadata, goals, content, materials, notes, and open questions.
+- `outline.md`: basic information and the user's free-form draft at the repository root.
   Preserve filled content as user input; do not commit it to the public template.
   Source ZIPs use `tools/templates/outline.md` as the starter outline.
-- `build/outline-normalized.md`: ignored review copy; keep approval tied to a
-  specific outline revision.
+- `build/outline-normalized.md`: agent-expanded section/subsection content for
+  review; keep approval tied to a specific outline revision.
 - `example.tex`, `chapters/`, `bibliography/refs.bib`: public reference demo.
 - `main.tex`, `chapters/talk/`, `bibliography/main.bib`, `materials/`: local
   agent-authored talk inputs and sources.
