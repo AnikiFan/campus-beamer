@@ -5,6 +5,13 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.4.2](https://github.com/AnikiFan/campus-beamer/compare/v0.4.1...v0.4.2) (2026-10-09)
+
+
+### Bug Fixes
+
+* make root outline the direct presentation input ([9500b1a](https://github.com/AnikiFan/campus-beamer/commit/9500b1af1a597c9e57c05386d5f6df2f0869ff09))
+
 ## [0.4.1](https://github.com/AnikiFan/campus-beamer/compare/v0.4.0...v0.4.1) (2026-10-09)
 
 
