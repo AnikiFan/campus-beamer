@@ -50,6 +50,21 @@ agent 按 `AGENTS.md` 和[制作指南](agent-authoring.md) 组织内容并完�
 直接完成。制作中若需要新增论点、例子或实质性解释，先补入详细大纲供确认，再同步正文
 和备注。后续内容修订遵循同一流程。`make` 负责编译与转换，大纲审阅由 agent 组织。
 
+### 内置 Agent Skills
+
+仓库在 `.agents/skills/` 中提供两个任务入口：
+
+- [`campus-beamer-authoring`](../.agents/skills/campus-beamer-authoring/SKILL.md)：
+  从草稿和材料扩充详细大纲，确认后制作页面与备注，并完成交付。
+- [`campus-beamer-validation`](../.agents/skills/campus-beamer-validation/SKILL.md)：
+  编译、导出、检查 PDF/PPTX 或排查输出问题。
+
+支持仓库级 Agent Skills 的工具可根据请求选用对应入口。在 Codex 中，也可显式使用
+`$campus-beamer-authoring` 或 `$campus-beamer-validation`。日常制作仍可直接说
+“根据大纲制作 PPT”。其他工具通过 `AGENTS.md` 读取相同的制作与验证指南。
+整体风格继续由根目录的 `STYLE.md` 定义，用户可按需修改；详细指南按任务读取。
+这两个 skill 随源码 ZIP 一并提供，引用路径相对于各自的 `SKILL.md`。
+
 ### 环境与构建入口
 
 首次使用需准备 **GNU Make、uv、XeLaTeX、latexmk、biber** 及模板的 TeX 包和字体，

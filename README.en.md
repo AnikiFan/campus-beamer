@@ -73,6 +73,9 @@ The agent follows [`AGENTS.md`](AGENTS.md), reads the draft and materials, and d
 It expands key points, explanations, evidence and the narrative for your review. Content development and restructuring happen at this stage.
 After confirmation, it composes pages, distributes content between slides and notes, checks the layout and exports `build/main.pdf` and `build/main.pptx`.
 
+The repository includes [authoring and validation Agent Skills](docs/usage.md#内置-agent-skills)
+for tools that support them. Other tools can follow the same workflows through `AGENTS.md`.
+
 [`STYLE.md`](STYLE.md) defines the default presentation style. **Edit it to suit your needs:**
 slide density, the split between slides and notes, note detail, citation placement and date formatting.
 The agent applies these preferences when authoring and revising; explicit requirements in the current outline take precedence.

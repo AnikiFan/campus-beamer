@@ -48,6 +48,8 @@ README 的封面与引用截图从当前 `build/example.pdf` 以至少 **600 DPI
 - 演示元信息、章节正文与可复用演示片段统一放在 `chapters/`；示例代码源文件放在 `chapters/code/`。
 - 文献数据库放在 `bibliography/`，Dockerfile、构建上下文清单与容器入口放在 `docker/`。
 - 手册与少量精选预览放在 `docs/`；测试源码放在 `tools/fixtures/`。
+- 仓库级 skill 入口放在 `.agents/skills/`，描述明确触发任务，详细流程引用 `docs/agent-*.md`。
+  风格偏好保留在可编辑的 `STYLE.md`；新增 skill 文件也须登记源码打包清单。
 - 编译日志、PDF/PPTX、agent 生成的 `*.notes.json` 和临时图片保存在忽略的 `build/` 中；
   备注格式示例作为文档保留在 `docs/notes.example.json`。
 - 新素材同时注明作者、来源和再分发许可；未知内容不要声明为 GPL。

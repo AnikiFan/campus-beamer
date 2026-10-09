@@ -7,16 +7,19 @@ workflow guide only when the task needs it.
 
 ## Choose the smallest relevant guide
 
-- **Create or revise a talk:** read [`STYLE.md`](STYLE.md), [`outline.md`](outline.md)
-  and [`docs/agent-authoring.md`](docs/agent-authoring.md), then inspect the supplied
-  brief/materials and the specific template files you need. Inventory authorized
-  materials with ignore rules disabled and review coverage before confirmation. A request such as
-  “根据大纲制作 PPT” starts this workflow.
+- **Create or revise a talk:** use
+  [`campus-beamer-authoring`](.agents/skills/campus-beamer-authoring/SKILL.md).
+  A request such as “根据大纲制作 PPT” starts this workflow. If skills are not
+  supported, read [`STYLE.md`](STYLE.md), [`outline.md`](outline.md) and
+  [`docs/agent-authoring.md`](docs/agent-authoring.md). Inventory authorized
+  materials with ignore rules disabled and review coverage before confirmation.
 - **Change theme geometry, colors, class options, or visual behavior:** read
   [`docs/agent-theme.md`](docs/agent-theme.md) and the affected files under
   `theme/` or `tools/fixtures/`.
-- **Build, export, inspect, or diagnose output:** read
-  [`docs/agent-validation.md`](docs/agent-validation.md), then use the narrowest
+- **Build, export, inspect, or diagnose output:** use
+  [`campus-beamer-validation`](.agents/skills/campus-beamer-validation/SKILL.md).
+  If skills are not supported, read
+  [`docs/agent-validation.md`](docs/agent-validation.md). Use the narrowest
   relevant `make` target.
 - **Look up or update citations:** use [`docs/literature.md`](docs/literature.md)
   and read the paper or other authorized primary source before making claims.
@@ -100,6 +103,8 @@ explicit `MAIN` wins. Use `make help` for the complete command list.
 - `theme/`: class, theme implementation, school profile, and code-window style.
 - `tools/`: converter, preview, literature, packaging, fixtures, and tests.
 - `docs/`: user documentation plus the task-specific agent guides linked above.
+- `.agents/skills/`: repository-local authoring and validation task entry points;
+  detailed workflows remain in the linked guides.
 - `build/`: ignored PDFs, PPTX, notes, previews, logs, and intermediate files.
 
 Keep the existing 16:9 layout, default primary-color section pages, fixed

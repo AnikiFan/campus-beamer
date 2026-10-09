@@ -24,6 +24,8 @@ FILES = (
     'README.md', 'README.en.md', 'LICENSE', 'SECURITY.md', 'ACCESSIBILITY.md', 'CHANGELOG.md',
     'release-please-config.json', '.release-please-manifest.json',
     'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md', 'AGENTS.md', '.editorconfig', '.gitignore', '.latexmkrc', 'Makefile',
+    '.agents/skills/campus-beamer-authoring/SKILL.md',
+    '.agents/skills/campus-beamer-validation/SKILL.md',
     'docker/Dockerfile', 'docker/Dockerfile.dockerignore', 'docker/entrypoint.sh',
     'example.tex', 'outline.md', 'STYLE.md', 'materials/.gitkeep',
     'tools/templates/outline.md',
