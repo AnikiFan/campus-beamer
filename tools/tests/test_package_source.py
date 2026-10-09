@@ -69,7 +69,8 @@ class SourcePackageTests(unittest.TestCase):
     def test_agent_authored_talk_and_materials_are_not_distributed(self):
         private_files = ('main.tex', 'chapters/talk/metadata.tex',
                          'chapters/talk/01_intro.tex', 'bibliography/main.bib',
-                         'materials/paper/main.tex', 'materials/derived/figure.png')
+                         'materials/paper/main.tex', 'materials/derived/figure.png',
+                         'materials/outline.md', 'build/outline-normalized.md')
         for name in private_files:
             path = self.root / name
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -79,6 +80,7 @@ class SourcePackageTests(unittest.TestCase):
             names = archive.namelist()
             self.assertIn('example.tex', names)
             self.assertIn('prompt.md', names)
+            self.assertIn('outline.md', names)
             self.assertEqual([name for name in names if name.startswith('materials/')],
                              ['materials/.gitkeep'])
             for name in private_files:

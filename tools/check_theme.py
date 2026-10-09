@@ -182,17 +182,43 @@ def check_class_fixture(name, document, log):
         selected = document[2].get_text()
         if 'total = sum(values)' not in selected or 'print(' in selected:
             raise RuntimeError(f'{name}: external source line selection failed')
-        caption = document[0].search_for('train_model.py')
-        code = document[0].search_for('中文注释')
-        if not caption or not code or caption[0].y0 <= code[0].y1:
-            raise RuntimeError(f'{name}: code caption is not outside the code area')
-        if 'Shell' in document[1].get_text():
-            raise RuntimeError(f'{name}: terminal caption still uses Shell')
-        config_page = document[4]
-        if config_page.search_for('~/.ssh/config') and config_page.search_for('Shell'):
+        # Check actual painted code boundaries, not just relative text order.
+        cases = (
+            (0, 'train_model.py', 'Python', 'print', '保留缩进并显示中文注释。'),
+            (1, 'Terminal', 'Shell', 'shell output', '静态命令与输出示例。'),
+            (1, 'reset.py', 'Python', 'Python again', None),
+            (2, 'normalize.py', 'Python', 'total', '从文件读取选定行。'),
+            (3, 'demo.cpp', 'C++', 'return', None),
+            (3, '输出日志', 'Output', 'A long output', '输出不会覆盖相邻列。'),
+            (4, '~/.ssh/config', 'Config', 'RemoteForward', 'SSH 配置示例。'),
+        )
+        for index, filename, label, code, caption in cases:
+            page = document[index]
+            bodies = [drawing['rect'] for drawing in page.get_drawings()
+                      if drawing.get('fill') and all(
+                          abs(actual - expected / 255) < .001
+                          for actual, expected in zip(drawing['fill'], (32, 36, 44)))]
+            code_rects = page.search_for(code)
+            matching = [body for body in bodies
+                        if any(body.contains(rect) for rect in code_rects)]
+            if len(matching) != 1:
+                raise RuntimeError(f'{name}: {filename}: code is not inside one code area')
+            body = matching[0]
+            for marker in (filename, label):
+                if not any(body.x0 <= rect.x0 < rect.x1 <= body.x1
+                           and body.y0 - 25 <= rect.y0 < rect.y1 <= body.y0
+                           for rect in page.search_for(marker)):
+                    raise RuntimeError(f'{name}: {filename}: {marker} is not above code')
+            if caption:
+                rects = page.search_for(caption)
+                # Mixed CJK/Latin fonts can yield multiple rectangles for one caption.
+                occurrences = ''.join(page.get_text().split()).count(''.join(caption.split()))
+                if occurrences != 1 or not rects or not all(
+                        body.y1 < rect.y0 < body.y1 + 15
+                        and body.x0 <= rect.x0 < rect.x1 <= body.x1 for rect in rects):
+                    raise RuntimeError(f'{name}: {filename}: caption outside expected area')
+        if document[4].search_for('Shell'):
             raise RuntimeError(f'{name}: configuration file was labelled Shell')
-        if not config_page.search_for('RemoteForward'):
-            raise RuntimeError(f'{name}: configuration content missing')
     if name == 'class-options':
         for expected in ('References', 'Citations:', 'Fixture source', 'Institution:', 'Thank you'):
             if expected not in text:

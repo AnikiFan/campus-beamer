@@ -5,16 +5,17 @@
 
 [返回首页](../README.md) · [English overview](../README.en.md) · [贡献指南](../CONTRIBUTING.md)
 
-所有命令均从项目根目录执行。主要入口是给 agent 的自然语言提示词和本地素材；
-`prompt.md` 提供提示词示例，`example.tex` 展示功能，`main.tex` 由 agent 为你的汇报生成。
+所有命令均从项目根目录执行。`outline.md` 提供内容模板，`prompt.md` 只描述工作流程，
+`example.tex` 展示功能，`main.tex` 由 agent 按用户确认的大纲生成。
 
 ## 快速开始
 
 用户只需提供两样东西：**想表达的内容**和**已收集的素材**。
 整体风格由可编辑的 [STYLE.md](../STYLE.md) 描述，包括正文密度、备注分工、
 引用位置和日期格式。用户可修改该文件，agent 会在制作与修订时应用；单次简报优先。
-在能读写本地文件、运行命令的 agent 中打开本目录，参考 [`prompt.md`](../prompt.md)，
-用自然语言说明思路、受众和讲解重点。提示词不是必须逐项填写的表单；已有的大纲、笔记或一段想法都可以。
+将 [`outline.md`](../outline.md) 复制到 `materials/outline.md` 后填写，保留根目录模板
+为空白通用版本。也可在对话中提供等价的大纲。再在能读写本地文件、运行命令的 agent 中
+打开本目录，将 [`prompt.md`](../prompt.md) 中的流程交给它。
 
 将素材放到本地 `materials/`，例如：
 
@@ -29,14 +30,21 @@ materials/
 只需提供实际用到的文件；不要求具备上面的全部目录。
 也可以直接放入下载的论文源码压缩包，由 agent 保留原包并解压工作副本。
 告诉 agent 哪个路径对应哪份材料，哪些论点最重要、哪些细节可以放进备注。
-例如：“请讲清方法为什么有效、实验是否支撑结论，推导放备注；按 AGENTS.md 完成制作并交付 PDF/PPTX。”
+例如：“请先根据 materials/outline.md 和已提供的论文整理规范化大纲，标出证据、备注和待确认项；我确认后再制作 PDF/PPTX。”
 
-agent 解压并阅读材料、组织叙事、选择原图并核对引用，生成 `main.tex`、`chapters/talk/` 及
+第一阶段，agent 阅读材料并生成 `build/outline-normalized.md`，列出目标、听众、时间分配、
+章节顺序、每页主旨、可见证据、备注内容、来源和元数据；同时列出删除、合并、拆分、重排、
+改写建议，以及需要外部检索、新素材或可能改变事实、论点、例子和时长的事项。此时先审阅并
+确认大纲，不写新的 PPT 正文或推测性备注。扩充内容、改变论点、加入例子、外部资料或修改
+事实前，agent 需说明依据和影响并询问；等待超时不代表确认。
+
+第二阶段，确认后 agent 按确认版生成 `main.tex`、`chapters/talk/` 及
 需要时的 `bibliography/main.bib`。它会运行 `make draft` 检查实际排版，逐页修正密度和溢出，
 按最终页序生成 `build/main.notes.json`，再运行 `make` 导出 PDF 与带备注的 PPTX。
 需要补充影响含义的事实、改变核心表达或获取外部材料时先集中确认；常规精简、拆页与排版由 agent 完成。
 新增未授权的事实、建议、案例、教程或演示也应先确认，备注与正文遵循相同边界。
-后续把反馈直接交给 agent，它会修改正文及备注并重新构建。
+后续内容修改先更新并确认大纲，再同步正文及备注。已确认范围内的排版、拼写修正和编译
+可直接进行。`make` 不读取大纲或判断批准状态，这个确认步骤由 agent 执行。
 
 ### 环境与构建入口
 
@@ -66,9 +74,11 @@ PDF/PPTX、备注和临时文件统一在 `build/`：
 
 ```text
 main.tex                      agent 生成的汇报入口
+materials/outline.md          用户填写的大纲，忽略且不分发
 chapters/talk/                agent 生成的元信息和章节
 bibliography/main.bib         核实后的汇报文献
 build/
+├── outline-normalized.md     规范化大纲及确认版本记录
 ├── main.pdf / main.pptx       最终交付
 ├── main.notes.json           逐页备注，清理时保留
 ├── main.aux / main.log / ...  临时文件，成功后清理、失败时保留
@@ -86,11 +96,12 @@ build/
 `materials/.gitkeep` 随仓库和源码包提供，克隆或解压后素材目录已经存在。
 放进 `materials/` 的文件、`main.tex`、`chapters/talk/`、`bibliography/main.bib` 和 `build/` 中的其他构建产物只留在本地：Git 会忽略它们，源码包也不包含它们；公开示例备注 `build/example.notes.json` 是版本控制例外。
 自己的图片和论文放在 `materials/`，不要放进 `assets/`；`assets/` 是模板自带的标志、校园图片和示例视频。
-`prompt.md` 是随仓库提供的通用示例，把自己的思路直接发给 agent。
+`outline.md` 是公开空白模板；私人草稿保存到已忽略的 `materials/outline.md`，
+规范化大纲保存在 `build/outline-normalized.md`，两者均不打包。`prompt.md` 只保留工作流程。
 
 样式文件在 `theme/`，`.latexmkrc` 自动配置 TeX 搜索路径；始终从项目根目录构建。
 正文与图像路径相对于项目根目录，PDF 内的本地附件链接相对于 `build/`。
-复制这个文件夹时保留源码、`prompt.md`、`AGENTS.md`、Makefile、`.latexmkrc`、`theme/`、
+复制这个文件夹时保留源码、`outline.md`、`prompt.md`、`STYLE.md`、`AGENTS.md`、Makefile、`.latexmkrc`、`theme/`、
 `tools/`、`chapters/`、`bibliography/`、`assets/`、`docs/`、`pyproject.toml` 和 `uv.lock`；
 无需复制 `.venv` 或已有构建产物。直接调用 XeLaTeX 时须自行设置主题搜索路径、创建输出目录并处理 biber，推荐交由 Make 完成。
 
@@ -334,7 +345,8 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 - `Makefile`：供人和 agent 共用的一键编译、转换、测试及清理入口。
 - `tools/draft_preview.py`：draft 页面图像、缩略图及排版告警报告，不增加依赖。
 - `tools/compare_pdf.py`：重构前后 PDF 的完整逐页像素与链接回归比较。
-- `prompt.md`：交给 agent 的自然语言请求示例。
+- `outline.md`：供用户复制填写的通用空白大纲。
+- `prompt.md`：规范化大纲、用户确认、制作汇报的两阶段流程。
 - `materials/`：用户提供的论文源码、PDF、图片和数据，本地目录。
 - `example.tex`：完整功能演示入口与配置参考。
 - `main.tex`：agent 生成的汇报入口、文献资源及章节顺序。
@@ -406,7 +418,7 @@ chapters/
 查看示例时从根目录运行 `make MAIN=example` 或 `make draft MAIN=example`，不单独编译章节；
 `latexmk` 会追踪这些文件的变化。调整顺序后同步核对逐页备注。
 演示片段与所属章节同放在 `chapters/`，由章节中的 `\input` 引入。
-自己的汇报由 agent 组织在 `main.tex` 与 `chapters/talk/` 中，提示词示例见 `prompt.md`。
+自己的汇报先按 `outline.md` 整理并确认大纲，再由 agent 组织在 `main.tex` 与 `chapters/talk/` 中，流程见 `prompt.md`。
 
 `example.tex` 在封面后先介绍推荐使用方式，再按“基础页面与图像、论文讲解与引用、提示框、导航布局、媒体与收尾”组织示例，
 五节分别包含 1、2、3、4、5 个 subsection，覆盖单列、两列及奇数项最后一行的排列。
@@ -537,16 +549,17 @@ Missing Semester\par\url{https://missing.csail.mit.edu/}
 
 ## 代码与终端窗口
 
-`campuscode` 提供深灰代码区和图外 caption。caption 使用图表相同的字号和间距，
-显示内容类别图标与文件名、路径或 `Terminal`；代码区不再有内部标题栏，也不添加
-窗口控制圆点。caption 使用普通正文字体，路径中的下划线无需额外转义；窗口没有阴影，
+`campuscode` 提供深灰代码区、窄标题栏和语言图标。标题栏保留内容类型图标、文件名
+或路径以及类型标识；不添加窗口控制圆点。可选的 `caption` 位于代码区下方，使用
+图表 caption 相同的字体、字号和间距补充全局说明；其中可使用普通 LaTeX 格式，
+下划线等特殊字符需按 LaTeX 规则转义。文件名参数则按字面显示。窗口没有阴影，
 宽度跟随当前正文或 column；代码使用等宽字体与语法高亮。Python 显示 Python 图标，
-`bash` / `text` 显示终端图标，Java 显示 Java 图标，其他语言使用通用代码图标。
+`bash` / `text` 显示终端图标（默认类型标签分别为 `Shell` / `Terminal`），Java 显示 Java 图标，其他语言使用通用代码图标。
 图标来自 TeX 自带的 Font Awesome 5 包，无需下载图片。
 
 ```tex
 \begin{frame}[fragile]{归一化函数}
-\begin{campuscode}[language=Python,numbers]{normalize.py}
+\begin{campuscode}[language=Python,numbers,caption={保留缩进，便于讲解函数结构。}]{normalize.py}
 def normalize(values):
     total = sum(values)
     return [value / total for value in values]
@@ -572,7 +585,7 @@ $ python normalize.py
 终端转录用 `bash`，无需语法高亮的日志用 `language=text`。其他语言采用 listings 的名称，
 例如 `C++`、`Java` 或 `{[LaTeX]TeX}`；当前图标匹配使用上述大小写。
 
-已有代码文件使用 `\campusinputcode[选项]{caption}{文件路径}`，路径相对于项目根目录。
+已有代码文件使用 `\campusinputcode[选项]{文件名或路径}{文件路径}`，路径相对于项目根目录。
 这种用法不含逐字输入，外层普通 frame 即可：
 
 ```tex
@@ -585,15 +598,17 @@ $ python normalize.py
 - `firstline` / `lastline`：读取的首尾行号，包含两端；默认显示全部。
 - `firstnumber`：显示的第一个行号，默认 `1`；摘录文件时可手动设为源文件行号。
 - `numbers=false`：隐藏行号。
-- `label=...`：在 caption 中追加显示标签；留空可隐藏可选的语言标签。
-- `icon=\faCode`：覆盖 caption 图标，也可使用已加载 Font Awesome 5 的其他图标，
+- `caption=...`：在代码区下方显示不编号的全局说明，不占用图编号；`description=...` 是同义别名。
+  省略或留空时不显示说明、不预留说明行；每个窗口独立重置。两者同时使用时以后写的值为准。
+- `label=...`：覆盖标题栏右侧类型标签，例如 `Config`；不把配置文件标成 `Shell`。
+- `icon=\faCode`：覆盖标题栏图标，也可使用已加载 Font Awesome 5 的其他图标，
   例如配置文件可用 `\faFileCode`。
   自定义 `label`、`icon` 应写在 `language` 之后。
 
 中文注释在启用 xeCJK 的汇报中受支持；英文汇报含中文代码时设置 `cjk=true`。
 长行会在词元之间自动换行，单个超长标识符仍需手动改写；窗口不会自动跨幻灯片拆分。
 建议一页只展示一个短函数，内容较长时
-用文件行范围拆成多页；不要缩小字号来隐藏拥挤。窗口 caption 应简短，完整路径放在备注中，
+用文件行范围拆成多页；不要缩小字号来隐藏拥挤。标题栏应简短，完整路径放在备注中，
 但听众需要访问的配置或学习入口应在正文显示相对路径或 URL。
 实现位于 `theme/campuscode.sty`，由主题自动加载。普通 `verbatim` 环境也可以使用。
 完整演示见 `chapters/code-guide.tex`。

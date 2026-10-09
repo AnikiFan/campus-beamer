@@ -7,10 +7,10 @@ workflow guide only when the task needs it.
 
 ## Choose the smallest relevant guide
 
-- **Create or revise a talk:** read [`STYLE.md`](STYLE.md) for editable author
-  preferences and [`docs/agent-authoring.md`](docs/agent-authoring.md),
-  then inspect the supplied brief/materials and the specific template files you
-  need. `prompt.md` is only a generic example.
+- **Create or revise a talk:** read [`STYLE.md`](STYLE.md), [`outline.md`](outline.md)
+  and [`docs/agent-authoring.md`](docs/agent-authoring.md), then inspect the supplied
+  brief/materials and the specific template files you need. `prompt.md` only describes
+  the two-stage workflow.
 - **Change theme geometry, colors, class options, or visual behavior:** read
   [`docs/agent-theme.md`](docs/agent-theme.md) and the affected files under
   `theme/` or `tools/fixtures/`.
@@ -40,6 +40,10 @@ when the task touches their subject.
   authorized brief/materials need approval before inclusion, in slides or notes.
   Continue within previously approved scope without asking again; verification
   alone is not permission to expand a talk.
+- For a new talk or a content-bearing revision, normalize the outline and obtain
+  user confirmation before writing or expanding presentation source or notes.
+  Keep the normalized outline reviewable under `build/`; routine tool checks may
+  proceed before confirmation, but conjectured content may not enter the deck.
 - Keep the institution-neutral `campus` API. School identity and functional
   colors belong in `theme/campuscolor.sty`; talk content belongs in `main.tex`,
   `chapters/talk/`, `materials/`, and (when needed) `bibliography/main.bib`.
@@ -47,9 +51,9 @@ when the task touches their subject.
 - Ordinary body frames use two header lines: the current `\subsection` above
   the frame title. Give every body frame a meaningful subsection and a title;
   keep single-line headers for generated TOC and references pages.
-- Treat compiler output in `build/` as generated. The editable exception is an
-  agent-authored `build/<MAIN>.notes.json` file. Do not commit private talks,
-  materials, generated outputs, or local environments.
+- Treat compiler output in `build/` as generated. Agent-authored normalized
+  outlines and `build/<MAIN>.notes.json` are editable working documents. Do not
+  commit private talks, materials, generated outputs, or local environments.
 - Build from the repository root. Keep `materials/.gitkeep`; new public source
   files must be added deliberately to `tools/package_source.py`.
 
@@ -82,6 +86,9 @@ explicit `MAIN` wins. Use `make help` for the complete command list.
 
 ## Repository map
 
+- `outline.md`: public blank content template; `prompt.md`: workflow only.
+- `materials/outline.md`, `build/outline-normalized.md`: ignored private outline
+  and review copy; keep approval tied to a specific outline revision.
 - `example.tex`, `chapters/`, `bibliography/refs.bib`: public reference demo.
 - `main.tex`, `chapters/talk/`, `bibliography/main.bib`, `materials/`: local
   agent-authored talk inputs and sources.

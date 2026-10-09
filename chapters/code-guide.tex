@@ -1,7 +1,7 @@
 % !TeX root = ../example.tex
 % Keep these examples within the existing subsection/navigation structure.
 \begin{frame}[fragile]{代码展示：Python}
-\begin{campuscode}[language=Python,numbers]{normalize.py}
+\begin{campuscode}[language=Python,numbers,caption={保留缩进，便于讲解函数结构。}]{normalize.py}
 def normalize(values):
     # 将数值归一化，保留清晰的缩进
     total = sum(values)
@@ -11,20 +11,21 @@ def normalize(values):
 
 print(normalize([2, 3, 5]))
 \end{campuscode}
-\small 图外 caption 标识文件与语言；代码区保留缩进，按语法着色。
+\small 标题栏标识文件与语言；下方说明补充阅读提示。
 \end{frame}
 
 \begin{frame}[fragile]{代码展示：终端命令与输出}
-\begin{campuscode}[language=bash]{Terminal}
+\begin{campuscode}[language=bash,caption={静态展示命令与输出，不在编译时执行。}]{Terminal}
 $ python -m venv .venv
 $ source .venv/bin/activate
 $ python normalize.py
 [0.2, 0.3, 0.5]
 \end{campuscode}
-\small 用命令提示符区分输入与输出；这是静态展示，编译时不执行代码。
+\small 用命令提示符区分输入与输出。
 \end{frame}
 
 \begin{frame}[fragile]{代码展示：从文件读取}
-\campusinputcode[language=Python]{normalize.py}{chapters/code/normalize.py}
-\small 用 \verb|\campusinputcode[language=Python]{caption}{文件路径}| 复用源文件。
+\campusinputcode[language=Python,description={从文件读取并高亮选定源码。}]
+  {normalize.py}{chapters/code/normalize.py}
+\small 用 \verb|\campusinputcode[language=Python]{文件名}{文件路径}| 复用源文件。
 \end{frame}

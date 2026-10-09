@@ -25,7 +25,7 @@ FILES = (
     'release-please-config.json', '.release-please-manifest.json',
     'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md', 'AGENTS.md', '.editorconfig', '.gitignore', '.latexmkrc', 'Makefile',
     'docker/Dockerfile', 'docker/Dockerfile.dockerignore', 'docker/entrypoint.sh',
-    'example.tex', 'prompt.md', 'STYLE.md', 'materials/.gitkeep',
+    'example.tex', 'prompt.md', 'outline.md', 'STYLE.md', 'materials/.gitkeep',
     'theme/campusbeamer.cls', 'theme/beamerthemecampus.sty',
     'theme/campuscolor.sty',
     'theme/campuscode.sty',

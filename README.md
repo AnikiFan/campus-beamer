@@ -65,8 +65,8 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
 
 1. 复制这个文件夹，并在能读写本地文件、运行命令的 agent 中打开它。
 2. 提前把素材放进 `materials/`：例如从 arXiv 下载的论文 LaTeX 源码包、论文 PDF、图片或自己的实验结果。
-3. 参考 [`prompt.md`](prompt.md)，直接向 agent 写下自己的思路、汇报对象和重点。粗略大纲或一段自然语言即可，无需先写 LaTeX。
-4. 让 agent 阅读 [`AGENTS.md`](AGENTS.md) 并完成制作。只有缺少会影响内容的关键信息时，它才需要先向你确认。
+3. 将 [`outline.md`](outline.md) 复制为 `materials/outline.md` 后填写，写下标题、听众、时长、目标、章节、页面想法、素材、链接和待确认事项。无需先写 LaTeX。
+4. 让 agent 阅读 [`AGENTS.md`](AGENTS.md) 并先生成可审阅的规范化大纲；确认后才制作 PPT。两阶段流程见 [`prompt.md`](prompt.md)。
 
 例如，把下面这段话交给 agent：
 
@@ -74,9 +74,10 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
 > materials/paper/ 是我从 arXiv 下载并解压的论文 LaTeX 项目。
 > 我的思路是先解释作者要解决的问题，再用一张图讲清方法的直觉，最后讨论实验是否支撑结论及方法的局限。
 > 听众熟悉机器学习，但没有读过这篇论文。推导细节放入讲解备注。
-> 请完成内容组织、图片选择、引用、排版检查及 PDF/PPTX 导出；关键事实缺失时先问我。
+> 请先给出规范化大纲，待我确认后再制作正文、备注并导出 PDF/PPTX；关键事实缺失时先问我。
 
-`prompt.md` 只是提示词示例，不必逐项填写；也可以直接发送自己的想法和素材路径。
+填写后的 `materials/outline.md` 是演讲内容来源，不要求逐字复制到幻灯片；也可以在对话中发送等价的大纲和素材路径。根目录的 `outline.md` 保持通用空白模板，私人大纲仅保存在已忽略的 `materials/` 与 `build/` 中。
+`prompt.md` 只描述“规范化大纲 → 用户确认 → 制作 PPT”的工作流程。
 [`STYLE.md`](STYLE.md) 专门描述作者希望的整体风格，**可以直接修改来适配自己**：
 例如每页内容密度、哪些解释放入备注、备注详细程度、引用位置及日期格式。
 agent 制作和修订时会读取它；单次简报的明确要求优先。修改偏好后请让 agent
@@ -86,8 +87,9 @@ agent 制作和修订时会读取它；单次简报的明确要求优先。修�
 新增未授权的事实、建议、案例、教程或演示同样需要先确认，正文和备注都适用；
 已明确允许的补充范围不重复询问。
 
-agent 会新建 `main.tex`、`chapters/talk/` 正文及 `bibliography/main.bib`（需要引用时），
-运行 `make draft` 查看实际页面并调整密度，按最终页序生成 `build/main.notes.json`，最后运行 `make`。
+确认规范化大纲后，agent 才会新建 `main.tex`、`chapters/talk/` 正文及 `bibliography/main.bib`
+（需要引用时），运行 `make draft` 查看实际页面并调整密度，按最终页序生成
+`build/main.notes.json`，最后运行 `make`。扩充内容或改变论点时，先回到大纲阶段。
 交付文件是 `build/main.pdf` 和 `build/main.pptx`。后续只需告诉 agent 哪些内容需要调整，它会同步正文和备注并重新构建。
 
 PPTX 自动保留原生章节分节、标题与作者，以及副标题、课题组、指导教师、汇报日期等文档属性，无需额外配置。
@@ -131,7 +133,7 @@ make                     # 有 main.tex 时构建自己的汇报，否则构建 
 `materials/` 通过 `.gitkeep` 随仓库和源码包预置，克隆或解压后即可放入素材。
 放进 `materials/` 的文件、生成的 `main.tex`、`chapters/talk/`、
 `bibliography/main.bib`，以及 `build/` 中除公开示例备注外的产物，都只留在本地，不会进入源码 ZIP。
-`prompt.md` 是随仓库提供的通用示例；自己的思路直接发给 agent 即可。
+`outline.md` 是随仓库分发的通用空白大纲，`prompt.md` 是两阶段工作流程；私人大纲和规范化大纲不会进入源码包。
 VS Code、Overleaf 和命令行用法见[环境说明](docs/workflows.md)。
 
 ## 更换学校
@@ -170,7 +172,8 @@ make help                      # 查看全部入口
 
 ```text
 .
-├── prompt.md                   交给 agent 的提示词示例
+├── outline.md                  通用空白大纲（复制到 materials/ 后填写）
+├── prompt.md                   大纲确认与制作的两阶段流程
 ├── example.tex                 版式与功能演示
 ├── main.tex                    agent 生成的汇报入口（本地文件）
 ├── materials/                  预置素材目录，放入的文件仅本地保留

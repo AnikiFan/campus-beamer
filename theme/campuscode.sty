@@ -52,16 +52,18 @@
   \def\campus@codeicon{\faCode}%
   \ifstrequal{#1}{Python}{\def\campus@codeicon{\faPython}}{}%
   \ifstrequal{#1}{bash}{%
-    \def\campus@codeicon{\faTerminal}\def\campus@codelabel{}}{}%
+    \def\campus@codeicon{\faTerminal}\def\campus@codelabel{Shell}}{}%
   \ifstrequal{#1}{text}{%
     \def\campus@listinglanguage{}%
-    \def\campus@codeicon{\faTerminal}\def\campus@codelabel{}}{}%
+    \def\campus@codeicon{\faTerminal}\def\campus@codelabel{Terminal}}{}%
   \ifstrequal{#1}{Java}{\def\campus@codeicon{\faJava}}{}%
 }
 \pgfkeys{/campus/code/.is family,/campus/code,
   language/.code={\campus@codelanguage{#1}},
   label/.store in=\campus@codelabel,
   icon/.store in=\campus@codeicon,
+  caption/.store in=\campus@codecaptiontext,
+  description/.style={caption={#1}},
   numbers/.is choice,
   numbers/true/.code={\def\campus@codenumbers{left}\def\campus@codegutter{2em}},
   numbers/false/.code={\def\campus@codenumbers{none}\def\campus@codegutter{0pt}},
@@ -70,36 +72,44 @@
   firstline/.store in=\campus@codefirstline,
   lastline/.store in=\campus@codelastline,
 }
-% The caption is deliberately outside the dark listing.  Bash/text leave the
-% optional language label empty so `Terminal` is not shown twice.
-\newcommand{\campus@codecaption}[1]{%
-  \par\smallskip\noindent
-  {\usebeamerfont{caption}\usebeamercolor[fg]{caption name}%
-    {\color{campuscodeaccent}\campus@codeicon}\hspace{.5em}%
-    \detokenize{#1}%
-    \ifstrempty{\campus@codelabel}{}{%
-      \hspace{.6em}{\color{campuscodemuted}\campus@codelabel}}%
-  }\par
+% A description is independent of the file/type bar and never a numbered figure.
+\newcommand{\campus@codeafter}{%
+  \par
+  \ifdefempty{\campus@codecaptiontext}{}{%
+    \vskip\abovecaptionskip
+    {\usebeamerfont{caption}\usebeamercolor[fg]{caption}%
+      \centering\noindent\campus@codecaptiontext\par}%
+    \vskip\belowcaptionskip
+  }%
+  \addvspace{6pt}%
+}
+\newcommand{\campus@codetitle}[1]{%
+  {\color{campuscodeaccent}\campus@codeicon}\hspace{.5em}%
+  \texttt{\detokenize{#1}}\hfill
+  {\color{campuscodemuted}\campus@codelabel}%
 }
 \tcbset{campus code/.style={
   enhanced,listing only,listing engine=listings,
   colback=campuscodebackground,colframe=campuscodebar,
-  boxrule=0pt,arc=2pt,outer arc=2pt,
+  colbacktitle=campuscodebar,coltitle=campuscodetext,
+  fonttitle=\small,boxrule=0pt,arc=2pt,outer arc=2pt,
   boxsep=0pt,left=10pt,right=10pt,top=8pt,bottom=8pt,
-  before skip=4pt,after skip=0pt,
+  lefttitle=10pt,righttitle=10pt,toptitle=5pt,bottomtitle=5pt,
+  before skip=6pt,after skip=0pt,
 },campus code listing/.style={
   listing options/.expanded={style=campus-code,language=\campus@listinglanguage,
     numbers=\campus@codenumbers,xleftmargin=\campus@codegutter,
     firstnumber=\campus@codefirstnumber,
     firstline=\campus@codefirstline,lastline=\campus@codelastline},
 },campus code setup/.code={%
+  \def\campus@codecaptiontext{}%
   \pgfqkeys{/campus/code}{language=Python,numbers=false,firstnumber=1,
     firstline=1,lastline=999999,#1}%
 }}
 
 % Literal code requires a surrounding frame[fragile]. File input does not.
 \newtcblisting{campuscode}[2][]{campus code,campus code setup={#1},campus code listing,
-  after={\campus@codecaption{#2}}}
+  title={\campus@codetitle{#2}},after={\campus@codeafter}}
 \newtcbinputlisting{\campusinputcode}[3][]{campus code,campus code setup={#1},campus code listing,
-  after={\campus@codecaption{#2}},listing file={#3}}
+  title={\campus@codetitle{#2}},after={\campus@codeafter},listing file={#3}}
 \endinput

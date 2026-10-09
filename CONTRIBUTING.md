@@ -66,7 +66,9 @@ README 的封面与引用截图从当前 `build/example.pdf` 以至少 **600 DPI
 所有公开文件逐一登记在 `tools/package_source.py` 的 `FILES` 白名单中，不递归收录目录中的新文件。
 新增文件默认不打包；审核其内容可公开后，再将路径加入白名单并运行 `make test`、`make dist`。
 清单文件及其父目录不能是符号链接。已登记文件的内容仍需审核，白名单不代替隐私检查。
-`prompt.md` 也随源码分发，发布前请保留通用提示词，不要包含用户的私人需求。
+`prompt.md` 与 `outline.md` 也随源码分发，发布前请保留通用流程和空白大纲。
+填写后的私人大纲放入 `materials/outline.md`，规范化大纲放入 `build/outline-normalized.md`；
+这两个目录中的私人文件不提交、不打包。白名单内的模板不要写入私人需求。
 清华素材的来源、使用范围和权利人联系方式见 [assets/README.md](assets/README.md)。
 打包这些素材不表示已经取得授权。如有权利或署名问题，按该说明中的邮箱或本仓库 Issue 联系维护者。
 

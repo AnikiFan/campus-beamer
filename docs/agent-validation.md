@@ -32,6 +32,13 @@ conditions, grading/submission requirements, and evidence remain visible.
 Confirm all additions in both slides and notes are within the user's authorized
 scope; pending suggestions stay outside the deck.
 
+For a new or content-bearing revision, confirm that `build/outline-normalized.md`
+records the goal, audience, duration, section order, per-page messages, visible
+evidence, notes, sources, metadata, planned restructuring, and pending external
+lookups or new assets. Verify that presentation source and notes were written
+only after the user confirmed that outline; later content changes should return
+to this outline step.
+
 After the first successful draft, read `build/draft/<MAIN>/report.txt` (or
 `report.json`), inspect every contact sheet, and open every rendered page at a
 readable size. Review title, section, overview, ordinary, citation, reference
@@ -47,16 +54,20 @@ layouts. Check rendered output as well as declarations in the source.
 
 Review body-header text as short, specific topic phrases. Keep conclusions,
 causal explanations, and conditions in the body or notes rather than turning the
-lower header into a sentence. For code pages, confirm the dark code area has no
-internal title bar and that its external caption uses the figure caption style;
-check Terminal, configuration-file, source-file, line-number, fragile, and
-column cases. For node-based diagrams, inspect node/arrow anchors, profile-derived
+lower header into a sentence. For code pages, confirm the upper bar contains the
+type marker and file/path, while an optional global description is below the code
+area in the figure-caption style; check Terminal, configuration-file, source-file,
+line-number, fragile, and column cases. For node-based diagrams, inspect node/arrow anchors, profile-derived
 colors, final font size, wrapping, clipping, and editable source/generation
 metadata. A plain sentence or single mathematical arrow does not need a diagram.
 
 For audience-facing resources, verify the visible URL is the actual PDF link
 target, including required query parameters. Check long URLs for natural wrapping,
 readable size, and page-edge clearance; local resources should use relative paths.
+
+Search rendered body text for authoring-process phrases such as “作者提供”、
+“本次材料”、“作者截图”、“本页来自草稿” and “素材来源”. Replace them with
+audience-facing resource labels; keep provenance and editing notes in speaker notes.
 
 Inspect section lists for phantom blank rows as well as genuine wrapped titles.
 Verify top-right citation placement and clearance from both header lines;

@@ -64,8 +64,8 @@ This is not an official university template.
 
 1. Copy this folder and open it with an agent that can read/write local files and run commands.
 2. Put prepared materials in `materials/`: for example an arXiv LaTeX source archive, a paper PDF, figures or your own results.
-3. Use [`prompt.md`](prompt.md) as a sample and give the agent your ideas, audience and priorities. A rough outline or a paragraph is enough; no LaTeX authoring is required.
-4. Ask the agent to follow [`AGENTS.md`](AGENTS.md) and complete the presentation. It asks for clarification when missing information would materially change the content.
+3. Copy [`outline.md`](outline.md) to `materials/outline.md` and fill it with the title, audience, duration, goals, sections, page ideas, materials, links and pending questions. No LaTeX authoring is required.
+4. Ask the agent to follow [`AGENTS.md`](AGENTS.md) and produce a reviewable normalized outline first. The presentation is made only after you confirm it; see the two-stage workflow in [`prompt.md`](prompt.md).
 
 For example:
 
@@ -73,9 +73,10 @@ For example:
 > materials/paper/ contains the paper's LaTeX project downloaded and unpacked from arXiv.
 > Explain the problem first, illustrate the method's intuition, then discuss whether the experiments support the claims and what the limitations are.
 > The audience knows machine learning but has not read the paper. Put derivation details in speaker notes.
-> Complete the narrative, figures, citations, layout review and PDF/PPTX export. Ask me about missing key facts.
+> First present a normalized outline for my confirmation, then create the slides and notes and export PDF/PPTX. Ask me about missing key facts.
 
-`prompt.md` is a sample, not a required form. You can send your own brief and file paths directly.
+Your filled `materials/outline.md` supplies the presentation content; it is not copied verbatim into slides. You can also send an equivalent outline and file paths in chat. Keep the root `outline.md` generic and blank; private outlines stay in ignored `materials/` and `build/` folders.
+`prompt.md` only describes the normalized-outline, confirmation and production workflow.
 [`STYLE.md`](STYLE.md) describes the author's preferred presentation style.
 **Edit it to suit your needs:** slide density, what belongs in notes, note detail,
 citation placement and date formatting. The agent reads it when authoring or
@@ -87,11 +88,11 @@ New facts, advice, examples, tutorials or demos outside the authorized scope als
 need approval, whether in slides or notes. Previously approved additions do not
 require repeated confirmation.
 
-The agent creates `main.tex`, content under `chapters/talk/` and, when needed,
+After you confirm the normalized outline, the agent creates `main.tex`, content under `chapters/talk/` and, when needed,
 `bibliography/main.bib`. It runs `make draft`, inspects the actual pages, revises
 crowded slides, writes `build/main.notes.json` in final page order, then runs `make`.
-The deliverables are `build/main.pdf` and `build/main.pptx`. For revisions, give
-the agent your feedback; it updates both slides and notes and rebuilds them.
+The deliverables are `build/main.pdf` and `build/main.pptx`. For content revisions,
+return to the outline stage before synchronizing slides and notes.
 
 PPTX exports automatically include native sections and document properties: title,
 author, subtitle, group, advisor and presentation date. No extra configuration is needed.
@@ -134,7 +135,7 @@ defaults; see [class options](docs/class-options.md).
 
 </details>
 
-The repository and source ZIP include `materials/.gitkeep`, so the folder is ready after cloning or unpacking. Files you add under `materials/`, generated `main.tex`, `chapters/talk/`, `bibliography/main.bib`, and build outputs other than the public demo notes stay local: Git ignores them and source ZIPs omit them. `prompt.md` is a generic sample; send your own brief to the agent.
+The repository and source ZIP include `materials/.gitkeep`, so the folder is ready after cloning or unpacking. Files you add under `materials/`, generated `main.tex`, `chapters/talk/`, `bibliography/main.bib`, and build outputs other than the public demo notes stay local: Git ignores them and source ZIPs omit them. `outline.md` is a generic blank template and `prompt.md` describes the two-stage workflow; private and normalized outlines are omitted from source ZIPs.
 See [environment workflows](docs/workflows.md) for VS Code, Overleaf and the command line.
 
 ## Another university

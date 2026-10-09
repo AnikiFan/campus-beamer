@@ -9,9 +9,12 @@ details.
 Read [STYLE.md](../STYLE.md) for the user's editable presentation preferences.
 Explicit instructions in the current brief take precedence over those defaults.
 
-Read the user's chat brief (or `prompt.md`) and inspect only the supplied paths
-under `materials/`. An archive may be unpacked into a working copy while the
-original is retained. For a paper project, follow its entry file, inputs,
+Read the user's filled copy of `outline.md`, normally `materials/outline.md`
+(or another supplied path or equivalent brief in chat) and inspect only the
+supplied paths under `materials/`. `prompt.md`
+describes this workflow; it is not a content source. An archive may be unpacked
+into a working copy while the original is retained. For a paper project, follow
+its entry file, inputs,
 captions, figures, and bibliography; read the relevant paper text before making
 substantive claims. Prefer its original figures. If a figure exists only in a
 PDF, extract or crop it without changing its meaning and record its source in
@@ -30,15 +33,39 @@ concise slide wording, local assets, primary-color section pages, and a slide
 count derived from the brief. State a consequential but non-blocking assumption
 and continue.
 
-Rewriting, condensing, reordering, splitting, date formatting, and moving
-authorized explanations into notes are routine authoring. Before adding facts,
+## Two-stage outline workflow
+
+For a new talk or a content-bearing revision, first normalize the supplied
+outline before writing presentation source. Save a reviewable
+`build/outline-normalized.md` containing the goal, audience, duration budget,
+section order, per-page core message, visible evidence, notes content, sources
+and metadata, planned deletions/merges/splits/reordering/rewrites, and items
+requiring external lookup or new assets. Include any change that could affect
+facts, claims, examples, page count, or duration as a pending question with its
+source and expected impact.
+
+Wait for the user's confirmation before creating or expanding `main.tex`,
+`chapters/talk/`, `bibliography/main.bib`, or speaker notes. Do not put guesses
+into the deck while confirmation is pending; continue source inspection and
+keep optional additions outside the deck. After confirmation, implement only
+the confirmed outline, then compile and validate the final PDF/PPTX. For later
+content changes, update and re-confirm the normalized outline before syncing
+the presentation. Purely mechanical checks or an explicitly requested typo and
+layout fix may proceed without inventing content.
+
+Within a confirmed outline, rewriting, condensing, date formatting, and moving
+authorized explanations into notes are routine authoring. Keep the public
+`outline.md` blank; private drafts belong in `materials/`, and normalized outlines
+belong in `build/`. Record which outline revision the user actually confirmed.
+Before adding facts,
 opinions, recommendations, examples, tutorial steps, demos, or conclusions not
 provided or authorized for expansion, bundle the proposed additions, sources,
 and impact on slide count/duration for approval. This applies to notes as well
-as visible slides. Continue with supported content while approval is pending;
-list optional additions separately, outside the deck. Silence is not approval.
-Explicit requests to expand a topic or include a type of supplement authorize
-work within that scope without repeated confirmation. Reading supplied material
+as visible slides. While the outline awaits confirmation, continue inspection
+and planning only; keep optional additions outside the deck. Silence is not
+approval. An explicit expansion request authorizes planning within that scope
+without asking again about scope, but the resulting outline still needs review.
+Reading supplied material
 or verifying a fact does not authorize an unrelated expansion of the talk.
 
 ## Source layout
@@ -115,10 +142,23 @@ Give each frame one message. Use short scan-friendly text, figures, equations,
 and existing layout environments; put transitions, definitions, derivation
 details, caveats, and source reminders in speaker notes when they do not belong
 on the slide. Essential evidence and limiting conditions must remain visible.
+Write visible text for the audience, not for the authoring process. Remove
+phrases such as “作者提供”“本次材料”“作者截图”“本页来自草稿” and
+“素材来源”; replace them with audience-facing labels such as “课后学习资源”、
+“课程规则来源” or “相关文档”. Keep detailed provenance, source paths and
+editing instructions in speaker notes. Preserve necessary visible scientific
+citations, attribution, and evidence labels.
 Use `\cornercite{key}` for slide citations, and create a references summary before
 the closing page when citations are present. For code, use a `fragile` frame.
 For paper walkthroughs, use `paperframe`; for a full-height right image, use
 `rightimageframe`; use `fitgraphic`/`fitfigure` for fitted graphics.
+
+For code, keep the content type, file/path, and language marker in the code
+window's upper bar. Put a shared explanation below the window with
+`caption={...}` or its `description={...}` alias. Use `Terminal` for command
+transcripts; use a file/config icon and a label such as `Config` for SSH or
+other configuration files; use the source-file name for program code. Keep
+`language` for highlighting and `label`/`icon` for the visible category.
 
 Keep citations at the default top-right position, including `paperframe`.
 Use bottom-corner arguments only when the user requests or approves them;
