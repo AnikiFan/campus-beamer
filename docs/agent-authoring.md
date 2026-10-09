@@ -12,10 +12,9 @@ Explicit instructions in the current brief take precedence over those defaults.
 Read the user's draft directly from the root `outline.md` (or another explicitly
 supplied brief) and inspect only the supplied paths under `materials/`. A short
 request such as “根据大纲制作 PPT” is sufficient to start this workflow.
-The file starts empty; if it has no content and no brief was supplied, ask for
-the intended talk rather than treating the demo as input. An archive may be unpacked
-into a working copy while the original is retained. For a paper project, follow
-its entry file, inputs,
+If the outline contains only unfilled fields and no brief was supplied, ask for
+the intended talk. An archive may be unpacked into a working copy while the
+original is retained. For a paper project, follow its entry file, inputs,
 captions, figures, and bibliography; read the relevant paper text before making
 substantive claims. Prefer its original figures. If a figure exists only in a
 PDF, extract or crop it without changing its meaning and record its source in
@@ -56,13 +55,12 @@ layout fix may proceed without inventing content.
 
 Within a confirmed outline, rewriting, condensing, date formatting, and moving
 authorized explanations into notes are routine authoring. Preserve the root
-`outline.md` as user input; write the normalized review copy under `build/`
-without overwriting the draft. Do not add usage instructions or example content
-to the draft. Never include a filled outline in public-template commits. Source
-packaging emits an empty `outline.md` without modifying the local file. Record
-which outline revision the user actually confirmed.
-Before adding facts,
-opinions, recommendations, examples, tutorial steps, demos, or conclusions not
+`outline.md` as user input and write the normalized review copy under `build/`.
+Keep the original draft intact. Public-template commits must exclude filled
+private outlines. Source packaging uses `tools/templates/outline.md` for the
+distributed starter outline. Record which outline revision the user actually
+confirmed. Before adding facts, opinions, recommendations, examples, tutorial
+steps, demos, or conclusions not
 provided or authorized for expansion, bundle the proposed additions, sources,
 and impact on slide count/duration for approval. This applies to notes as well
 as visible slides. While the outline awaits confirmation, continue inspection

@@ -21,7 +21,7 @@ docker build -f docker/Dockerfile -t campus-beamer:local .
 构建时使用 Ubuntu 24.04 和固定版本的 uv，按照 `uv.lock` 安装 Python 依赖，
 并运行项目的环境检查和 Python 导入检查；缺少必要工具、TeX 包或字体时构建失败。
 `docker/Dockerfile.dockerignore` 使用 Dockerfile 专用命名，只允许构建所需的依赖文件和
-辅助工具进入上下文，排除私人汇报、素材、`.venv` 和已有产物；无需在顶层放 `.dockerignore`。
+辅助工具进入上下文，排除私人汇报、素材、`.venv` 和构建产物。
 `docker/entrypoint.sh` 是容器入口。`COPY` 的源路径相对于项目根目录，
 因此不要用 `docker build docker/` 替代上述命令。
 

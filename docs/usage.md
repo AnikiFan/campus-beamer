@@ -13,8 +13,8 @@
 用户只需提供两样东西：**想表达的内容**和**已收集的素材**。
 整体风格由可编辑的 [STYLE.md](../STYLE.md) 描述，包括正文密度、备注分工、
 引用位置和日期格式。用户可修改该文件，agent 会在制作与修订时应用；单次简报优先。
-直接在根目录的 [`outline.md`](../outline.md) 写下自己的草稿。它默认留空，无需复制、
-删除说明或套用固定表单。可写标题、听众、时长、目标、章节、素材路径和待确认项。
+在根目录的 [`outline.md`](../outline.md) 中填写基本信息、演讲目标和草稿大纲。
+模板提供素材、链接、讲解备注、限制和待确认事项等栏目，供你补充相关内容。
 在能读写本地文件、运行命令的 agent 中打开本目录，说“根据大纲制作 PPT”即可。
 
 将素材放到本地 `materials/`，例如：
@@ -30,7 +30,7 @@ materials/
 只需提供实际用到的文件；不要求具备上面的全部目录。
 也可以直接放入下载的论文源码压缩包，由 agent 保留原包并解压工作副本。
 告诉 agent 哪个路径对应哪份材料，哪些论点最重要、哪些细节可以放进备注。
-工作流程由 `AGENTS.md` 和制作指南约定，无需另写一份提示词文件。
+agent 按 `AGENTS.md` 和[制作指南](agent-authoring.md) 组织内容并完成交付。
 
 第一阶段，agent 阅读材料并生成 `build/outline-normalized.md`，列出目标、听众、时间分配、
 章节顺序、每页主旨、可见证据、备注内容、来源和元数据；同时列出删除、合并、拆分、重排、
@@ -74,7 +74,7 @@ PDF/PPTX、备注和临时文件统一在 `build/`：
 
 ```text
 main.tex                      agent 生成的汇报入口
-outline.md                   用户直接写入的草稿；源码包中始终为空
+outline.md                   基本信息与汇报草稿大纲
 chapters/talk/                agent 生成的元信息和章节
 bibliography/main.bib         核实后的汇报文献
 build/
@@ -96,9 +96,9 @@ build/
 `materials/.gitkeep` 随仓库和源码包提供，克隆或解压后素材目录已经存在。
 放进 `materials/` 的文件、`main.tex`、`chapters/talk/`、`bibliography/main.bib` 和 `build/` 中的其他构建产物只留在本地：Git 会忽略它们，源码包也不包含它们；公开示例备注 `build/example.notes.json` 是版本控制例外。
 自己的图片和论文放在 `materials/`，不要放进 `assets/`；`assets/` 是模板自带的标志、校园图片和示例视频。
-根目录的 `outline.md` 专门承载草稿，使用说明放在文档中。规范化审阅副本保存在
-`build/outline-normalized.md`，不覆盖原稿。`make dist` 将空的 `outline.md` 放入源码包，
-不读取或清空本地草稿。该文件受 Git 跟踪，向公共模板贡献时不要提交私人内容。
+根目录的 `outline.md` 保存原始草稿，`build/outline-normalized.md` 保存整理后的审阅大纲。
+`make dist` 在源码包中提供起始大纲模板，本地草稿保持原样。`outline.md` 受 Git 跟踪；
+向公共仓库提交修改时，请确认其中没有私人内容。
 
 样式文件在 `theme/`，`.latexmkrc` 自动配置 TeX 搜索路径；始终从项目根目录构建。
 正文与图像路径相对于项目根目录，PDF 内的本地附件链接相对于 `build/`。
@@ -184,15 +184,16 @@ draft 使用正式版相同的排版与全部图片，由 `latexmk` 增量编译
 
 ## 作为 PPT 生成 harness 使用
 
-复制这个文件夹后，向 agent 提供思路及 `materials/` 中的素材路径即可。
-模型先阅读唯一的项目指令文件 `AGENTS.md`，再查阅 `example.tex` 中的布局用法和本地材料，
-新建 `main.tex`，将元信息及正文写入 `chapters/talk/`，按需建立 `bibliography/main.bib`。默认采用 16:9、原文语言、简洁的讲演式页面，每个 section 的起始页使用整页主色；默认清华配置下为紫色。模型会把解释、过渡、数字含义和讲解提醒写入 `build/main.notes.json`，而不是
-把所有文字堆到页面上。
+在 `outline.md` 中写下演讲思路，并注明 `materials/` 中的素材路径。agent 按 `AGENTS.md`
+读取风格偏好、大纲及本地材料，先整理章节顺序、每页主旨、证据与备注分工，供用户确认。
+确认后，它会新建 `main.tex`，将元信息和正文写入 `chapters/talk/`，按需建立
+`bibliography/main.bib`，并编写 `build/main.notes.json`。
 
-当受众、用途、时长、语言、关键事实、引用、外部素材或隐私内容会改变最终叙事时，
-模型必须先向你集中确认，再生成依赖这些决定的页面。普通的排版、分节、页面数量和
-本地素材选择可以按模板默认值直接完成。生成后模型应编译 PDF、校对页面顺序和备注，
-再导出带有 PowerPoint speaker notes 的 PPTX。
+默认采用 16:9 布局、原文语言和适合现场讲述的页面，每节起始页使用整页主色；
+清华配置下为紫色。正文展示核心信息与必要证据，备注记录解释、过渡和讲述提示。
+
+当受众、用途、时长、语言、关键事实、引用或素材范围不明确时，agent 会集中列出待确认项。
+生成后，它会编译 PDF、检查实际页面和备注顺序，再导出带有 PowerPoint speaker notes 的 PPTX。
 
 备注文件按最终 PDF 页码排列，包含 section 起始页、目录页、参考文献续页和致谢页：
 
@@ -346,7 +347,7 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 - `Makefile`：供人和 agent 共用的一键编译、转换、测试及清理入口。
 - `tools/draft_preview.py`：draft 页面图像、缩略图及排版告警报告，不增加依赖。
 - `tools/compare_pdf.py`：重构前后 PDF 的完整逐页像素与链接回归比较。
-- `outline.md`：根目录中的草稿入口，默认留空，用户直接写入内容。
+- `outline.md`：根目录中的草稿入口，包含基本信息与内容大纲等栏目。
 - `materials/`：用户提供的论文源码、PDF、图片和数据，本地目录。
 - `example.tex`：完整功能演示入口与配置参考。
 - `main.tex`：agent 生成的汇报入口、文献资源及章节顺序。

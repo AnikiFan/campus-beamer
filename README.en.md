@@ -62,35 +62,28 @@ This is not an official university template.
 
 ## Recommended workflow: ideas and local materials
 
-1. Copy this folder and open it with an agent that can read/write local files and run commands.
+1. Clone the repository or extract the source ZIP, then open the project with an agent that supports local file access and command execution.
 2. Put prepared materials in `materials/`: for example an arXiv LaTeX source archive, a paper PDF, figures or your own results.
-3. Write your draft directly in the root [`outline.md`](outline.md). It starts empty: no copying or instructions to delete. Prose, notes and section lists all work.
-4. Tell the agent:
+3. Fill in the basic information, goals and draft outline in the root [`outline.md`](outline.md). Use prose, notes or a section list for the content.
+4. Ask the agent:
 
 > Make a presentation from the outline.
 
-The agent follows [`AGENTS.md`](AGENTS.md), reads the outline and materials, and presents a normalized outline for confirmation before creating slides, notes and PDF/PPTX.
-Include known details such as title, audience, duration, goals, section ideas, material paths, links and open questions. There is no required form.
-Usage instructions belong in the README and authoring guides; `outline.md` holds your content.
-[`STYLE.md`](STYLE.md) describes the author's preferred presentation style.
-**Edit it to suit your needs:** slide density, what belongs in notes, note detail,
-citation placement and date formatting. The agent reads it when authoring or
-revising; explicit requirements in the current brief take precedence. Ask the
-agent to apply changed preferences; `make` does not read Markdown or rewrite slides.
-The agent unpacks source archives and reads the paper's text, captions, figures and bibliography; you do not need to turn the paper into slide content first.
-External research or new assets require confirmation; supplied local materials can be used directly.
-New facts, advice, examples, tutorials or demos outside the authorized scope also
-need approval, whether in slides or notes. Previously approved additions do not
-require repeated confirmation.
+The agent follows [`AGENTS.md`](AGENTS.md), reads the outline and materials, and prepares sections, per-slide messages and speaker-note plans for review.
+After you confirm the outline, it creates the presentation source, inspects the rendered pages and exports `build/main.pdf` and `build/main.pptx`.
+The outline can include the title, audience, duration, goals, material paths, links and open questions.
 
-After you confirm the normalized outline, the agent creates `main.tex`, content under `chapters/talk/` and, when needed,
-`bibliography/main.bib`. It runs `make draft`, inspects the actual pages, revises
-crowded slides, writes `build/main.notes.json` in final page order, then runs `make`.
-The deliverables are `build/main.pdf` and `build/main.pptx`. For content revisions,
-return to the outline stage before synchronizing slides and notes.
+[`STYLE.md`](STYLE.md) defines the default presentation style. **Edit it to suit your needs:**
+slide density, the split between slides and notes, note detail, citation placement and date formatting.
+The agent applies these preferences when authoring and revising; explicit requirements in the current outline take precedence.
+It also unpacks paper source archives and reads the text, captions, figures and bibliography.
+For external research, new assets or content additions, it presents the proposed changes and sources for your confirmation.
+
+To revise a presentation, give the agent your feedback. It updates the outline, slides and notes and rebuilds the outputs.
+Content changes return to outline review; layout and spelling fixes can proceed directly.
 
 PPTX exports automatically include native sections and document properties: title,
-author, subtitle, group, advisor and presentation date. No extra configuration is needed.
+author, subtitle, group, advisor and presentation date.
 
 **PPTX slides are rendered images, not editable native PowerPoint text.**
 Give edits to the agent or edit the generated `.tex` source.
@@ -130,7 +123,8 @@ defaults; see [class options](docs/class-options.md).
 
 </details>
 
-The repository and source ZIP include `materials/.gitkeep`, so the folder is ready after cloning or unpacking. Files you add under `materials/`, generated `main.tex`, `chapters/talk/`, `bibliography/main.bib`, and build outputs other than the public demo notes stay local: Git ignores them and source ZIPs omit them. The root `outline.md` holds your draft and its edits remain visible to Git; exclude private content from public-template commits. `make dist` always includes an empty `outline.md` without reading or clearing your draft. Normalized outlines stay under `build/`.
+Use `materials/` for personal source material and `build/` for outputs. Personal talk source, materials and notes stay local by default;
+see the [user guide](docs/usage.md#快速开始) for directory and distribution rules.
 See [environment workflows](docs/workflows.md) for VS Code, Overleaf and the command line.
 
 ## Another university
@@ -142,9 +136,8 @@ paths directly in your chapter files. Section backgrounds can also be `primary`,
 `white`, or empty. Demo metadata lives in `chapters/metadata.tex`; the agent writes
 your metadata in `chapters/talk/metadata.tex`.
 Layout geometry stays in the theme implementation.
-The footer always uses `maincolor` with white text; no separate footer-color setting is needed.
-The cover always uses the primary-color diagonal layout. No setup is required;
-the only explicit setting is `\titlebackground{primary}`, and its color follows `maincolor`.
+The footer uses `maincolor` with white text. The cover uses the primary-color diagonal layout,
+with its color taken from `maincolor`; the explicit setting is `\titlebackground{primary}`.
 
 ## Development
 

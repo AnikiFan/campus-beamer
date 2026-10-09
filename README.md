@@ -63,31 +63,27 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
 
 ## 推荐使用方式：提供思路与素材
 
-1. 复制这个文件夹，并在能读写本地文件、运行命令的 agent 中打开它。
+1. 克隆仓库或解压源码包，在支持本地文件读写和命令执行的 agent 中打开项目。
 2. 提前把素材放进 `materials/`：例如从 arXiv 下载的论文 LaTeX 源码包、论文 PDF、图片或自己的实验结果。
-3. 直接在根目录的 [`outline.md`](outline.md) 写草稿大纲。文件默认留空，不需要复制或先删除说明；自然语言、笔记或章节列表都可以。
-4. 对 agent 说一句：
+3. 在根目录的 [`outline.md`](outline.md) 中填写基本信息、演讲目标和草稿大纲。内容大纲可使用自然语言、笔记或章节列表。
+4. 向 agent 发出制作请求：
 
 > 根据大纲制作 PPT。
 
-agent 会按 [`AGENTS.md`](AGENTS.md) 读取大纲和素材，先整理可审阅的大纲，待你确认后制作正文、备注和 PDF/PPTX。
-大纲可写明标题、听众、时长、目标、章节想法、素材路径、链接和待确认事项；只写已知信息，不必按固定表单填写。
-使用说明保留在 README 和制作指南中，`outline.md` 专门承载你的内容。
-[`STYLE.md`](STYLE.md) 专门描述作者希望的整体风格，**可以直接修改来适配自己**：
-例如每页内容密度、哪些解释放入备注、备注详细程度、引用位置及日期格式。
-agent 制作和修订时会读取它；单次简报的明确要求优先。修改偏好后请让 agent
-按新风格修订，`make` 本身不会读取 Markdown 或自动改写正文。
-源码包的解压，以及正文、图注、图片和文献的阅读与整理，都由 agent 完成，无需先拆成幻灯片。
-需要外部检索或新素材时，agent 会先征求你的确认；已提供的本地素材可直接使用。
-新增未授权的事实、建议、案例、教程或演示同样需要先确认，正文和备注都适用；
-已明确允许的补充范围不重复询问。
+agent 按 [`AGENTS.md`](AGENTS.md) 读取大纲和素材，整理章节、每页主旨和讲解备注，供你审阅。
+确认大纲后，它会生成汇报源码、检查实际页面，并导出 `build/main.pdf` 和 `build/main.pptx`。
+大纲中可注明标题、听众、时长、演讲目标、素材路径、链接和待确认事项。
 
-确认规范化大纲后，agent 才会新建 `main.tex`、`chapters/talk/` 正文及 `bibliography/main.bib`
-（需要引用时），运行 `make draft` 查看实际页面并调整密度，按最终页序生成
-`build/main.notes.json`，最后运行 `make`。扩充内容或改变论点时，先回到大纲阶段。
-交付文件是 `build/main.pdf` 和 `build/main.pptx`。后续只需告诉 agent 哪些内容需要调整，它会同步正文和备注并重新构建。
+[`STYLE.md`](STYLE.md) 定义默认汇报风格，**可按你的需求修改**：
+包括每页内容密度、正文与备注的分工、备注详细程度、引用位置及日期格式。
+agent 在制作和修订时应用这些偏好；当前大纲中的明确要求优先。
+论文源码包的解压，以及正文、图注、图片和文献的阅读与整理，也由 agent 完成。
+需要外部检索、补充素材或扩展内容时，agent 会先说明拟议内容和依据，供你确认。
 
-PPTX 自动保留原生章节分节、标题与作者，以及副标题、课题组、指导教师、汇报日期等文档属性，无需额外配置。
+修改汇报时，可向 agent 提供反馈，它会更新大纲、正文及备注并重新构建。
+涉及内容变化的修订先确认大纲，排版和拼写修正可直接进行。
+
+PPTX 自动保留原生章节分节、标题与作者，以及副标题、课题组、指导教师、汇报日期等文档属性。
 
 **PPTX 每页是一张渲染图像，文字不能作为 PowerPoint 原生文本编辑。**
 请把修改意见交给 agent，或直接编辑生成的 `.tex` 源码。
@@ -97,7 +93,7 @@ PPTX 自动保留原生章节分节、标题与作者，以及副标题、课题
 
 制作环境需要 **GNU Make、uv、XeLaTeX、latexmk、biber** 及模板的 TeX 包／字体。
 可以使用本机的 TeX Live / MacTeX，或使用 [Docker 环境](docs/docker.md)；
-详细安装步骤见[安装说明](docs/installation.md)。这些环境配置只需准备一次，agent 可以检查现有环境。
+详细安装步骤见[安装说明](docs/installation.md)。使用 `make doctor` 检查本地环境。
 `uv run --frozen` 按 `uv.lock` 自动建立 `.venv`，首次下载 Python 依赖需要联网。
 
 ```bash
@@ -125,10 +121,8 @@ make                     # 有 main.tex 时构建自己的汇报，否则构建 
 
 </details>
 
-`materials/` 通过 `.gitkeep` 随仓库和源码包预置，克隆或解压后即可放入素材。
-放进 `materials/` 的文件、生成的 `main.tex`、`chapters/talk/`、
-`bibliography/main.bib`，以及 `build/` 中除公开示例备注外的产物，都只留在本地，不会进入源码 ZIP。
-`outline.md` 是根目录中的草稿入口，Git 会显示它的修改；向公共模板贡献时不要提交私人内容。`make dist` 始终在源码包中放入空的 `outline.md`，不读取或清空你的草稿；规范化大纲留在 `build/`。
+`materials/` 用于个人素材，`build/` 保存构建产物。个人汇报源码、素材和备注默认仅保存在本地；
+目录和分发规则见[使用手册](docs/usage.md#快速开始)。
 VS Code、Overleaf 和命令行用法见[环境说明](docs/workflows.md)。
 
 ## 更换学校
@@ -136,11 +130,11 @@ VS Code、Overleaf 和命令行用法见[环境说明](docs/workflows.md)。
 只编辑 [`theme/campuscolor.sty`](theme/campuscolor.sty)：
 
 - 修改按功能命名的 `maincolor`、`tipcolor`、`notecolor`、`alertcolor`、`examplecolor`、`definitioncolor`。
-- 页脚背景固定跟随 `maincolor`，文字为白色，无需单独设置页脚颜色。
-- 封面固定为主色斜边版式，默认无需设置；显式写法只有 `\titlebackground{primary}`，颜色同样跟随 `maincolor`。
+- 页脚使用 `maincolor` 背景和白色文字。
+- 封面采用主色斜边版式，颜色跟随 `maincolor`；显式设置为 `\titlebackground{primary}`。
 - 将深色／浅色底上的校徽、校名标志路径指向自己的透明素材。
 
-示例个人信息在 `chapters/metadata.tex`；自己的汇报信息由 agent 按提示词写入 `chapters/talk/metadata.tex`。
+示例个人信息在 `chapters/metadata.tex`；自己的汇报信息由 agent 根据大纲写入 `chapters/talk/metadata.tex`。
 照片和插图由各自的章节文件直接引用。
 章节页默认用 `primary`，也可在正文中指定图片或 `white`。布局几何留在主题实现内；
 配置字段和素材尺寸要求见[学校配置说明](docs/usage.md#更换学校)。
@@ -167,7 +161,7 @@ make help                      # 查看全部入口
 
 ```text
 .
-├── outline.md                  直接写入草稿大纲（默认留空）
+├── outline.md                  汇报草稿大纲
 ├── example.tex                 版式与功能演示
 ├── main.tex                    agent 生成的汇报入口（本地文件）
 ├── materials/                  预置素材目录，放入的文件仅本地保留
@@ -178,14 +172,14 @@ make help                      # 查看全部入口
 │   ├── campuscode.sty          代码与终端窗口
 │   └── campuscolor.sty          功能配色与学校标志配置
 ├── bibliography/               文献数据库，默认 refs.bib
-├── assets/                     本地素材
+├── assets/                     模板自带的标志、图片与示例视频
 ├── docs/                       详细手册、安装说明、环境用法与预览
 ├── docker/                     Dockerfile、构建上下文清单与容器入口
 ├── tools/                      转换、预览、校验与打包工具
 │   ├── tests/                  Python 回归测试
 │   └── fixtures/               主题测试源码
 ├── .github/                    CI、Issue 和 PR 模板
-└── build/                      PDF、PPTX、*.notes.json 等本地产物，不纳入版本控制
+└── build/                      PDF、PPTX、*.notes.json 等构建产物
 ```
 
 演示入口留在根目录，样式集中在 `theme/`；`.latexmkrc` 自动配置 TeX 搜索路径，

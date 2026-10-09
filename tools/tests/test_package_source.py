@@ -86,14 +86,15 @@ class SourcePackageTests(unittest.TestCase):
             for name in private_files:
                 self.assertNotIn(name, names)
 
-    def test_root_outline_is_empty_in_archive_without_changing_local_draft(self):
+    def test_archive_uses_outline_template_without_changing_local_draft(self):
+        template = (self.root / 'tools/templates/outline.md').read_bytes()
         outline = self.root / 'outline.md'
         outline.write_text('# Private draft\nUnpublished results and personal notes.\n')
         original = outline.read_bytes()
         package(self.root, self.output)
         first_archive = self.output.read_bytes()
         with ZipFile(self.output) as archive:
-            self.assertEqual(archive.read('outline.md'), b'')
+            self.assertEqual(archive.read('outline.md'), template)
         self.assertEqual(outline.read_bytes(), original)
 
         outline.write_text('A different private draft')

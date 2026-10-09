@@ -3,8 +3,8 @@
 [返回首页](../README.md) · [使用手册](usage.md) · [Agent 规则](../AGENTS.md)
 
 `tools/literature.py` 使用 Python 标准库，从 DBLP 搜索和下载 BibTeX，
-按 DOI 从 OpenAlex 或 Semantic Scholar 获取引用次数。无需新增 Python 依赖，
-也不需要安装 TeX 就能查询。`pyproject.toml` 和 `uv.lock` 保持原样。
+按 DOI 从 OpenAlex 或 Semantic Scholar 获取引用次数。工具仅依赖 Python 标准库，
+可独立于 TeX 环境运行。
 默认使用 `python3`；可设置 `make PYTHON=python ...`。
 
 DBLP 的文献搜索用于确定书目信息；引用次数来自所选择的独立提供方，
@@ -12,7 +12,7 @@ DBLP 的文献搜索用于确定书目信息；引用次数来自所选择的独
 引用次数与检索到的 BibTeX 都不能代替阅读论文来确认研究结论。
 
 用户已提供论文 LaTeX 项目时，agent 优先阅读其中的正文、图注及 `.bib`，
-将核实后需要引用的条目写入 `bibliography/main.bib`。不要求用户先下载 DBLP 条目或整理文献库。
+将核实后需要引用的条目写入 `bibliography/main.bib`。
 下列在线工具用于用户要求检索，或确认允许补充外部文献之后的场景。
 
 ## 搜索 → 选择 → 下载 → 合并

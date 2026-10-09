@@ -26,6 +26,7 @@ FILES = (
     'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md', 'AGENTS.md', '.editorconfig', '.gitignore', '.latexmkrc', 'Makefile',
     'docker/Dockerfile', 'docker/Dockerfile.dockerignore', 'docker/entrypoint.sh',
     'example.tex', 'outline.md', 'STYLE.md', 'materials/.gitkeep',
+    'tools/templates/outline.md',
     'theme/campusbeamer.cls', 'theme/beamerthemecampus.sty',
     'theme/campuscolor.sty',
     'theme/campuscode.sty',
@@ -104,9 +105,9 @@ def package(root, output):
                 info = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
                 info.compress_type = zipfile.ZIP_DEFLATED
                 info.external_attr = 0o100644 << 16
-                # The root outline is user input, never public source content.
-                content = b'' if name == 'outline.md' else path.read_bytes()
-                archive.writestr(info, content)
+                # Distribute the starter template instead of the user's draft.
+                source = root / 'tools/templates/outline.md' if name == 'outline.md' else path
+                archive.writestr(info, source.read_bytes())
         temporary.replace(output)
     finally:
         temporary.unlink(missing_ok=True)

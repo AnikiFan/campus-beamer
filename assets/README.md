@@ -19,8 +19,8 @@
 显示时无需安装字体。项目字标不替代幻灯片中的学校校徽或校名标志。
 
 在项目根目录执行 `make logo` 可重建两份 SVG，并在 `build/logo/` 中生成 PNG、
-PDF 和双色背景预览 `preview.png`。生成使用 XeLaTeX、`standalone`、`fontspec`、
-`xcolor`、Latin Modern 字体及已有的 PyMuPDF，无需新增 Python 依赖。
+PDF 和双色背景预览 `preview.png`。生成依赖 XeLaTeX、`standalone`、`fontspec`、
+`xcolor`、Latin Modern 字体及 PyMuPDF。
 
 字体来源为 TeX 发行版中的 Latin Modern，作者为 Bogusław Jackowski 与 Janusz M. Nowacki，
 基于 Donald E. Knuth 的 Computer Modern；字体版权为 © 2003–2021 B. Jackowski 和 J. M. Nowacki
@@ -38,7 +38,7 @@ GPL-3.0-or-later；字体自身的授权保持不变，不归入演示视频的 
   [CC0 官方说明](https://creativecommons.org/publicdomain/zero/1.0/)允许复制、修改及再分发，包含商业用途。
   生成脚本本身仍采用项目的 GPL-3.0-or-later，不改变其他素材的授权。
 
-在项目根目录重建视频（使用已有 PyMuPDF 与 FFmpeg，不增加依赖）：
+在项目根目录重建视频（需要 PyMuPDF 与 FFmpeg）：
 
 ```bash
 uv run --frozen python tools/generate_demo_video.py
