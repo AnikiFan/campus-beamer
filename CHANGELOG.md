@@ -5,6 +5,15 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.5.0](https://github.com/AnikiFan/campus-beamer/compare/v0.4.4...v0.5.0) (2026-10-09)
+
+
+### Features
+
+* add repository authoring and validation skills ([cd540a4](https://github.com/AnikiFan/campus-beamer/commit/cd540a418b877df61f30418951d3616ea457bd17))
+* preserve Beamer overlay transitions in PowerPoint ([3f6488e](https://github.com/AnikiFan/campus-beamer/commit/3f6488ec9bbb76dd2756af6dfb726ca80bbdbc05))
+* unify web sources and strengthen authoring validation ([f2f5d75](https://github.com/AnikiFan/campus-beamer/commit/f2f5d751670d7395dd466916c0bda3760bbbd0a1))
+
 ## [0.4.4](https://github.com/AnikiFan/campus-beamer/compare/v0.4.3...v0.4.4) (2026-10-09)
 
 
