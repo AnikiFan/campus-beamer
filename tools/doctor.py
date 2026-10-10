@@ -26,7 +26,7 @@ COMMANDS = (
     ('latexmk', '-v'), ('biber', '--version'), ('kpsewhich', '--version'),
 )
 TEX_FILES = (
-    'beamer.cls', 'kvoptions.sty', 'xeCJK.sty', 'biblatex.sty', 'ieee.bbx', 'ieee.cbx',
+    'beamer.cls', 'pgfpages.sty', 'kvoptions.sty', 'xeCJK.sty', 'biblatex.sty', 'ieee.bbx', 'ieee.cbx',
     'tikz.sty', 'tcolorbox.sty', 'environ.sty', 'caladea.sty', 'carlito.sty',
     'listings.sty', 'fontawesome5.sty', 'xeCJK-listings.sty',
     'pzdr.tfm',

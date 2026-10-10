@@ -1,6 +1,7 @@
 % !TeX root = ../example.tex
 \section{提示框}
 \sectioncoverpage[assets/sigs_dom]{本节展示提示框样式与使用方法。} % 原图右边缘贴齐页面右边缘
+\note{转入提示框：用有限的视觉强调区分建议、补充说明和警告。}
 \subsection{样式演示}
 
 \begin{frame}{提示、备注与警告}
@@ -16,6 +17,7 @@
             使用 \texttt{alertbox} 强调易错点，例如复现时需要核对的设置。
       \end{alertbox}
 \end{frame}
+\note{比较提示、备注与警告的功能色。每个框只放一个需要强调的信息。}
 
 \input{chapters/callout-layout.tex}
 
@@ -33,6 +35,7 @@
       \end{examplebox}
 
 \end{frame}
+\note{比较定义与示例的语义。Tensor Fusion 文字沿用模板示例，正式论文讲解前应阅读并核实对应论文。}
 
 \subsection{使用方法}
 
@@ -50,3 +53,4 @@
             这是省略可选标题后的显示效果。
       \end{tipbox}
 \end{frame}
+\note{展示提示框环境的写法；省略标题会使用当前主题语言的默认名称。}

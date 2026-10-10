@@ -1,7 +1,9 @@
 % !TeX root = ../example.tex
 \section{论文讲解与引用}
 \sectiontocpage
+\note{目录显示完整章节结构，当前章节高亮；演示点击跳转。}
 \sectioncoverpage[assets/tsinghua_door]{本节演示论文讲解、文献字段与引用的显示规则。}
+\note{本节只演示文献字段和引用排版，不把示例条目当作已完成的论文内容核验。}
 \subsection{论文讲解}
 
 \begin{paperframe}{论文页面示例}{Zadeh2017TensorFN,Liu2018EfficientLM}[bottom-left][5.5cm]
@@ -13,6 +15,7 @@
       \medskip
       下一页展示生成本页的命令；文献仅用于演示引用排版。
 \end{paperframe}
+\note{强调 paperframe 自动读取当前小节并放置角落引用。示例中的机构、引用量和日期是显式占位符，复用前须核实。}
 
 \begin{frame}[fragile]{论文页面示例：对应源码}
       \begin{verbatim}
@@ -29,6 +32,7 @@
             \item[宽度] 位置之后可继续填写引用宽度，例如 \texttt{[5.5cm]} 或 \texttt{[0.35\string\paperwidth]}。
       \end{description}
 \end{frame}
+\note{对照上一页说明论文标题、文献键、引用位置与宽度的参数顺序。}
 
 \subsection{文献引用}
 
@@ -44,6 +48,7 @@
       \cornercite[bottom-left]{Zadeh2017TensorFN}
       \cornercite[bottom-right]{Liu2018EfficientLM}
 \end{frame}
+\note{指出右上、左下和右下三个引用位置；实际汇报应为正文预留引用空间。}
 
 \begin{frame}[fragile]{角落引用用法}
       \begin{verbatim}
@@ -57,5 +62,6 @@
             \item[文献信息] 在 \texttt{bibliography/refs.bib} 中维护，汇总页自动收集已引用条目。
       \end{description}
 \end{frame}
+\note{多篇文献用逗号分隔。setcornercitewidth 只影响当前帧后续引用，下一页恢复默认值。}
 
 \input{chapters/bibliography-guide.tex}

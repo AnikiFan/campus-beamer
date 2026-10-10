@@ -10,6 +10,7 @@
   本页右上角使用 Liu 条目，展示未设置 \texttt{usera} 时的默认输出。
   \cornercite{Liu2018EfficientLM}
 \end{frame}
+\note{区分标准作者、年份和标题字段；没有自定义短格式时，角落引用从标准字段生成。}
 
 \begin{frame}[fragile]{自定义短文本：usera 的作用}
   以下摘自 \texttt{bibliography/refs.bib} 的 Zadeh 条目（其余字段省略）：
@@ -27,6 +28,7 @@ year       = {2017},
   \end{itemize}
   \cornercite{Zadeh2017TensorFN}
 \end{frame}
+\note{usera 自定义角落引用的短格式，不替换文末数字标签。不要把机构等未核实信息直接填入示例。}
 
 \begin{frame}[fragile]{论文讲解页：补充论文信息}
   在文献条目中补充以下字段，\texttt{paperframe} 会自动追加信息：
@@ -42,6 +44,7 @@ userf = {<统计来源，截至 YYYY-MM-DD>},
     \item 普通角落引用与文末参考文献保持原格式。
   \end{itemize}
 \end{frame}
+\note{机构、发表状态、引用量和查询日期都是可选字段。此处尖括号内容只是格式占位符；引用数必须保留来源和日期。}
 
 \begin{paperframe}[字段实际呈现]{论文信息字段示例}{Zadeh2017TensorFN}[bottom-left][7cm]
   \begin{itemize}
@@ -51,6 +54,7 @@ userf = {<统计来源，截至 YYYY-MM-DD>},
     \item 本页尖括号内容是待填写占位符，替换后即可用于正式汇报。
   \end{itemize}
 \end{paperframe}
+\note{查看附加字段的实际效果。此页用于排版演示，隐藏未填字段可以保持正式汇报简洁。}
 
 \begin{frame}{文末参考文献：保留完整出处}
   \begin{description}[\texttt{booktitle}]
@@ -65,6 +69,7 @@ userf = {<统计来源，截至 YYYY-MM-DD>},
     \texttt{usera} 不会改变这些数字标签。
   \end{notebox}
 \end{frame}
+\note{文末参考文献保留标准出处。角落短引用与文末完整条目承担不同作用。}
 
 \begin{frame}[fragile]{文献键与编译流程}
   \begin{verbatim}
@@ -81,3 +86,4 @@ userf = {<统计来源，截至 YYYY-MM-DD>},
   \medskip
   只存入数据库但未引用的条目，默认不会出现在文末参考文献中。
 \end{frame}
+\note{按文献资源、正文引用、文末汇总的顺序回顾流程。biblatex 与 biber 由构建入口统一处理。}

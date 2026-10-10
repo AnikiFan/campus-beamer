@@ -43,7 +43,7 @@ agent 按 `AGENTS.md` 和[制作指南](agent-authoring.md) 组织内容并完�
 内容集中列为待确认事项。这个阶段完成内容补充、重组与取舍，用户确认详细大纲后进入制作。
 
 第二阶段是**页面编排与输出检查**。agent 按确认的大纲生成 `main.tex`、`chapters/talk/`、
-需要时的文献资源和 `build/main.notes.json`，主要处理页面划分、短标题、图表与代码布局、
+需要时的文献资源，以及 TeX 中的 `\note` 备注，主要处理页面划分、短标题、图表与代码布局、
 正文与备注分配。它会用 `make draft` 检查密度和溢出，再用 `make` 导出 PDF/PPTX。
 
 拆页、合并稀疏页面、精简措辞和移动已确认的讲解内容属于排版工作，可在演讲时长范围内
@@ -99,7 +99,7 @@ bibliography/main.bib         核实后的汇报文献
 build/
 ├── outline-normalized.md     section/subsection 详细内容与确认记录
 ├── main.pdf / main.pptx       最终交付
-├── main.notes.json           逐页备注，清理时保留
+├── main.notes.pdf            自动生成的备注渲染，供 PPTX 导出与核对
 ├── main.aux / main.log / ...  临时文件，成功后清理、失败时保留
 ├── draft/main/               页面预览与排版报告
 ├── theme-check/              主题检查结果
@@ -113,7 +113,7 @@ build/
 不要并行运行清理与构建，例如 `make -j clean all`。
 
 `materials/.gitkeep` 随仓库和源码包提供，克隆或解压后素材目录已经存在。
-放进 `materials/` 的文件、`main.tex`、`chapters/talk/`、`bibliography/main.bib` 和 `build/` 中的其他构建产物只留在本地：Git 会忽略它们，源码包也不包含它们；公开示例备注 `build/example.notes.json` 是版本控制例外。
+放进 `materials/` 的文件、`main.tex`、`chapters/talk/`、`bibliography/main.bib` 和 `build/` 中的其他构建产物只留在本地：Git 会忽略它们，源码包也不包含它们。
 自己的图片和论文放在 `materials/`，不要放进 `assets/`；`assets/` 是模板自带的标志、校园图片和示例视频。
 根目录的 `outline.md` 保存原始草稿，`build/outline-normalized.md` 保存 agent 扩充后的详细大纲。
 `make dist` 在源码包中提供起始大纲模板，本地草稿保持原样。`outline.md` 受 Git 跟踪；
@@ -207,7 +207,7 @@ draft 使用正式版相同的排版与全部图片，由 `latexmk` 增量编译
 读取风格偏好、草稿及本地材料，先清点并查看材料，记录覆盖与取舍，再扩充每个
 section/subsection 的内容、解释和证据，供用户确认。
 确认后，它会新建 `main.tex`，将元信息和正文写入 `chapters/talk/`，按需建立
-`bibliography/main.bib`，并编写 `build/main.notes.json`。
+`bibliography/main.bib`，并在对应 TeX 页面中编写 `\note`。
 
 默认采用 16:9 布局、原文语言和适合现场讲述的页面，每节起始页使用整页主色；
 清华配置下为紫色。正文展示核心信息与必要证据，备注记录解释、过渡和讲述提示。
@@ -215,29 +215,47 @@ section/subsection 的内容、解释和证据，供用户确认。
 当受众、用途、时长、语言、关键事实、引用或素材范围不明确时，agent 会集中列出待确认项。
 生成后，它会编译 PDF、检查实际页面和备注顺序，再导出带有 PowerPoint speaker notes 的 PPTX。
 
-备注文件按最终 PDF 页码排列，包含 section 起始页、目录页、参考文献续页和致谢页：
+### 原生讲者备注
 
-```json
-{
-  "slides": [
-    {"notes": "开场说明本页目标。"},
-    {"notes": "解释图中趋势，并强调右侧结论。"},
-    {"notes": ""}
-  ]
-}
+讲者备注与页面一起保存在 TeX 中，使用 Beamer 原生 `\note`：
+
+```tex
+\begin{frame}{本页主题}
+  \begin{itemize}
+    \item<1-> 先展示输入。
+    \item<2-> 再展示结果。
+  \end{itemize}
+  \note<1>{说明输入及必要前提。}
+  \note<2>{解释结果，并提示转入下一页。}
+\end{frame}
 ```
 
-[`docs/notes.example.json`](notes.example.json) 是格式示例，不能直接作为任意演示文稿的完整备注。
-实际备注是 agent 生成的产物，写入 `build/<入口名>.notes.json`，不纳入版本控制或源码包。
-新复制的源码不带生成的备注；按当前内容和最终页序重新生成。
-公开功能演示的逐页讲解保存在 `build/example.notes.json`；它与 PDF 同目录，转换器会按默认规则自动读取，
-因此 GitHub Release 中的示例 PPTX 也带有备注。
-默认 `make` 在备注文件存在时严格要求条目数与 PDF 页数相同；无备注的页用 `""` 占位。
-没有备注文件时会提示并生成空备注，方便直接构建模板示例。agent 生成新演示文稿时必须
-提供完整备注。页数相同仍可能出现顺序错位，调整页面后需要人工或 agent 核对。
-直接调用转换器时，只有加上 `--strict-notes` 才会拒绝少于 PDF 页数的备注条目。
-Make 和直接调用都默认从 PDF 同目录读取同名的 `.notes.json`，无需额外参数。
-`--notes-dir 路径` 可改用其他备注目录，`--notes` 可指定任意文件，`--no-notes` 禁用自动读取。
+普通页面可用 `\note{...}`；段落、列表和公式按 LaTeX 排版。帧后的 `\note` 对应前一帧，
+适用于 `\maketitle`、章节页等生成页面。没有讲解需要的页面可留空。overlay 备注可写
+明确的阶段编号，调整页序后检查每个阶段，而不是维护独立的页码数组。
+
+文档类默认 `shownotes=false`，输出 `build/main.pdf` 只有幻灯片，不嵌入隐藏的备注正文。
+需要带备注的 PDF 时设置：
+
+```tex
+\documentclass[shownotes=true]{campusbeamer}
+```
+
+该 PDF 左侧为幻灯片、右侧为备注。普通阅读器显示整张双宽页面；支持双屏备注的阅读器
+可把两侧分别交给听众与讲者。正文的 16:9 版式保持不变。
+
+`make` 在两种设置下都导出带备注的 PPTX。构建过程从同一份 TeX 自动生成
+`build/main.notes.pdf`，其右侧只排版备注，再提取为 PowerPoint 讲者备注的纯文本。
+有备注的主 PDF 会另生成 `build/main.slides.pdf`，确保 PPTX 图像只含幻灯片。
+这些文件是本地生成的工作输出；修改备注应编辑 TeX。公式与图形的完整排版保留在备注 PDF，
+PPTX 备注以可提取的文字为准。备注 PDF 会按阶段数和幻灯片指纹核对，过期或错位时停止导出。
+
+公开演示的讲解直接写在 `example.tex` 与各章节中。已有 JSON-only 讲稿仍保留兼容导入；
+迁移时把有效备注全部放入对应的 `\note`。开始使用原生命令后，所有阶段以 TeX 为准，
+包括显式空的 `\note{}`，不混合两份来源。`--notes` 可显式导入旧 JSON，格式见
+[兼容导入示例](notes.example.json)。直接转换默认查找同名 `.notes.pdf`，没有时查找 `.notes.json`；
+无原生备注的旧讲稿继续采用其 JSON。`--notes-pdf` 指定备注 PDF，`--notes-dir` 选择目录，
+`--no-notes` 关闭自动查找。
 
 ## 转换为 PowerPoint（保留跳转链接）
 
@@ -250,8 +268,8 @@ Make 和直接调用都默认从 PDF 同目录读取同名的 `.notes.json`，�
 uv sync --frozen
 uv run --frozen tools/images_to_ppt.py build/main.pdf build/main.pptx
 
-# 显式指定备注文件；Make 默认自动读取 build/main.notes.json
-uv run --frozen tools/images_to_ppt.py build/main.pdf build/main.pptx --notes build/main.notes.json
+# 显式指定原生备注渲染；通常由 make 自动完成
+uv run --frozen tools/images_to_ppt.py build/main.pdf build/main.pptx --notes-pdf build/main.notes.pdf
 ```
 
 `pyproject.toml` 是依赖清单，`uv.lock` 固定完整依赖版本。
@@ -418,9 +436,10 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 - `chapters/metadata.tex`：完整示例的标题、课题组、汇报人、导师和日期。
 - `chapters/01_*.tex` 至 `05_*.tex`：完整示例的五节正文，每个文件包含本节起始页和 frames。
 - `theme/campusbeamer.cls`：文档类选项、中文支持、字体与文献宏包的统一入口。
-- `build/main.notes.json`：agent 生成的逐页 speaker notes；转换器会自动读取它并写入 PPTX 备注。
-- `build/example.notes.json`：公开功能演示的逐页备注，转换器按 PDF 同名路径自动读取。
-- `docs/notes.example.json`：备注文件格式示例，不会被自动加载。
+- TeX 中的 `\note`：与对应 frame 或 overlay 一起维护的讲者备注。
+- `build/main.notes.pdf`：自动生成的双屏备注渲染，用于提取 PPTX 备注；不是创作入口。
+- `build/main.slides.pdf`：主 PDF 带备注屏时生成的纯幻灯片版本。
+- `docs/notes.example.json`：旧 JSON 导入接口的格式示例。
 - `theme/beamerthemecampus.sty`：标题页、页眉、页脚、致谢页和引用命令等主题实现。
 - `theme/campuscolor.sty`：加载 xcolor 并定义学校的功能配色与品牌标志；演示元信息和汇报插图路径在正文中维护。
 - `bibliography/refs.bib`：示例的文献数据库；`bibliography/main.bib` 是 agent 为汇报建立的本地文献库。

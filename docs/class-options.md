@@ -41,6 +41,18 @@
 文献支持始终启用，自动配置 `backend=biber,style=ieee,giveninits=true,sorting=none`，
 无需设置启用开关。
 
+## 原生讲者备注
+
+在 frame 内使用 `\note{...}` 撰写备注；overlay 可用 `\note<1>{...}`、
+`\note<2>{...}` 分别说明每个阶段。帧后 `\note{...}` 对应前一帧，适合封面或
+生成页面。备注支持普通 LaTeX 段落、列表和公式。
+
+`shownotes=false` 为默认值：PDF 仅含幻灯片，不写入隐藏的备注正文。
+设置 `\documentclass[shownotes=true]{campusbeamer}` 后，PDF 左侧为幻灯片、右侧为备注，
+可用支持双屏备注的阅读器分别显示。普通阅读器会显示整张双宽页面。
+`make` 在两种设置下都把 TeX 备注导入 PPTX，PPTX 页面仍只显示幻灯片。
+详细流程见[备注与导出](usage.md#原生讲者备注)。
+
 ## 文档类选项
 
 选项由 agent 写在生成入口的 `\documentclass[...]` 中，不必提前填写。功能示例 `example.tex` 列出全部模板选项、
@@ -50,7 +62,7 @@
   图表标签、提示框标题、日期和致谢文字。中文版本自动加载 xeCJK；英文版本默认不加载。
   不会翻译用户撰写的正文。
 - `cjk=auto`（默认）、`true` 或 `false`：控制中文排版支持。默认随语言选择；
-  使用英文主题文字、中文正文时设置 `language=english,cjk=true`。
+  使用英文主题文字、中文正文或备注时设置 `language=english,cjk=true`。
   `cjk=false` 是供自行安排中文支持的高级选项；它不会删除中文文本。
 - `bibstyle=ieee`（默认）：选择 biblatex 样式，例如 `authoryear`。
   改变此项会改变引用或文末参考文献的格式；需要安装相应样式。
@@ -58,6 +70,8 @@
   例如 `nyt`；排序与参考文献样式各自生效。
 - `mathfont=serif`（默认）或 `sans`：使用衬线数学字体，或使用 Beamer 的
   默认无衬线数学字体。正文使用主题的 Caladea／Carlito 配置。
+- `shownotes=false`（默认）或 `true`：控制 PDF 是否包含右侧备注屏。
+  备注写在 TeX 的 `\note` 中，PPTX 导出不受此显示开关影响。
 - `navigation=true`（默认）或 `false`：显示或隐藏页脚的章节／小节导航。
 - `cornerwidth=4.8cm`（默认）：角落引用的默认宽度。单页仍可用
   `\setcornercitewidth{6cm}` 局部调整。

@@ -3,6 +3,7 @@
 % 本示例每节显式插入起始页：图片直接在本次汇报中选择。
 % 实际使用时，可按需省略目录页或起始页，也可交换两者顺序。
 \sectioncoverpage[assets/sigs_building]{本节介绍页面布局、公式排版、图像适配与图注。}
+\note{本节先说明正文区域和字号，再演示公式、代码与图片。章节背景是模板已有示例素材。}
 \subsection{基础页面}
 \input{chapters/harness-guide.tex} % 推荐用法：思路与素材交给 agent
 
@@ -20,6 +21,7 @@
             \item[连续页面] 同一 subsection 下可放多页，每页只需填写自己的标题。
       \end{description}
 \end{frame}
+\note{说明 section 管整节，subsection 显示在页眉上行，frametitle 概括当前页。转入具体内容示例。}
 
 % 公式与图像沿用本 subsection，保留单小节的导航示例。
 \input{chapters/math-examples.tex}
@@ -49,6 +51,7 @@
             \end{column}
       \end{columns}
 \end{frame}
+\note{对照左右两栏：左侧是插图源码，右侧是实际输出。宽高参数表示整页尺寸的比例，图片保持纵横比。}
 
 \begin{frame}[fragile]{自动适配图片与图注}
       \begin{columns}[T,onlytextwidth]
@@ -69,6 +72,7 @@
             \end{column}
       \end{columns}
 \end{frame}
+\note{fitfigure 同时提供适配与图注。最后一个参数留空时不显示图注，便于简洁展示。}
 
 \begin{rightimageframe}[image width=.40]{右侧满高图片}{assets/tsinghua_temple.png}
       \begin{description}[高度]
@@ -77,6 +81,7 @@
             \item[正文] 左侧仍可放置列表、公式和提示框。
       \end{description}
 \end{rightimageframe}
+\note{检查右侧图片从页顶延伸至导航上沿，正文留在左侧。图片路径由当前汇报指定。}
 
 \begin{frame}[fragile]{图像命令速查}
       \begin{description}[适配素材]
@@ -86,3 +91,4 @@
             \item[PDF 页面] 可选参数 \texttt{page=2} 指定 PDF 的第 2 页。
       \end{description}
 \end{frame}
+\note{回顾三个常用图像入口；多页 PDF 可通过 page 参数选页。之后转入论文引用示例。}

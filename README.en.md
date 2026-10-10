@@ -85,6 +85,10 @@ Outline development follows the talk's goals and supplied materials. External re
 Content revisions return to the detailed outline for confirmation before updating slides and notes.
 During production, the agent can split frames, condense wording and adjust layouts within the approved content and time budget.
 
+Speaker notes live in native TeX `\note` commands. The default `shownotes=false`
+PDF contains slides only; `shownotes=true` adds a right-hand notes screen. PPTX
+exports include speaker notes in either mode. See [native notes](docs/usage.md#原生讲者备注).
+
 PPTX exports automatically include native sections and document properties: title,
 author, subtitle, group, advisor and presentation date.
 

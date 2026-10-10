@@ -61,17 +61,16 @@ Overleaf 使用其自己的 TeX 环境，需要具备[安装说明](installation
 本项目尚未在 Overleaf 实测；此处说明配置方式，不能视为在线兼容性保证。
 
 在线编辑产生 PDF；本地构建会把视频首帧写入 PDF，PPTX、视频嵌入和备注写入由本项目的 Python 转换器完成。
-导出时下载最新源码和 PDF，将 PDF 保存到 `build/talk.pdf`，
-按最终页序生成或更新 `build/talk.notes.json`，`assets/` 保留在项目根目录，
-然后在具备 uv 的本地项目目录运行：
+导出 PPTX 时下载最新源码，保留 TeX 中的 `\note`、素材及文献相对路径，在具备本项目
+构建环境的本地根目录运行：
 
 ```bash
-uv run --frozen python tools/images_to_ppt.py build/talk.pdf build/talk.pptx --strict-links --strict-notes
+make MAIN=talk
 ```
 
-默认 600 DPI，自动读取 PDF 同目录的 `build/talk.notes.json`。本地视频需要随源码下载；
-直接从在线编辑器导出的 PDF 不会自动生成视频首帧；在本地运行 `make pdf` 或 `make` 可补齐预览。
-详细格式见[备注与导出说明](usage.md#作为-ppt-生成-harness-使用)。
+本地 Make 从 TeX 构建 PDF、渲染原生备注并导出 PPTX；默认 600 DPI，本地视频需要 FFmpeg。
+仅下载普通 PDF 无法恢复未写入其中的隐藏备注。已有 JSON 备注可通过直接转换器的
+`--notes` 参数导入。详细用法见[原生讲者备注](usage.md#原生讲者备注)。
 
 ## GitHub Actions
 

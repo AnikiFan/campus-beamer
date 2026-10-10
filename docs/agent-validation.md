@@ -25,6 +25,8 @@ intermediates while retaining final outputs and notes.
 ## Visual review
 
 Use [STYLE.md](../STYLE.md) to review the communication, not just geometry.
+Speaker notes are authored in the source with native `\note`; generated note
+PDFs are working output, not editable authoring documents.
 For every page record its one message, retained visible evidence/actions, and
 explanations moved to notes. Review density (usually 3–4 main points), duplicate
 summaries, font size, notes usefulness and total speaking time. Essential
@@ -126,9 +128,20 @@ PPTX XML evidence does not establish playback in a PowerPoint client.
 
 The converter defaults to 600 DPI and keeps the rendered slide as an image,
 internal/external links, speaker notes, PDF bookmarks, native PowerPoint
-sections, and talk metadata. Notes are loaded from `build/<MAIN>.notes.json`;
-direct converter calls can use `--notes`, `--notes-dir`, `--no-notes`, and
-`--verbose`.
+sections, and talk metadata. Make renders native TeX notes into
+`build/<MAIN>.notes.pdf` and extracts its right-hand text screen for PowerPoint.
+The generated PDF is tied to the slide PDF by a fingerprint and must have the
+same physical stage count. Direct converter calls can use `--notes-pdf`,
+`--notes-dir`, `--no-notes`, and `--verbose`; `--notes` retains legacy JSON import.
+
+Check `shownotes=false` for a clean audience PDF and `shownotes=true` for a
+paired slide/notes PDF. In both cases the PPTX must contain ordinary 16:9 slide
+images with notes only in the speaker-note field. Inspect empty stages,
+overlay-specific notes, outside-frame notes and reference continuations. A
+paired PDF passed directly to the converter is rejected; use Make, which renders
+a clean slide variant when needed. Count/fingerprint mismatches must stop export
+without replacing a previous PPTX. Do not silently discard existing JSON-only
+talk notes; once native commands exist, TeX becomes authoritative for all stages.
 
 Verify:
 

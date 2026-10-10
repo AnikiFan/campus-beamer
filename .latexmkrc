@@ -30,4 +30,4 @@ $out_dir = 'build';
 $bibtex_use = 2;
 
 # 补充 latexmk 默认未覆盖的 Beamer、SyncTeX 和 biblatex 中间文件。
-$clean_ext = 'nav snm vrb listing synctex synctex.gz %R-blx.bib';
+$clean_ext = 'nav snm vrb listing synctex synctex.gz campus-notes %R-blx.bib';

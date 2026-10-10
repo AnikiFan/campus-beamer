@@ -13,6 +13,7 @@ print(normalize([2, 3, 5]))
 \end{campuscode}
 \small 标题栏标识文件与语言；下方说明补充阅读提示。
 \end{frame}
+\note{先指向标题栏的 Python 图标与文件名，再说明缩进、高亮和可选行号。示例面向非负数值，零总和分支返回零列表；不是通用的概率归一化库。内嵌代码必须使用 fragile frame。 下方 caption 是独立的全局说明，沿用图表说明的字体和间距，不占图编号；省略时不留说明行。}
 
 \begin{frame}[fragile]{代码展示：终端命令与输出}
 \begin{campuscode}[language=bash,caption={静态展示命令与输出，不在编译时执行。}]{Terminal}
@@ -23,9 +24,11 @@ $ python normalize.py
 \end{campuscode}
 \small 用命令提示符区分输入与输出。
 \end{frame}
+\note{终端图标表示 Shell 转录。带美元符号的行是输入，末行是示例脚本的输出；这些文本在 LaTeX 编译时不会执行。虚拟环境激活命令适用于常见 Unix Shell。 上方文件与类型栏和下方说明分开；语言设置后的 label、icon 可覆盖显示类别。}
 
 \begin{frame}[fragile]{代码展示：从文件读取}
 \campusinputcode[language=Python,description={从文件读取并高亮选定源码。}]
   {normalize.py}{chapters/code/normalize.py}
 \small 用 \verb|\campusinputcode[language=Python]{文件名}{文件路径}| 复用源文件。
 \end{frame}
+\note{此页直接读取 chapters/code/normalize.py，避免在幻灯片里维护第二份实现。可用 firstline 和 lastline 选择代码片段，firstnumber 对齐原文件行号。 description 是 caption 的别名，文件输入也支持下方说明。}

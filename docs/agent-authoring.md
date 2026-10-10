@@ -92,7 +92,7 @@ outline work. Confirmation authorizes the reviewed content for production.
 ### Stage 2: compose and lay out the slides
 
 After confirmation, create `main.tex`, `chapters/talk/`, verified citation
-resources when needed, and `build/<MAIN>.notes.json` from the approved outline.
+resources when needed, and native `\note` commands alongside the frames from the approved outline.
 Map sections and subsections to the Beamer hierarchy, choose frame boundaries,
 condense visible text, distribute approved explanations between slides and
 notes, and select layouts for the figures, equations, code, and links.
@@ -289,10 +289,22 @@ remain appropriate only for auxiliary speaker-only provenance, not formal
 references or learning resources being discussed on the page. Show local inputs as relative
 paths such as `materials/AGENTS.md`, never as machine-specific absolute paths.
 
-Create `build/<MAIN>.notes.json` with exactly one entry per final PDF page,
-including title, section, overview, reference continuation, and closing pages.
-Use `""` for an intentional blank. Recheck order after adding, deleting, or
-rearranging frames; equal page counts do not prove alignment.
+Write notes in the TeX source with native `\note{...}`, preferably inside each
+frame. Use `\note<1>{...}` and `\note<2>{...}` for overlay-specific explanations;
+a note after a frame belongs to that frame. Cover title, section, overview,
+reference continuation and closing pages as needed. Leave an intentional blank
+when no explanation is needed. Do not author a separate JSON note list for new
+talks or edit generated `build/<MAIN>.notes.pdf`.
+
+Keep `shownotes=false` for the default audience PDF. Use `shownotes=true` when
+the user requests a PDF with a right-hand presenter note screen. `make` renders
+native notes separately for PPTX in either mode; PowerPoint receives plain text
+extracted from typeset notes, while rich graphical content remains in the notes
+PDF. Use visible URLs for detailed sources that the speaker needs to access.
+Inspect each overlay and generated note page after rearranging frames. When
+migrating an existing JSON-only talk, move all approved notes to corresponding
+native commands before switching sources. An explicit empty `\note{}` also
+makes TeX authoritative; the exporter does not blend two note sources.
 
 ## Citation facts
 

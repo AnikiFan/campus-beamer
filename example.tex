@@ -7,7 +7,8 @@
       mathfont=serif,    % 数学字体：serif / sans
       navigation=true,  % 页脚章节导航：true / false
       cornerwidth=4.8cm, % 角落引用默认宽度，填写长度
-      layoutguides=false % 封面、章节页与致谢页的红线诊断：true / false
+      layoutguides=false, % 封面、章节页与致谢页的红线诊断：true / false
+      shownotes=false    % PDF 右侧备注屏：true / false；PPTX 总会导出 TeX 备注
 ]{campusbeamer}
 
 % ============================== 示例配置区 ==============================
@@ -23,6 +24,7 @@
 
 \begin{document}
 \maketitle
+\note{介绍这份完整功能演示：从页面结构讲到代码、引用、导航和导出。封面中的个人信息是模板示例，使用时在 metadata.tex 中替换。}
 
 % 章节按这里的顺序组合；正文与演示片段统一放在 chapters/。
 \input{chapters/01_basics.tex}

@@ -29,6 +29,7 @@
 \DeclareBoolOption[true]{navigation}
 \DeclareStringOption[4.8cm]{cornerwidth}
 \DeclareBoolOption[false]{layoutguides}
+\DeclareBoolOption[false]{shownotes}
 % Keep Beamer's own options, e.g. handout, usable through the wrapper class.
 % Reject the removed bibliography switch rather than silently ignoring it.
 \def\campusclass@bibliographyoption{biblatex}
@@ -114,6 +115,37 @@
   \campus@layoutguidesfalse
 \fi
 
+% Native Beamer notes stay in the TeX source. The private exporter selects a
+% render mode before loading this class; ordinary documents use shownotes.
+\providecommand{\campusnotesmode}{}
+\def\campusclass@hasnotes{false}
+\AddToHook{cmd/note/before}{\gdef\campusclass@hasnotes{true}}
+\def\campusclass@noteslayout{none}
+\ifdefstring{\campusnotesmode}{slides}{\campusclass@shownotesfalse}{}
+\ifdefstring{\campusnotesmode}{notes}{\campusclass@shownotestrue}{}
+\ifcampusclass@shownotes
+  \setbeameroption{show notes on second screen=right}
+  \setbeamertemplate{note page}[plain]
+  % Old-style digit glyphs have unreliable ToUnicode mappings in some
+  % TeX Live fonts. Lining digits keep note text faithful when exported to PPTX.
+  \addtobeamertemplate{note page}{\addfontfeatures{Numbers=Lining}}{}
+  \def\campusclass@noteslayout{right}
+\else
+  \setbeameroption{hide notes}
+\fi
+\ifdefstring{\campusnotesmode}{notes}{%
+  \AddToHook{begindocument/end}{%
+    \setbeamertemplate{note page}[plain]%
+    \addtobeamertemplate{note page}{\addfontfeatures{Numbers=Lining}}{}%
+  }%
+}{}
+\newwrite\campusclass@notesstate
+\AtEndDocument{%
+  \immediate\openout\campusclass@notesstate="\jobname.campus-notes"%
+  \immediate\write\campusclass@notesstate{\campusclass@hasnotes}%
+  \immediate\closeout\campusclass@notesstate%
+}
+
 % Carry cover fields in the PDF itself for automatic PPTX export. Hyperref
 % produces escaped Unicode PDF strings, including TeX-formatted metadata.
 % This adds no visible content and does not require a metadata sidecar file.
@@ -135,6 +167,7 @@
         /CampusDate (\campusclass@pdfdate)
         /CampusContact (\campusclass@pdfcontact)
         /CampusLanguage (\campusclass@language)
+        /CampusNotesLayout (\campusclass@noteslayout)
       >>}%
     }%
     \expandafter\AtBeginDvi\expandafter{\campusclass@docinfo}%

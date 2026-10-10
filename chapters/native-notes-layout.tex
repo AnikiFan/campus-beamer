@@ -1,0 +1,20 @@
+% Native speaker notes are adjacent to their frames and overlay stages.
+\section{Native notes}
+\subsection{Stage alignment}
+\begin{frame}[label=notes-first]{Two stages}
+  \begin{itemize}
+    \item<1-> First visible step.
+    \item<2-> Second visible step.
+  \end{itemize}
+  \transfade<2-|handout:0>[duration=0.2]
+  \note<1>{SpeakerOnly: 第一阶段。\par Explain the input first.}
+  \note<2>{SpeakerOnly: 第二阶段。\par Explain the next step: 123, 0, 16:9, CC0-1.0.}
+\end{frame}
+\begin{frame}{Intentional blank}
+  This frame has no speaker note.
+\end{frame}
+\begin{frame}{Final state}
+  \hyperlink{notes-first}{Return to the first stage}
+  \par\url{https://example.org/}
+\end{frame}
+\note{SpeakerOnly: 总结。\par Outside-frame notes follow the preceding slide.}

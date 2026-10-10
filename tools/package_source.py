@@ -51,6 +51,7 @@ FILES = (
     'chapters/code/normalize.py', 'chapters/font-guide.tex',
     'chapters/harness-guide.tex', 'chapters/callout-layout.tex', 'chapters/layout-guide.tex',
     'chapters/overlay-layout.tex',
+    'chapters/native-notes-layout.tex',
     'chapters/math-examples.tex', 'chapters/metadata.tex',
     'docs/class-options.md', 'docs/docker.md', 'docs/images/citations.png',
     'docs/images/cover.png', 'docs/images/preview-callouts.png',
@@ -64,7 +65,7 @@ FILES = (
     'docs/workflows.md',
     'tools/add_video_posters.py', 'tools/check_theme.py', 'tools/compare_pdf.py', 'tools/doctor.py',
     'tools/draft_preview.py', 'tools/generate_demo_video.py',
-    'tools/generate_logo.py', 'tools/images_to_ppt.py', 'tools/literature.py',
+    'tools/generate_logo.py', 'tools/images_to_ppt.py', 'tools/export_presentation.py', 'tools/literature.py',
     'tools/package_release.py', 'tools/package_source.py',
     'tools/fixtures/brand-variants.tex', 'tools/fixtures/class-handout.tex',
     'tools/fixtures/class-metadata.tex', 'tools/fixtures/class-mixed-language.tex',
@@ -78,12 +79,14 @@ FILES = (
     'tools/fixtures/doc-citations.tex', 'tools/fixtures/description-alignment.tex',
     'tools/fixtures/callout-layout.tex',
     'tools/fixtures/overlays.tex', 'tools/fixtures/overlays-handout.tex',
+    'tools/fixtures/native-notes.tex', 'tools/fixtures/native-notes-screen.tex',
     'tools/tests/test_compare_pdf.py', 'tools/tests/test_doctor.py',
     'tools/tests/test_draft_preview.py', 'tools/tests/test_images_to_ppt.py',
     'tools/tests/test_literature.py', 'tools/tests/test_make_entry.py',
     'tools/tests/test_package_release.py', 'tools/tests/test_package_source.py',
     'tools/tests/test_theme_inspection.py',
     'tools/tests/test_transitions.py',
+    'tools/tests/test_native_notes.py',
 )
 
 

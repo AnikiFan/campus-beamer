@@ -50,8 +50,8 @@ README 的封面与引用截图从当前 `build/example.pdf` 以至少 **600 DPI
 - 手册与少量精选预览放在 `docs/`；测试源码放在 `tools/fixtures/`。
 - 仓库级 skill 入口放在 `.agents/skills/`，描述明确触发任务，详细流程引用 `docs/agent-*.md`。
   风格偏好保留在可编辑的 `STYLE.md`；新增 skill 文件也须登记源码打包清单。
-- 编译日志、PDF/PPTX、agent 生成的 `*.notes.json` 和临时图片保存在忽略的 `build/` 中；
-  备注格式示例作为文档保留在 `docs/notes.example.json`。
+- 讲者备注与对应页面一起写在 TeX 的 `\note` 中；编译日志、PDF/PPTX、临时备注 PDF
+  和图片保存在忽略的 `build/` 中。`docs/notes.example.json` 仅用于旧 JSON 导入接口示例。
 - 新素材同时注明作者、来源和再分发许可；未知内容不要声明为 GPL。
 - PR 描述应说明问题、变化、验证结果及剩余限制。实际借鉴的项目写入
   [README 最后一节的致谢](README.md#致谢)，说明具体借鉴点，并同步英文 README。

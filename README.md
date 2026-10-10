@@ -86,6 +86,10 @@ agent 在制作和修订时应用这些偏好；当前大纲中的明确要求�
 内容修订回到详细大纲，确认后再同步页面与备注。制作阶段中的拆页、精简措辞和版式调整，
 由 agent 在已确认内容和时长范围内完成。
 
+讲者备注直接写在 TeX 的 `\note` 中。默认 `shownotes=false` 的 PDF 只含幻灯片；
+设置 `shownotes=true` 可生成右侧带备注的 PDF，PPTX 在两种设置下都会保留讲者备注。
+详见[原生讲者备注](docs/usage.md#原生讲者备注)。
+
 PPTX 自动保留原生章节分节、标题与作者，以及副标题、课题组、指导教师、汇报日期等文档属性。
 
 **PPTX 每页是一张渲染图像，文字不能作为 PowerPoint 原生文本编辑。**
@@ -183,7 +187,7 @@ make help                      # 查看全部入口
 │   ├── tests/                  Python 回归测试
 │   └── fixtures/               主题测试源码
 ├── .github/                    CI、Issue 和 PR 模板
-└── build/                      PDF、PPTX、*.notes.json 等构建产物
+└── build/                      PDF、PPTX、备注渲染等构建产物
 ```
 
 演示入口留在根目录，样式集中在 `theme/`；`.latexmkrc` 自动配置 TeX 搜索路径，

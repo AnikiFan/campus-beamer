@@ -58,7 +58,8 @@ when the task touches their subject.
   the frame title. Give every body frame a meaningful subsection and a title;
   keep single-line headers for generated TOC and references pages.
 - Treat compiler output in `build/` as generated. Agent-authored normalized
-  outlines and `build/<MAIN>.notes.json` are editable working documents. Do not
+  outlines are editable working documents; speaker notes live in native `\note`
+  commands alongside the TeX frames. Do not
   commit private talks, materials, generated outputs, or local environments.
 - Build from the repository root. Keep `materials/.gitkeep`; new public source
   files must be added deliberately to `tools/package_source.py`.

@@ -1,6 +1,7 @@
 % !TeX root = ../example.tex
 \section{媒体与收尾}
 \sectioncoverpage[assets/sigs_night]{本节演示视频链接、参考文献与致谢。}
+\note{五个小节用于验证奇数项双栏布局。最后一项位于左列，随后演示媒体、文献与收尾。}
 \subsection{视频链接}
 
 \begin{frame}{视频链接示例}
@@ -12,6 +13,7 @@
       \par\medskip
       {\small 原创动画：大纲 \(\rightarrow\) 幻灯片 \(\rightarrow\) 备注（6 秒，无音轨，CC0）。}
 \end{frame}
+\note{本页的原创几何动画展示大纲如何对应幻灯片及逐页备注，采用 CC0-1.0，无外部画面或音轨。PDF 中点击会打开本地视频；PPTX 内嵌视频和首帧预览，点击视频播放。}
 
 \subsection{参考文献与致谢}
 
@@ -23,6 +25,7 @@
             \item[致谢页面] \texttt{\string\backmatter} 会同步显示封面的标题、副标题、课程/课题组、作者、指导教师和日期；加入 \texttt{[notitle]} 可隐藏主标题。
       \end{description}
 \end{frame}
+\note{介绍参考文献的单页、续页与双栏选项。致谢页同步封面元信息，可选择隐藏主标题。}
 
 \subsection{收尾说明}
 \begin{frame}{收尾页选项}
@@ -31,9 +34,12 @@
     \item 致谢页可以保留或隐藏主标题。
   \end{itemize}
 \end{frame}
+\note{根据文献数量选择可读的参考文献布局，随后进入文献汇总与致谢。}
 
 \subsection{参考文献汇总}
 \referencespage[break][\small][onecolumn] % 第三个参数改为 [twocolumn] 可使用双栏
+\note{这里汇总本演示引用的条目，按首次引用顺序编号。示例数据库的元数据仍需在正式使用前核实补全。}
 
 \subsection{致谢}
 \backmatter     % 不显示主标题时改为 \backmatter[notitle]
+\note{结束演示，邀请反馈代码窗口、页面可读性和模板使用方式。}

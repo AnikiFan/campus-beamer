@@ -25,12 +25,12 @@ class MakeEntryTests(unittest.TestCase):
     def test_fresh_copy_builds_example(self):
         commands = self.commands()
         self.assertIn('"example.tex"', commands)
-        self.assertIn('"build/example.pdf" "build/example.pptx"', commands)
+        self.assertIn('tools/export_presentation.py "example.tex"', commands)
 
     def test_generated_main_is_selected_with_matching_preview_path(self):
         (self.root / 'main.tex').write_text('User talk')
         commands = self.commands()
-        self.assertIn('"build/main.pdf" "build/main.pptx"', commands)
+        self.assertIn('tools/export_presentation.py "main.tex"', commands)
         preview = self.commands('draft')
         self.assertIn('"build/draft/main"', preview)
         self.assertNotIn('images_to_ppt.py', preview)
@@ -38,15 +38,15 @@ class MakeEntryTests(unittest.TestCase):
     def test_explicit_entry_overrides_automatic_selection(self):
         (self.root / 'main.tex').write_text('User talk')
         commands = self.commands('MAIN=example')
-        self.assertIn('"build/example.pdf" "build/example.pptx"', commands)
+        self.assertIn('tools/export_presentation.py "example.tex"', commands)
         commands = self.commands('MAIN=talk')
-        self.assertIn('"build/talk.pdf" "build/talk.pptx"', commands)
+        self.assertIn('tools/export_presentation.py "talk.tex"', commands)
 
     def test_release_uses_public_demo_even_with_private_entry(self):
         (self.root / 'main.tex').write_text('Private user presentation')
         commands = self.commands('release', 'MAIN=main')
         self.assertIn('"example.tex"', commands)
-        self.assertIn('"build/example.pdf" "build/example.pptx"', commands)
+        self.assertIn('tools/export_presentation.py "example.tex"', commands)
         self.assertNotIn('"main.tex"', commands)
         self.assertNotIn('"build/main.pdf"', commands)
 

@@ -52,7 +52,7 @@ export QUERY DBLP_KEY DOI CITE_KEY DBLP_HOST CITATION_SOURCE BIB_OUTPUT BIB_REPO
 all: pptx
 
 pptx: pdf-build
-	$(UV) run --frozen python tools/images_to_ppt.py "$(BUILD_DIR)/$(MAIN).pdf" "$(BUILD_DIR)/$(MAIN).pptx" --dpi "$(DPI)" --strict-links --strict-notes
+	$(UV) run --frozen python tools/export_presentation.py "$(MAIN).tex" --dpi "$(DPI)" --latexmk "$(LATEXMK)"
 	$(LATEXMK) -c "$(MAIN).tex"
 
 pdf: pdf-build
@@ -119,7 +119,7 @@ help:
 	  'make DPI=200         Build a smaller preview' \
 	  'make draft           Compile PDF and render 96-DPI page previews + layout report' \
 	  'make draft PAGES=2,5-8  Preview selected PDF pages (1-based); no PPTX export' \
-	  'make MAIN=talk       Build talk.tex -> build/talk.pdf -> build/talk.pptx; read build/talk.notes.json' \
+	  'make MAIN=talk       Build talk.tex -> PDF/PPTX with native TeX speaker notes' \
 	  'make pdf             Build PDF, then remove LaTeX intermediates on success' \
 	  'make doctor          Check default tools, TeX packages and fonts without building' \
 	  'make test            Run Python regression tests via uv (offline)' \

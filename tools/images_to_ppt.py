@@ -18,9 +18,9 @@
 """Render PDF pages as PPTX images and recreate links and local video media.
 
 Run from the project root: uv run tools/images_to_ppt.py build/main.pdf
-The generated ``build/main.notes.json`` beside the input PDF is written to the
-PowerPoint speaker notes when present; ``--notes-dir`` selects a different notes
-directory. Local video links are embedded as PowerPoint movie
+Native ``build/main.notes.pdf`` renders produced from TeX are read into the
+PowerPoint speaker notes; legacy ``.notes.json`` imports remain supported.
+``--notes-dir`` selects a different notes directory. Local video links are embedded as PowerPoint movie
 objects with a first-frame poster and proportional contained fit when the file
 exists. FFmpeg is required only for these local videos. Other links become
 clickable areas, and the original PDF is never modified.
@@ -35,6 +35,7 @@ slide transitions; no effect is added to pages without transition settings.
 from __future__ import annotations
 
 import argparse
+import hashlib
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from io import BytesIO
@@ -253,6 +254,37 @@ def load_notes(notes_path: str | Path | None, page_count: int, strict: bool = Fa
             'Provide one entry per page, using an empty string for intentional blanks.'
         )
     return notes + [''] * (page_count - len(notes))
+
+
+def pdf_info_string(pdf, key: str) -> str:
+    """Read a named Info string without inferring layout from page similarity."""
+    kind, reference = pdf.xref_get_key(-1, 'Info')
+    if kind != 'xref':
+        return ''
+    kind, value = pdf.xref_get_key(int(reference.split()[0]), key)
+    return value if kind == 'string' else ''
+
+
+def load_native_notes(path: str | Path, slides_pdf, slides_path: Path) -> list[str]:
+    """Extract native Beamer note text from an explicitly marked right screen."""
+    with pymupdf.open(path) as notes_pdf:
+        if not notes_pdf.is_pdf or notes_pdf.needs_pass:
+            raise ValueError('Native notes must be an unencrypted PDF.')
+        if pdf_info_string(notes_pdf, 'CampusNotesLayout') != 'right':
+            raise ValueError('Native notes PDF must use Campus second-screen notes.')
+        if len(notes_pdf) != len(slides_pdf):
+            raise ValueError('Native notes PDF and slide PDF have different page counts.')
+        fingerprint = pdf_info_string(notes_pdf, 'CampusSlidesSHA256')
+        if fingerprint and fingerprint != hashlib.sha256(slides_path.read_bytes()).hexdigest():
+            raise ValueError('Native notes PDF does not match this slide PDF. Rebuild with make.')
+        result = []
+        for page, slide in zip(notes_pdf, slides_pdf):
+            if (page.rotation or abs(page.rect.width - 2 * slide.rect.width) > .5
+                    or abs(page.rect.height - slide.rect.height) > .5):
+                raise ValueError('Native notes PDF has an unexpected second-screen geometry.')
+            right = pymupdf.Rect(page.rect.width / 2, 0, page.rect.width, page.rect.height)
+            result.append(page.get_text('text', clip=right, sort=True).strip())
+        return result
 
 
 def set_slide_notes(slide, text: str) -> None:
@@ -614,6 +646,7 @@ def convert_pdf_to_pptx(
     strict_notes: bool = False,
     notes_dir: str | Path | None = None,
     preserve_transitions: bool = True,
+    notes_pdf_path: str | Path | None = None,
 ) -> LinkSummary:
     pdf_path = Path(pdf_path).resolve()
     pptx_path = Path(pptx_path).resolve()
@@ -625,13 +658,25 @@ def convert_pdf_to_pptx(
         raise ValueError('Output must use the .pptx extension.')
     if type(dpi) is not int or dpi <= 0:
         raise ValueError('DPI must be a positive integer.')
-    if notes_path is None and auto_notes:
+    if notes_path is not None and notes_pdf_path is not None:
+        raise ValueError('Choose either native PDF notes or legacy JSON notes.')
+    automatic_notes = notes_path is None and notes_pdf_path is None and auto_notes
+    if automatic_notes:
         directory = Path(notes_dir).resolve() if notes_dir is not None else pdf_path.parent
         if not directory.is_dir():
             raise ValueError(f'Notes directory does not exist: {directory}')
-        candidate = directory / (pdf_path.stem + '.notes.json')
-        if candidate.is_file():
-            notes_path = candidate
+        native = directory / (pdf_path.stem + '.notes.pdf')
+        legacy = directory / (pdf_path.stem + '.notes.json')
+        if native.is_file():
+            with pymupdf.open(native) as rendered:
+                has_notes = pdf_info_string(rendered, 'CampusHasNotes')
+            if has_notes == 'false' and legacy.is_file():
+                notes_path = legacy
+            else:
+                notes_pdf_path = native
+        else:
+            if legacy.is_file():
+                notes_path = legacy
 
     with pymupdf.open(pdf_path) as pdf:
         if not pdf.is_pdf:
@@ -640,11 +685,14 @@ def convert_pdf_to_pptx(
             raise ValueError('Input PDF is encrypted. Decrypt it before conversion.')
         if not pdf.page_count:
             raise ValueError('PDF contains no pages.')
-        notes = load_notes(notes_path, pdf.page_count, strict=strict_notes)
-        if notes_path is None:
+        if pdf_info_string(pdf, 'CampusNotesLayout') == 'right':
+            raise ValueError('This PDF includes a notes screen. Run make to export slides only to PPTX.')
+        notes = (load_native_notes(notes_pdf_path, pdf, pdf_path) if notes_pdf_path is not None
+                 else load_notes(notes_path, pdf.page_count, strict=strict_notes))
+        if notes_path is None and notes_pdf_path is None:
             print('Notes: no notes file selected or found; speaker notes will be empty.')
         else:
-            print(f'Notes: {notes_path}')
+            print(f'Notes: {notes_pdf_path or notes_path}')
         try:
             named_destinations = pdf.resolve_names()
         except RuntimeError as exc:
@@ -765,8 +813,9 @@ def main() -> None:
     parser.add_argument('output_pptx', type=Path, nargs='?', help='Output file (default: input name with .pptx)')
     parser.add_argument('--dpi', type=int, default=600, help='Rendering DPI (default: 600)')
     parser.add_argument('--notes', type=Path, help='JSON speaker notes, one entry per final PDF page')
-    parser.add_argument('--notes-dir', type=Path, help='Auto-load <PDF stem>.notes.json from this directory (default: PDF directory)')
-    parser.add_argument('--no-notes', action='store_true', help='Do not auto-load a .notes.json file')
+    parser.add_argument('--notes-pdf', type=Path, help='Native Campus second-screen notes PDF generated from TeX')
+    parser.add_argument('--notes-dir', type=Path, help='Auto-load native PDF or legacy JSON notes from this directory (default: PDF directory)')
+    parser.add_argument('--no-notes', action='store_true', help='Do not auto-load PDF or JSON notes')
     parser.add_argument('-v', '--verbose', action='store_true', help='Show link destinations and skipped links')
     parser.add_argument('--strict-links', action='store_true', help='Do not save if any link is unsupported or invalid')
     parser.add_argument('--strict-notes', action='store_true', help='If notes are loaded, require exactly one entry per PDF page')
@@ -779,6 +828,7 @@ def main() -> None:
             args.notes, auto_notes=not args.no_notes, strict_notes=args.strict_notes,
             notes_dir=args.notes_dir,
             preserve_transitions=not args.no_transitions,
+            notes_pdf_path=args.notes_pdf,
         )
     except (OSError, RuntimeError, ValueError) as exc:
         parser.exit(1, f'Error: {exc}\n')

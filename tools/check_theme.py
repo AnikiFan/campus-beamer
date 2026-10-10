@@ -24,7 +24,7 @@ import subprocess
 import tempfile
 
 import pymupdf
-from images_to_ppt import campus_metadata
+from images_to_ppt import campus_metadata, pdf_info_string
 
 EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 3,
                   'single-header': 5,
@@ -34,7 +34,8 @@ EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 
                   'section-toc-spacing': 42, 'date-display': 12,
                   'citation-top-right': 3, 'flow-layout': 1, 'url-layout': 2,
                   'doc-citations': 7, 'description-alignment': 4, 'callout-layout': 1,
-                  'overlays': 6, 'overlays-handout': 3}
+                  'overlays': 6, 'overlays-handout': 3,
+                  'native-notes': 4, 'native-notes-screen': 4}
 
 
 def check_section_toc_spacing(document, log):
@@ -269,6 +270,30 @@ def check_doc_citations(document, log):
     default = document[6].search_for('Default reference')[0]
     if abs(default.x0 - wide.x0 - (5 * 72 / 2.54 - document[6].rect.width * .3)) > .5:
         raise RuntimeError('doc-citations: width override leaked between frames')
+
+
+def check_native_notes(document, log, *, shown=False):
+    """A hidden PDF must not carry note text; a notes screen keeps every stage."""
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('native-notes: overflow or missing glyphs')
+    if pdf_info_string(document, 'CampusNotesLayout') != ('right' if shown else 'none'):
+        raise RuntimeError('native-notes: wrong PDF layout marker')
+    expected = ('第一阶段', '第二阶段', '', '总结')
+    for page, marker in zip(document, expected):
+        if abs(page.rect.width / page.rect.height - (32 / 9 if shown else 16 / 9)) > .001:
+            raise RuntimeError('native-notes: wrong page aspect ratio')
+        if not shown:
+            if 'SpeakerOnly' in page.get_text():
+                raise RuntimeError('native-notes: notes leaked into the default PDF')
+        else:
+            left = pymupdf.Rect(0, 0, page.rect.width / 2, page.rect.height)
+            right = pymupdf.Rect(page.rect.width / 2, 0, page.rect.width, page.rect.height)
+            audience = page.get_text(clip=left)
+            notes = page.get_text(clip=right).strip()
+            if 'SpeakerOnly' in audience or (marker and marker not in notes) or (not marker and notes):
+                raise RuntimeError('native-notes: note content leaked or shifted between stages')
+            if marker == '第二阶段' and 'CC0-1.0' not in notes:
+                raise RuntimeError('native-notes: numeric note text changed during extraction')
 
 
 def check_overlays(document, log, *, handout=False):
@@ -625,6 +650,8 @@ def check(root, output):
                     check_callout_layout(document, result.stdout)
                 if name in ('overlays', 'overlays-handout'):
                     check_overlays(document, result.stdout, handout=name.endswith('-handout'))
+                if name in ('native-notes', 'native-notes-screen'):
+                    check_native_notes(document, result.stdout, shown=name.endswith('-screen'))
                 check_class_fixture(name, document, result.stdout)
             print(f'{name}: {pages} pages compiled; inspect {output / f"{name}.pdf"}')
     check_class_errors(root, output)
