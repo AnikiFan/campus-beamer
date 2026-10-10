@@ -1,6 +1,6 @@
 % !TeX root = ../example.tex
 \section{媒体与收尾}
-\sectioncoverpage[assets/sigs_night]{本节演示视频链接、参考文献与致谢。}
+\sectioncoverpage[assets/sigs_night]{本节演示视频题注、TeX 备注、参考文献与致谢。}
 \note{五个小节用于验证奇数项双栏布局。最后一项位于左列，随后演示媒体、文献与收尾。}
 \subsection{视频链接}
 
@@ -26,14 +26,8 @@
 \end{frame}
 \note{介绍参考文献的单页、续页与双栏选项。致谢页同步封面元信息，可选择隐藏主标题。}
 
-\subsection{收尾说明}
-\begin{frame}{收尾页选项}
-  \begin{itemize}
-    \item 参考文献页可以选择字号、续页和栏数。
-    \item 致谢页可以保留或隐藏主标题。
-  \end{itemize}
-\end{frame}
-\note{根据文献数量选择可读的参考文献布局，随后进入文献汇总与致谢。}
+\subsection{讲者备注}
+\input{sections/notes-guide.tex}
 
 \subsection{参考文献汇总}
 \referencespage[break][\small][onecolumn] % 第三个参数改为 [twocolumn] 可使用双栏

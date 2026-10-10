@@ -32,6 +32,7 @@
 `example.tex` 是版式与功能演示；完整的 `example.pdf` 和 `example.pptx` 请前往
 [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 下载。
 Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲者视图查看。
+渐进显示页包含实际 overlays：在 PDF/PPTX 中按页推进，可看到要点累积与内容替换，并查看各阶段备注。
 下面选取几页代表性画面，帮助快速了解模板支持的版式：
 
 <div align="center">
@@ -48,6 +49,8 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
     <img src="docs/images/preview-media.png" alt="视频链接页" width="200">
   </p>
   <p>
+    <img src="docs/images/preview-overlays.png" alt="逐步显示" width="200">
+    <img src="docs/images/preview-notes.png" alt="TeX 讲者备注" width="200">
     <img src="docs/images/preview-references.png" alt="参考文献页" width="200">
     <img src="docs/images/preview-closing.png" alt="收尾页" width="200">
   </p>
@@ -110,7 +113,7 @@ make                     # 有 main.tex 时构建自己的汇报，否则构建 
 ```
 
 [`example.tex`](example.tex) 是供人和 agent 查阅的功能演示，正文在 `sections/`，
-包含章节页、图像、公式、引用、代码窗口、导航与视频。要直接查看完整 PDF/PPTX，请使用
+包含章节页、图像、公式、统一题注、引用、代码窗口、逐步显示、导航、视频与 TeX 备注。要直接查看完整 PDF/PPTX，请使用
 [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 中的附件；agent 根据汇报目标挑选适合的版式，
 另行生成你的内容。全部文档类选项及默认值也列在示例入口中，见[选项说明](docs/class-options.md)。
 

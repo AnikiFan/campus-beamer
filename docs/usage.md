@@ -248,7 +248,9 @@ section/subsection 的内容、解释和证据，供用户确认。
 这些文件是本地生成的工作输出；修改备注应编辑 TeX。公式与图形的完整排版保留在备注 PDF，
 PPTX 备注以可提取的文字为准。备注 PDF 会按阶段数和幻灯片指纹核对，过期或错位时停止导出。
 
-公开演示的讲解直接写在 `example.tex` 与各章节中。已有 JSON-only 讲稿仍保留兼容导入；
+公开演示的讲解直接写在 `example.tex` 与各章节中；
+[`备注用法页`](../sections/notes-guide.tex) 展示同源 TeX 备注及 PDF 备注屏选项。
+已有 JSON-only 讲稿仍保留兼容导入；
 迁移时把有效备注全部放入对应的 `\note`。开始使用原生命令后，所有阶段以 TeX 为准，
 包括显式空的 `\note{}`，不混合两份来源。`--notes` 可显式导入旧 JSON，格式见
 [兼容导入示例](notes.example.json)。直接转换默认查找同名 `.notes.pdf`，没有时查找 `.notes.json`；
@@ -378,7 +380,9 @@ PDF 专有动作（如 JavaScript）不转换；无法解析或无有效热区�
 简单顺序显示。替换内容使用固定高度的 `overlayarea` 和 `\only`，避免页面跳动。
 需要讲义时，早期替换状态写 `\only<1|handout:0>{...}`，最终状态写
 `\only<2|handout:1>{...}`，使 handout 只保留最终状态；累积列表保留全部内容。
-公开可编译示例见 [overlay 夹具](../tools/fixtures/overlays.tex) 与
+完整功能演示中的[渐进显示与导航](../sections/04_navigation.tex)包含逐步显示、
+固定区域内容替换和对应的逐阶段备注。
+最小编译样例见 [overlay 夹具](../tools/fixtures/overlays.tex) 与
 [handout 夹具](../tools/fixtures/overlays-handout.tex)，共用
 [页面片段](../sections/overlay-layout.tex)。
 
@@ -437,6 +441,8 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 - `sections/talk/`：agent 生成的汇报元信息及正文。
 - `sections/metadata.tex`：完整示例的标题、课题组、汇报人、导师和日期。
 - `sections/01_*.tex` 至 `05_*.tex`：完整示例的五节正文，每个文件包含本节起始页和 frames。
+- `sections/04_navigation.tex`：实际 overlays、淡入/溶解换页和帧标签跳转。
+- `sections/notes-guide.tex`：同源 TeX 备注及 PDF 备注屏选项的页面示例。
 - `theme/campusbeamer.cls`：文档类选项、中文支持、字体与文献宏包的统一入口。
 - TeX 中的 `\note`：与对应 frame 或 overlay 一起维护的讲者备注。
 - `build/main.notes.pdf`：自动生成的双屏备注渲染，用于提取 PPTX 备注；不是创作入口。

@@ -3,10 +3,10 @@
       \begin{description}[最终交付]
             \item[准备内容] 在 \texttt{outline.md} 填写基本信息与草稿，素材放入 \texttt{materials/}。
             \item[扩充大纲] agent 展开 section/subsection 内容，交由你审阅确认。
-            \item[制作汇报] 按确认大纲编排页面与备注，检查排版并导出 PDF/PPTX。
-            \item[最终交付] \texttt{build/main.pdf} 和带逐页备注的 \texttt{build/main.pptx}。
+            \item[制作汇报] 制作 skill 按确认大纲编排页面与备注。
+            \item[最终交付] 验证 skill 检查 \texttt{build/main.pdf} 与 \texttt{build/main.pptx}。
       \end{description}
       \medskip
       对 agent 说：根据大纲制作 PPT。
 \end{frame}
-\note{介绍两个阶段的分工。用户在根目录 outline.md 填写标题、汇报人、日期、听众、时长等基本信息，并在草稿区自由写下演讲思路、素材路径和偏好。agent 根据演讲目标和提供的材料，先扩充为逐 section/subsection 的详细内容，展开要点、解释、证据、过渡和限制，保存为 build/outline-normalized.md 供用户确认。内容补充与重组在大纲阶段完成。确认后再按详细大纲选择页面结构、编排图表与代码、分配正文和备注，验证 PDF/PPTX。排版拆页和精简措辞可在已确认内容内完成；新增论点、例子或实质性解释回到大纲供确认。STYLE.md 用于调整正文密度、备注和引用等表达偏好。}
+\note{介绍两个阶段的分工。制作入口为 campus-beamer-authoring，验证入口为 campus-beamer-validation。公开演示源码在 sections/，用户汇报正文在 sections/talk/。用户在根目录 outline.md 填写标题、汇报人、日期、听众、时长等基本信息，并在草稿区自由写下演讲思路、素材路径和偏好。agent 根据演讲目标和提供的材料，先扩充为逐 section/subsection 的详细内容，展开要点、解释、证据、过渡和限制，保存为 build/outline-normalized.md 供用户确认。内容补充与重组在大纲阶段完成。确认后再按详细大纲选择页面结构、编排图表与代码、分配正文和备注，验证 PDF/PPTX。排版拆页和精简措辞可在已确认内容内完成；新增论点、例子或实质性解释回到大纲供确认。STYLE.md 用于调整正文密度、备注和引用等表达偏好。}

@@ -1,25 +1,61 @@
 % !TeX root = ../example.tex
-% 下面两个 section 专门覆盖 4、5 个 subsection 时的两栏排列。
-\section{导航布局}
-\sectioncoverpage[assets/tsinghua_door1]{本节用于检查四个 subsection 的两栏排列。} % 校园图片起始页
-\note{本节检查四个小节在章节页上的交替双栏排列，以及页脚导航的联动。}
-\subsection{第一主题}
-\begin{frame}{四小节：第一主题}
-  第 1 个 subsection 位于左列第一行。
+% Four subsections retain the two-column navigation example.
+\section{导航与渐进显示}
+\sectioncoverpage[assets/tsinghua_door1]{本节演示逐步显示、内容替换、导航跳转与换页效果。}
+\note{本节仍保留四个小节的双栏排列。前两页分别演示累积显示与固定区域内的内容替换，随后说明跳转和导出。}
+
+\subsection{逐步显示}
+\begin{frame}[fragile,label=demo-reveal]{按讲述顺序呈现要点}
+  \transfade<2-|handout:0>[duration=0.2]
+  \begin{enumerate}
+    \item<1-> \textbf{问题}：先明确这一页要回答什么。
+    \item<2-> \textbf{证据}：再给出支持判断的材料。
+    \item<3-> \textbf{结论}：最后收束到一个核心信息。
+  \end{enumerate}
+  \medskip
+  \small 用 \verb|\item<1->|、\verb|\item<2->|、\verb|\item<3->| 保留已显示内容。
+  \note<1>{逐步显示，第 1 步。先解释问题；后两条尚未出现，但位置已保留。此帧的第一阶段不设置换页效果。}
+  \note<2>{逐步显示，第 2 步。增加证据，已显示的问题保持原位。PDF 的淡入设置会导出为 PPTX 原生淡入换页，仍由点击推进。}
+  \note<3>{逐步显示，第 3 步。增加结论并保留前两条；此阶段是完整状态。每一步使用各自的 TeX 备注。}
 \end{frame}
-\note{第一小节对应章节页左列第一行。可点击导航验证目标。}
-\subsection{第二主题}
-\begin{frame}{四小节：第二主题}
-  第 2 个 subsection 位于右列第一行。
+
+\subsection{内容替换}
+\begin{frame}[fragile,label=demo-replace]{在固定区域内替换内容}
+  \transdissolve<2-|handout:0>[duration=0.4]
+  \begin{overlayarea}{\textwidth}{1.8cm}
+    \only<1|handout:0>{%
+      \textbf{输入：自由草稿}\par\medskip
+      问题、证据与讲述提示还没有分层。
+    }
+    \only<2|handout:1>{%
+      \textbf{输出：详细大纲}\par\medskip
+      按 section/subsection 组织要点、证据与备注安排。
+    }
+  \end{overlayarea}
+  \small 用 \verb|overlayarea| 保留区域；用 \verb|\only| 切换内容。
+  \note<1>{内容替换，第 1 步。这里只显示输入状态。固定高度的 overlayarea 保留下一阶段的位置，避免页脚或后续文字随内容长度移动。}
+  \note<2>{内容替换，第 2 步。同一位置替换为输出状态，PPTX 保留溶解换页。handout 只保留此最终状态；草稿内容的实质扩充仍在详细大纲阶段完成。}
 \end{frame}
-\note{第二小节对应章节页右列第一行，观察当前项高亮。}
-\subsection{第三主题}
-\begin{frame}{四小节：第三主题}
-  第 3 个 subsection 位于左列第二行。
+
+\subsection{导航跳转}
+\begin{frame}{导航与帧标签}
+  \begin{description}[小节跳转]
+    \item[章节跳转] 页脚上层定位到对应章节。
+    \item[小节跳转] 页脚下层定位到本节主题。
+    \item[帧内标签] \hyperlink{demo-reveal}{返回逐步显示}\quad
+      \hyperlink{demo-notes}{查看备注写法}
+  \end{description}
 \end{frame}
-\note{第三小节对应章节页左列第二行。}
-\subsection{第四主题}
-\begin{frame}{四小节：第四主题}
-  第 4 个 subsection 位于右列第二行。
+\note{点击两个帧标签和页脚导航，检查 PDF 与 PPTX 的目标一致。返回逐步显示时定位到第一阶段；备注写法在下一节。四个小节仍交替排列在章节页左右两栏。}
+
+\subsection{输出规则}
+\begin{frame}{展示阶段与换页}
+  \begin{description}[PPTX 换页]
+    \item[PDF 阶段] 每个 overlay 对应一个可独立查看的页面。
+    \item[PPTX 换页] 每个阶段对应一张幻灯片，保留淡入或溶解设置。
+    \item[讲义版本] \texttt{handout} 合并展示阶段，替换区域保留最终内容。
+  \end{description}
+  \medskip
+  默认点击推进，按讲解节奏控制展示。
 \end{frame}
-\note{第四小节对应章节页右列第二行。接下来检查五小节与媒体页面。}
+\note{这两组示例使用 transfade 和 transdissolve，并以 handout:0 排除讲义版换页效果。PPTX 将每个 PDF 阶段作为单独幻灯片，并保留支持的原生换页设置；没有把图像中的文字变成独立动画对象。这里的页脚仍按 Beamer 逻辑帧编号，同一帧的多个阶段共用帧号。}

@@ -1,0 +1,23 @@
+% !TeX root = ../example.tex
+\begin{frame}[fragile,label=demo-notes]{正文与备注分工}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.48\textwidth}
+      \textbf{页面源码}
+      \begin{verbatim}
+\begin{itemize}
+  \item 核心要点
+\end{itemize}
+\note{解释、过渡和讲述提示。}
+      \end{verbatim}
+      备注与页面写在同一份 TeX 中。
+    \end{column}
+    \begin{column}{.48\textwidth}
+      \begin{description}[PDF 备注屏]
+        \item[默认 PDF] \texttt{shownotes=false}，只显示幻灯片。
+        \item[PDF 备注屏] \texttt{shownotes=true}，备注位于右侧。
+        \item[PPTX 备注] 从 TeX 导出逐页备注，供演讲者视图使用。
+      \end{description}
+    \end{column}
+  \end{columns}
+\end{frame}
+\note{讲者提示：正文保留核心信息，解释、过渡和讲述提示写在 note 中。shownotes 是 documentclass 选项，默认关闭；开启后 PDF 是左侧幻灯片加右侧备注的双屏布局，需要支持这种布局的阅读器。PPTX 始终从同一份 TeX 备注导出，PDF 是否显示备注不会改变 PPTX 备注来源。逐步显示页面可用 note<1>、note<2> 为各阶段分别写备注。}

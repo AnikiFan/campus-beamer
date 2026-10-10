@@ -31,7 +31,9 @@
 
 `example.tex` is the layout and feature tour. Download the complete
 `example.pdf` and `example.pptx` from the [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases)
-page. The example PPTX includes per-slide PowerPoint speaker notes. These representative pages show the range of layouts:
+page. The example PPTX includes per-slide PowerPoint speaker notes. Advance through
+the PDF/PPTX to see cumulative reveals and content replacement, with notes for each stage.
+These representative pages show the range of layouts:
 
 <div align="center">
   <p>
@@ -47,6 +49,8 @@ page. The example PPTX includes per-slide PowerPoint speaker notes. These repres
     <img src="docs/images/preview-media.png" alt="Video link" width="200">
   </p>
   <p>
+    <img src="docs/images/preview-overlays.png" alt="Progressive reveal" width="200">
+    <img src="docs/images/preview-notes.png" alt="TeX speaker notes" width="200">
     <img src="docs/images/preview-references.png" alt="References" width="200">
     <img src="docs/images/preview-closing.png" alt="Closing page" width="200">
   </p>
@@ -116,7 +120,8 @@ make                     # Build main.tex if present; otherwise example.tex
 
 [`example.tex`](example.tex) is a reference for people and agents. Its content
 under `sections/` demonstrates section pages, figures, equations, citations,
-code windows, navigation and video. The agent chooses useful layouts and creates
+consistent captions, code windows, progressive reveals, navigation, video and TeX
+speaker notes. The agent chooses useful layouts and creates
 your content separately. The example also lists all public class options and
 defaults; see [class options](docs/class-options.md).
 

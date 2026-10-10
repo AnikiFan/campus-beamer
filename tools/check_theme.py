@@ -28,7 +28,7 @@ from images_to_ppt import campus_metadata, pdf_info_string
 
 EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 3,
                   'single-header': 5,
-                  'demo-without-guides': 43, 'language-layout': 10,
+                  'demo-without-guides': 46, 'language-layout': 10,
                   'class-options': 6, 'class-handout': 1, 'class-mixed-language': 2,
                   'code-windows': 6, 'class-metadata': 3, 'name-layout': 20,
                   'section-toc-spacing': 42, 'date-display': 12,
@@ -344,6 +344,42 @@ def check_url_layout(document, log):
             raise RuntimeError(f'url-layout: URL target changed: {url}')
 
 
+def check_public_demo(document):
+    """The public tour must exercise real reveal states and working links."""
+    reveals = [page for page in document if page.search_for('按讲述顺序呈现要点')]
+    replacements = [page for page in document if page.search_for('在固定区域内替换内容')]
+    if len(reveals) != 3 or len(replacements) != 2:
+        raise RuntimeError('public demo: missing overlay stages')
+    for stage, page in enumerate(reveals):
+        for item, marker in enumerate(('问题：', '证据：', '结论：')):
+            if bool(page.search_for(marker)) != (item <= stage):
+                raise RuntimeError('public demo: wrong cumulative reveal state')
+        style = document.xref_get_key(page.xref, 'Trans/S')[1]
+        if stage > 0 and style != '/Fade':
+            raise RuntimeError('public demo: missing fade transition')
+    if len({tuple(page.search_for('先明确这一页要回答什么。')[0])
+            for page in reveals}) != 1:
+        raise RuntimeError('public demo: retained reveal content moved')
+    markers = ('输入：自由草稿', '输出：详细大纲')
+    for stage, page in enumerate(replacements):
+        if not page.search_for(markers[stage]) or page.search_for(markers[1-stage]):
+            raise RuntimeError('public demo: wrong replacement state')
+    if replacements[0].search_for(markers[0])[0].tl != replacements[1].search_for(markers[1])[0].tl:
+        raise RuntimeError('public demo: replacement region moved')
+    if document.xref_get_key(replacements[1].xref, 'Trans/S')[1] != '/Dissolve':
+        raise RuntimeError('public demo: missing dissolve transition')
+    notes = next(page for page in document if page.search_for('正文与备注分工'))
+    for marker in ('shownotes=false', 'shownotes=true'):
+        if not notes.search_for(marker):
+            raise RuntimeError(f'public demo: missing notes option {marker}')
+    navigation = next(page for page in document if page.search_for('导航与帧标签'))
+    targets = {link.get('page') for link in navigation.get_links()}
+    if not {reveals[0].number, notes.number} <= targets:
+        raise RuntimeError('public demo: frame label links target the wrong stage')
+    if any(page.search_for('讲者提示：') for page in document):
+        raise RuntimeError('public demo: speaker-only note leaked into default PDF')
+
+
 def caption_colors(page, text):
     """Read the painted colors of a caption substring, including mixed fonts."""
     rectangles = page.search_for(text)
@@ -382,6 +418,7 @@ def check_class_fixture(name, document, log):
         raise RuntimeError(f'{name}: missing glyphs in class-generated content')
     text = '\n'.join(page.get_text() for page in document)
     if name == 'demo-without-guides':
+        check_public_demo(document)
         reference = next(page for page in document if page.search_for('图:'))
         label_color, = caption_colors(reference, '图:')
         reference = next(page for page in document
