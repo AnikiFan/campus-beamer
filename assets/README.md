@@ -53,6 +53,14 @@ uv run --frozen python tools/generate_demo_video.py
 上述来源由项目维护者确认；部分图像经过裁剪，以适应演示文稿的版式。
 主题使用的校徽与校名标志以透明 PNG 保存，呈现时的背景色块由主题绘制。
 
+两套 `wordmark_on_*.png` 由 [`wordmark.svg`](wordmark.svg) 的完整复合路径渲染，
+避免分段栅格化在笔画内部产生透明接缝。矢量路径提取自
+[官方中文版手册](https://vi.tsinghua.edu.cn/download/VisualIdentity-cn.pdf)
+第 30 页（A-3-10「校徽与横式中英文标准字左右组合」），保留官方字形与组合比例；
+浅色版使用主题紫色 `#552174`，深色版使用白色。
+执行 `uv run --frozen python tools/render_wordmarks.py` 可重建透明 PNG。
+SVG 及其派生 PNG 均适用下述清华标志权利声明，不采用脚本的 GPL 许可证。
+
 **请注意：清华大学校徽、校名及相关标志涉及清华大学的注册商标与其他权利，
 相关权利归清华大学及相应权利人所有。除本模板的演示文稿用途外，请勿将这些标志用于其他用途；
 本声明不构成校方授权，也不表示本项目获得清华大学的认可或背书。**
@@ -76,6 +84,7 @@ uv run --frozen python tools/generate_demo_video.py
 - [`emblem_on_light.png`](emblem_on_light.png)：浅色底上的透明校徽，对应 `\schoolemblemonlight`。
 - [`wordmark_on_dark.png`](wordmark_on_dark.png)：深色底上的透明校名标志，对应 `\schoolwordmarkondark`。
 - [`wordmark_on_light.png`](wordmark_on_light.png)：浅色底上的透明校名标志，对应 `\schoolwordmarkonlight`。
+- [`wordmark.svg`](wordmark.svg)：上述两套校名标志的官方矢量路径源。
 - [`sigs_wordmark.png`](sigs_wordmark.png)：完整演示中的清华大学深圳国际研究生院组合标志。
 
 校园图像，官方来源为上述视觉形象识别系统及深圳国际研究生院图库：
@@ -100,7 +109,7 @@ JPEG 仅优化无损熵编码并保留已有元数据，未重新量化图像；
 
 ## 素材核查与权利人联系
 
-截至 2026-10-05，随仓库分发的两份项目字标 SVG、11 个清华图像文件、10 张派生预览图和原创演示视频都有来源说明。
+随仓库分发的项目字标、清华标志矢量源与图像、派生预览图和原创演示视频都有来源说明。
 此外没有来源不明的图片、音视频或字体文件。源码采用 GPL-3.0-or-later；
 主题文件中的作者声明和 README 致谢说明模板来源。
 
