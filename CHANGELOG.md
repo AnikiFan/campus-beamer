@@ -5,6 +5,13 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.7.1](https://github.com/AnikiFan/campus-beamer/compare/v0.7.0...v0.7.1) (2026-10-10)
+
+
+### Bug Fixes
+
+* unify code and video captions with figure styles ([f7f4c95](https://github.com/AnikiFan/campus-beamer/commit/f7f4c9528dbf6e1b25c855eccde10570e8bdd2e2))
+
 ## [0.7.0](https://github.com/AnikiFan/campus-beamer/compare/v0.6.1...v0.7.0) (2026-10-10)
 
 
