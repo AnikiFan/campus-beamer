@@ -5,6 +5,13 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.6.1](https://github.com/AnikiFan/campus-beamer/compare/v0.6.0...v0.6.1) (2026-10-10)
+
+
+### Bug Fixes
+
+* rebuild school wordmarks without raster seams ([b7af9e1](https://github.com/AnikiFan/campus-beamer/commit/b7af9e1a9f2c72a973fd0348d3a64c2e0a2fc25c))
+
 ## [0.6.0](https://github.com/AnikiFan/campus-beamer/compare/v0.5.0...v0.6.0) (2026-10-10)
 
 
