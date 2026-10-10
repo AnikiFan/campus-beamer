@@ -89,6 +89,11 @@ body/footer. Exempt logos, decorative backgrounds and theme overlay TikZ.
 Source scanning is a supporting check, not a general detector for uncaptained
 content figures.
 
+Code and video captions use the localized theme-colored label followed by
+normal caption text, matching figures and tables. Check both `caption` and
+`description` code options, `\campusvideocaption`, and empty captions; do not
+color the entire description or leave a label when the caption is absent.
+
 Web sources use the standard gray top-right citation style. Verify both the
 source name and actual URL are visible and clickable, including fragments and
 query parameters. For the long-address fallback, match the corner label to the

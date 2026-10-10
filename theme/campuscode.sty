@@ -76,10 +76,7 @@
 \newcommand{\campus@codeafter}{%
   \par
   \ifdefempty{\campus@codecaptiontext}{}{%
-    \vskip\abovecaptionskip
-    {\usebeamerfont{caption}\usebeamercolor[fg]{caption}%
-      \centering\noindent\campus@codecaptiontext\par}%
-    \vskip\belowcaptionskip
+    \campus@mediacaption{campuscode}{\campus@codecaptiontext}%
   }%
   \addvspace{6pt}%
 }

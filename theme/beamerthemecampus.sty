@@ -144,6 +144,8 @@
   \renewcommand{\today}{\number\year 年\number\month 月\number\day 日}%
   \def\figurename{图}%
   \def\tablename{表}%
+  \def\campuscodename{代码}%
+  \def\campusvideoname{视频}%
   \def\campus@tipboxdefault{提示}%
   \def\campus@noteboxdefault{备注}%
   \def\campus@alertboxdefault{警告}%
@@ -171,6 +173,8 @@
     \space\number\day, \number\year}%
   \def\figurename{Figure}%
   \def\tablename{Table}%
+  \def\campuscodename{Code}%
+  \def\campusvideoname{Video}%
   \def\campus@tipboxdefault{Tip}%
   \def\campus@noteboxdefault{Note}%
   \def\campus@alertboxdefault{Warning}%
@@ -528,6 +532,17 @@
 \setbeamercolor{slide citation}{fg=black!50,bg=}
 \setlength{\abovecaptionskip}{2pt}
 \setlength{\belowcaptionskip}{0pt}
+% Reuse the native caption template, colors, spacing and wrapping without
+% stepping a figure/table counter. Media labels follow the selected language.
+\newcommand{\campus@mediacaption}[2]{%
+  \par\begingroup
+    \expandafter\def\csname the#1\endcsname{}%
+    \beamer@makecaption{#1}{#2}%
+  \endgroup
+}
+\newcommand{\campusvideocaption}[1]{%
+  \ifstrempty{#1}{}{\campus@mediacaption{campusvideo}{#1}}%
+}
 
 % Bullets in several levels
 \setbeamertemplate{itemize item}{\textbullet}

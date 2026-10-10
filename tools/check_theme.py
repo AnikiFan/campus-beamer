@@ -30,7 +30,7 @@ EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 
                   'single-header': 5,
                   'demo-without-guides': 43, 'language-layout': 10,
                   'class-options': 6, 'class-handout': 1, 'class-mixed-language': 2,
-                  'code-windows': 5, 'class-metadata': 3, 'name-layout': 20,
+                  'code-windows': 6, 'class-metadata': 3, 'name-layout': 20,
                   'section-toc-spacing': 42, 'date-display': 12,
                   'citation-top-right': 3, 'flow-layout': 1, 'url-layout': 2,
                   'doc-citations': 7, 'description-alignment': 4, 'callout-layout': 1,
@@ -344,6 +344,27 @@ def check_url_layout(document, log):
             raise RuntimeError(f'url-layout: URL target changed: {url}')
 
 
+def caption_colors(page, text):
+    """Read the painted colors of a caption substring, including mixed fonts."""
+    rectangles = page.search_for(text)
+    colors = {span['color']
+              for block in page.get_text('rawdict')['blocks'] if block['type'] == 0
+              for line in block['lines'] for span in line['spans']
+              for char in span['chars']
+              if any((pymupdf.Rect(char['bbox']).tl +
+                      pymupdf.Rect(char['bbox']).br) / 2 in rect for rect in rectangles)}
+    if not colors:
+        raise RuntimeError(f'missing caption text: {text}')
+    return colors
+
+
+def check_caption_style(page, label, body, label_color, body_color):
+    if caption_colors(page, label) != {label_color}:
+        raise RuntimeError(f'caption label color differs from figures: {label}')
+    if caption_colors(page, body) != {body_color}:
+        raise RuntimeError(f'caption body color differs from figures: {body}')
+
+
 def check_class_fixture(name, document, log):
     if 'biblatex.sty' not in log:
         raise RuntimeError(f'{name}: automatic bibliography support did not load')
@@ -360,7 +381,27 @@ def check_class_fixture(name, document, log):
     if name.startswith('class-') and 'Missing character:' in log:
         raise RuntimeError(f'{name}: missing glyphs in class-generated content')
     text = '\n'.join(page.get_text() for page in document)
+    if name == 'demo-without-guides':
+        reference = next(page for page in document if page.search_for('图:'))
+        label_color, = caption_colors(reference, '图:')
+        reference = next(page for page in document
+                         if page.search_for('横向标志素材的适配效果'))
+        body_color, = caption_colors(reference, '横向标志素材的适配效果')
+        for page in document:
+            if page.search_for('保留缩进，便于讲解函数结构。'):
+                check_caption_style(page, '代码:', '保留缩进，便于讲解函数结构。',
+                                    label_color, body_color)
+            if page.search_for('原创动画：大纲'):
+                check_caption_style(page, '视频:', '原创动画：大纲', label_color, body_color)
     if name == 'code-windows':
+        label_color, = caption_colors(document[5], 'Figure:')
+        body_color, = caption_colors(document[5], 'Figure caption body.')
+        for label, body in (('Figure:', 'Figure caption body.'),
+                            ('Table:', 'Table caption body.'),
+                            ('Video:', 'Video caption body.')):
+            check_caption_style(document[5], label, body, label_color, body_color)
+        if len(document[5].search_for('Video:')) != 1:
+            raise RuntimeError('code-windows: empty video caption left a label')
         for warning in ('Missing character:', 'Overfull'):
             if warning in log:
                 raise RuntimeError(f'{name}: {warning} in code fixture')
@@ -399,6 +440,7 @@ def check_class_fixture(name, document, log):
                            for rect in page.search_for(marker)):
                     raise RuntimeError(f'{name}: {filename}: {marker} is not above code')
             if caption:
+                check_caption_style(page, 'Code:', caption, label_color, body_color)
                 rects = page.search_for(caption)
                 # Mixed CJK/Latin fonts can yield multiple rectangles for one caption.
                 occurrences = ''.join(page.get_text().split()).count(''.join(caption.split()))

@@ -242,7 +242,10 @@ For paper walkthroughs, use `paperframe`; for a full-height right image, use
 
 For code, keep the content type, file/path, and language marker in the code
 window's upper bar. Put a shared explanation below the window with
-`caption={...}` or its `description={...}` alias. Use `Terminal` for command
+`caption={...}` or its `description={...}` alias. Code captions use a localized,
+theme-colored label and normal caption body text, matching figures and tables.
+Use `\campusvideocaption{...}` for the same caption style below video links.
+Use `Terminal` for command
 transcripts; use a file/config icon and a label such as `Config` for SSH or
 other configuration files; use the source-file name for program code. Keep
 `language` for highlighting and `label`/`icon` for the visible category.

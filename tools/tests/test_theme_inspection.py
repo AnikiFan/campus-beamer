@@ -8,7 +8,8 @@ from pathlib import Path
 import pymupdf
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from check_theme import check_caption_below, check_description_rows, check_doc_citations
+from check_theme import (check_caption_below, check_caption_style,
+                         check_description_rows, check_doc_citations)
 
 
 class ThemeInspectionTests(unittest.TestCase):
@@ -44,6 +45,26 @@ class ThemeInspectionTests(unittest.TestCase):
         page = self.page()
         page.insert_text((100, 160), 'Diagram caption', fontsize=9)
         check_caption_below(page, 'Diagram caption', 130, footer_top=215)
+
+    def test_caption_has_colored_label_and_normal_body(self):
+        page = self.page()
+        page.insert_text((40, 100), 'Code:', color=(85/255, 33/255, 116/255))
+        page.insert_text((85, 100), 'Example description')
+        check_caption_style(page, 'Code:', 'Example description', 0x552174, 0)
+
+    def test_uncolored_caption_label_is_rejected(self):
+        page = self.page()
+        page.insert_text((40, 100), 'Code:')
+        page.insert_text((85, 100), 'Example description')
+        with self.assertRaisesRegex(RuntimeError, 'label color'):
+            check_caption_style(page, 'Code:', 'Example description', 0x552174, 0)
+
+    def test_colored_caption_body_is_rejected(self):
+        page = self.page()
+        page.insert_text((40, 100), 'Video:', color=(85/255, 33/255, 116/255))
+        page.insert_text((85, 100), 'Example description', color=(85/255, 33/255, 116/255))
+        with self.assertRaisesRegex(RuntimeError, 'body'):
+            check_caption_style(page, 'Video:', 'Example description', 0x552174, 0)
 
     def test_missing_caption_is_rejected(self):
         with self.assertRaisesRegex(RuntimeError, 'missing figure caption'):

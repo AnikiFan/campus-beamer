@@ -343,7 +343,11 @@ PowerPoint movie 对象嵌入 PPTX；视频文件随 PPTX 一起打包，文件�
 \href{run:../assets/video.mp4}{%
   \XeTeXLinkBox{\parbox[c][.30\textheight][c]{.65\textwidth}{\mbox{}}}%
 }
+\campusvideocaption{视频内容的简短说明}
 ```
+
+`\campusvideocaption{...}` 在视频下方添加不编号题注，沿用图表题注的字体、间距和换行方式。
+“视频”（英文为 `Video`）前缀使用主题色，具体说明使用正常正文色；空说明不显示题注。
 
 缺少 FFmpeg、视频损坏或无法解码时，包含本地视频的 `make` 构建会失败；PPTX 转换器会
 保留上一次 PPTX，不会生成没有预览的视频对象。首帧如果本身是黑屏，预览也会是黑屏。
@@ -665,7 +669,8 @@ Missing Semester\par\url{https://missing.csail.mit.edu/}
 
 `campuscode` 提供深灰代码区、窄标题栏和语言图标。标题栏保留内容类型图标、文件名
 或路径以及类型标识；不添加窗口控制圆点。可选的 `caption` 位于代码区下方，使用
-图表 caption 相同的字体、字号和间距补充全局说明；其中可使用普通 LaTeX 格式，
+图表 caption 相同的字体、字号、间距和换行方式补充全局说明。
+“代码”（英文为 `Code`）前缀使用主题色，具体说明使用正常正文色；其中可使用普通 LaTeX 格式，
 下划线等特殊字符需按 LaTeX 规则转义。文件名参数则按字面显示。窗口没有阴影，
 宽度跟随当前正文或 column；代码使用等宽字体与语法高亮。Python 显示 Python 图标，
 `bash` / `text` 显示终端图标（默认类型标签分别为 `Shell` / `Terminal`），Java 显示 Java 图标，其他语言使用通用代码图标。
