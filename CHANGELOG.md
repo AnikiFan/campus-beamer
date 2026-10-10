@@ -5,6 +5,17 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.7.0](https://github.com/AnikiFan/campus-beamer/compare/v0.6.1...v0.7.0) (2026-10-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* Presentation sources now live in sections/; local talks use sections/talk/. Update source inputs, fixtures, packaging and documentation together. Authoring and validation invoke repository skills without capability fallback routes.
+
+### Code Refactoring
+
+* rename chapters to sections and use skills directly ([327e9c4](https://github.com/AnikiFan/campus-beamer/commit/327e9c4a33fde9443fffde79b723b06169407c11))
+
 ## [0.6.1](https://github.com/AnikiFan/campus-beamer/compare/v0.6.0...v0.6.1) (2026-10-10)
 
 
