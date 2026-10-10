@@ -606,7 +606,7 @@ def check(root, output):
                 shutil.copy2(root / filename, workspace / filename)
             shutil.copytree(root / 'bibliography', workspace / 'bibliography')
             shutil.copytree(root / 'theme', workspace / 'theme')
-            shutil.copytree(root / 'chapters', workspace / 'chapters')
+            shutil.copytree(root / 'sections', workspace / 'sections')
             (workspace / 'assets').symlink_to(root / 'assets', target_is_directory=True)
             shutil.copy2(root / 'tools/fixtures' / f'{name}.tex', workspace / f'{name}.tex')
             bibliography = root / 'tools/fixtures' / f'{name}.bib'

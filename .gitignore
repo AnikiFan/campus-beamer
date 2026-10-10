@@ -10,7 +10,7 @@ __pycache__/
 /materials/*
 !/materials/.gitkeep
 /main.tex
-/chapters/talk/
+/sections/talk/
 /bibliography/main.bib
 
 # TeX intermediates and generated slides, including nested examples.

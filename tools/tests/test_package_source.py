@@ -36,7 +36,7 @@ class SourcePackageTests(unittest.TestCase):
         (self.root / 'tools/fixture.log').write_text('Generated log')
         (self.root / 'docs/usage.md').write_text('Manual')
         (self.root / 'docs/notes.example.json').write_text('Format example')
-        (self.root / 'chapters/01_basics.tex').write_text('Required demo chapter')
+        (self.root / 'sections/01_basics.tex').write_text('Required demo chapter')
         (self.root / 'bibliography/another.bib').write_text('Another bibliography')
         (self.root / 'assets/README.md').write_text('Asset provenance')
         package(self.root, self.output)
@@ -46,7 +46,7 @@ class SourcePackageTests(unittest.TestCase):
             self.assertNotIn('main.notes.json', names)
             self.assertNotIn('starter.notes.json', names)
             self.assertIn('docs/usage.md', names)
-            self.assertIn('chapters/01_basics.tex', names)
+            self.assertIn('sections/01_basics.tex', names)
             self.assertIn('bibliography/refs.bib', names)
             self.assertNotIn('bibliography/another.bib', names)
             for name in ('Dockerfile', 'Dockerfile.dockerignore', 'entrypoint.sh'):
@@ -67,8 +67,8 @@ class SourcePackageTests(unittest.TestCase):
         self.assertEqual(first, self.output.read_bytes())
 
     def test_agent_authored_talk_and_materials_are_not_distributed(self):
-        private_files = ('main.tex', 'prompt.md', 'chapters/talk/metadata.tex',
-                         'chapters/talk/01_intro.tex', 'bibliography/main.bib',
+        private_files = ('main.tex', 'prompt.md', 'sections/talk/metadata.tex',
+                         'sections/talk/01_intro.tex', 'bibliography/main.bib',
                          'materials/paper/main.tex', 'materials/derived/figure.png',
                          'materials/outline.md', 'build/outline-normalized.md')
         for name in private_files:
@@ -112,7 +112,7 @@ class SourcePackageTests(unittest.TestCase):
     def test_nested_private_files_are_not_distributed(self):
         private_files = ('docs/.env', 'assets/private-slide.pdf',
                          'tools/private.notes.json', '.github/credentials.json',
-                         'chapters/private-talk.tex', 'bibliography/private.bib')
+                         'sections/private-talk.tex', 'bibliography/private.bib')
         for name in private_files:
             (self.root / name).write_text('Synthetic private content')
         (self.root / 'docs/unknown-link').symlink_to(self.root / 'README.md')

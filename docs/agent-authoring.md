@@ -91,7 +91,7 @@ outline work. Confirmation authorizes the reviewed content for production.
 
 ### Stage 2: compose and lay out the slides
 
-After confirmation, create `main.tex`, `chapters/talk/`, verified citation
+After confirmation, create `main.tex`, `sections/talk/`, verified citation
 resources when needed, and native `\note` commands alongside the frames from the approved outline.
 Map sections and subsections to the Beamer hierarchy, choose frame boundaries,
 condense visible text, distribute approved explanations between slides and
@@ -123,8 +123,8 @@ Start a new deck with the class interface, for example:
 ]{campusbeamer}
 ```
 
-Keep metadata in `chapters/talk/metadata.tex`, class/build settings in
-`main.tex`, and one section per file under `chapters/talk/`. Select those files
+Keep metadata in `sections/talk/metadata.tex`, class/build settings in
+`main.tex`, and one section per file under `sections/talk/`. Select those files
 explicitly with `\input`. Do not put a class or document environment in a
 chapter. Use `\campusbibresource{bibliography/main.bib}` only when the talk has
 verified citations; leave `bibliography/refs.bib` unchanged for the demo.

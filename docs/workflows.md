@@ -47,7 +47,7 @@ PDF/PPTX 和编译临时文件统一写入 `build/`；成功后清理临时文�
 
 模板命令补全由 `.vscode/settings.json` 提供。在 `.tex` 中输入 `@campus-` 查看代码片段。
 上述 latexmk recipe 同样读取 `.latexmkrc`，无需在文档中额外添加主题路径。
-编辑 `chapters/` 中的章节或演示片段时，应编译引用它的入口；也可回到入口执行上述任务。
+编辑 `sections/` 中的章节或演示片段时，应编译引用它的入口；也可回到入口执行上述任务。
 演示章节的 `% !TeX root = ../example.tex` 指向功能示例；agent 生成的章节应指向其汇报入口。
 任务输出在终端中查看；编辑器按钮本身不会验证页面可读性或备注顺序。
 任务格式依据 [VS Code 官方文档](https://code.visualstudio.com/docs/debugtest/tasks)，

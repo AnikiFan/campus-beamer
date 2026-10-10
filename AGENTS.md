@@ -9,18 +9,14 @@ workflow guide only when the task needs it.
 
 - **Create or revise a talk:** use
   [`campus-beamer-authoring`](.agents/skills/campus-beamer-authoring/SKILL.md).
-  A request such as “根据大纲制作 PPT” starts this workflow. If skills are not
-  supported, read [`STYLE.md`](STYLE.md), [`outline.md`](outline.md) and
-  [`docs/agent-authoring.md`](docs/agent-authoring.md). Inventory authorized
+  A request such as “根据大纲制作 PPT” starts this workflow. Inventory authorized
   materials with ignore rules disabled and review coverage before confirmation.
 - **Change theme geometry, colors, class options, or visual behavior:** read
   [`docs/agent-theme.md`](docs/agent-theme.md) and the affected files under
   `theme/` or `tools/fixtures/`.
 - **Build, export, inspect, or diagnose output:** use
   [`campus-beamer-validation`](.agents/skills/campus-beamer-validation/SKILL.md).
-  If skills are not supported, read
-  [`docs/agent-validation.md`](docs/agent-validation.md). Use the narrowest
-  relevant `make` target.
+  Use the narrowest relevant `make` target.
 - **Look up or update citations:** use [`docs/literature.md`](docs/literature.md)
   and read the paper or other authorized primary source before making claims.
 - **Change public documentation, packaging, CI, or releases:** inspect the
@@ -52,7 +48,7 @@ when the task touches their subject.
   changes such as splitting a crowded frame can proceed within approved content.
 - Keep the institution-neutral `campus` API. School identity and functional
   colors belong in `theme/campuscolor.sty`; talk content belongs in `main.tex`,
-  `chapters/talk/`, `materials/`, and (when needed) `bibliography/main.bib`.
+  `sections/talk/`, `materials/`, and (when needed) `bibliography/main.bib`.
   Do not alter the demo to make a user talk.
 - Ordinary body frames use two header lines: the current `\subsection` above
   the frame title. Give every body frame a meaningful subsection and a title;
@@ -98,8 +94,8 @@ explicit `MAIN` wins. Use `make help` for the complete command list.
   Source ZIPs use `tools/templates/outline.md` as the starter outline.
 - `build/outline-normalized.md`: agent-expanded section/subsection content for
   review; keep approval tied to a specific outline revision.
-- `example.tex`, `chapters/`, `bibliography/refs.bib`: public reference demo.
-- `main.tex`, `chapters/talk/`, `bibliography/main.bib`, `materials/`: local
+- `example.tex`, `sections/`, `bibliography/refs.bib`: public reference demo.
+- `main.tex`, `sections/talk/`, `bibliography/main.bib`, `materials/`: local
   agent-authored talk inputs and sources.
 - `theme/`: class, theme implementation, school profile, and code-window style.
 - `tools/`: converter, preview, literature, packaging, fixtures, and tests.

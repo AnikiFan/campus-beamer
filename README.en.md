@@ -73,8 +73,8 @@ The agent follows [`AGENTS.md`](AGENTS.md), reads the draft and materials, and d
 It expands key points, explanations, evidence and the narrative for your review. Content development and restructuring happen at this stage.
 After confirmation, it composes pages, distributes content between slides and notes, checks the layout and exports `build/main.pdf` and `build/main.pptx`.
 
-The repository includes [authoring and validation Agent Skills](docs/usage.md#内置-agent-skills)
-for tools that support them. Other tools can follow the same workflows through `AGENTS.md`.
+The agent uses the repository's [authoring and validation Agent Skills](docs/usage.md#内置-agent-skills)
+for the corresponding tasks.
 
 [`STYLE.md`](STYLE.md) defines the default presentation style. **Edit it to suit your needs:**
 slide density, the split between slides and notes, note detail, citation placement and date formatting.
@@ -115,7 +115,7 @@ make                     # Build main.tex if present; otherwise example.tex
 ```
 
 [`example.tex`](example.tex) is a reference for people and agents. Its content
-under `chapters/` demonstrates section pages, figures, equations, citations,
+under `sections/` demonstrates section pages, figures, equations, citations,
 code windows, navigation and video. The agent chooses useful layouts and creates
 your content separately. The example also lists all public class options and
 defaults; see [class options](docs/class-options.md).
@@ -144,8 +144,8 @@ Edit **`theme/campuscolor.sty`** to change functional colors (`maincolor`, `tipc
 `notecolor`, `alertcolor`, `examplecolor`, `definitioncolor`), transparent
 emblems/wordmarks. Pass campus photo and illustration
 paths directly in your chapter files. Section backgrounds can also be `primary`,
-`white`, or empty. Demo metadata lives in `chapters/metadata.tex`; the agent writes
-your metadata in `chapters/talk/metadata.tex`.
+`white`, or empty. Demo metadata lives in `sections/metadata.tex`; the agent writes
+your metadata in `sections/talk/metadata.tex`.
 Layout geometry stays in the theme implementation.
 The footer uses `maincolor` with white text. The cover uses the primary-color diagonal layout,
 with its color taken from `maincolor`; the explicit setting is `\titlebackground{primary}`.
@@ -166,7 +166,7 @@ Document-class, theme and school-profile files live in `theme/`. Keep this direc
 and `.latexmkrc` when copying the template: latexmk configures the TeX search path,
 so `\documentclass{campusbeamer}` and the Make commands remain unchanged.
 Presentation sections, metadata and reusable demo fragments live together in
-`chapters/`, documentation in `docs/`, and test sources in `tools/fixtures/`.
+`sections/`, documentation in `docs/`, and test sources in `tools/fixtures/`.
 Local output lives in ignored `build/` directories.
 GitHub Actions reads `.github/workflows/` from the repository root.
 See [CONTRIBUTING.md](CONTRIBUTING.md) for bug reports and pull requests.

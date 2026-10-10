@@ -44,8 +44,8 @@ README 的封面与引用截图从当前 `build/example.pdf` 以至少 **600 DPI
 
 ## 组织与提交
 
-- 草稿入口 `outline.md` 和功能示例 `example.tex` 保留在根目录；用户汇报由 agent 生成在 `main.tex` 与 `chapters/talk/`，文档类、主题、配色和学校配置统一放在 `theme/`，通过 `.latexmkrc` 配置搜索路径。
-- 演示元信息、章节正文与可复用演示片段统一放在 `chapters/`；示例代码源文件放在 `chapters/code/`。
+- 草稿入口 `outline.md` 和功能示例 `example.tex` 保留在根目录；用户汇报由 agent 生成在 `main.tex` 与 `sections/talk/`，文档类、主题、配色和学校配置统一放在 `theme/`，通过 `.latexmkrc` 配置搜索路径。
+- 演示元信息、章节正文与可复用演示片段统一放在 `sections/`；示例代码源文件放在 `sections/code/`。
 - 文献数据库放在 `bibliography/`，Dockerfile、构建上下文清单与容器入口放在 `docker/`。
 - 手册与少量精选预览放在 `docs/`；测试源码放在 `tools/fixtures/`。
 - 仓库级 skill 入口放在 `.agents/skills/`，描述明确触发任务，详细流程引用 `docs/agent-*.md`。
@@ -66,7 +66,7 @@ README 的封面与引用截图从当前 `build/example.pdf` 以至少 **600 DPI
 `make dist` 生成 `build/dist/campus-beamer.zip`，只包含清单内的源码、文档、配置和示例素材。
 这份 ZIP 可以作为独立仓库的根目录；GitHub 只从仓库根目录读取 workflows。
 不包含 `.venv`、生成的备注、构建产物，或未列入清单的根目录汇报；新增源码时同步更新打包清单。
-`materials/` 仅打包 `.gitkeep` 以保留目录；用户素材、生成的 `main.tex`、`chapters/talk/` 和 `bibliography/main.bib` 不会被打包。
+`materials/` 仅打包 `.gitkeep` 以保留目录；用户素材、生成的 `main.tex`、`sections/talk/` 和 `bibliography/main.bib` 不会被打包。
 所有公开文件逐一登记在 `tools/package_source.py` 的 `FILES` 白名单中，不递归收录目录中的新文件。
 新增文件默认不打包；审核其内容可公开后，再将路径加入白名单并运行 `make test`、`make dist`。
 清单文件及其父目录不能是符号链接。已登记文件的内容仍需审核，白名单不代替隐私检查。

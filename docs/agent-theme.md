@@ -12,7 +12,7 @@ in `theme/campuscolor.sty`; layout geometry belongs in
 `theme/beamerthemecampus.sty`. The default profile is Tsinghua and its existing
 rendering is a compatibility baseline. Do not hard-code another school's brand
 or create `imageone`/`demographic` registries. Keep demo metadata literal in
-`chapters/metadata.tex`; keep user metadata in `chapters/talk/metadata.tex`.
+`sections/metadata.tex`; keep user metadata in `sections/talk/metadata.tex`.
 
 The public class is the configuration surface for new decks. Preserve legacy
 `\usetheme{campus}` and low-level layout compatibility unless the change is

@@ -5,11 +5,11 @@
 \sectioncoverpage[assets/sigs_building]{本节介绍页面布局、公式排版、图像适配与图注。}
 \note{本节先说明正文区域和字号，再演示公式、代码与图片。章节背景是模板已有示例素材。}
 \subsection{基础页面}
-\input{chapters/harness-guide.tex} % 推荐用法：思路与素材交给 agent
+\input{sections/harness-guide.tex} % 推荐用法：思路与素材交给 agent
 
 % 红色参考线只显示在这一页，不改变其他页面的主题设置。
-\input{chapters/layout-guide.tex}
-\input{chapters/font-guide.tex}
+\input{sections/layout-guide.tex}
+\input{sections/font-guide.tex}
 
 % section 组织整节内容，subsection 自动显示在页眉上方。
 % frame 的标题参数即 frametitle，只填写本页标题，无需额外设置副标题。
@@ -24,9 +24,9 @@
 \note{说明 section 管整节，subsection 显示在页眉上行，frametitle 概括当前页。转入具体内容示例。}
 
 % 公式与图像沿用本 subsection，保留单小节的导航示例。
-\input{chapters/math-examples.tex}
+\input{sections/math-examples.tex}
 
-\input{chapters/code-guide.tex}
+\input{sections/code-guide.tex}
 
 \begin{frame}[fragile]{自动适配素材}
       \begin{columns}[T,onlytextwidth]

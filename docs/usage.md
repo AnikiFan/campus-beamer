@@ -42,7 +42,7 @@ agent 按 `AGENTS.md` 和[制作指南](agent-authoring.md) 组织内容并完�
 在演讲目标和材料范围内的扩充由 agent 完成；外部检索、新素材、事实修改或缺少依据的
 内容集中列为待确认事项。这个阶段完成内容补充、重组与取舍，用户确认详细大纲后进入制作。
 
-第二阶段是**页面编排与输出检查**。agent 按确认的大纲生成 `main.tex`、`chapters/talk/`、
+第二阶段是**页面编排与输出检查**。agent 按确认的大纲生成 `main.tex`、`sections/talk/`、
 需要时的文献资源，以及 TeX 中的 `\note` 备注，主要处理页面划分、短标题、图表与代码布局、
 正文与备注分配。它会用 `make draft` 检查密度和溢出，再用 `make` 导出 PDF/PPTX。
 
@@ -59,9 +59,7 @@ agent 按 `AGENTS.md` 和[制作指南](agent-authoring.md) 组织内容并完�
 - [`campus-beamer-validation`](../.agents/skills/campus-beamer-validation/SKILL.md)：
   编译、导出、检查 PDF/PPTX 或排查输出问题。
 
-支持仓库级 Agent Skills 的工具可根据请求选用对应入口。在 Codex 中，也可显式使用
-`$campus-beamer-authoring` 或 `$campus-beamer-validation`。日常制作仍可直接说
-“根据大纲制作 PPT”。其他工具通过 `AGENTS.md` 读取相同的制作与验证指南。
+agent 根据请求调用对应 skill；日常制作可直接说“根据大纲制作 PPT”。
 整体风格继续由根目录的 `STYLE.md` 定义，用户可按需修改；详细指南按任务读取。
 这两个 skill 随源码 ZIP 一并提供，引用路径相对于各自的 `SKILL.md`。
 
@@ -94,7 +92,7 @@ PDF/PPTX、备注和临时文件统一在 `build/`：
 ```text
 main.tex                      agent 生成的汇报入口
 outline.md                   用户填写的基本信息与自由草稿
-chapters/talk/                agent 生成的元信息和章节
+sections/talk/                agent 生成的元信息和章节
 bibliography/main.bib         核实后的汇报文献
 build/
 ├── outline-normalized.md     section/subsection 详细内容与确认记录
@@ -113,7 +111,7 @@ build/
 不要并行运行清理与构建，例如 `make -j clean all`。
 
 `materials/.gitkeep` 随仓库和源码包提供，克隆或解压后素材目录已经存在。
-放进 `materials/` 的文件、`main.tex`、`chapters/talk/`、`bibliography/main.bib` 和 `build/` 中的其他构建产物只留在本地：Git 会忽略它们，源码包也不包含它们。
+放进 `materials/` 的文件、`main.tex`、`sections/talk/`、`bibliography/main.bib` 和 `build/` 中的其他构建产物只留在本地：Git 会忽略它们，源码包也不包含它们。
 自己的图片和论文放在 `materials/`，不要放进 `assets/`；`assets/` 是模板自带的标志、校园图片和示例视频。
 根目录的 `outline.md` 保存原始草稿，`build/outline-normalized.md` 保存 agent 扩充后的详细大纲。
 `make dist` 在源码包中提供起始大纲模板，本地草稿保持原样。`outline.md` 受 Git 跟踪；
@@ -122,7 +120,7 @@ build/
 样式文件在 `theme/`，`.latexmkrc` 自动配置 TeX 搜索路径；始终从项目根目录构建。
 正文与图像路径相对于项目根目录，PDF 内的本地附件链接相对于 `build/`。
 复制这个文件夹时保留源码、`outline.md`、`STYLE.md`、`AGENTS.md`、Makefile、`.latexmkrc`、`theme/`、
-`tools/`、`chapters/`、`bibliography/`、`assets/`、`docs/`、`pyproject.toml` 和 `uv.lock`；
+`tools/`、`sections/`、`bibliography/`、`assets/`、`docs/`、`pyproject.toml` 和 `uv.lock`；
 无需复制 `.venv` 或已有构建产物。直接调用 XeLaTeX 时须自行设置主题搜索路径、创建输出目录并处理 biber，推荐交由 Make 完成。
 
 ## 更换学校
@@ -151,7 +149,7 @@ build/
 校徽保持透明、等比例缩放，建议使用与默认素材一致的方形画布；校名标志可使用
 不同宽高比，主题按固定宽度等比例缩放。无需覆盖默认素材文件。
 个人姓名、导师、日期、课题组和汇报标题属于演示文稿内容，完整示例在
-`chapters/metadata.tex` 中编辑，正文在对应的章节文件中编辑；
+`sections/metadata.tex` 中编辑，正文在对应的章节文件中编辑；
 标题与课题组直接填写文字，不通过学校配置命令间接定义。
 
 校园照片、章节背景和普通插图属于汇报内容，直接在章节或示例文件中
@@ -206,7 +204,7 @@ draft 使用正式版相同的排版与全部图片，由 `latexmk` 增量编译
 在 `outline.md` 中写下演讲思路，并注明 `materials/` 中的素材路径。agent 按 `AGENTS.md`
 读取风格偏好、草稿及本地材料，先清点并查看材料，记录覆盖与取舍，再扩充每个
 section/subsection 的内容、解释和证据，供用户确认。
-确认后，它会新建 `main.tex`，将元信息和正文写入 `chapters/talk/`，按需建立
+确认后，它会新建 `main.tex`，将元信息和正文写入 `sections/talk/`，按需建立
 `bibliography/main.bib`，并在对应 TeX 页面中编写 `\note`。
 
 默认采用 16:9 布局、原文语言和适合现场讲述的页面，每节起始页使用整页主色；
@@ -378,7 +376,7 @@ PDF 专有动作（如 JavaScript）不转换；无法解析或无有效热区�
 `\only<2|handout:1>{...}`，使 handout 只保留最终状态；累积列表保留全部内容。
 公开可编译示例见 [overlay 夹具](../tools/fixtures/overlays.tex) 与
 [handout 夹具](../tools/fixtures/overlays-handout.tex)，共用
-[页面片段](../chapters/overlay-layout.tex)。
+[页面片段](../sections/overlay-layout.tex)。
 
 转换器读取 PDF 的明确换页设置，将 `\transfade`、`\transdissolve` 分别导出为
 PowerPoint 原生淡入、溶解切换。支持的时长以毫秒写入 Office 2010+ 属性；较旧客户端
@@ -432,9 +430,9 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 - `materials/`：用户提供的论文源码、PDF、图片和数据，本地目录。
 - `example.tex`：完整功能演示入口与配置参考。
 - `main.tex`：agent 生成的汇报入口、文献资源及章节顺序。
-- `chapters/talk/`：agent 生成的汇报元信息及正文。
-- `chapters/metadata.tex`：完整示例的标题、课题组、汇报人、导师和日期。
-- `chapters/01_*.tex` 至 `05_*.tex`：完整示例的五节正文，每个文件包含本节起始页和 frames。
+- `sections/talk/`：agent 生成的汇报元信息及正文。
+- `sections/metadata.tex`：完整示例的标题、课题组、汇报人、导师和日期。
+- `sections/01_*.tex` 至 `05_*.tex`：完整示例的五节正文，每个文件包含本节起始页和 frames。
 - `theme/campusbeamer.cls`：文档类选项、中文支持、字体与文献宏包的统一入口。
 - TeX 中的 `\note`：与对应 frame 或 overlay 一起维护的讲者备注。
 - `build/main.notes.pdf`：自动生成的双屏备注渲染，用于提取 PPTX 备注；不是创作入口。
@@ -468,8 +466,8 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 启用红线开关时，会标注标志外接矩形、实际宽高、左边缘的 61.8% 对齐线，
 以及右、下边距所用的 `\large` 行距基准和实际长度。
 
-公式示例位于 `chapters/math-examples.tex`，展示行内数学、多行对齐、梯度、
-矩阵和分段函数；`chapters/bibliography-guide.tex` 展示文献字段、角落引用和文末列表的对应关系。
+公式示例位于 `sections/math-examples.tex`，展示行内数学、多行对齐、梯度、
+矩阵和分段函数；`sections/bibliography-guide.tex` 展示文献字段、角落引用和文末列表的对应关系。
 两个文件分别由基础页面章节和论文讲解章节引入，通过 `example.tex` 编译查看。
 
 ### 分文件组织完整示例
@@ -477,7 +475,7 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 `example.tex` 存放演示配置与章节入口，标题信息和正文分开放：
 
 ```text
-chapters/
+sections/
 ├── metadata.tex       标题与个人信息
 ├── harness-guide.tex  用户提供思路与素材、agent 制作与交付的说明
 ├── 01_basics.tex      基础页面、公式与图像
@@ -493,15 +491,15 @@ chapters/
 └── code/normalize.py  演示中读取的代码源文件
 ```
 
-正文用 `\input{chapters/01_basics.tex}` 等命令按入口中的顺序组合，
+正文用 `\input{sections/01_basics.tex}` 等命令按入口中的顺序组合，
 章节文件只包含内容，不重复写 `\documentclass` 或 `\begin{document}`。
 要给示例增加章节时，在 `example.tex` 中添加一条 `\input`；重排这些语句即可调整章节顺序。
 资源和嵌套 `\input` 路径相对于项目根目录，例如章节中使用
-`assets/sigs_building` 和 `chapters/math-examples.tex`。
+`assets/sigs_building` 和 `sections/math-examples.tex`。
 查看示例时从根目录运行 `make MAIN=example` 或 `make draft MAIN=example`，不单独编译章节；
 `latexmk` 会追踪这些文件的变化。调整顺序后同步核对逐页备注。
-演示片段与所属章节同放在 `chapters/`，由章节中的 `\input` 引入。
-自己的汇报先按 `outline.md` 整理并确认大纲，再由 agent 组织在 `main.tex` 与 `chapters/talk/` 中，流程见 [Agent 制作指南](agent-authoring.md)。
+演示片段与所属章节同放在 `sections/`，由章节中的 `\input` 引入。
+自己的汇报先按 `outline.md` 整理并确认大纲，再由 agent 组织在 `main.tex` 与 `sections/talk/` 中，流程见 [Agent 制作指南](agent-authoring.md)。
 
 `example.tex` 在封面后先介绍推荐使用方式，再按“基础页面与图像、论文讲解与引用、提示框、导航布局、媒体与收尾”组织示例，
 五节分别包含 1、2、3、4、5 个 subsection，覆盖单列、两列及奇数项最后一行的排列。
@@ -661,7 +659,7 @@ Missing Semester\par\url{https://missing.csail.mit.edu/}
 
 按语义选择 `tipbox`（操作建议）、`notebox`（条件与补充说明）、`alertbox`（关键限制），
 以及定义、示例环境。标题概括说明类别，框内内容与主结构相关；避免机械套框和重复总结。
-完整的“主结构 + 条件框”示例见 `chapters/callout-layout.tex`。
+完整的“主结构 + 条件框”示例见 `sections/callout-layout.tex`。
 
 ## 代码与终端窗口
 
@@ -707,7 +705,7 @@ $ python normalize.py
 ```tex
 \begin{frame}{关键实现}
 \campusinputcode[language=Python,numbers,firstline=2,lastline=5,firstnumber=2]
-  {normalize.py}{chapters/code/normalize.py}
+  {normalize.py}{sections/code/normalize.py}
 \end{frame}
 ```
 
@@ -727,7 +725,7 @@ $ python normalize.py
 用文件行范围拆成多页；不要缩小字号来隐藏拥挤。标题栏应简短，完整路径放在备注中，
 但听众需要访问的配置或学习入口应在正文显示相对路径或 URL。
 实现位于 `theme/campuscode.sty`，由主题自动加载。普通 `verbatim` 环境也可以使用。
-完整演示见 `chapters/code-guide.tex`。
+完整演示见 `sections/code-guide.tex`。
 
 ## Section 与小节导航
 

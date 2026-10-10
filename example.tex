@@ -19,17 +19,17 @@
 % 定位框、对齐线、各部分字号及其实际 baselineskip；交付前保持关闭。
 % 仅通过 documentclass 选项 layoutguides=true 开启；省略或设为 false 则关闭。
 
-\input{chapters/metadata.tex} % 标题、作者、导师与日期
+\input{sections/metadata.tex} % 标题、作者、导师与日期
 % ============================ 示例配置区结束 ============================
 
 \begin{document}
 \maketitle
 \note{介绍这份完整功能演示：从页面结构讲到代码、引用、导航和导出。封面中的个人信息是模板示例，使用时在 metadata.tex 中替换。}
 
-% 章节按这里的顺序组合；正文与演示片段统一放在 chapters/。
-\input{chapters/01_basics.tex}
-\input{chapters/02_papers.tex}
-\input{chapters/03_callouts.tex}
-\input{chapters/04_navigation.tex}
-\input{chapters/05_media.tex}
+% 章节按这里的顺序组合；正文与演示片段统一放在 sections/。
+\input{sections/01_basics.tex}
+\input{sections/02_papers.tex}
+\input{sections/03_callouts.tex}
+\input{sections/04_navigation.tex}
+\input{sections/05_media.tex}
 \end{document}
