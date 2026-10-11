@@ -5,6 +5,13 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.8.0](https://github.com/AnikiFan/campus-beamer/compare/v0.7.2...v0.8.0) (2026-10-11)
+
+
+### Features
+
+* add overview and image-background frame styles ([ee7978c](https://github.com/AnikiFan/campus-beamer/commit/ee7978cdf057ecbf9cba309f24e33c28d81ae1c7))
+
 ## [0.7.2](https://github.com/AnikiFan/campus-beamer/compare/v0.7.1...v0.7.2) (2026-10-10)
 
 
