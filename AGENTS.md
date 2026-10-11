@@ -52,7 +52,8 @@ when the task touches their subject.
   Do not alter the demo to make a user talk.
 - Ordinary body frames use two header lines: the current `\subsection` above
   the frame title. Give every body frame a meaningful subsection and a title;
-  keep single-line headers for generated TOC and references pages.
+  keep single-line headers for generated TOC and references pages. The explicit
+  `campusfocus` style is also single-line, with only the bottom footer row.
 - Treat compiler output in `build/` as generated. Agent-authored normalized
   outlines are editable working documents; speaker notes live in native `\note`
   commands alongside the TeX frames. Do not

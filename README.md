@@ -53,6 +53,10 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
     <img src="docs/images/preview-notes.png" alt="TeX 讲者备注" width="200">
     <img src="docs/images/preview-references.png" alt="参考文献页" width="200">
     <img src="docs/images/preview-closing.png" alt="收尾页" width="200">
+    <br>
+    <img src="docs/images/preview-focus.png" alt="简洁页面" width="200">
+    <img src="docs/images/preview-background.png" alt="居中图片背景" width="200">
+    <img src="docs/images/preview-flow.png" alt="对齐流程图" width="200">
   </p>
 </div>
 
@@ -118,6 +122,7 @@ make                     # 有 main.tex 时构建自己的汇报，否则构建 
 另行生成你的内容。全部文档类选项及默认值也列在示例入口中，见[选项说明](docs/class-options.md)。
 
 - 固定 16:9 布局，支持中英文；默认全主色章节页，清华配置下为紫色。
+- 完整目录可用 `\sectiontocpage[overview]` 统一展示章节；[简洁页面](docs/usage.md#简洁页面与图片背景)支持单行页眉、底行页脚及居中等比铺满的可调透明度图片背景。
 - 自动适配图片、公式、论文讲解页及[终端风格代码窗口](docs/usage.md#代码与终端窗口)。
 - `biblatex` / `biber` 文献管理，角落引用与已引用文献汇总；[网页来源引用](docs/usage.md#网页来源引用)同时显示来源名与实际 URL。可按需使用 [DBLP 与引用数工具](docs/literature.md)。
 - PDF → PPTX 保留跳转、外部链接、本地视频与逐页备注；PDF 和 PPTX 的视频首帧预览需要 FFmpeg。

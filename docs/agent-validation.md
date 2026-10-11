@@ -60,7 +60,12 @@ underfull warnings are spacing hints, not proof of quality.
 Check every ordinary body page for two visible header lines: subsection above,
 frame title below. If one is missing, fix the source structure/title, including
 the first body frame after each new section. Generated TOC/references pages use
-single-line headers; cover, section-opening, and closing pages have dedicated
+single-line headers; explicitly selected `campusfocus` frames also use one title
+and only the bottom footer row. Check that the next ordinary frame restores both
+header lines and navigation. Image backgrounds must cover the page without aspect
+distortion, stay centered and respect opacity; inspect wide and tall sources and
+text contrast. Both TOC modes retain section links; overview entries have uniform
+color and emphasis. Cover, section-opening, and closing pages have dedicated
 layouts. Check rendered output as well as declarations in the source.
 
 Review body-header text as short, specific topic phrases. Keep conclusions,
@@ -70,7 +75,10 @@ type marker and file/path, while an optional global description is below the cod
 area in the figure-caption style; check Terminal, configuration-file, source-file,
 line-number, fragile, and column cases. For node-based diagrams, inspect node/arrow anchors, profile-derived
 colors, final font size, wrapping, clipping, and editable source/generation
-metadata. A plain sentence or single mathematical arrow does not need a diagram.
+metadata. Where semantics permit, check symmetry, equal peer-node dimensions,
+aligned centers and regular gaps. Check edge anchors, routing and visible shafts
+longer than arrowheads at the final insertion size. A plain sentence or single
+mathematical arrow does not need a diagram.
 
 For audience-facing resources, verify the visible URL is the actual PDF link
 target, including required query parameters. Check long URLs for natural wrapping,

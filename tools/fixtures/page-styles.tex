@@ -1,0 +1,31 @@
+% Synthetic wide/tall PDFs are prepared by tools/check_theme.py.
+\documentclass[language=english,cjk=false]{campusbeamer}
+\title{Page styles}
+\author{Template check}
+\begin{document}
+\section{Alpha}
+\subsection{Context}
+\begin{frame}{Ordinary before}Body before.\end{frame}
+\begin{frame}[campusfocus]{Plain focus}Body without a background.\end{frame}
+\begin{frame}[campusbackground=build/style-wide.pdf,campusbackgroundopacity=1]{Wide background}
+  \uncover<1->{First stage.}\par
+  \uncover<2->{Second stage.}
+  \note<1>{First background stage.}\note<2>{Second background stage.}
+\end{frame}
+\begin{frame}[campusbackgroundopacity=.5,campusbackground=build/style-tall.pdf]{Tall background}
+  Portrait image, centered and cropped.
+\end{frame}
+\begin{frame}[campusbackground=build/style-wide.pdf,campusbackgroundopacity=0]{Invisible background}
+  Fully transparent background.
+\end{frame}
+\begin{frame}[fragile,campusfocus]{Fragile focus}
+\begin{verbatim}
+print("frame keys work with fragile")
+\end{verbatim}
+\end{frame}
+\begin{frame}[campusfocus,allowframebreaks]{Focus continuation}
+First page.\par\framebreak
+Second page.
+\end{frame}
+\begin{frame}{Ordinary after}Body after.\end{frame}
+\end{document}

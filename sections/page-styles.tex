@@ -1,0 +1,39 @@
+% !TeX root = ../example.tex
+\begin{frame}[campusfocus]{简洁页面}
+  \begin{description}[页脚]
+    \item[页眉] 仅显示本页标题。
+    \item[页脚] 保留页码与作者、标题；隐藏章节和小节导航。
+    \item[选项] 在 \texttt{frame} 中添加 \texttt{campusfocus}。
+  \end{description}
+\note{简洁样式用于需要减少导航信息的页面。普通正文仍采用小节与标题两行页眉。}
+\end{frame}
+
+\begin{frame}[campusbackground=assets/sigs_building.jpg,
+  campusbackgroundopacity=.18]{居中图片背景}
+  \begin{description}[不透明度]
+    \item[取景] 等比铺满整页，图像中心与页面中心重合，多余边缘裁去。
+    \item[不透明度] \texttt{campusbackgroundopacity=.18}；0 为完全透明，1 为完全不透明。
+    \item[范围] 图片背景自动采用简洁样式，仅影响当前 frame。
+  \end{description}
+\note{背景使用模板已有素材。根据照片明暗调整不透明度，并在完整预览中检查文字对比度。背景属于装饰素材，不需要内容图注。}
+\end{frame}
+
+\usetikzlibrary{positioning,arrows.meta}
+\begin{frame}{流程图布局}
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}[
+      node distance=1.7cm,
+      stage/.style={draw=maincolor,fill=maincolor!8,rounded corners=2pt,
+        minimum width=3cm,minimum height=1.2cm,align=center},
+      flow/.style={draw=maincolor,line width=.7pt,-{Latex[length=2.2mm]}}]
+      \node[stage] (draft) {自由草稿};
+      \node[stage,right=of draft] (outline) {详细大纲};
+      \node[stage,right=of outline] (slides) {页面与备注};
+      \draw[flow] (draft.east) -- (outline.west);
+      \draw[flow] (outline.east) -- (slides.west);
+    \end{tikzpicture}
+    \caption{从自由草稿到详细大纲，再到页面与备注的制作流程}
+  \end{figure}
+\note{用制作流程展示三个对齐节点与等距连接。详细大纲先确认，再编排页面与备注；图形的对称安排应服从实际语义。}
+\end{frame}

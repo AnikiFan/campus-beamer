@@ -127,6 +127,53 @@
 
 \newif\ifcampus@sectionnavigationenabled
 \campus@sectionnavigationenabledtrue
+\newif\ifcampus@focusframe
+\campus@focusframefalse
+\def\campus@framebackground{}
+\def\campus@framebackgroundopacity{.18}
+\newsavebox{\campus@framebackgroundbox}
+
+% Native frame keys retain Beamer's fragile, overlay and continuation support.
+% Reset before every frame (including fragile reprocessing), not every overlay.
+\pretocmd\beamer@@@@frame{%
+  \campus@focusframefalse
+  \def\campus@framebackground{}%
+  \def\campus@framebackgroundopacity{.18}%
+}{}{\PackageError{beamerthemecampus}{Cannot install frame style reset}{Check the Beamer version.}}
+\define@key{beamerframe}{campusfocus}[true]{%
+  \ifstrequal{#1}{true}{\campus@focusframetrue}{%
+    \PackageError{beamerthemecampus}{campusfocus accepts true only}{Omit the key for an ordinary frame.}}}
+\define@key{beamerframe}{campusbackground}{%
+  \campus@focusframetrue
+  \def\campus@framebackground{#1}}
+\define@key{beamerframe}{campusbackgroundopacity}{%
+  \pgfmathparse{#1}%
+  \ifdim\pgfmathresult pt<0pt
+    \PackageError{beamerthemecampus}{Background opacity must be between 0 and 1}{Use 0 for invisible or 1 for opaque.}%
+  \else\ifdim\pgfmathresult pt>1pt
+    \PackageError{beamerthemecampus}{Background opacity must be between 0 and 1}{Use 0 for invisible or 1 for opaque.}%
+  \else
+    \edef\campus@framebackgroundopacity{\pgfmathresult}%
+  \fi\fi}
+
+% Cover scaling: first match height, then match width only if necessary.
+% The single scale factor preserves aspect ratio; centered excess is cropped.
+\newcommand{\campus@framebackgroundgraphic}{%
+  \ifdefempty{\campus@framebackground}{}{%
+    \sbox{\campus@framebackgroundbox}{%
+      \includegraphics[height=\paperheight]{\campus@framebackground}}%
+    \ifdim\wd\campus@framebackgroundbox<\paperwidth
+      \sbox{\campus@framebackgroundbox}{%
+        \includegraphics[width=\paperwidth]{\campus@framebackground}}%
+    \fi
+    \begin{tikzpicture}[remember picture,overlay]
+      \clip (current page.south west) rectangle (current page.north east);
+      \node[anchor=center,inner sep=0pt,outer sep=0pt,
+        opacity=\campus@framebackgroundopacity] at (current page.center)
+        {\usebox{\campus@framebackgroundbox}};
+    \end{tikzpicture}%
+  }}
+\addtobeamertemplate{background}{}{\campus@framebackgroundgraphic}
 
 % Text supplied by the theme itself.  User-authored titles and descriptions are
 % left untranslated; Chinese personal names also use a shared display width.
@@ -387,6 +434,7 @@
 
 % Define footline content
 \newcommand{\campus@footnavigation}{%
+  \ifcampus@focusframe\else
   \ifcampus@sectionnavigationenabled
     % Subsections sit above sections; the lower section row uses the darker tint.
     \begin{beamercolorbox}[wd=\paperwidth,ht=\campussubsectionnavigationheight,dp=\campusfootlinedepth,vmode]{navigation footer subsection}%
@@ -399,6 +447,7 @@
         \usebeamerfont{section in head/foot}\usebeamercolor[fg]{section in head/foot}%
         \campus@sectionnavigation}%
     \end{beamercolorbox}%
+  \fi
   \fi
 }
 
@@ -617,9 +666,13 @@
 }
 % Put the logo in each slide's top left area.
 \setbeamertemplate{headline}{%
+  \ifcampus@focusframe
+    \hbox to \paperwidth{\vrule width0pt height\campusheadlineheight\campus@logoblock\hfil}%
+  \else
   \begin{beamercolorbox}[wd=\paperwidth,ht=\campusheadlineheight,dp=0pt,leftskip=\campuslogoleftskip]{headline}
     \campus@logoblock
   \end{beamercolorbox}
+  \fi
 }
 
 % Single-line header bottoms sit one tiny baseline above the logo block bottom.
@@ -643,6 +696,9 @@
 % tiny baseline, the title-style row uses one frametitle baseline, and the
 % subtitle-style row uses one framesubtitle baseline.
 \setbeamertemplate{frametitle}{%
+  \ifcampus@focusframe
+    \campus@singleheader
+  \else
   \ifx\insertframesubtitle\@empty
     \campus@singleheader
   \else
@@ -673,6 +729,7 @@
       }%
     }%
   \end{beamercolorbox}
+  \fi
   \fi
 }
 
@@ -1239,13 +1296,18 @@
 % Generate the all-section overview slide on demand.  Keeping this as a
 % command means authors can place it before or after a section opening slide,
 % or omit it for sections where it is not useful.
-\newcommand{\sectiontocpage}{%
+\NewDocumentCommand{\sectiontocpage}{O{current}}{%
   \begingroup
   \themecolor{main}
   \setbeamertemplate{footline}{}
   \setbeamertemplate{frametitle}[campus page title]
   \begin{frame}{\campus@tableofcontentstitle}
-    \tableofcontents[currentsection,hideallsubsections]
+    \ifstrequal{#1}{overview}{%
+      \tableofcontents[hideallsubsections]%
+    }{\ifstrequal{#1}{current}{%
+      \tableofcontents[currentsection,hideallsubsections]%
+    }{\PackageError{beamerthemecampus}{Unknown sectiontocpage style: #1}%
+      {Use current (default) or overview.}}}%
   \end{frame}
   \endgroup
 }

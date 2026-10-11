@@ -53,6 +53,10 @@ These representative pages show the range of layouts:
     <img src="docs/images/preview-notes.png" alt="TeX speaker notes" width="200">
     <img src="docs/images/preview-references.png" alt="References" width="200">
     <img src="docs/images/preview-closing.png" alt="Closing page" width="200">
+    <br>
+    <img src="docs/images/preview-focus.png" alt="Focus frame" width="200">
+    <img src="docs/images/preview-background.png" alt="Centered image background" width="200">
+    <img src="docs/images/preview-flow.png" alt="Aligned flow diagram" width="200">
   </p>
 </div>
 
@@ -126,6 +130,7 @@ your content separately. The example also lists all public class options and
 defaults; see [class options](docs/class-options.md).
 
 - Fixed 16:9 layout with Chinese and English support; full primary-color section pages by default (purple in the Tsinghua profile).
+- `\sectiontocpage[overview]` shows all sections uniformly; [focus frames](docs/usage.md#简洁页面与图片背景) use a single header/footer row and optional centered image backgrounds with cover scaling and adjustable opacity.
 - Fitted figures, equations, paper walkthroughs and [terminal-style code windows](docs/usage.md#代码与终端窗口).
 - `biblatex` / `biber`, corner citations and cited references; optional [DBLP and citation-count tools](docs/literature.md).
 - [Web source references](docs/usage.md#网页来源引用) show the source name and actual URL in the shared corner-citation style.

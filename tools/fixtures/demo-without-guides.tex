@@ -1,2 +1,3 @@
-% example.tex leaves the class option layoutguides at its default false.
+% Validate clean delivery even if a local example enables diagnostic guides.
+\AtBeginDocument{\csname campus@layoutguidesfalse\endcsname}
 \input{example.tex}

@@ -11,15 +11,15 @@
 \begin{tikzpicture}[
   node distance=1.2cm and 1.7cm,
   flow node/.style={draw=maincolor, fill=maincolor!8, rounded corners=2pt,
-    minimum width=3.3cm, minimum height=0.9cm, align=center,
+    minimum width=3.3cm, minimum height=1.2cm, align=center,
     font=\small\sffamily, text=black},
   flow edge/.style={-{Latex[length=2.2mm]}, draw=maincolor, line width=.7pt}
 ]
 \node[flow node] (local) {本机\\代理};
 \node[flow node, right=of local] (ssh) {SSH\\通道};
 \node[flow node, right=of ssh] (server) {远程\\服务器};
-\draw[flow edge] (local) -- node[above,font=\scriptsize]{请求} (ssh);
-\draw[flow edge] (ssh) -- node[above,font=\scriptsize]{转发} (server);
+\draw[flow edge] (local.east) -- node[above,font=\scriptsize]{请求} (ssh.west);
+\draw[flow edge] (ssh.east) -- node[above,font=\scriptsize]{转发} (server.west);
 \end{tikzpicture}
 \caption{本机代理经 SSH 通道连接远程服务器的示意路径}
 \end{figure}

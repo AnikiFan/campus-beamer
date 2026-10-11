@@ -8,11 +8,28 @@ from pathlib import Path
 import pymupdf
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from check_theme import (check_caption_below, check_caption_style,
+from check_theme import (check_caption_below, check_caption_style, check_flow_geometry,
                          check_description_rows, check_doc_citations)
 
 
 class ThemeInspectionTests(unittest.TestCase):
+    def test_regular_flow_nodes_pass(self):
+        check_flow_geometry([pymupdf.Rect(x, 60, x + 90, 85) for x in (20, 150, 280)])
+
+    def test_flow_misalignment_is_rejected(self):
+        with self.assertRaisesRegex(RuntimeError, 'not aligned'):
+            check_flow_geometry([pymupdf.Rect(20, 60, 110, 85),
+                                 pymupdf.Rect(150, 64, 240, 89),
+                                 pymupdf.Rect(280, 60, 370, 85)])
+
+    def test_flow_unequal_gaps_are_rejected(self):
+        with self.assertRaisesRegex(RuntimeError, 'not equal'):
+            check_flow_geometry([pymupdf.Rect(x, 60, x + 90, 85) for x in (20, 150, 300)])
+
+    def test_flow_arrowhead_only_gap_is_rejected(self):
+        with self.assertRaisesRegex(RuntimeError, 'arrow shaft'):
+            check_flow_geometry([pymupdf.Rect(x, 60, x + 90, 85) for x in (20, 114, 208)])
+
     def page(self):
         document = pymupdf.open()
         self.addCleanup(document.close)

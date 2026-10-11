@@ -167,8 +167,9 @@ specific message for each frame, rather than repeating the same text twice.
 ```
 
 Generated TOC and references pages (including continuations) retain single-line
-headers; cover, section-opening, and closing pages retain their dedicated
-layouts. The no-subsection single-line fallback exists for compatibility, not
+headers. The explicitly selected `campusfocus` style also uses one header line
+and only the bottom footer row. Cover, section-opening, and closing pages retain
+their dedicated layouts. The no-subsection single-line fallback exists for compatibility, not
 as an authoring choice for ordinary body pages. Do not use `plain`, clear the
 header, or manually add line breaks or `\framesubtitle` to bypass this structure.
 
@@ -267,16 +268,24 @@ the available API and do not override these talk-authoring defaults.
 
 Keep both body-header lines short and specific. Use noun phrases or compact topic
 labels such as `SSH 配置示例`, `规则搜索路径`, or `Agent 职责与边界`; do not turn
-a frame title into a complete causal sentence or a chain of actions. The body
-carries the conclusion and conditions, while notes carry the spoken explanation.
+a frame title into a complete causal sentence or a chain of actions.
+
+Use `campusfocus` deliberately for overview or image-background pages.
+`\sectiontocpage[overview]` shows all sections uniformly; the default directory
+highlights the current section. The body carries conclusions and conditions,
+while notes carry the spoken explanation.
 Do not impose an unrequested character limit; check the rendered width at the
 normal font size.
 
 When a slide expresses multiple nodes, steps, branches, device boundaries, or
 spatial relationships, draw a node-based diagram with TikZ or a separately
 generated Mermaid/PDF/SVG source. Use profile-derived colors and theme-matched
-fonts and size; preserve editable source and generation metadata. Place each
-content diagram, image or screenshot in `figure` with `\caption`, or use an
+fonts and size; preserve editable source and generation metadata. Where semantics
+permit, align peer nodes, give equivalent nodes equal dimensions and spacing, and
+arrange parallel branches symmetrically around a common axis. Use explicit border
+anchors and consistent bends. Leave visible arrow shafts between nodes; increase
+spacing or reroute rather than leaving only an arrowhead at the final slide size.
+Place each content diagram, image or screenshot in `figure` with `\caption`, or use an
 existing caption-bearing image helper. The nearby caption below the graphic
 explains its objects and relationships, using the theme caption style. Node
 labels and page titles do not replace this explanation. Decorative graphics,

@@ -28,7 +28,8 @@ from images_to_ppt import campus_metadata, pdf_info_string
 
 EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 3,
                   'single-header': 5,
-                  'demo-without-guides': 46, 'language-layout': 10,
+                  'demo-without-guides': 50, 'language-layout': 10,
+                  'toc-overview': 7, 'page-styles': 10,
                   'class-options': 6, 'class-handout': 1, 'class-mixed-language': 2,
                   'code-windows': 6, 'class-metadata': 3, 'name-layout': 20,
                   'section-toc-spacing': 42, 'date-display': 12,
@@ -137,8 +138,6 @@ def check_flow_layout(document, log):
                   for box in page.search_for(label) if 45 < box.y0 < caption_top]
     if len(node_boxes) != 3:
         raise RuntimeError('flow-layout: expected three visible nodes')
-    if max(box.y1 for box in node_boxes) - min(box.y0 for box in node_boxes) > 80:
-        raise RuntimeError('flow-layout: nodes are not aligned')
     bottom = max(box.y1 for label in ('本机', '代理', 'SSH', '通道', '远程', '服务器', '请求', '转发')
                  for box in page.search_for(label) if 45 < box.y0 < caption_top)
     # Node rectangles extend beyond their text; use their painted geometry too.
@@ -147,7 +146,96 @@ def check_flow_layout(document, log):
               and drawing['rect'].y1 < caption_top]
     if bodies:
         bottom = max(bottom, max(box.y1 for box in bodies))
+    nodes = sorted((box for box in bodies if box.width > 80 and box.height > 20),
+                   key=lambda box: box.x0)
+    check_flow_geometry(nodes)
     check_caption_below(page, caption, bottom, footer_top=page.rect.height - 40)
+
+
+def check_flow_geometry(nodes):
+    """Inspect the fixture's three equal peer nodes and actual border gaps."""
+    if len(nodes) != 3:
+        raise RuntimeError('flow-layout: expected three painted node borders')
+    for dimension in (lambda r: r.width, lambda r: r.height,
+                      lambda r: (r.y0 + r.y1) / 2):
+        values = [dimension(node) for node in nodes]
+        if max(values) - min(values) > .5:
+            raise RuntimeError('flow-layout: node sizes or centers are not aligned')
+    gaps = [right.x0 - left.x1 for left, right in zip(nodes, nodes[1:])]
+    if abs(gaps[0] - gaps[1]) > .5:
+        raise RuntimeError('flow-layout: peer-node gaps are not equal')
+    # The fixture uses 2.2 mm arrowheads. Require a shaft at least that long too.
+    if min(gaps) < 2 * 2.2 * 72 / 25.4:
+        raise RuntimeError('flow-layout: connector gap leaves no clear arrow shaft')
+
+
+def prepare_background_fixtures(workspace):
+    """Generate vector probes with a centered square, no external assets."""
+    (workspace / 'build').mkdir(exist_ok=True)
+    for name, width, height in (('wide', 400, 100), ('tall', 100, 400)):
+        with pymupdf.open() as document:
+            page = document.new_page(width=width, height=height)
+            page.draw_rect(page.rect, color=None, fill=(.2, .6, .8))
+            page.draw_rect(pymupdf.Rect(width / 2 - 5, height / 2 - 5,
+                                       width / 2 + 5, height / 2 + 5),
+                           color=None, fill=(1, 0, 0))
+            document.save(workspace / 'build' / f'style-{name}.pdf')
+
+
+def check_toc_overview(document, log):
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('toc-overview: overflow or missing glyphs')
+    overviews = [document[index] for index in (0, 3, 5)]
+    pixels = [page.get_pixmap().samples for page in overviews]
+    if any(value != pixels[0] for value in pixels[1:]):
+        raise RuntimeError('toc-overview: appearance depends on current section')
+    for page in overviews:
+        entries = [span for block in page.get_text('dict')['blocks']
+                   for line in block.get('lines', []) for span in line['spans']
+                   if span['text'] in ('Alpha', 'Beta')]
+        if len(entries) != 2 or len({(s['color'], s['size'], s['font']) for s in entries}) != 1:
+            raise RuntimeError('toc-overview: sections do not have uniform emphasis')
+        targets = {link.get('page') for link in page.get_links()}
+        if not {1, 4}.issubset(targets):
+            raise RuntimeError('toc-overview: missing section jumps')
+    if document[2].get_pixmap().samples == pixels[0]:
+        raise RuntimeError('toc-overview: default current-section highlight was lost')
+
+
+def check_page_styles(document, log):
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('page-styles: overflow or missing glyphs')
+    for index, page in enumerate(document):
+        focus = 1 <= index <= 8
+        # Context is the subsection label in both the header and nav footer.
+        if ('Context' in page.get_text()) == focus:
+            raise RuntimeError('page-styles: header/navigation style leaked or was ignored')
+        if not page.search_for('Template check | Page styles'):
+            raise RuntimeError('page-styles: bottom footer is missing')
+    for index, scale, opacity in ((2, 2.55118, 1), (3, 2.55118, 1),
+                                  (4, 4.53543, .5)):
+        page = document[index]
+        probes = [drawing for drawing in page.get_drawings()
+                  if drawing.get('fill') == (1., 0., 0.)]
+        if len(probes) != 1:
+            raise RuntimeError('page-styles: missing background center probe')
+        probe = probes[0]
+        rect = probe['rect']
+        if (abs(rect.width - 10 * scale) > .1 or abs(rect.height - rect.width) > .1
+                or abs((rect.x0 + rect.x1) / 2 - page.rect.width / 2) > .1
+                or abs((rect.y0 + rect.y1) / 2 - page.rect.height / 2) > .1
+                or abs(probe['fill_opacity'] - opacity) > .01):
+            raise RuntimeError('page-styles: cover scale, center or opacity is wrong')
+        # Sampling corners below the header and above the footer also checks crop coverage.
+        pixmap = page.get_pixmap()
+        expected = tuple(round(255 * (1 - opacity + opacity * c)) for c in (.2, .6, .8))
+        for x, y in ((2, 60), (pixmap.width - 3, 60),
+                     (2, pixmap.height - 25), (pixmap.width - 3, pixmap.height - 25)):
+            if any(abs(a - b) > 3 for a, b in zip(pixmap.pixel(x, y), expected)):
+                raise RuntimeError('page-styles: background leaves an uncovered edge')
+    for index in (1, 5, 6, 7, 8, 9):
+        if document[index].get_pixmap().pixel(2, 60) != (255, 255, 255):
+            raise RuntimeError('page-styles: invisible background or restoration is wrong')
 
 
 def check_description_rows(page, labels, markers, *, tolerance=.5):
@@ -346,6 +434,20 @@ def check_url_layout(document, log):
 
 def check_public_demo(document):
     """The public tour must exercise real reveal states and working links."""
+    overview = document[1]
+    if not overview.search_for('目录') or len(overview.get_links()) != 5:
+        raise RuntimeError('public demo: missing complete overview and section links')
+    for title in ('简洁页面', '居中图片背景'):
+        page = next(page for page in document if page.search_for(title))
+        if page.search_for('基础页面') or not page.search_for('| Tsinghua Beamer'):
+            raise RuntimeError('public demo: focus frame header/footer is wrong')
+    diagram = next(page for page in document if page.search_for('流程图布局'))
+    nodes = sorted((drawing['rect'] for drawing in diagram.get_drawings()
+                    if drawing.get('fill') and drawing['rect'].width > 80
+                    and drawing['rect'].height > 20
+                    and 50 < drawing['rect'].y0 < drawing['rect'].y1 < 200),
+                   key=lambda rect: rect.x0)
+    check_flow_geometry(nodes)
     reveals = [page for page in document if page.search_for('按讲述顺序呈现要点')]
     replacements = [page for page in document if page.search_for('在固定区域内替换内容')]
     if len(reveals) != 3 or len(replacements) != 2:
@@ -595,6 +697,14 @@ def check_class_errors(root, output):
          'xelatex', 'Undefined control sequence'),
         ('removed-guides-off', 'language=english', r'\campuslayoutguidesfalse',
          'xelatex', 'Undefined control sequence'),
+        ('bad-toc-style', 'language=english', r'\sectiontocpage[unknown]',
+         'xelatex', 'Unknown sectiontocpage style'),
+        ('bad-opacity-low', 'language=english',
+         r'\begin{frame}[campusfocus,campusbackgroundopacity=-.1]{Test}Body\end{frame}',
+         'xelatex', 'Background opacity must be between 0 and 1'),
+        ('bad-opacity-high', 'language=english',
+         r'\begin{frame}[campusfocus,campusbackgroundopacity=1.1]{Test}Body\end{frame}',
+         'xelatex', 'Background opacity must be between 0 and 1'),
     )
     with tempfile.TemporaryDirectory(prefix='campus-class-errors-') as temp:
         workspace = Path(temp)
@@ -604,8 +714,11 @@ def check_class_errors(root, output):
         env['TEXINPUTS'] = str(workspace / 'theme') + '//' + os.pathsep + env.get('TEXINPUTS', '')
         (workspace / 'assets').symlink_to(root / 'assets', target_is_directory=True)
         for name, options, preamble, engine, expected in cases:
+            body = r'\begin{frame}{Test}Body\end{frame}'
+            if name in ('bad-toc-style', 'bad-opacity-low', 'bad-opacity-high'):
+                body, preamble = preamble, ''
             source = (f'\\documentclass[{options}]{{campusbeamer}}\n{preamble}\n'
-                      '\\begin{document}\\begin{frame}{Test}Body\\end{frame}\\end{document}\n')
+                      f'\\begin{{document}}{body}\\end{{document}}\n')
             (workspace / f'{name}.tex').write_text(source)
             result = subprocess.run([engine, '-interaction=nonstopmode', '-halt-on-error',
                                      '-file-line-error', f'{name}.tex'], cwd=workspace, env=env,
@@ -688,6 +801,8 @@ def check(root, output):
             shutil.copytree(root / 'sections', workspace / 'sections')
             (workspace / 'assets').symlink_to(root / 'assets', target_is_directory=True)
             shutil.copy2(root / 'tools/fixtures' / f'{name}.tex', workspace / f'{name}.tex')
+            if name == 'page-styles':
+                prepare_background_fixtures(workspace)
             bibliography = root / 'tools/fixtures' / f'{name}.bib'
             if bibliography.exists():
                 shutil.copy2(bibliography, workspace / bibliography.name)
@@ -719,6 +834,10 @@ def check(root, output):
                     check_citation_top_right(document, result.stdout)
                 if name == 'flow-layout':
                     check_flow_layout(document, result.stdout)
+                if name == 'toc-overview':
+                    check_toc_overview(document, result.stdout)
+                if name == 'page-styles':
+                    check_page_styles(document, result.stdout)
                 if name == 'url-layout':
                     check_url_layout(document, result.stdout)
                 if name == 'doc-citations':

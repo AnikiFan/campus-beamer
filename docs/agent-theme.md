@@ -32,7 +32,9 @@ Preserve these unless the user explicitly requests a design change:
 - the white-left, primary-color-right cover split, its documented diagonal and
   wordmark anchors, and full primary-color section pages by default;
 - ordinary two-line headers (subsection over frame title), single-line header
-  baselines, and shared header gaps;
+  baselines, and shared header gaps; explicitly selected `campusfocus` frames use
+  a single header and only the bottom footer row; their optional backgrounds use
+  centered cover scaling, cropping and per-frame opacity;
 - readable description columns, corner citations as compact plain gray text,
   and fixed closing-page placement.
 
