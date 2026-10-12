@@ -149,7 +149,11 @@ Use `materials/` for personal source material and `build/` for outputs. Personal
 see the [user guide](docs/usage.md#快速开始) for directory and distribution rules.
 See [environment workflows](docs/workflows.md) for VS Code, Overleaf and the command line.
 
-## Another university
+## Another university or research institute
+
+Built-in profiles are `tsinghua` (default) and `pcl` (Peng Cheng Laboratory).
+Select the latter with `\documentclass[theme=pcl]{campusbeamer}`; see its
+[profile and asset provenance](theme/pcl/README.md).
 
 Copy `theme/tsinghua/` to `theme/myschool/`, edit its `profile.tex` and assets, then
 select `theme=myschool` in the document class. No theme registry or shared-code edits are needed

@@ -70,6 +70,11 @@ class SourcePackageTests(unittest.TestCase):
             self.assertIn('theme/README.md', names)
             self.assertIn('theme/tsinghua/profile.tex', names)
             self.assertIn('theme/tsinghua/README.md', names)
+            for name in ('profile.tex', 'README.md', 'emblem.tex', 'wordmark.tex',
+                         'assets/emblem.pdf', 'assets/emblem-source.png',
+                         'assets/wordmark.png', 'assets/wordmark_on_dark.pdf',
+                         'assets/campus-courtyard.png'):
+                self.assertIn('theme/pcl/' + name, names)
             for name in ('emblem_on_dark.png', 'emblem_on_light.png',
                          'wordmark_on_dark.png', 'wordmark_on_light.png', 'wordmark.svg',
                          'sigs_wordmark.png', 'sigs_building.jpg', 'sigs_dom.jpg',

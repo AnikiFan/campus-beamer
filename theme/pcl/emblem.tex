@@ -1,0 +1,13 @@
+% Original government-hosted emblem, placed behind a circular TeX clipping path.
+% No pixel recoloring or redrawing; the source image remains unmodified.
+% Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
+% SPDX-License-Identifier: GPL-3.0-or-later
+\documentclass[border=0pt]{standalone}
+\usepackage{tikz,graphicx}
+\begin{document}%
+\begin{tikzpicture}[x=1bp,y=1bp]
+  \clip (0,0) circle[radius=326bp];
+  \node[inner sep=0pt,anchor=center] at (0,3.5) {%
+    \includegraphics[width=1890bp]{theme/pcl/assets/emblem-source.png}};
+\end{tikzpicture}%
+\end{document}

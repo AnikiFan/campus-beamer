@@ -142,6 +142,9 @@ VS Code、Overleaf 和命令行用法见[环境说明](docs/workflows.md)。
 
 ## 更换学校
 
+内置 `tsinghua`（默认）和 `pcl`（鹏城实验室）主题。
+使用 `\documentclass[theme=pcl]{campusbeamer}` 切换，素材说明见[鹏城实验室主题](theme/pcl/README.md)。
+
 复制 `theme/tsinghua/` 为 `theme/myschool/`，修改其中的 `profile.tex` 与素材，
 然后使用 `\documentclass[theme=myschool]{campusbeamer}`。本地添加主题无需修改通用代码或登记名称。
 详见[主题使用与扩展](theme/README.md)。
@@ -188,7 +191,8 @@ make help                      # 查看全部入口
 │   ├── beamerthemecampus.sty    主题版式与命令
 │   ├── campuscode.sty          代码与终端窗口
 │   ├── campuscolor.sty          学校主题加载器
-│   └── tsinghua/                清华配色、标志、素材及来源说明
+│   ├── tsinghua/                清华配色、标志、素材及来源说明
+│   └── pcl/                     鹏城实验室配色、标志、素材及来源说明
 ├── bibliography/               文献数据库，默认 refs.bib
 ├── assets/                     项目字标与原创示例视频
 ├── docs/                       详细手册、安装说明、环境用法与预览

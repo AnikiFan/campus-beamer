@@ -74,7 +74,8 @@ README 的封面与引用截图从当前 `build/example.pdf` 以至少 **600 DPI
 本地草稿保持原样；修改大纲模板时同步更新这两份文件。
 agent 扩充后的详细大纲保存在忽略的 `build/outline-normalized.md`。公共提交应排除已填写的
 私人大纲；其余白名单文件同样需要审核内容是否适合公开。
-清华素材的来源、使用范围和权利人联系方式见 [theme/tsinghua/README.md](theme/tsinghua/README.md)。
+各机构素材的来源、使用范围和权利人联系方式见对应主题说明：
+[清华](theme/tsinghua/README.md)、[鹏城实验室](theme/pcl/README.md)。
 打包这些素材不表示已经取得授权。如有权利或署名问题，按该说明中的邮箱或本仓库 Issue 联系维护者。
 
 ## 版本维护

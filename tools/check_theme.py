@@ -28,7 +28,7 @@ from images_to_ppt import campus_metadata, pdf_info_string
 
 EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 3,
                   'single-header': 5,
-                  'profile-selection': 6, 'profile-selection-legacy': 6,
+                  'profile-pcl': 8, 'profile-selection': 6, 'profile-selection-legacy': 6,
                   'demo-without-guides': 50, 'language-layout': 10,
                   'toc-overview': 7, 'page-styles': 10,
                   'class-options': 6, 'class-handout': 1, 'class-mixed-language': 2,
@@ -887,6 +887,14 @@ def check(root, output):
                 pages = len(document)
                 if pages != expected:
                     raise RuntimeError(f'{name}: expected {expected} pages, got {pages}')
+                if name == 'profile-pcl':
+                    if 'Overfull' in result.stdout or 'Missing character:' in result.stdout:
+                        raise RuntimeError('profile-pcl: overflow or missing glyphs')
+                    for page in (document[4], document[5]):
+                        pixmap = page.get_pixmap()
+                        if any(abs(a - b) > 1 for a, b in
+                               zip(pixmap.pixel(2, pixmap.height - 3), (26, 86, 158))):
+                            raise RuntimeError('profile-pcl: incorrect primary color')
                 if name.startswith('profile-selection'):
                     check_profile_selection(document, result.stdout)
                 if name == 'language-layout':

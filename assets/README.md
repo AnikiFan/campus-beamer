@@ -4,7 +4,8 @@
 
 本目录保存 Campus Beamer 项目字标和原创演示视频。学校配色、校徽、校名及校园素材
 按学校集中存放在 `theme/<名称>/`；清华素材及完整的来源、权利和联系声明见
-[清华主题](../theme/tsinghua/README.md)。原创演示视频单独采用 CC0-1.0。
+[清华主题](../theme/tsinghua/README.md)；鹏城实验室素材见
+[鹏城实验室主题](../theme/pcl/README.md)。原创演示视频单独采用 CC0-1.0。
 主题代码的 GPL 许可证不适用于学校标志和校园图像。
 
 ## Campus Beamer 项目字标

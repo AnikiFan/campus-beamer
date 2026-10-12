@@ -1,4 +1,4 @@
-# 学校主题
+# 学校与科研机构主题
 
 [返回首页](../README.md) · [文档类选项](../docs/class-options.md)
 
@@ -11,7 +11,9 @@
 
 `theme` 默认为 `tsinghua`。名称对应 `theme/<名称>/profile.tex`，区分大小写，
 使用英文字母、数字、连字符或下划线，首字符为字母或数字。
-当前内置主题是[清华](tsinghua/README.md)。未知名称或不完整的配置会给出编译错误。
+内置主题：`tsinghua`（[清华](tsinghua/README.md)，默认）和 `pcl`（[鹏城实验室](pcl/README.md)）。
+例如 `\documentclass[theme=pcl]{campusbeamer}` 选择鹏城实验室主题。
+未知名称或不完整的配置会给出编译错误。
 已有 Beamer 文稿也可使用 `\usetheme[theme=tsinghua]{campus}`。
 
 ## 添加学校

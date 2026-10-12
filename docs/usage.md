@@ -128,6 +128,7 @@ build/
 文档类为 `campusbeamer`，自动加载名为 `campus` 的主题。清华只是默认学校配置；
 使用 `\documentclass[theme=tsinghua]{campusbeamer}` 选择学校。配置、品牌标志、校园素材和来源声明
 集中放在 `theme/<名称>/`；省略 `theme` 时默认使用清华。
+内置的鹏城实验室主题使用 `theme=pcl`，配色、徽章及园区素材见[主题说明](../theme/pcl/README.md)。
 
 新增学校可复制 `theme/tsinghua/` 为 `theme/myschool/`，修改其中的 `profile.tex` 与素材，
 然后设置 `theme=myschool`。本地使用无需登记名称或修改通用代码；
