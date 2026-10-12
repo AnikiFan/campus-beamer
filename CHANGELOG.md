@@ -5,6 +5,29 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.11.0](https://github.com/AnikiFan/campus-beamer/compare/v0.10.0...v0.11.0) (2026-10-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* separate public examples from user presentation sources
+* the default theme is now general. Select theme=tsinghua explicitly to retain the previous default identity. Release bundles include PDF-only institution samples; local PPTX export remains available.
+
+### Features
+
+* make the black general theme the default ([ef4f72a](https://github.com/AnikiFan/campus-beamer/commit/ef4f72a606922c95a91f6e6d8eb5f6cd54fb0acb))
+* publish previews and release samples for every bundled theme ([02dedab](https://github.com/AnikiFan/campus-beamer/commit/02dedab019f3ef569992f80a920130d0053ca608))
+
+
+### Bug Fixes
+
+* use monochrome branding and transparent PCL lettering ([a89bcd2](https://github.com/AnikiFan/campus-beamer/commit/a89bcd2598b5424b40dff07fb1d415f6c5f7107e))
+
+
+### Code Refactoring
+
+* separate public examples from user presentation sources ([9e67a38](https://github.com/AnikiFan/campus-beamer/commit/9e67a38df3aa4aa82eebb2d2bd342968c3e4c1b8))
+
 ## [0.10.0](https://github.com/AnikiFan/campus-beamer/compare/v0.9.0...v0.10.0) (2026-10-12)
 
 
