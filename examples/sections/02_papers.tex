@@ -1,4 +1,4 @@
-% !TeX root = ../example.tex
+% !TeX root = ../../example.tex
 \section{论文讲解与引用}
 \sectiontocpage
 \note{目录显示完整章节结构，当前章节高亮；演示点击跳转。}
@@ -10,7 +10,7 @@
       \begin{description}[引用]
             \item[正文] 放置论文要点、方法图或结果；每页聚焦一个主要信息。
             \item[页眉] 上行沿用当前小节，下行显示本页标题。
-            \item[引用] 文献键关联 \texttt{bibliography/refs.bib}，本页自动在左下角列出两篇文献。
+            \item[引用] 文献键关联 \texttt{examples/bibliography/refs.bib}，本页自动在左下角列出两篇文献。
       \end{description}
       \medskip
       下一页展示生成本页的命令；文献仅用于演示引用排版。
@@ -59,9 +59,9 @@
       \end{verbatim}
       \begin{description}[引用宽度]
             \item[引用宽度] 调整命令放在引用之前，仅影响当前页。
-            \item[文献信息] 在 \texttt{bibliography/refs.bib} 中维护，汇总页自动收集已引用条目。
+            \item[文献信息] 在 \texttt{examples/bibliography/refs.bib} 中维护，汇总页自动收集已引用条目。
       \end{description}
 \end{frame}
 \note{多篇文献用逗号分隔。setcornercitewidth 只影响当前帧后续引用，下一页恢复默认值。}
 
-\input{sections/bibliography-guide.tex}
+\input{examples/sections/bibliography-guide.tex}

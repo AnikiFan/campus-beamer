@@ -13,7 +13,7 @@
 \note{区分标准作者、年份和标题字段；没有自定义短格式时，角落引用从标准字段生成。}
 
 \begin{frame}[fragile]{自定义短文本：usera 的作用}
-  以下摘自 \texttt{bibliography/refs.bib} 的 Zadeh 条目（其余字段省略）：
+  以下摘自 \texttt{examples/bibliography/refs.bib} 的 Zadeh 条目（其余字段省略）：
   \begin{verbatim}
 usera      = {Zadeh et al., EMNLP 2017},
 title      = {Tensor Fusion Network for
@@ -73,7 +73,7 @@ userf = {<统计来源，截至 YYYY-MM-DD>},
 
 \begin{frame}[fragile]{文献键与编译流程}
   \begin{verbatim}
-\addbibresource{bibliography/refs.bib}  % 导言区加载数据库
+\addbibresource{examples/bibliography/refs.bib}  % 导言区加载数据库
 \cornercite{Zadeh2017TensorFN}
 \referencespage[break][\small][onecolumn]
   \end{verbatim}

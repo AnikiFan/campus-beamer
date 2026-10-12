@@ -13,7 +13,7 @@ directory. `theme/campuscolor.sty` selects and validates the profile; layout geo
 `theme/beamerthemecampus.sty`. The default profile is institution-neutral `general`. Explicit `tsinghua` and
 `pcl` profiles retain their existing institutional identities. Do not hard-code another school's brand
 or create `imageone`/`demographic` registries. Keep demo metadata literal in
-`sections/metadata.tex`; keep user metadata in `sections/talk/metadata.tex`.
+`examples/sections/metadata.tex`; keep user metadata in `sections/metadata.tex`.
 
 The public class is the configuration surface for new decks. Preserve legacy
 `\usetheme{campus}` and low-level layout compatibility unless the change is

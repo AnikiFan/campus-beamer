@@ -15,12 +15,12 @@
 % ============================== 示例配置区 ==============================
 % 上方列出全部模板选项及其默认值，直接修改即可；页面保持固定 16:9。
 
-\campusbibresource{bibliography/refs.bib} % 只指定本次汇报的文献文件，无需自行加载 biblatex
+\campusbibresource{examples/bibliography/refs.bib} % 只指定本次汇报的文献文件，无需自行加载 biblatex
 % 版式微调时可打开此开关：封面、章节起始页和致谢页会叠加红色
 % 定位框、对齐线、各部分字号及其实际 baselineskip；交付前保持关闭。
 % 仅通过 documentclass 选项 layoutguides=true 开启；省略或设为 false 则关闭。
 
-\input{sections/metadata.tex} % 标题、作者、导师与日期
+\input{examples/sections/metadata.tex} % 标题、作者、导师与日期
 % ============================ 示例配置区结束 ============================
 
 \begin{document}
@@ -29,10 +29,10 @@
 \sectiontocpage[overview]
 \note{展示完整演示结构，各章节使用相同样式；目录中的章节名称可以点击跳转。}
 
-% 章节按这里的顺序组合；正文与演示片段统一放在 sections/。
-\input{sections/01_basics.tex}
-\input{sections/02_papers.tex}
-\input{sections/03_callouts.tex}
-\input{sections/04_navigation.tex}
-\input{sections/05_media.tex}
+% 章节按这里的顺序组合；正文与演示片段统一放在 examples/sections/。
+\input{examples/sections/01_basics.tex}
+\input{examples/sections/02_papers.tex}
+\input{examples/sections/03_callouts.tex}
+\input{examples/sections/04_navigation.tex}
+\input{examples/sections/05_media.tex}
 \end{document}

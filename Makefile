@@ -74,7 +74,7 @@ test:
 	$(UV) run --frozen python -m unittest discover -s tools/tests -v
 
 # Read-only network queries. Bibliography output is staged under build/;
-# reviewing/merging into bibliography/refs.bib remains an explicit authoring step.
+# reviewing/merging into bibliography/main.bib remains an explicit authoring step.
 literature:
 	@$(PYTHON) tools/literature.py --make-target search
 

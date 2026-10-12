@@ -49,8 +49,9 @@ when the task touches their subject.
 - Keep the institution-neutral `campus` API. School identity and functional
   colors belong in `theme/<name>/profile.tex`, with assets and provenance in the
   same school directory; talk content belongs in `main.tex`,
-  `sections/talk/`, `materials/`, and (when needed) `bibliography/main.bib`.
-  Do not alter the demo to make a user talk.
+  `sections/`, `materials/`, and (when needed) `bibliography/main.bib`.
+  Write talk chapters directly in `sections/`; `examples/` is the public demo
+  area. Do not alter or import demo chapters to make a user talk.
 - Ordinary body frames use two header lines: the current `\subsection` above
   the frame title. Give every body frame a meaningful subsection and a title;
   keep single-line headers for generated TOC and references pages. The explicit
@@ -59,8 +60,9 @@ when the task touches their subject.
   outlines are editable working documents; speaker notes live in native `\note`
   commands alongside the TeX frames. Do not
   commit private talks, materials, generated outputs, or local environments.
-- Build from the repository root. Keep `materials/.gitkeep`; new public source
-  files must be added deliberately to `tools/package_source.py`.
+- Build from the repository root. Keep the `.gitkeep` files in `materials/`,
+  `sections/` and `bibliography/`. Add new public source files deliberately to
+  `tools/package_source.py`.
 
 ## Completion is outcome-based
 
@@ -96,8 +98,8 @@ explicit `MAIN` wins. Use `make help` for the complete command list.
   Source ZIPs use `tools/templates/outline.md` as the starter outline.
 - `build/outline-normalized.md`: agent-expanded section/subsection content for
   review; keep approval tied to a specific outline revision.
-- `example.tex`, `sections/`, `bibliography/refs.bib`: public reference demo.
-- `main.tex`, `sections/talk/`, `bibliography/main.bib`, `materials/`: local
+- `example.tex`, `examples/sections/`, `examples/bibliography/refs.bib`: public reference demo.
+- `main.tex`, `sections/`, `bibliography/main.bib`, `materials/`: local
   agent-authored talk inputs and sources.
 - `theme/`: class, theme implementation, school profile, and code-window style.
 - `tools/`: converter, preview, literature, packaging, fixtures, and tests.

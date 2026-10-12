@@ -17,7 +17,7 @@
 
 ```tex
 \documentclass[theme=general,language=chinese]{campusbeamer}
-\campusbibresource{bibliography/refs.bib}
+\campusbibresource{examples/bibliography/refs.bib}
 \title{我的研究汇报}
 \author{汇报人}
 \date{\today}
@@ -35,7 +35,7 @@
 ```
 
 所有选项都有默认值，直接写 `\documentclass{campusbeamer}` 即可使用中文版本。
-文献文件属于具体汇报，类不会自动指定 `bibliography/refs.bib`；需要引用时用
+文献文件属于具体汇报，类不会自动指定 `examples/bibliography/refs.bib`；需要引用时用
 `\campusbibresource{bibliography/自己的文献文件.bib}`，有多份数据库可调用多次。
 原生 `\addbibresource` 也保持可用。
 文献支持始终启用，自动配置 `backend=biber,style=ieee,giveninits=true,sorting=none`，
@@ -89,7 +89,7 @@ Beamer 自身的选项会传递给底层文档类，例如 `handout` 可将 over
 
 ```tex
 \documentclass[language=english]{campusbeamer}
-\campusbibresource{bibliography/refs.bib}
+\campusbibresource{examples/bibliography/refs.bib}
 ```
 
 英文主题文字、中文正文：
@@ -111,7 +111,7 @@ Beamer 自身的选项会传递给底层文档类，例如 `handout` 可将 over
 
 ```tex
 \documentclass[language=chinese,cornerwidth=6cm,navigation=false,handout]{campusbeamer}
-\campusbibresource{bibliography/refs.bib}
+\campusbibresource{examples/bibliography/refs.bib}
 ```
 
 `\campusbibresource[...]{...}` 接受原生 `\addbibresource` 的可选参数。
@@ -125,7 +125,7 @@ Beamer 自身的选项会传递给底层文档类，例如 `handout` 可将 over
 
 ```tex
 \documentclass[theme=general,language=chinese]{campusbeamer}
-\campusbibresource{bibliography/refs.bib}
+\campusbibresource{examples/bibliography/refs.bib}
 ```
 
 标题、正文、引用和插图可以保留。文献支持由文档类启用。封面默认是主色斜边版式，一般不必写 `\titlebackground`。

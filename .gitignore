@@ -10,8 +10,10 @@ __pycache__/
 /materials/*
 !/materials/.gitkeep
 /main.tex
-/sections/talk/
-/bibliography/main.bib
+/sections/*
+!/sections/.gitkeep
+/bibliography/*
+!/bibliography/.gitkeep
 
 # TeX intermediates and generated slides, including nested examples.
 *.aux

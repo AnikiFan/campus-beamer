@@ -51,7 +51,7 @@ make bibtex DBLP_KEY=conf/emnlp/ZadehCPCM17 CITE_KEY=Zadeh2017TensorFN \
   BIB_REPORT=build/literature/Zadeh2017TensorFN.json
 ```
 
-核对条目后再合并到本次汇报的文献库，通常为 `bibliography/main.bib`；功能示例使用 `bibliography/refs.bib`。
+核对条目后再合并到本次汇报的文献库，通常为 `bibliography/main.bib`；功能示例使用 `examples/bibliography/refs.bib`。
 按 key、DOI、标题检查重复，保留已被幻灯片使用的 key 和已核实的自定义字段。
 **不要将现有文献库设为 `BIB_OUTPUT`**：输出是替换单个文件，不是追加数据库。
 工具不会自行修改汇报的文献库。

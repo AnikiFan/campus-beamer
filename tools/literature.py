@@ -19,7 +19,7 @@
 
 Python standard library only. Network failures never produce a zero count or
 replace a previous file. BibTeX goes to stdout unless --output is supplied;
-merging into bibliography/refs.bib is deliberately a separate, reviewed authoring step.
+merging into bibliography/main.bib is deliberately a separate, reviewed authoring step.
 """
 import argparse
 from datetime import datetime, timezone

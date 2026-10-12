@@ -14,7 +14,7 @@
 内置主题：`general`（[通用](general/README.md)，默认）、`tsinghua`（[清华](tsinghua/README.md)）和 `pcl`（[鹏城实验室](pcl/README.md)）。
 例如 `\documentclass[theme=pcl]{campusbeamer}` 选择鹏城实验室主题。
 在仓库根目录运行 `make examples` 可导出清华和 PCL 的 PDF 样例；`make MAIN=example` 导出 general 完整演示；单独构建使用
-`make pdf MAIN=example-tsinghua` 或 `make pdf MAIN=example-pcl`。机构样例正文位于对应主题的 `sample.tex`，general 功能演示位于根目录 `example.tex` 与 `sections/`。
+`make pdf MAIN=example-tsinghua` 或 `make pdf MAIN=example-pcl`。机构样例正文位于对应主题的 `sample.tex`，general 功能演示位于根目录 `example.tex` 与 `examples/sections/`。
 未知名称或不完整的配置会给出编译错误。
 已有 Beamer 文稿也可使用 `\usetheme[theme=general]{campus}`。
 

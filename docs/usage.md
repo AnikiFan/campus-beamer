@@ -42,7 +42,7 @@ agent 按 `AGENTS.md` 和[制作指南](agent-authoring.md) 组织内容并完�
 在演讲目标和材料范围内的扩充由 agent 完成；外部检索、新素材、事实修改或缺少依据的
 内容集中列为待确认事项。这个阶段完成内容补充、重组与取舍，用户确认详细大纲后进入制作。
 
-第二阶段是**页面编排与输出检查**。agent 按确认的大纲生成 `main.tex`、`sections/talk/`、
+第二阶段是**页面编排与输出检查**。agent 按确认的大纲生成 `main.tex`、`sections/`、
 需要时的文献资源，以及 TeX 中的 `\note` 备注，主要处理页面划分、短标题、图表与代码布局、
 正文与备注分配。它会用 `make draft` 检查密度和溢出，再用 `make` 导出 PDF/PPTX。
 
@@ -92,7 +92,7 @@ PDF/PPTX、备注和临时文件统一在 `build/`：
 ```text
 main.tex                      agent 生成的汇报入口
 outline.md                   用户填写的基本信息与自由草稿
-sections/talk/                agent 生成的元信息和章节
+sections/                    agent 生成的元信息和章节
 bibliography/main.bib         核实后的汇报文献
 build/
 ├── outline-normalized.md     section/subsection 详细内容与确认记录
@@ -110,8 +110,8 @@ build/
 转换失败会保留原 PPTX，不能把留存的文件当作本次结果；先查看退出码和日志，再运行 `make clean`。
 不要并行运行清理与构建，例如 `make -j clean all`。
 
-`materials/.gitkeep` 随仓库和源码包提供，克隆或解压后素材目录已经存在。
-放进 `materials/` 的文件、`main.tex`、`sections/talk/`、`bibliography/main.bib` 和 `build/` 中的其他构建产物只留在本地：Git 会忽略它们，源码包也不包含它们。
+`materials/`、`sections/` 和 `bibliography/` 随仓库和源码包提供，各自用 `.gitkeep` 保留空目录。
+放进 `materials/` 的文件、`main.tex`、`sections/`、`bibliography/` 和 `build/` 中的其他构建产物只留在本地：Git 会忽略它们，源码包也不包含它们。
 自己的图片和论文放在 `materials/`，不要放进 `assets/`；`assets/` 是模板自带的标志、校园图片和示例视频。
 根目录的 `outline.md` 保存原始草稿，`build/outline-normalized.md` 保存 agent 扩充后的详细大纲。
 `make dist` 在源码包中提供起始大纲模板，本地草稿保持原样。`outline.md` 受 Git 跟踪；
@@ -120,7 +120,7 @@ build/
 样式文件在 `theme/`，`.latexmkrc` 自动配置 TeX 搜索路径；始终从项目根目录构建。
 正文与图像路径相对于项目根目录，PDF 内的本地附件链接相对于 `build/`。
 复制这个文件夹时保留源码、`outline.md`、`STYLE.md`、`AGENTS.md`、Makefile、`.latexmkrc`、`theme/`、
-`tools/`、`sections/`、`bibliography/`、`assets/`、`docs/`、`pyproject.toml` 和 `uv.lock`；
+`tools/`、`examples/`、`sections/`、`bibliography/`、`assets/`、`docs/`、`pyproject.toml` 和 `uv.lock`；
 无需复制 `.venv` 或已有构建产物。直接调用 XeLaTeX 时须自行设置主题搜索路径、创建输出目录并处理 biber，推荐交由 Make 完成。
 
 ## 更换学校
@@ -155,7 +155,7 @@ build/
 校徽保持透明、等比例缩放，建议使用与默认素材一致的方形画布；校名标志可使用
 不同宽高比，主题按固定宽度等比例缩放。无需覆盖默认素材文件。
 个人姓名、导师、日期、课题组和汇报标题属于演示文稿内容，完整示例在
-`sections/metadata.tex` 中编辑，正文在对应的章节文件中编辑；
+`examples/sections/metadata.tex` 中编辑，正文在对应的章节文件中编辑；
 标题与课题组直接填写文字，不通过学校配置命令间接定义。
 
 校园照片、章节背景和普通插图属于汇报内容，直接在章节或示例文件中
@@ -210,7 +210,7 @@ draft 使用正式版相同的排版与全部图片，由 `latexmk` 增量编译
 在 `outline.md` 中写下演讲思路，并注明 `materials/` 中的素材路径。agent 按 `AGENTS.md`
 读取风格偏好、草稿及本地材料，先清点并查看材料，记录覆盖与取舍，再扩充每个
 section/subsection 的内容、解释和证据，供用户确认。
-确认后，它会新建 `main.tex`，将元信息和正文写入 `sections/talk/`，按需建立
+确认后，它会新建 `main.tex`，将元信息和正文写入 `sections/`，按需建立
 `bibliography/main.bib`，并在对应 TeX 页面中编写 `\note`。
 
 默认采用 16:9 布局、原文语言和适合现场讲述的页面，每节起始页使用整页主色；
@@ -255,7 +255,7 @@ general 为纯黑，清华配置下为紫色。正文展示核心信息与必要
 PPTX 备注以可提取的文字为准。备注 PDF 会按阶段数和幻灯片指纹核对，过期或错位时停止导出。
 
 公开演示的讲解直接写在 `example.tex` 与各章节中；
-[`备注用法页`](../sections/notes-guide.tex) 展示同源 TeX 备注及 PDF 备注屏选项。
+[`备注用法页`](../examples/sections/notes-guide.tex) 展示同源 TeX 备注及 PDF 备注屏选项。
 已有 JSON-only 讲稿仍保留兼容导入；
 迁移时把有效备注全部放入对应的 `\note`。开始使用原生命令后，所有阶段以 TeX 为准，
 包括显式空的 `\note{}`，不混合两份来源。`--notes` 可显式导入旧 JSON，格式见
@@ -386,11 +386,11 @@ PDF 专有动作（如 JavaScript）不转换；无法解析或无有效热区�
 简单顺序显示。替换内容使用固定高度的 `overlayarea` 和 `\only`，避免页面跳动。
 需要讲义时，早期替换状态写 `\only<1|handout:0>{...}`，最终状态写
 `\only<2|handout:1>{...}`，使 handout 只保留最终状态；累积列表保留全部内容。
-完整功能演示中的[渐进显示与导航](../sections/04_navigation.tex)包含逐步显示、
+完整功能演示中的[渐进显示与导航](../examples/sections/04_navigation.tex)包含逐步显示、
 固定区域内容替换和对应的逐阶段备注。
 最小编译样例见 [overlay 夹具](../tools/fixtures/overlays.tex) 与
 [handout 夹具](../tools/fixtures/overlays-handout.tex)，共用
-[页面片段](../sections/overlay-layout.tex)。
+[页面片段](../examples/sections/overlay-layout.tex)。
 
 转换器读取 PDF 的明确换页设置，将 `\transfade`、`\transdissolve` 分别导出为
 PowerPoint 原生淡入、溶解切换。支持的时长以毫秒写入 Office 2010+ 属性；较旧客户端
@@ -444,11 +444,11 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 - `materials/`：用户提供的论文源码、PDF、图片和数据，本地目录。
 - `example.tex`：完整功能演示入口与配置参考。
 - `main.tex`：agent 生成的汇报入口、文献资源及章节顺序。
-- `sections/talk/`：agent 生成的汇报元信息及正文。
-- `sections/metadata.tex`：完整示例的标题、课题组、汇报人、导师和日期。
-- `sections/01_*.tex` 至 `05_*.tex`：完整示例的五节正文，每个文件包含本节起始页和 frames。
-- `sections/04_navigation.tex`：实际 overlays、淡入/溶解换页和帧标签跳转。
-- `sections/notes-guide.tex`：同源 TeX 备注及 PDF 备注屏选项的页面示例。
+- `sections/`：agent 生成的汇报元信息及正文。
+- `examples/sections/metadata.tex`：完整示例的标题、课题组、汇报人、导师和日期。
+- `examples/sections/01_*.tex` 至 `05_*.tex`：完整示例的五节正文，每个文件包含本节起始页和 frames。
+- `examples/sections/04_navigation.tex`：实际 overlays、淡入/溶解换页和帧标签跳转。
+- `examples/sections/notes-guide.tex`：同源 TeX 备注及 PDF 备注屏选项的页面示例。
 - `theme/campusbeamer.cls`：文档类选项、中文支持、字体与文献宏包的统一入口。
 - TeX 中的 `\note`：与对应 frame 或 overlay 一起维护的讲者备注。
 - `build/main.notes.pdf`：自动生成的双屏备注渲染，用于提取 PPTX 备注；不是创作入口。
@@ -456,7 +456,7 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 - `docs/notes.example.json`：旧 JSON 导入接口的格式示例。
 - `theme/beamerthemecampus.sty`：标题页、页眉、页脚、致谢页和引用命令等主题实现。
 - `theme/campuscolor.sty`：加载和检查选中的 `theme/<名称>/profile.tex`；学校的配色与品牌素材保存在各自目录，演示元信息和汇报插图路径在正文中维护。
-- `bibliography/refs.bib`：示例的文献数据库；`bibliography/main.bib` 是 agent 为汇报建立的本地文献库。
+- `examples/bibliography/refs.bib`：示例的文献数据库；`bibliography/main.bib` 是 agent 为汇报建立的本地文献库。
 - `docker/`：容器环境定义、Dockerfile 专用构建上下文清单与入口脚本。
 - `.latexmkrc`：将 PDF 和编译临时文件统一写入 `build/`，并设置中间文件清理规则。
 - `assets/`：随模板分发的标志、校园图片和原创示例视频；自己的素材放在 `materials/`。
@@ -482,16 +482,27 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 启用红线开关时，会标注标志外接矩形、实际宽高、左边缘的 61.8% 对齐线，
 以及右、下边距所用的 `\large` 行距基准和实际长度。
 
-公式示例位于 `sections/math-examples.tex`，展示行内数学、多行对齐、梯度、
-矩阵和分段函数；`sections/bibliography-guide.tex` 展示文献字段、角落引用和文末列表的对应关系。
+公式示例位于 `examples/sections/math-examples.tex`，展示行内数学、多行对齐、梯度、
+矩阵和分段函数；`examples/sections/bibliography-guide.tex` 展示文献字段、角落引用和文末列表的对应关系。
 两个文件分别由基础页面章节和论文讲解章节引入，通过 `example.tex` 编译查看。
+
+### 汇报与示例目录
+
+用户汇报以 `main.tex` 为入口，元信息写在 `sections/metadata.tex`，
+章节直接写在 `sections/01_intro.tex` 等文件中；所需文献放在 `bibliography/`。
+公开演示由 `example.tex` 引入 `examples/` 中的正文与文献，两个写作区独立维护。
+Agent 可以参考演示中的用法，在用户章节中编写所需页面。
+
+从旧版升级已有汇报时，将原 `sections/talk/` 中的文件移到 `sections/`，
+并同步更新 `main.tex` 和章节内的 `\input` 路径。若目标已有同名文件，先核对内容再合并，
+保留原始素材与文献；现有汇报也可以暂时沿用旧路径，构建命令不变。
 
 ### 分文件组织完整示例
 
 `example.tex` 存放演示配置与章节入口，标题信息和正文分开放：
 
 ```text
-sections/
+examples/sections/
 ├── metadata.tex       标题与个人信息
 ├── harness-guide.tex  用户提供思路与素材、agent 制作与交付的说明
 ├── 01_basics.tex      基础页面、公式与图像
@@ -507,15 +518,15 @@ sections/
 └── code/normalize.py  演示中读取的代码源文件
 ```
 
-正文用 `\input{sections/01_basics.tex}` 等命令按入口中的顺序组合，
+正文用 `\input{examples/sections/01_basics.tex}` 等命令按入口中的顺序组合，
 章节文件只包含内容，不重复写 `\documentclass` 或 `\begin{document}`。
 要给示例增加章节时，在 `example.tex` 中添加一条 `\input`；重排这些语句即可调整章节顺序。
 资源和嵌套 `\input` 路径相对于项目根目录，例如章节中使用
-`theme/general/assets/backdrop.pdf` 和 `sections/math-examples.tex`。
+`theme/general/assets/backdrop.pdf` 和 `examples/sections/math-examples.tex`。
 查看示例时从根目录运行 `make MAIN=example` 或 `make draft MAIN=example`，不单独编译章节；
 `latexmk` 会追踪这些文件的变化。调整顺序后同步核对逐页备注。
-演示片段与所属章节同放在 `sections/`，由章节中的 `\input` 引入。
-自己的汇报先按 `outline.md` 整理并确认大纲，再由 agent 组织在 `main.tex` 与 `sections/talk/` 中，流程见 [Agent 制作指南](agent-authoring.md)。
+演示片段与所属章节同放在 `examples/sections/`，由章节中的 `\input` 引入。
+自己的汇报先按 `outline.md` 整理并确认大纲，再由 agent 组织在 `main.tex` 与 `sections/` 中，流程见 [Agent 制作指南](agent-authoring.md)。
 
 `example.tex` 在封面后先介绍推荐使用方式，再按“基础页面与图像、论文讲解与引用、提示框、导航布局、媒体与收尾”组织示例，
 五节分别包含 1、2、3、4、5 个 subsection，覆盖单列、两列及奇数项最后一行的排列。
@@ -709,7 +720,7 @@ Missing Semester\par\url{https://missing.csail.mit.edu/}
 
 按语义选择 `tipbox`（操作建议）、`notebox`（条件与补充说明）、`alertbox`（关键限制），
 以及定义、示例环境。标题概括说明类别，框内内容与主结构相关；避免机械套框和重复总结。
-完整的“主结构 + 条件框”示例见 `sections/callout-layout.tex`。
+完整的“主结构 + 条件框”示例见 `examples/sections/callout-layout.tex`。
 
 ## 代码与终端窗口
 
@@ -756,7 +767,7 @@ $ python normalize.py
 ```tex
 \begin{frame}{关键实现}
 \campusinputcode[language=Python,numbers,firstline=2,lastline=5,firstnumber=2]
-  {normalize.py}{sections/code/normalize.py}
+  {normalize.py}{examples/sections/code/normalize.py}
 \end{frame}
 ```
 
@@ -776,7 +787,7 @@ $ python normalize.py
 用文件行范围拆成多页；不要缩小字号来隐藏拥挤。标题栏应简短，完整路径放在备注中，
 但听众需要访问的配置或学习入口应在正文显示相对路径或 URL。
 实现位于 `theme/campuscode.sty`，由主题自动加载。普通 `verbatim` 环境也可以使用。
-完整演示见 `sections/code-guide.tex`。
+完整演示见 `examples/sections/code-guide.tex`。
 
 ## Section 与小节导航
 
@@ -992,7 +1003,7 @@ URL 参数按普通 LaTeX 参数书写，特殊字符如 `#`、`&`、`%` 分别�
 `\referencespage[shrink][\small][twocolumn]` 使用双栏排版。
 
 参考文献汇总页固定使用数字标签；配合 `sorting=none` 时，标签按照文献首次被
-引用的顺序排列。角落引用需要自定义短文本时，在 `bibliography/refs.bib` 条目中使用
+引用的顺序排列。角落引用需要自定义短文本时，在本次汇报的文献条目中使用
 `usera = {...}`，该字段不会替换汇总页的数字标签。条目中的 `shorthand`
 会按 `usera` 处理。
 

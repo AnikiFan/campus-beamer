@@ -1,6 +1,7 @@
 # Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
 # Part of Campus Beamer. See LICENSE for the GNU GPL v3 notice.
 """Source archives must exclude local artifacts and reject unresolved symlinks."""
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -36,7 +37,7 @@ class SourcePackageTests(unittest.TestCase):
         (self.root / 'tools/fixture.log').write_text('Generated log')
         (self.root / 'docs/usage.md').write_text('Manual')
         (self.root / 'docs/notes.example.json').write_text('Format example')
-        (self.root / 'sections/01_basics.tex').write_text('Required demo chapter')
+        (self.root / 'examples/sections/01_basics.tex').write_text('Required demo chapter')
         (self.root / 'bibliography/another.bib').write_text('Another bibliography')
         (self.root / 'assets/README.md').write_text('Asset provenance')
         package(self.root, self.output)
@@ -46,8 +47,8 @@ class SourcePackageTests(unittest.TestCase):
             self.assertNotIn('main.notes.json', names)
             self.assertNotIn('starter.notes.json', names)
             self.assertIn('docs/usage.md', names)
-            self.assertIn('sections/01_basics.tex', names)
-            self.assertIn('bibliography/refs.bib', names)
+            self.assertIn('examples/sections/01_basics.tex', names)
+            self.assertIn('examples/bibliography/refs.bib', names)
             self.assertNotIn('bibliography/another.bib', names)
             for name in ('Dockerfile', 'Dockerfile.dockerignore', 'entrypoint.sh'):
                 self.assertIn('docker/' + name, names)
@@ -91,8 +92,9 @@ class SourcePackageTests(unittest.TestCase):
         self.assertEqual(first, self.output.read_bytes())
 
     def test_agent_authored_talk_and_materials_are_not_distributed(self):
-        private_files = ('main.tex', 'prompt.md', 'sections/talk/metadata.tex',
-                         'sections/talk/01_intro.tex', 'bibliography/main.bib',
+        private_files = ('main.tex', 'prompt.md', 'sections/metadata.tex',
+                         'sections/01_intro.tex', 'bibliography/main.bib',
+                         'sections/talk/legacy.tex', 'bibliography/extra.bib',
                          'materials/paper/main.tex', 'materials/derived/figure.png',
                          'materials/outline.md', 'build/outline-normalized.md')
         for name in private_files:
@@ -105,10 +107,25 @@ class SourcePackageTests(unittest.TestCase):
             self.assertIn('example.tex', names)
             self.assertNotIn('prompt.md', names)
             self.assertIn('outline.md', names)
-            self.assertEqual([name for name in names if name.startswith('materials/')],
-                             ['materials/.gitkeep'])
+            for directory in ('materials', 'sections', 'bibliography'):
+                self.assertEqual([name for name in names if name.startswith(directory + '/')],
+                                 [directory + '/.gitkeep'])
             for name in private_files:
                 self.assertNotIn(name, names)
+
+    def test_user_directories_are_ignored_but_demo_and_placeholders_are_not(self):
+        project = Path(__file__).resolve().parents[2]
+        (self.root / '.gitignore').write_bytes((project / '.gitignore').read_bytes())
+        subprocess.run(['git', 'init', '-q', str(self.root)], check=True)
+        private = ('main.tex', 'sections/metadata.tex', 'sections/code/snippet.py',
+                   'sections/talk/legacy.tex', 'bibliography/main.bib',
+                   'bibliography/extra.bib', 'materials/paper.pdf')
+        public = ('sections/.gitkeep', 'bibliography/.gitkeep', 'materials/.gitkeep',
+                  'examples/sections/metadata.tex', 'examples/bibliography/refs.bib')
+        result = subprocess.run(['git', 'check-ignore', '--no-index', '--stdin'],
+                                input='\n'.join(private + public) + '\n',
+                                cwd=self.root, text=True, capture_output=True, check=True)
+        self.assertEqual(set(result.stdout.splitlines()), set(private))
 
     def test_archive_uses_outline_template_without_changing_local_draft(self):
         template = (self.root / 'tools/templates/outline.md').read_bytes()
@@ -136,7 +153,7 @@ class SourcePackageTests(unittest.TestCase):
     def test_nested_private_files_are_not_distributed(self):
         private_files = ('docs/.env', 'assets/private-slide.pdf',
                          'tools/private.notes.json', '.github/credentials.json',
-                         'sections/private-talk.tex', 'bibliography/private.bib')
+                         'examples/sections/private-talk.tex', 'bibliography/private.bib')
         for name in private_files:
             (self.root / name).write_text('Synthetic private content')
         (self.root / 'docs/unknown-link').symlink_to(self.root / 'README.md')

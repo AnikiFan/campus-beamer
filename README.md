@@ -145,7 +145,7 @@ make theme-previews      # 生成 README 使用的主题预览图（600 DPI）
 make                     # 有 main.tex 时构建自己的汇报，否则构建 example.tex
 ```
 
-[`example.tex`](example.tex) 是供人和 agent 查阅的功能演示，正文在 `sections/`，
+[`example.tex`](example.tex) 是供人和 agent 查阅的功能演示，正文在 `examples/sections/`，
 包含章节页、图像、公式、统一题注、引用、代码窗口、逐步显示、导航、视频与 TeX 备注。要直接查看完整 PDF/PPTX，请使用
 [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 中的附件；agent 根据汇报目标挑选适合的版式，
 另行生成你的内容。全部文档类选项及默认值也列在示例入口中，见[选项说明](docs/class-options.md)。
@@ -183,7 +183,7 @@ VS Code、Overleaf 和命令行用法见[环境说明](docs/workflows.md)。
 - 封面采用主色斜边版式，颜色跟随 `maincolor`；显式设置为 `\titlebackground{primary}`。
 - 将深色／浅色底上的校徽、校名标志路径指向自己的透明素材。
 
-示例个人信息在 `sections/metadata.tex`；自己的汇报信息由 agent 根据大纲写入 `sections/talk/metadata.tex`。
+示例个人信息在 `examples/sections/metadata.tex`；自己的汇报信息由 agent 根据大纲写入 `sections/metadata.tex`。
 照片和插图由各自的章节文件直接引用。
 章节页默认用 `primary`，也可在正文中指定图片或 `white`。布局几何留在主题实现内；
 配置字段和素材尺寸要求见[学校配置说明](docs/usage.md#更换学校)。
@@ -214,7 +214,10 @@ make help                      # 查看全部入口
 ├── example.tex                 版式与功能演示
 ├── main.tex                    agent 生成的汇报入口（本地文件）
 ├── materials/                  预置素材目录，放入的文件仅本地保留
-├── sections/                   演示正文与片段；talk/ 为 agent 生成的正文
+├── sections/                   agent 生成的元信息与章节（本地文件）
+├── examples/                   公共功能演示源码
+│   ├── sections/               演示章节、片段与代码
+│   └── bibliography/           演示文献数据库
 ├── theme/                      样式与学校配置
 │   ├── campusbeamer.cls        文档类：语言、文献及通用配置入口
 │   ├── beamerthemecampus.sty    主题版式与命令
@@ -223,7 +226,7 @@ make help                      # 查看全部入口
 │   ├── general/                 默认通用配色、博士帽和透明项目字标
 │   ├── tsinghua/                清华配色、标志、素材及来源说明
 │   └── pcl/                     鹏城实验室配色、标志、素材及来源说明
-├── bibliography/               文献数据库，默认 refs.bib
+├── bibliography/               汇报文献数据库（本地文件）
 ├── assets/                     项目字标与原创示例视频
 ├── docs/                       详细手册、安装说明、环境用法与预览
 ├── docker/                     Dockerfile、构建上下文清单与容器入口

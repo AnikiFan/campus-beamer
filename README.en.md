@@ -157,7 +157,7 @@ make                     # Build main.tex if present; otherwise example.tex
 ```
 
 [`example.tex`](example.tex) is a reference for people and agents. Its content
-under `sections/` demonstrates section pages, figures, equations, citations,
+under `examples/sections/` demonstrates section pages, figures, equations, citations,
 consistent captions, code windows, progressive reveals, navigation, video and TeX
 speaker notes. The agent chooses useful layouts and creates
 your content separately. The example also lists all public class options and
@@ -196,8 +196,8 @@ Each profile defines functional colors (`maincolor`, `tipcolor`,
 `notecolor`, `alertcolor`, `examplecolor`, `definitioncolor`) and paths to transparent
 emblems/wordmarks. Pass campus photo and illustration
 paths directly in your section files. Section backgrounds can also be `primary`,
-`white`, or empty. Demo metadata lives in `sections/metadata.tex`; the agent writes
-your metadata in `sections/talk/metadata.tex`.
+`white`, or empty. Demo metadata lives in `examples/sections/metadata.tex`; the agent writes
+your metadata in `sections/metadata.tex`.
 Layout geometry stays in the theme implementation.
 The footer uses `maincolor` with white text. The cover uses the primary-color diagonal layout,
 with its color taken from `maincolor`; the explicit setting is `\titlebackground{primary}`.
@@ -217,8 +217,10 @@ make help
 Document-class, theme and school-profile files live in `theme/`. Keep this directory
 and `.latexmkrc` when copying the template: latexmk configures the TeX search path,
 so `\documentclass{campusbeamer}` and the Make commands remain unchanged.
-Presentation sections, metadata and reusable demo fragments live together in
-`sections/`, documentation in `docs/`, and test sources in `tools/fixtures/`.
+Your presentation uses `main.tex`, `sections/` for metadata and chapters, and
+`bibliography/` for references. Public demo content lives separately in
+`examples/sections/` and `examples/bibliography/`, with `example.tex` as its entry.
+Documentation lives in `docs/`, and test sources in `tools/fixtures/`.
 Local output lives in ignored `build/` directories.
 GitHub Actions reads `.github/workflows/` from the repository root.
 See [CONTRIBUTING.md](CONTRIBUTING.md) for bug reports and pull requests.

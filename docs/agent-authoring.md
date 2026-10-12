@@ -91,7 +91,7 @@ outline work. Confirmation authorizes the reviewed content for production.
 
 ### Stage 2: compose and lay out the slides
 
-After confirmation, create `main.tex`, `sections/talk/`, verified citation
+After confirmation, create `main.tex`, `sections/`, verified citation
 resources when needed, and native `\note` commands alongside the frames from the approved outline.
 Map sections and subsections to the Beamer hierarchy, choose frame boundaries,
 condense visible text, distribute approved explanations between slides and
@@ -123,11 +123,16 @@ Start a new deck with the class interface, for example:
 ]{campusbeamer}
 ```
 
-Keep metadata in `sections/talk/metadata.tex`, class/build settings in
-`main.tex`, and one section per file under `sections/talk/`. Select those files
-explicitly with `\input`. Do not put a class or document environment in a
+Keep metadata in `sections/metadata.tex`, class/build settings in
+`main.tex`, and one section per file under `sections/`. Select those files
+explicitly with `\input{sections/01_intro.tex}`. Set chapter editor roots to
+`% !TeX root = ../main.tex`. Do not put a class or document environment in a
 chapter. Use `\campusbibresource{bibliography/main.bib}` only when the talk has
-verified citations; leave `bibliography/refs.bib` unchanged for the demo.
+verified citations. The public reference demo lives in `examples/`; keep it
+independent of the talk, including `examples/bibliography/refs.bib`. Author new
+chapters directly in `sections/`, without a `talk/` subdirectory or imports from
+`examples/`. When revising an existing talk, preserve its source paths unless
+a directory migration was requested; update all inputs together when moving files.
 
 The class already loads the theme, Chinese support when requested, math setup,
 and biblatex. English decks containing Chinese text need `cjk=true`; do not

@@ -1,16 +1,16 @@
-% !TeX root = ../example.tex
+% !TeX root = ../../example.tex
 \section{基础页面与图像}
 % 本示例每节显式插入起始页：图片直接在本次汇报中选择。
 % 实际使用时，可按需省略目录页或起始页，也可交换两者顺序。
 \sectioncoverpage[theme/general/assets/backdrop.pdf]{本节介绍页面布局、公式排版、图像适配与图注。}
 \note{本节先说明正文区域和字号，再演示公式、代码与图片。章节背景是模板已有示例素材。}
 \subsection{基础页面}
-\input{sections/page-styles.tex}
-\input{sections/harness-guide.tex} % 推荐用法：思路与素材交给 agent
+\input{examples/sections/page-styles.tex}
+\input{examples/sections/harness-guide.tex} % 推荐用法：思路与素材交给 agent
 
 % 红色参考线只显示在这一页，不改变其他页面的主题设置。
-\input{sections/layout-guide.tex}
-\input{sections/font-guide.tex}
+\input{examples/sections/layout-guide.tex}
+\input{examples/sections/font-guide.tex}
 
 % section 组织整节内容，subsection 自动显示在页眉上方。
 % frame 的标题参数即 frametitle，只填写本页标题，无需额外设置副标题。
@@ -25,9 +25,9 @@
 \note{说明 section 管整节，subsection 显示在页眉上行，frametitle 概括当前页。转入具体内容示例。}
 
 % 公式与图像沿用本 subsection，保留单小节的导航示例。
-\input{sections/math-examples.tex}
+\input{examples/sections/math-examples.tex}
 
-\input{sections/code-guide.tex}
+\input{examples/sections/code-guide.tex}
 
 \begin{frame}[fragile]{自动适配素材}
       % 本页使用图片搜索目录，保持窄栏中的示例路径简短。

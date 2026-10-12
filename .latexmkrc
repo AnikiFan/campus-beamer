@@ -26,7 +26,7 @@ ensure_path('TEXINPUTS', File::Spec->rel2abs('theme') . '//');
 # PDF 与编译临时文件统一写入 build/；输入与素材仍相对于项目根目录。
 $out_dir = 'build';
 
-# Biber 生成的 .bbl 可由 bibliography/refs.bib 重建，因此允许 clean 阶段删除。
+# Biber 生成的 .bbl 可由所选入口的文献数据库重建，因此允许 clean 阶段删除。
 $bibtex_use = 2;
 
 # 补充 latexmk 默认未覆盖的 Beamer、SyncTeX 和 biblatex 中间文件。
