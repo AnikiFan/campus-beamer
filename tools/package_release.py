@@ -8,6 +8,8 @@ from pathlib import Path
 import re
 import zipfile
 
+DEMO_ENTRIES = ('example', 'example-tsinghua', 'example-pcl')
+
 
 def release_notes(root: Path, version: str) -> str:
     """Require a matching changelog section before creating release artifacts."""
@@ -30,11 +32,10 @@ def package(root: Path, version: str) -> Path:
     """Keep older release bundles intact if inputs or changelog are missing."""
     if not re.fullmatch(r'(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)', version):
         raise ValueError('Release version must use MAJOR.MINOR.PATCH, e.g. 0.1.0.')
-    files = {
-        f'campus-beamer-{version}-source.zip': root / 'build/dist/campus-beamer.zip',
-        f'campus-beamer-{version}-example.pdf': root / 'build/example.pdf',
-        f'campus-beamer-{version}-example.pptx': root / 'build/example.pptx',
-    }
+    files = {f'campus-beamer-{version}-source.zip': root / 'build/dist/campus-beamer.zip'}
+    for entry in DEMO_ENTRIES:
+        files[f'campus-beamer-{version}-{entry}.pdf'] = root / f'build/{entry}.pdf'
+        files[f'campus-beamer-{version}-{entry}.pptx'] = root / f'build/{entry}.pptx'
     contents = {name: path.read_bytes() for name, path in files.items()}
     contents['RELEASE_NOTES.md'] = release_notes(root, version).encode('utf-8')
     contents['SHA256SUMS'] = ''.join(

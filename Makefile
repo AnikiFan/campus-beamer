@@ -47,7 +47,7 @@ override INPUT_BIB := $(value INPUT_BIB)
 # Pass text through the environment, so titles/keys are not shell fragments.
 export QUERY DBLP_KEY DOI CITE_KEY DBLP_HOST CITATION_SOURCE BIB_OUTPUT BIB_REPORT INPUT_BIB
 
-.PHONY: all pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist version release clean help
+.PHONY: all pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist version examples theme-previews release clean help
 
 all: pptx
 
@@ -87,6 +87,20 @@ citations:
 check-theme:
 	$(UV) run --frozen python tools/check_theme.py
 
+# Build the public sample once for each bundled school profile.  These entries
+# are deliberately separate from the reference feature tour so a release can
+# show the visual identity of every selectable theme.
+examples:
+	$(MAKE) MAIN=example-tsinghua DPI="$(DPI)"
+	$(MAKE) MAIN=example-pcl DPI="$(DPI)"
+
+theme-previews:
+	$(MAKE) pdf MAIN=example-tsinghua
+	$(MAKE) pdf MAIN=example-pcl
+	$(UV) run --frozen python tools/render_theme_previews.py \
+		--pdf build/example-tsinghua.pdf --theme tsinghua \
+		--pdf build/example-pcl.pdf --theme pcl
+
 logo:
 	$(UV) run --frozen python tools/generate_logo.py
 
@@ -103,6 +117,7 @@ release:
 	$(MAKE) test
 	$(MAKE) draft MAIN=example
 	$(MAKE) MAIN=example DPI="$(DPI)"
+	$(MAKE) examples DPI="$(DPI)"
 	$(MAKE) dist
 	$(UV) run --frozen python tools/package_release.py --version "$$($(UV) version --short)"
 
@@ -128,10 +143,12 @@ help:
 	  'make citations DOI=10.../...  Query DOI-matched citation count + source/date' \
 	  '  CITATION_SOURCE=openalex (default), semantic-scholar, or none (BibTeX only)' \
 	  'make check-theme     Compile theme fixtures without changing main output' \
+	  'make examples        Build one public PDF/PPTX sample for each bundled theme' \
+	  'make theme-previews   Build theme samples and refresh README preview images' \
 	  'make logo            Rebuild project logo SVGs and PDF/PNG previews' \
 	  'make dist            Create a standalone source ZIP in build/dist/' \
 	  'make version         Show the project version from pyproject.toml' \
-	  'make release         Test, build the demo and package versioned release artifacts (600 DPI)' \
+	  'make release         Test, build all public examples and package versioned release artifacts (600 DPI)' \
 	  'make clean           Remove LaTeX intermediates; retain PDF/PPTX and sources' \
 	  'PDF/PPTX, generated notes and TeX intermediates go in build/; previews go in build/draft/' \
 	  'Style files live in theme/; .latexmkrc configures the TeX search path' \

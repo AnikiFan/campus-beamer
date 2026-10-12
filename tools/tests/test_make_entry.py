@@ -47,6 +47,8 @@ class MakeEntryTests(unittest.TestCase):
         commands = self.commands('release', 'MAIN=main')
         self.assertIn('"example.tex"', commands)
         self.assertIn('tools/export_presentation.py "example.tex"', commands)
+        for entry in ('example-tsinghua', 'example-pcl'):
+            self.assertIn(f'tools/export_presentation.py "{entry}.tex"', commands)
         self.assertNotIn('"main.tex"', commands)
         self.assertNotIn('"build/main.pdf"', commands)
 

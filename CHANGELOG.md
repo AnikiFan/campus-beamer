@@ -252,12 +252,12 @@ use this section for release-note drafts that still need review.
 ## 许可与使用范围 / License and scope
 
 源码采用 GPL-3.0-or-later；原创演示视频单独采用 CC0-1.0。
-清华标志、校园图像及派生预览不适用这些许可证，尚未取得明确再分发许可；
+清华和鹏城实验室标志、校园／园区图像及派生预览不适用这些许可证，尚未取得明确再分发许可；
 来源、权利声明及联系渠道见 [assets/README.md](assets/README.md)。
 PPTX 页面为渲染图像，文字不能作为原生 PowerPoint 文本编辑。
 
 Source code uses GPL-3.0-or-later; the procedural demo video separately uses CC0-1.0.
-Tsinghua marks, campus images and derived previews are not covered by these licenses;
+Tsinghua and Peng Cheng Laboratory marks, campus images and derived previews are not covered by these licenses;
 explicit redistribution permission has not been obtained. Sources, rights notices and
 contact details are in [assets/README.md](assets/README.md).
 PPTX slides are rendered images, not editable native PowerPoint text.

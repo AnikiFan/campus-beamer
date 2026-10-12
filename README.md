@@ -29,7 +29,7 @@
 
 ## 示例页面
 
-`example.tex` 是版式与功能演示；完整的 `example.pdf` 和 `example.pptx` 请前往
+`example.tex` 是版式与功能演示；通用、清华和鹏城实验室三套完整的 PDF 与 PPTX 请前往
 [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 下载。
 Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲者视图查看。
 渐进显示页包含实际 overlays：在 PDF/PPTX 中按页推进，可看到要点累积与内容替换，并查看各阶段备注。
@@ -60,7 +60,27 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
   </p>
 </div>
 
-缩略图来自当前示例 PPTX 转换后的幻灯片图像；视频页还包含 PPTX 内嵌视频的首帧预览。其中的校徽、校名和校园图像适用
+### 各主题预览
+
+每个内置主题都提供相同内容的封面、章节页和正文页样例，便于在选择主题前比较视觉效果。
+分别运行 `make MAIN=example-tsinghua` 或 `make MAIN=example-pcl` 构建；样例正文保存在对应主题目录中。
+
+<div align="center">
+  <p><strong>清华大学（tsinghua）</strong></p>
+  <p>
+    <img src="docs/images/theme-tsinghua-cover.png" alt="清华主题封面" width="280">
+    <img src="docs/images/theme-tsinghua-section.png" alt="清华主题章节页" width="280">
+    <img src="docs/images/theme-tsinghua-body.png" alt="清华主题正文页" width="280">
+  </p>
+  <p><strong>鹏城实验室（pcl）</strong></p>
+  <p>
+    <img src="docs/images/theme-pcl-cover.png" alt="鹏城实验室主题封面" width="280">
+    <img src="docs/images/theme-pcl-section.png" alt="鹏城实验室主题章节页" width="280">
+    <img src="docs/images/theme-pcl-body.png" alt="鹏城实验室主题正文页" width="280">
+  </p>
+</div>
+
+主题预览由对应样例 PDF 以 600 DPI 渲染；功能演示缩略图来自转换后的 PPTX，视频页包含内嵌视频的首帧预览。其中的校徽、校名和校园图像适用
 [素材来源与使用声明](assets/README.md)。
 
 默认学校主题为清华；用 `\documentclass[theme=tsinghua]{campusbeamer}` 选择主题。
@@ -113,6 +133,8 @@ PPTX 自动保留原生章节分节、标题与作者，以及副标题、课题
 make doctor              # 检查环境
 make draft MAIN=example  # 查看示例的逐页预览与排版报告
 make MAIN=example        # 构建 build/example.pdf 和 build/example.pptx
+make examples            # 构建清华和鹏城实验室主题样例
+make theme-previews      # 生成 README 使用的主题预览图（600 DPI）
 make                     # 有 main.tex 时构建自己的汇报，否则构建 example.tex
 ```
 
@@ -218,7 +240,7 @@ GitHub Actions 读取仓库根目录下的 `.github/workflows/`。
 版本变化记录在 [CHANGELOG.md](CHANGELOG.md)。`make dist` 只收录
 `tools/package_source.py` 中逐一登记的公开文件，新增文件默认不进入源码包。
 `make release` 生成本地校验用的 `build/releases/campus-beamer-v<版本>-release.zip`。
-GitHub Release 会将源码 ZIP、`example.pdf`、`example.pptx`、发行说明和 SHA-256 校验文件分别作为附件，
+GitHub Release 会将源码 ZIP、通用样例以及清华、鹏城实验室主题样例的 PDF/PPTX、发行说明和 SHA-256 校验文件分别作为附件，
 方便单独下载；始终构建 `example.tex`。GitHub 的 **Release Please** 工作流维护发行 PR，合并后创建 Release 并上传发行包，也保留手动构建入口；配置与发布步骤见
 [发布指南](docs/releases.md)。
 

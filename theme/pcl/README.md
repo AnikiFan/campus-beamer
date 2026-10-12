@@ -15,7 +15,7 @@
 园区图片由正文显式选用，例如：
 
 ```tex
-\sectioncoverpage[theme/pcl/assets/20230726202103815.jpg]{本节导读}
+\sectioncoverpage[theme/pcl/assets/lakeside-aerial.jpg]{本节导读}
 ```
 
 ## 素材与来源
@@ -32,15 +32,18 @@
 
 ### 横向标志与园区图片
 
-下列六个原始文件由主题贡献者提供，保留原文件名及内容；未附逐项原始来源、
-摄影者或再分发许可，不将其标记为本项目原创或 GPL 素材：
+本项目分发的横向标志与园区图片来自[鹏城实验室官网](https://www.pcl.ac.cn/index.html)、
+[美丽园区](https://www.pcl.ac.cn/html/1018/)和
+[人才招聘网站](https://hr.pcl.ac.cn/SU62b979a5bef57c0f6fb046d7/pb/index.html#/)；
+上述来源由项目维护者确认。文件按内容命名，原始文件内容保持不变。
+这些素材用于本模板的封面、页眉、园区背景及版式演示。
 
-- [`c572737a-7108-43f0-930a-22a2c911464f.png`](assets/c572737a-7108-43f0-930a-22a2c911464f.png)：横向中英文组合标志；文件实际为 WebP。
-- [`20221118002045758.jpg`](assets/20221118002045758.jpg)：园区整体鸟瞰效果图。
-- [`20230726202103815.jpg`](assets/20230726202103815.jpg)：湖畔建筑鸟瞰效果图。
-- [`20230726202115013.jpg`](assets/20230726202115013.jpg)：湖畔建筑效果图。
-- [`c1cd6dd82a723a23.jpg`](assets/c1cd6dd82a723a23.jpg)：园区建筑群鸟瞰效果图。
-- [`640+(4).jpg`](assets/640+(4).jpg)：园区庭院图片；文件实际为 WebP。
+- [`wordmark-source.webp`](assets/wordmark-source.webp)：横向中英文组合标志，保留 WebP 原始编码。
+- [`campus-aerial.jpg`](assets/campus-aerial.jpg)：园区整体鸟瞰效果图。
+- [`lakeside-aerial.jpg`](assets/lakeside-aerial.jpg)：湖畔建筑鸟瞰效果图。
+- [`lakeside-building.jpg`](assets/lakeside-building.jpg)：湖畔建筑效果图。
+- [`campus-buildings-aerial.jpg`](assets/campus-buildings-aerial.jpg)：园区建筑群鸟瞰效果图。
+- [`campus-courtyard-source.webp`](assets/campus-courtyard-source.webp)：园区庭院图片，保留 WebP 原始编码。
 
 为兼容 XeLaTeX，两个 WebP 文件另提供无损 PNG 编码副本：
 [`wordmark.png`](assets/wordmark.png) 和 [`campus-courtyard.png`](assets/campus-courtyard.png)。
@@ -55,20 +58,39 @@
 
 ```bash
 mkdir -p build/pcl-assets
-convert 'theme/pcl/assets/c572737a-7108-43f0-930a-22a2c911464f.png' theme/pcl/assets/wordmark.png
-convert 'theme/pcl/assets/640+(4).jpg' theme/pcl/assets/campus-courtyard.png
+convert 'theme/pcl/assets/wordmark-source.webp' theme/pcl/assets/wordmark.png
+convert 'theme/pcl/assets/campus-courtyard-source.webp' theme/pcl/assets/campus-courtyard.png
 xelatex -output-directory=build/pcl-assets theme/pcl/emblem.tex
 xelatex -output-directory=build/pcl-assets theme/pcl/wordmark.tex
 cp build/pcl-assets/emblem.pdf theme/pcl/assets/emblem.pdf
 cp build/pcl-assets/wordmark.pdf theme/pcl/assets/wordmark_on_dark.pdf
 ```
 
-## 权利说明
+## 素材使用声明
 
-鹏城实验室名称、徽章与组合标志的相关权利归相应权利人所有；本主题不是官方模板，
-不代表实验室认可或背书。园区图片的权利归原作者或相关权利人所有。
-公开网页上的展示不等于授予修改或再分发许可，来源记录也不替代许可。
-本仓库尚未核实上述素材的完整授权链；其原图和派生 PDF/PNG 不适用主题代码的 GPL 许可证。
+**鹏城实验室名称、徽章及组合标志的相关权利归鹏城实验室及相应权利人所有。
+除本模板的演示文稿用途外，请勿将这些标志用于其他用途；本声明不构成实验室授权，
+也不表示本项目获得鹏城实验室的认可或背书。**
+使用标志时应遵循相关视觉形象规范，不得用于商业宣传或造成机构背书的误解。
 
-如需更正来源、补充署名或处理权利问题，请联系
-[xiaofan140@gmail.com](mailto:xiaofan140@gmail.com) 或在仓库提交 Issue，说明涉及的文件及原始来源。
+园区图像的著作权归相应权利人所有，公开展示不等于开放许可。
+本项目仅将其作为模板的园区背景及插图示例，不将其纳入 GPL 或 CC0 授权，
+也不授予使用者独立提取、修改、商业使用或再分发这些图像的权利。
+上述用途说明不能替代权利人的许可；需要许可的使用应另行取得许可。
+派生 PDF/PNG、README 预览及 Release 样例中的鹏城素材适用相同声明。
+
+## 素材核查与权利人联系
+
+目前暂时无法联系到相关权利人或摄影者，尚未取得适用于本仓库分发的明确修改与再分发许可，
+也未能核实园区照片的逐张摄影者署名。来源说明和下面的联系渠道用于处理权利与署名问题。
+
+**如您认为本项目使用的素材侵犯了您的著作权、商标权或其他合法权益，或存在署名遗漏、
+来源标注错误，请随时联系维护者。我们会及时核实，并根据具体情况补充署名、更正说明、
+替换或移除相关素材及其派生预览。**
+
+- 邮箱：[xiaofan140@gmail.com](mailto:xiaofan140@gmail.com)。
+- 也可在本仓库提交 Issue；涉及个人信息或不宜公开的材料时请使用邮件。
+- 请尽可能提供相关文件名、原始作品或来源链接、权利情况及希望采取的处理方式，方便定位和核实。
+
+本联系与处理声明不替代权利人的许可，也不赋予使用者新的授权。
+确认来源或生成源码 ZIP 不表示已取得素材许可；如后续收到许可或准确的作者信息，将在此更新。

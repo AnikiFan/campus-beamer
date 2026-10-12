@@ -13,6 +13,8 @@
 使用英文字母、数字、连字符或下划线，首字符为字母或数字。
 内置主题：`tsinghua`（[清华](tsinghua/README.md)，默认）和 `pcl`（[鹏城实验室](pcl/README.md)）。
 例如 `\documentclass[theme=pcl]{campusbeamer}` 选择鹏城实验室主题。
+在仓库根目录运行 `make examples` 可导出两套主题样例；单独构建使用
+`make MAIN=example-tsinghua` 或 `make MAIN=example-pcl`。样例正文位于各主题的 `sample.tex`。
 未知名称或不完整的配置会给出编译错误。
 已有 Beamer 文稿也可使用 `\usetheme[theme=tsinghua]{campus}`。
 
@@ -24,6 +26,8 @@
 3. 在文档类中设置 `theme=myschool`。无需修改通用主题、文档类或登记主题名称。
 4. 编译并检查封面、目录、普通页、提示框与结束页；公开分发新增主题时，
    将审核后的文件逐一加入 `tools/package_source.py` 的 `FILES`，再运行 `make dist`。
+   同时提供 `theme/<名称>/sample.tex` 与根目录编译入口，将样例加入 Make 的 `examples`、
+   `theme-previews` 以及 `tools/package_release.py` 的 `DEMO_ENTRIES`，更新中英文 README 预览。
    本地使用主题不需要修改打包清单。
 
 目录约定：

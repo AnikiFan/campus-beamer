@@ -68,8 +68,8 @@ make release
 make release DPI=200
 ```
 
-`make release` 先检查锁文件同步，再顺序运行 Python 测试、完整演示 draft、演示 PDF/PPTX 导出、
-源码打包及版本化发行包生成。默认 600 DPI，始终选择 `example.tex`，
+`make release` 先检查锁文件同步，再顺序运行 Python 测试、完整功能演示 draft、功能演示与两套主题样例的 PDF/PPTX 导出、
+源码打包及版本化发行包生成。默认 600 DPI，构建 `example.tex`、`example-tsinghua.tex` 和 `example-pcl.tex`，
 即使本地存在自己的 `main.tex` 也只导出公开演示。
 当前版本在 `CHANGELOG.md` 中缺少非空章节，或演示产物缺失时，打包失败。
 支持 Release Please 的普通、链接式版本标题及手动的 `[X.Y.Z]` 标题。
@@ -77,7 +77,8 @@ make release DPI=200
 `build/releases/campus-beamer-vX.Y.Z-release.zip` 包含：
 
 - `campus-beamer-X.Y.Z-source.zip`：解压后直接得到项目根目录，可直接运行 `make`。
-- `campus-beamer-X.Y.Z-example.pdf` 与 `campus-beamer-X.Y.Z-example.pptx`：公开功能演示；GitHub Release 中分别上传。
+- `campus-beamer-X.Y.Z-example.pdf` 与 `campus-beamer-X.Y.Z-example.pptx`：通用功能演示；
+- `campus-beamer-X.Y.Z-example-tsinghua.pdf` / `.pptx` 与 `campus-beamer-X.Y.Z-example-pcl.pdf` / `.pptx`：清华和鹏城实验室主题样例；GitHub Release 中分别上传。
 - `RELEASE_NOTES.md`：本版变更与素材许可范围。
 - `SHA256SUMS`：上述文件的 SHA-256 校验和；下载同目录文件后运行 `sha256sum -c SHA256SUMS` 校验。
 
@@ -126,7 +127,8 @@ demo pages before merging.
 
 On merging, the **Release Please** workflow creates `vX.Y.Z` and a GitHub Release,
 then checks out that tag and runs Docker `make release` in the same workflow.
-It attaches the source ZIP, PDF, PPTX, release notes and checksum as separate
+It attaches the source ZIP, the feature tour and both theme samples as PDF/PPTX,
+release notes and checksum as separate
 assets, then updates the release body with the notes, including the shared license
 scope and image-based PPTX limitation.
 Keep the top-level license section in the changelog. Releases are created before

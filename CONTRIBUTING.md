@@ -36,6 +36,7 @@ make MAIN=example
 
 README 的封面与引用截图从当前 `build/example.pdf` 以至少 **600 DPI** 直接渲染为 PNG，
 并保留 DPI 元信息；更新后检查文字、角落引用和页脚的清晰度。
+`make theme-previews` 重建两套主题 PDF，并更新 README 中的封面、章节页和正文预览。
 
 纯重构需要比较前后 PDF。先保存基线，再使用
 `uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf`；
@@ -85,7 +86,7 @@ agent 扩充后的详细大纲保存在忽略的 `build/outline-normalized.md`�
 `feat!:` 或正文中的 `BREAKING CHANGE:` 表示不兼容变化。
 Release Please 根据这些提交维护版本、锁文件和 [CHANGELOG.md](CHANGELOG.md)；
 合并发行 PR 前检查版本变化、迁移说明及完整演示的视觉效果。
-`make release` 运行测试、编译公开演示，并生成包含源码 ZIP、演示 PDF/PPTX、
+`make release` 运行测试、编译功能演示与全部内置主题样例，并生成包含源码 ZIP、各样例 PDF/PPTX、
 发行说明与校验和的版本化发行包。发行 PR 合并后，GitHub 工作流会自动构建并上传附件。
 详细配置、令牌与手动重试入口见
 [版本维护与发布](docs/releases.md)。

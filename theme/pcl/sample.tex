@@ -1,0 +1,44 @@
+% Public Peng Cheng Laboratory theme example.
+\documentclass[theme=pcl]{campusbeamer}
+\title{鹏城实验室主题}
+\subtitle{配色、标志与园区素材}
+\author{Campus Beamer}
+\date{}
+\begin{document}
+\maketitle
+\note{检查原色标志及白色衬底在蓝色封面上的清晰度。}
+\section{主题配置}
+\sectiontocpage[overview]
+\note{检查目录使用主题主色。}
+\sectioncoverpage[primary]{鹏城实验室主题的主色章节页。}
+\note{主色背景下徽章应清晰完整。}
+\sectioncoverpage[white]{浅色区域保留原色徽章。}
+\note{检查浅色背景下的徽章。}
+\subsection{品牌与配色}
+\begin{frame}{功能配色}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.48\textwidth}
+      \begin{tipbox}提示信息\end{tipbox}
+      \begin{notebox}补充说明\end{notebox}
+      \begin{alertbox}需要关注的条件\end{alertbox}
+    \end{column}
+    \begin{column}{.48\textwidth}
+      \begin{examplebox}示例内容\end{examplebox}
+      \begin{definitionbox}概念定义\end{definitionbox}
+      \fitgraphic[width=.38,height=.12]{\schoolwordmarkonlight}
+    \end{column}
+  \end{columns}
+\end{frame}
+\note{检查五种提示框和浅色背景横向标志。}
+\begin{frame}[campusfocus,campusbackground=theme/pcl/assets/lakeside-aerial.jpg,
+  campusbackgroundopacity=.2]{园区背景}
+  保留正文对比度与单行页脚。
+\end{frame}
+\note{背景使用用户提供的园区效果图，按比例居中铺满。}
+\begin{frame}{园区实景}
+  \fitfigure[width=.5,height=.5]{theme/pcl/assets/campus-courtyard.png}{园区建筑与庭院}
+\end{frame}
+\note{此页验证原 WebP 素材的 PNG 兼容副本。}
+\backmatter
+\note{检查结束页配色与元信息。}
+\end{document}
