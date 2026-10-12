@@ -5,6 +5,17 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.9.0](https://github.com/AnikiFan/campus-beamer/compare/v0.8.0...v0.9.0) (2026-10-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* school colors and branding move from theme/campuscolor.sty to theme/tsinghua/profile.tex. Direct Tsinghua asset references must move from assets/ to theme/tsinghua/assets/. School branding commands continue to resolve the selected profile automatically.
+
+### Features
+
+* add selectable school theme directories ([1ba1f08](https://github.com/AnikiFan/campus-beamer/commit/1ba1f085976629fc93bd500727285acfd6ea8901))
+
 ## [0.8.0](https://github.com/AnikiFan/campus-beamer/compare/v0.7.2...v0.8.0) (2026-10-11)
 
 
