@@ -5,6 +5,13 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.10.0](https://github.com/AnikiFan/campus-beamer/compare/v0.9.0...v0.10.0) (2026-10-12)
+
+
+### Features
+
+* add Peng Cheng Laboratory theme ([c6557d6](https://github.com/AnikiFan/campus-beamer/commit/c6557d6bd7b57db653c5f2864c7838bb44f20a78))
+
 ## [0.9.0](https://github.com/AnikiFan/campus-beamer/compare/v0.8.0...v0.9.0) (2026-10-12)
 
 
