@@ -2,7 +2,7 @@
 \section{基础页面与图像}
 % 本示例每节显式插入起始页：图片直接在本次汇报中选择。
 % 实际使用时，可按需省略目录页或起始页，也可交换两者顺序。
-\sectioncoverpage[assets/sigs_building]{本节介绍页面布局、公式排版、图像适配与图注。}
+\sectioncoverpage[theme/tsinghua/assets/sigs_building]{本节介绍页面布局、公式排版、图像适配与图注。}
 \note{本节先说明正文区域和字号，再演示公式、代码与图片。章节背景是模板已有示例素材。}
 \subsection{基础页面}
 \input{sections/page-styles.tex}
@@ -30,6 +30,8 @@
 \input{sections/code-guide.tex}
 
 \begin{frame}[fragile]{自动适配素材}
+      % 本页使用图片搜索目录，保持窄栏中的示例路径简短。
+      \graphicspath{{theme/tsinghua/}}
       \begin{columns}[T,onlytextwidth]
             \begin{column}{.48\textwidth}
                   \textbf{适配素材并添加图注}
@@ -75,7 +77,7 @@
 \end{frame}
 \note{fitfigure 同时提供适配与图注。最后一个参数留空时不显示图注，便于简洁展示。}
 
-\begin{rightimageframe}[image width=.40]{右侧满高图片}{assets/tsinghua_temple.png}
+\begin{rightimageframe}[image width=.40]{右侧满高图片}{theme/tsinghua/assets/tsinghua_temple.png}
       \begin{description}[高度]
             \item[高度] 图片从页面顶端延伸到导航上边缘。
             \item[宽度] \texttt{image width} 控制右侧图片区域占页面宽度的比例。

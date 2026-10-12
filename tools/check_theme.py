@@ -28,6 +28,7 @@ from images_to_ppt import campus_metadata, pdf_info_string
 
 EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 3,
                   'single-header': 5,
+                  'profile-selection': 6, 'profile-selection-legacy': 6,
                   'demo-without-guides': 50, 'language-layout': 10,
                   'toc-overview': 7, 'page-styles': 10,
                   'class-options': 6, 'class-handout': 1, 'class-mixed-language': 2,
@@ -37,6 +38,56 @@ EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 
                   'doc-citations': 7, 'description-alignment': 4, 'callout-layout': 1,
                   'overlays': 6, 'overlays-handout': 3,
                   'native-notes': 4, 'native-notes-screen': 4}
+
+
+def prepare_profile_fixture(workspace):
+    """Create a self-contained synthetic brand; never depend on Tsinghua assets."""
+    directory = workspace / 'theme/fixture-brand'
+    assets = directory / 'assets'
+    assets.mkdir(parents=True)
+    colors = dict(maincolor='245C80', tipcolor='167048', notecolor='4F4A8C',
+                  alertcolor='B52D35', examplecolor='247878', definitioncolor='925919')
+    lines = [rf'\definecolor{{{name}}}{{HTML}}{{{value}}}'
+             for name, value in colors.items()]
+    for kind in ('emblem', 'wordmark'):
+        for ground in ('dark', 'light'):
+            name = f'{kind}-{ground}'
+            lines.append(rf'\newcommand{{\school{kind}on{ground}}}'
+                         rf'{{\campusthemedir/assets/{name}.pdf}}')
+            with pymupdf.open() as document:
+                page = document.new_page(width=120, height=120 if kind == 'emblem' else 30)
+                color = (1, 1, 1) if ground == 'dark' else (.14, .36, .5)
+                page.draw_rect(page.rect + (2, 2, -2, -2), color=color, width=2)
+                page.insert_text((6, page.rect.height / 2), name, fontsize=10, color=color)
+                document.save(assets / f'{name}.pdf')
+    profile = '\n'.join(lines) + '\n'
+    (directory / 'profile.tex').write_text(profile)
+    return profile
+
+
+def check_profile_selection(document, log):
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('profile-selection: overflow or missing glyphs')
+    text = '\n'.join(page.get_text() for page in document)
+    for marker in ('emblem-dark', 'emblem-light', 'wordmark-dark', 'wordmark-light'):
+        if marker not in text:
+            raise RuntimeError(f'profile-selection: selected asset missing: {marker}')
+    spans = [span for block in document[3].get_text('dict')['blocks']
+             for line in block.get('lines', []) for span in line['spans']]
+    for label, color in (('Primary', 0x245C80), ('Tip', 0x167048), ('Note', 0x4F4A8C),
+                         ('Alert', 0xB52D35), ('Example', 0x247878), ('Definition', 0x925919)):
+        if not any(span['text'].strip() == label and span['color'] == color for span in spans):
+            raise RuntimeError(f'profile-selection: wrong functional color: {label}')
+    for index in (0, 1, 5):
+        pixmap = document[index].get_pixmap()
+        if any(abs(a - b) > 1 for a, b in
+               zip(pixmap.pixel(pixmap.width - 3, 60), (36, 92, 128))):
+            raise RuntimeError('profile-selection: cover/section background did not switch')
+    for page in (document[3], document[4]):
+        pixmap = page.get_pixmap()
+        if any(abs(a - b) > 1 for a, b in
+               zip(pixmap.pixel(2, pixmap.height - 3), (36, 92, 128))):
+            raise RuntimeError('profile-selection: footer did not switch')
 
 
 def check_section_toc_spacing(document, log):
@@ -681,6 +732,10 @@ def check_name_layout(document, log):
 
 def check_class_errors(root, output):
     cases = (
+        ('unknown-theme', 'theme=missing-school', '', 'xelatex', 'Unknown theme'),
+        ('invalid-theme', 'theme=../tsinghua', '', 'xelatex', 'Invalid theme name'),
+        ('incomplete-palette', 'theme=missing-color', '', 'xelatex', "missing color 'tipcolor'"),
+        ('incomplete-identity', 'theme=missing-logo', '', 'xelatex', "missing 'schoolwordmarkonlight'"),
         ('bad-language', 'language=french', '', 'xelatex', 'Unknown language'),
         ('bad-cjk', 'cjk=invalid', '', 'xelatex', 'Unknown cjk setting'),
         ('bad-mathfont', 'mathfont=invalid', '', 'xelatex', 'Unknown mathfont'),
@@ -691,7 +746,7 @@ def check_class_errors(root, output):
         ('wrong-engine', 'language=english', '', 'pdflatex', 'XeLaTeX is required'),
         ('white-title-background', 'language=english', r'\titlebackground{white}',
          'xelatex', 'Only primary is supported for title backgrounds'),
-        ('image-title-background', 'language=english', r'\titlebackground{assets/sigs_building}',
+        ('image-title-background', 'language=english', r'\titlebackground{theme/tsinghua/assets/sigs_building}',
          'xelatex', 'Only primary is supported for title backgrounds'),
         ('removed-guides-on', 'language=english', r'\campuslayoutguidestrue',
          'xelatex', 'Undefined control sequence'),
@@ -709,6 +764,13 @@ def check_class_errors(root, output):
     with tempfile.TemporaryDirectory(prefix='campus-class-errors-') as temp:
         workspace = Path(temp)
         shutil.copytree(root / 'theme', workspace / 'theme')
+        profile = prepare_profile_fixture(workspace)
+        for name, omitted in (('missing-color', r'\definecolor{tipcolor}'),
+                              ('missing-logo', r'\newcommand{\schoolwordmarkonlight}')):
+            directory = workspace / 'theme' / name
+            directory.mkdir()
+            (directory / 'profile.tex').write_text('\n'.join(
+                line for line in profile.splitlines() if not line.startswith(omitted)))
         # These negative checks call engines directly, bypassing .latexmkrc.
         env = os.environ.copy()
         env['TEXINPUTS'] = str(workspace / 'theme') + '//' + os.pathsep + env.get('TEXINPUTS', '')
@@ -803,6 +865,9 @@ def check(root, output):
             shutil.copy2(root / 'tools/fixtures' / f'{name}.tex', workspace / f'{name}.tex')
             if name == 'page-styles':
                 prepare_background_fixtures(workspace)
+            if name.startswith('profile-selection'):
+                prepare_profile_fixture(workspace)
+                shutil.rmtree(workspace / 'theme/tsinghua')
             bibliography = root / 'tools/fixtures' / f'{name}.bib'
             if bibliography.exists():
                 shutil.copy2(bibliography, workspace / bibliography.name)
@@ -822,6 +887,8 @@ def check(root, output):
                 pages = len(document)
                 if pages != expected:
                     raise RuntimeError(f'{name}: expected {expected} pages, got {pages}')
+                if name.startswith('profile-selection'):
+                    check_profile_selection(document, result.stdout)
                 if name == 'language-layout':
                     check_language_layout(document)
                 if name == 'name-layout':

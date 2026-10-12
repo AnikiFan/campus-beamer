@@ -60,6 +60,25 @@ class SourcePackageTests(unittest.TestCase):
                                  or name.startswith('.venv/') or name.startswith('build/')
                                  or name.endswith('.log') for name in names))
 
+    def test_selected_school_is_complete_and_unlisted_schools_stay_private(self):
+        private = self.root / 'theme/private-school'
+        private.mkdir()
+        (private / 'profile.tex').write_text('Private school configuration')
+        package(self.root, self.output)
+        with ZipFile(self.output) as archive:
+            names = archive.namelist()
+            self.assertIn('theme/README.md', names)
+            self.assertIn('theme/tsinghua/profile.tex', names)
+            self.assertIn('theme/tsinghua/README.md', names)
+            for name in ('emblem_on_dark.png', 'emblem_on_light.png',
+                         'wordmark_on_dark.png', 'wordmark_on_light.png', 'wordmark.svg',
+                         'sigs_wordmark.png', 'sigs_building.jpg', 'sigs_dom.jpg',
+                         'sigs_night.jpg', 'tsinghua_door.png', 'tsinghua_door1.png',
+                         'tsinghua_temple.png'):
+                self.assertIn('theme/tsinghua/assets/' + name, names)
+                self.assertNotIn('assets/' + name, names)
+            self.assertFalse(any(name.startswith('theme/private-school/') for name in names))
+
     def test_repeated_archives_are_byte_identical(self):
         package(self.root, self.output)
         first = self.output.read_bytes()

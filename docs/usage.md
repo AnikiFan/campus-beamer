@@ -126,9 +126,14 @@ build/
 ## 更换学校
 
 文档类为 `campusbeamer`，自动加载名为 `campus` 的主题。清华只是默认学校配置；
-更换学校的品牌配色和标志时编辑 **`theme/campuscolor.sty`**，无需修改主题实现。
+使用 `\documentclass[theme=tsinghua]{campusbeamer}` 选择学校。配置、品牌标志、校园素材和来源声明
+集中放在 `theme/<名称>/`；省略 `theme` 时默认使用清华。
 
-该文件集中定义：
+新增学校可复制 `theme/tsinghua/` 为 `theme/myschool/`，修改其中的 `profile.tex` 与素材，
+然后设置 `theme=myschool`。本地使用无需登记名称或修改通用代码；
+完整步骤及旧素材路径迁移见[主题使用与扩展](../theme/README.md)。
+
+每个学校的 `profile.tex` 集中定义：
 
 - `maincolor`：封面、章节页、标题、导航和页脚的主题主色；
 - `tipcolor` / `notecolor` / `alertcolor`：提示、备注、警告框的基准色；
@@ -145,7 +150,7 @@ build/
 页脚固定使用 `maincolor` 背景和白色文字，无需在正文中设置颜色。
 要更换页脚颜色，修改学校配置中的 `maincolor`，其他主色元素也随之变化。
 
-把新的校徽和校名标志放到 `assets/`，再修改配置中的路径；支持写扩展名。
+把校徽和校名标志放到本主题的 `assets/`，再用 `\campusthemedir/assets/...` 设置路径；支持写扩展名。
 校徽保持透明、等比例缩放，建议使用与默认素材一致的方形画布；校名标志可使用
 不同宽高比，主题按固定宽度等比例缩放。无需覆盖默认素材文件。
 个人姓名、导师、日期、课题组和汇报标题属于演示文稿内容，完整示例在
@@ -156,8 +161,8 @@ build/
 传入素材路径，不在学校配置里定义编号图片或演示图片别名。例如：
 
 ```tex
-\sectioncoverpage[assets/sigs_building]{本节导读}
-\fitgraphic[width=.58,height=.45]{assets/sigs_wordmark.png}
+\sectioncoverpage[theme/tsinghua/assets/sigs_building]{本节导读}
+\fitgraphic[width=.58,height=.45]{theme/tsinghua/assets/sigs_wordmark.png}
 ```
 
 更换学校不会自动更换演示照片。按汇报需要替换路径；不使用照片时写
@@ -449,7 +454,7 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 - `build/main.slides.pdf`：主 PDF 带备注屏时生成的纯幻灯片版本。
 - `docs/notes.example.json`：旧 JSON 导入接口的格式示例。
 - `theme/beamerthemecampus.sty`：标题页、页眉、页脚、致谢页和引用命令等主题实现。
-- `theme/campuscolor.sty`：加载 xcolor 并定义学校的功能配色与品牌标志；演示元信息和汇报插图路径在正文中维护。
+- `theme/campuscolor.sty`：加载和检查选中的 `theme/<名称>/profile.tex`；学校的配色与品牌素材保存在各自目录，演示元信息和汇报插图路径在正文中维护。
 - `bibliography/refs.bib`：示例的文献数据库；`bibliography/main.bib` 是 agent 为汇报建立的本地文献库。
 - `docker/`：容器环境定义、Dockerfile 专用构建上下文清单与入口脚本。
 - `.latexmkrc`：将 PDF 和编译临时文件统一写入 `build/`，并设置中间文件清理规则。
@@ -459,7 +464,7 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 
 封面只支持 `\titlebackground{primary}`，也是无需额外设置的默认样式：右侧斜边主色区域由主题代码绘制，
 右下角叠加配置中的 `\schoolwordmarkondark`。
-左侧为白底，标题和个人信息使用封面版式。修改 `theme/campuscolor.sty` 中的 `maincolor` 即可更换主色。
+左侧为白底，标题和个人信息使用封面版式。修改所选学校 `theme/<名称>/profile.tex` 中的 `maincolor` 即可更换主色。
 除 `primary` 以外的封面参数会报错。
 右侧斜边的中点位于页面半高、页面宽度的 61.8% 处；与水平线的夹角为 72°，
 保持上端偏右、下端偏左。从中点水平向右的射线转向斜边右上端，逆时针测量这个角度。
@@ -505,7 +510,7 @@ sections/
 章节文件只包含内容，不重复写 `\documentclass` 或 `\begin{document}`。
 要给示例增加章节时，在 `example.tex` 中添加一条 `\input`；重排这些语句即可调整章节顺序。
 资源和嵌套 `\input` 路径相对于项目根目录，例如章节中使用
-`assets/sigs_building` 和 `sections/math-examples.tex`。
+`theme/tsinghua/assets/sigs_building` 和 `sections/math-examples.tex`。
 查看示例时从根目录运行 `make MAIN=example` 或 `make draft MAIN=example`，不单独编译章节；
 `latexmk` 会追踪这些文件的变化。调整顺序后同步核对逐页备注。
 演示片段与所属章节同放在 `sections/`，由章节中的 `\input` 引入。
@@ -514,8 +519,8 @@ sections/
 `example.tex` 在封面后先介绍推荐使用方式，再按“基础页面与图像、论文讲解与引用、提示框、导航布局、媒体与收尾”组织示例，
 五节分别包含 1、2、3、4、5 个 subsection，覆盖单列、两列及奇数项最后一行的排列。
 每节均显式调用 `\sectioncoverpage`，展示本节标题、全部小节和一句导读；第二节起始页前另有一次内容总览。
-五节分别使用 `assets/sigs_building`、`assets/tsinghua_door`、`assets/sigs_dom`、
-`assets/tsinghua_door1` 和 `assets/sigs_night`，
+五节分别使用 `theme/tsinghua/assets/sigs_building`、`theme/tsinghua/assets/tsinghua_door`、`theme/tsinghua/assets/sigs_dom`、
+`theme/tsinghua/assets/tsinghua_door1` 和 `theme/tsinghua/assets/sigs_night`，
 展示左侧紫底文字、右侧斜边图片的样式；原图右边缘贴齐页面右边缘，
 可直接修改原图来调整显示区域。新演示文稿的章节起始页默认使用整页主色背景；
 需要图片样式时，把图片路径传给 `\sectioncoverpage`。
@@ -613,7 +618,7 @@ section 起始页的编号标签、指导教师标签、参考文献页标题、
 \end{frame}
 
 \begin{frame}[
-  campusbackground=assets/sigs_building.jpg,
+  campusbackground=theme/tsinghua/assets/sigs_building.jpg,
   campusbackgroundopacity=.18
 ]{研究背景}
   正文

@@ -63,8 +63,8 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
 缩略图来自当前示例 PPTX 转换后的幻灯片图像；视频页还包含 PPTX 内嵌视频的首帧预览。其中的校徽、校名和校园图像适用
 [素材来源与使用声明](assets/README.md)。
 
-默认学校配置为清华；配色、校徽和校名标志集中在
-[`theme/campuscolor.sty`](theme/campuscolor.sty)。主题实现和变量使用通用的 `campus` 命名。
+默认学校主题为清华；用 `\documentclass[theme=tsinghua]{campusbeamer}` 选择主题。
+配色、校徽、校名和素材说明集中在 [`theme/tsinghua/`](theme/tsinghua/README.md)。主题实现和变量使用通用的 `campus` 命名。
 `example.tex` 展示模板的版式与功能；自己的汇报由 agent 根据你的需求生成。
 本项目不是学校官方发布的模板。
 
@@ -142,7 +142,9 @@ VS Code、Overleaf 和命令行用法见[环境说明](docs/workflows.md)。
 
 ## 更换学校
 
-只编辑 [`theme/campuscolor.sty`](theme/campuscolor.sty)：
+复制 `theme/tsinghua/` 为 `theme/myschool/`，修改其中的 `profile.tex` 与素材，
+然后使用 `\documentclass[theme=myschool]{campusbeamer}`。本地添加主题无需修改通用代码或登记名称。
+详见[主题使用与扩展](theme/README.md)。
 
 - 修改按功能命名的 `maincolor`、`tipcolor`、`notecolor`、`alertcolor`、`examplecolor`、`definitioncolor`。
 - 页脚使用 `maincolor` 背景和白色文字。
@@ -185,9 +187,10 @@ make help                      # 查看全部入口
 │   ├── campusbeamer.cls        文档类：语言、文献及通用配置入口
 │   ├── beamerthemecampus.sty    主题版式与命令
 │   ├── campuscode.sty          代码与终端窗口
-│   └── campuscolor.sty          功能配色与学校标志配置
+│   ├── campuscolor.sty          学校主题加载器
+│   └── tsinghua/                清华配色、标志、素材及来源说明
 ├── bibliography/               文献数据库，默认 refs.bib
-├── assets/                     模板自带的标志、图片与示例视频
+├── assets/                     项目字标与原创示例视频
 ├── docs/                       详细手册、安装说明、环境用法与预览
 ├── docker/                     Dockerfile、构建上下文清单与容器入口
 ├── tools/                      转换、预览、校验与打包工具
@@ -227,7 +230,7 @@ GitHub Release 会将源码 ZIP、`example.pdf`、`example.pptx`、发行说明�
 目前暂时无法联系到相关权利人或摄影者，尚未取得明确的素材许可或核实逐张摄影者署名。
 如有侵权、署名遗漏或来源标注问题，请随时通过 [xiaofan140@gmail.com](mailto:xiaofan140@gmail.com)
 或本仓库 Issue 联系维护者；我们会及时核实，并补充署名、更正说明、替换或移除相关素材。
-本联系声明不替代权利人许可。完整声明及文件清单见 [assets/README.md](assets/README.md)。
+本联系声明不替代权利人许可。清华素材的完整声明及文件清单见 [清华主题说明](theme/tsinghua/README.md)。
 预览图来自本项目 PDF，其中的清华素材适用同一声明。
 
 ## 致谢

@@ -1,0 +1,24 @@
+% Synthetic school profile: no bundled school assets are available in this test.
+\documentclass[theme=fixture-brand,language=english]{campusbeamer}
+\title{Profile selection}
+\author{Template check}
+\date{2026-10-12}
+\begin{document}
+\maketitle
+\section{Custom school}
+\sectioncoverpage[primary]{Primary background}
+\sectioncoverpage[white]{White background}
+\subsection{Palette and identity}
+\begin{frame}{Selected profile}
+  \textcolor{maincolor}{Primary}
+  \textcolor{tipcolor}{Tip}
+  \textcolor{notecolor}{Note}
+  \textcolor{alertcolor}{Alert}
+  \textcolor{examplecolor}{Example}
+  \textcolor{definitioncolor}{Definition}
+  \begin{tipbox}A profile controls functional colors.\end{tipbox}
+  \fitgraphic[width=.3,height=.1]{\schoolwordmarkonlight}
+\end{frame}
+\begin{frame}[campusfocus]{Focus page}Shared layout with the selected identity.\end{frame}
+\backmatter
+\end{document}

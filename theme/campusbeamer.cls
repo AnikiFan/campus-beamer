@@ -22,6 +22,7 @@
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions{family=campusclass,prefix=campusclass@}
 \DeclareStringOption[chinese]{language}
+\DeclareStringOption[tsinghua]{theme}
 \DeclareStringOption[auto]{cjk}
 \DeclareStringOption[ieee]{bibstyle}
 \DeclareStringOption[none]{bibsorting}
@@ -74,6 +75,9 @@
 }
 
 % Preserve the original preamble's package order and default typography.
+\edef\campusclass@selecttheme{%
+  \noexpand\PassOptionsToPackage{theme=\campusclass@theme}{campuscolor}}
+\campusclass@selecttheme
 \usetheme{campus}
 \makeatletter
 \ifcampusclass@loadcjk

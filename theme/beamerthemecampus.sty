@@ -24,6 +24,8 @@
 % along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 \ProvidesPackage{beamerthemecampus}[2026/10/02 Institution-independent Beamer theme]
+\DeclareOptionBeamer{theme}{\PassOptionsToPackage{theme=#1}{campuscolor}}
+\ProcessOptionsBeamer
 
 \RequirePackage{etoolbox}
 \RequirePackage{tikz}
@@ -1029,7 +1031,7 @@
   \ifstrequal{#2}{primary}{}{%
     \PackageError{beamerthemecampus}{Only primary is supported for title backgrounds}%
       {Use \string\titlebackground{primary}, or omit it for the default cover.
-       Set maincolor in theme/campuscolor.sty to change the color.}%
+       Set maincolor in the selected theme's profile.tex to change the color.}%
   }%
 }
 

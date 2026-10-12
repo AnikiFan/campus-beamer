@@ -8,7 +8,8 @@ sources and do not need this guide.
 
 Keep the implementation institution-neutral and use `campus…` identifiers.
 School colors, emblem/wordmark paths, and functional palette values belong only
-in `theme/campuscolor.sty`; layout geometry belongs in
+in `theme/<name>/profile.tex`; its assets and provenance belong in that school
+directory. `theme/campuscolor.sty` selects and validates the profile; layout geometry belongs in
 `theme/beamerthemecampus.sty`. The default profile is Tsinghua and its existing
 rendering is a compatibility baseline. Do not hard-code another school's brand
 or create `imageone`/`demographic` registries. Keep demo metadata literal in
@@ -52,6 +53,7 @@ a pure refactor, compare PDFs with `tools/compare_pdf.py` as described in
 `CONTRIBUTING.md`. Keep warnings visible and explain any benign remaining
 warning with visual evidence.
 
-Asset source, trademark, and rights-holder notices in `assets/README.md` are
+Asset source, trademark, and rights-holder notices in `assets/README.md` and
+`theme/<name>/README.md` are
 part of the public contract. Preserve them and do not turn a contact/removal
 notice into a license or invent permissions.

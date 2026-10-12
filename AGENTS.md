@@ -47,7 +47,8 @@ when the task touches their subject.
   and output validation. Content additions return to outline review; layout
   changes such as splitting a crowded frame can proceed within approved content.
 - Keep the institution-neutral `campus` API. School identity and functional
-  colors belong in `theme/campuscolor.sty`; talk content belongs in `main.tex`,
+  colors belong in `theme/<name>/profile.tex`, with assets and provenance in the
+  same school directory; talk content belongs in `main.tex`,
   `sections/talk/`, `materials/`, and (when needed) `bibliography/main.bib`.
   Do not alter the demo to make a user talk.
 - Ordinary body frames use two header lines: the current `\subsection` above

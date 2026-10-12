@@ -9,7 +9,8 @@ import pymupdf
 
 
 def main():
-    assets = Path(__file__).resolve().parents[1] / 'assets'
+    root = Path(__file__).resolve().parents[1]
+    assets = root / 'theme' / 'tsinghua' / 'assets'
     for variant, color, height in (
         ('dark', '#ffffff', 393), ('light', '#552174', 392),
     ):
@@ -24,7 +25,7 @@ def main():
         with pymupdf.open(stream=data, filetype='pdf') as pdf:
             destination = assets / f'wordmark_on_{variant}.png'
             pdf[0].get_pixmap(alpha=True).save(destination)
-            print(destination.relative_to(assets.parent))
+            print(destination.relative_to(root))
 
 
 if __name__ == '__main__':

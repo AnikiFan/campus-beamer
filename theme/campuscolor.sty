@@ -15,29 +15,34 @@
 % You should have received a copy of the GNU General Public License
 % along with this program.  If not, see <https://www.gnu.org/licenses/>.
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{campuscolor}[2026/10/02 Institution-independent theme colors]
+\ProvidesPackage{campuscolor}[2026/10/12 School profile loader]
 \RequirePackage{xcolor}
-% School identity and functional colors. Talk images belong in the talk source.
-% Default profile: Tsinghua University. Keep layout in beamerthemecampus.sty.
-% Loaded automatically by the campus theme after xcolor; do not load it twice.
-% Presentation metadata belongs in sections/metadata.tex, not this profile.
+\RequirePackage{kvoptions}
+\RequirePackage{etoolbox}
+\SetupKeyvalOptions{family=campusprofile,prefix=campusprofile@}
+\DeclareStringOption[tsinghua]{theme}
+\ProcessKeyvalOptions*
 
-% Main theme color: cover panels, section pages, headings, navigation and footer.
-% The footer uses this color automatically; it has no separate color option.
-\definecolor{maincolor}{RGB/cmyk}{85,33,116/27,72,0,55}
+% Select a directory name, never a path or a TeX input expression.
+\ExplSyntaxOn
+\exp_args:NnV \regex_match:nnTF { \A [a-zA-Z0-9] [a-zA-Z0-9_-]* \Z } \campusprofile@theme
+  { }
+  { \PackageError{campuscolor}{Invalid~theme~name}
+      {Use~a~directory~name~containing~letters,~digits,~hyphens~or~underscores.} }
+\ExplSyntaxOff
+\edef\campusthemedir{theme/\campusprofile@theme}
+\InputIfFileExists{\campusthemedir/profile.tex}{}{%
+  \PackageError{campuscolor}{Unknown theme '\campusprofile@theme'}%
+    {Create \campusthemedir/profile.tex or select an installed theme.}}
 
-% Callout colors: name the role, not the hue. The theme derives each box's
-% background, title shade and border from its role color.
-\definecolor{tipcolor}{HTML}{22A7E5}
-\colorlet{notecolor}{maincolor} % Follows the main color unless set independently.
-\definecolor{alertcolor}{HTML}{EC008C}
-\definecolor{examplecolor}{RGB/cmyk}{20,185,120/.73,0,.67,0}
-\definecolor{definitioncolor}{HTML}{B36B16} % Distinct from the purple note color.
-
-% Transparent emblems: white artwork for dark blocks, colored artwork for light blocks.
-% Paths may include extensions. Supply your own local artwork in assets/.
-\newcommand{\schoolemblemondark}{assets/emblem_on_dark}
-\newcommand{\schoolemblemonlight}{assets/emblem_on_light}
-% Transparent university wordmarks: white artwork for dark grounds, colored for light grounds.
-\newcommand{\schoolwordmarkondark}{assets/wordmark_on_dark}
-\newcommand{\schoolwordmarkonlight}{assets/wordmark_on_light}
+\newcommand{\campusprofile@checkcolor}[1]{%
+  \@ifundefinedcolor{#1}{%
+    \PackageError{campuscolor}{Theme '\campusprofile@theme' is missing color '#1'}%
+      {Define all six functional colors in \campusthemedir/profile.tex.}}{}}
+\forcsvlist{\campusprofile@checkcolor}{maincolor,tipcolor,notecolor,alertcolor,examplecolor,definitioncolor}
+\newcommand{\campusprofile@checkcommand}[1]{%
+  \ifcsdef{#1}{}{%
+    \PackageError{campuscolor}{Theme '\campusprofile@theme' is missing '#1'}%
+      {Define all four emblem and wordmark paths in \campusthemedir/profile.tex.}}}
+\forcsvlist{\campusprofile@checkcommand}{schoolemblemondark,schoolemblemonlight,schoolwordmarkondark,schoolwordmarkonlight}
+\endinput

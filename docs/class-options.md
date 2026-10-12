@@ -5,7 +5,7 @@
 新汇报使用 `theme/campusbeamer.cls`。它继承 Beamer，自动加载 `campus` 主题、
 中文支持、默认数学字体和文献配置；不必重复写 `\usetheme`、
 `\usepackage{xeCJK}`、`\usefonttheme` 或 `\usepackage{biblatex}`。
-使用 XeLaTeX 和本项目的 Make 工作流，学校信息由 `theme/campuscolor.sty` 管理。
+使用 XeLaTeX 和本项目的 Make 工作流，通过 `theme=<名称>` 选择 `theme/<名称>/profile.tex` 中的学校配置。
 封面默认就是主色斜边版式，无需额外设置。若显式填写，只使用 `\titlebackground{primary}`；
 封面颜色通过学校配置中的 `maincolor` 修改。
 
@@ -16,7 +16,7 @@
 `\section` 的 PDF 书签自动成为 PowerPoint 原生分节，见[转换说明](usage.md#转换为-powerpoint保留跳转链接)。
 
 ```tex
-\documentclass[language=chinese]{campusbeamer}
+\documentclass[theme=tsinghua,language=chinese]{campusbeamer}
 \campusbibresource{bibliography/refs.bib}
 \title{我的研究汇报}
 \author{汇报人}
@@ -58,6 +58,7 @@
 选项由 agent 写在生成入口的 `\documentclass[...]` 中，不必提前填写。功能示例 `example.tex` 列出全部模板选项、
 默认值与可选值注释，方便直接修改；实际汇报也可以省略使用默认值的项：
 
+- `theme=tsinghua`（默认）：选择 `theme/<名称>/profile.tex`；可复制主题目录添加学校，见[主题使用与扩展](../theme/README.md)。
 - `language=chinese`（默认）或 `english`：选择主题自动生成的目录、章节标签、
   图表标签、提示框标题、日期和致谢文字。中文版本自动加载 xeCJK；英文版本默认不加载。
   不会翻译用户撰写的正文。
@@ -123,7 +124,7 @@ Beamer 自身的选项会传递给底层文档类，例如 `handout` 可将 over
 已有的 Beamer 文稿可以改用 `campusbeamer`。把前言里单独加载的主题、xeCJK、数学字体和 biblatex 换成：
 
 ```tex
-\documentclass[language=chinese]{campusbeamer}
+\documentclass[theme=tsinghua,language=chinese]{campusbeamer}
 \campusbibresource{bibliography/refs.bib}
 ```
 

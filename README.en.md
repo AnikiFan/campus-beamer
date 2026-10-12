@@ -63,8 +63,9 @@ These representative pages show the range of layouts:
 These thumbnails come from rasterized slides in the converted example PPTX; the video page includes the embedded video's poster frame. The emblems,
 wordmarks and campus images follow the [asset source and rights notice](assets/README.md).
 
-Tsinghua is the default school profile. Colors, emblems and wordmarks
-live in `theme/campuscolor.sty`; the theme and its identifiers use the neutral `campus` name.
+Select a school with `\documentclass[theme=tsinghua]{campusbeamer}`; Tsinghua is the default.
+Its colors, emblems, wordmarks, assets and provenance live in [`theme/tsinghua/`](theme/tsinghua/README.md).
+The shared implementation uses the neutral `campus` name.
 `example.tex` demonstrates the layouts and features; the agent creates your presentation from your brief.
 This is not an official university template.
 
@@ -150,10 +151,14 @@ See [environment workflows](docs/workflows.md) for VS Code, Overleaf and the com
 
 ## Another university
 
-Edit **`theme/campuscolor.sty`** to change functional colors (`maincolor`, `tipcolor`,
-`notecolor`, `alertcolor`, `examplecolor`, `definitioncolor`), transparent
+Copy `theme/tsinghua/` to `theme/myschool/`, edit its `profile.tex` and assets, then
+select `theme=myschool` in the document class. No theme registry or shared-code edits are needed
+for local use. See [theme setup and extension](theme/README.md).
+
+Each profile defines functional colors (`maincolor`, `tipcolor`,
+`notecolor`, `alertcolor`, `examplecolor`, `definitioncolor`) and paths to transparent
 emblems/wordmarks. Pass campus photo and illustration
-paths directly in your chapter files. Section backgrounds can also be `primary`,
+paths directly in your section files. Section backgrounds can also be `primary`,
 `white`, or empty. Demo metadata lives in `sections/metadata.tex`; the agent writes
 your metadata in `sections/talk/metadata.tex`.
 Layout geometry stays in the theme implementation.
@@ -213,7 +218,7 @@ or open a repository Issue. We will promptly review the report and add credits,
 correct attribution, replace or remove the affected assets and derived previews as appropriate.
 This contact notice does not replace permission from the rights holder.
 The previews contain these assets and are subject to the same notice.
-See [assets/README.md](assets/README.md) for the full notice and file list.
+See [the Tsinghua profile notice](theme/tsinghua/README.md) for the full school-asset notice and file list.
 
 ## Acknowledgements
 
