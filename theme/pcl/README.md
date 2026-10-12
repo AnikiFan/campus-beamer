@@ -11,7 +11,8 @@
 版式沿用 Campus Beamer 的双行正文页眉、章节导航和固定页脚。
 
 徽章在深浅背景上均保留原色。横向标志在浅色背景上使用透明 PNG，
-深色封面使用带白色衬底的 PDF，保持原有蓝色文字可读，不重绘或重新着色标志。
+深色封面使用透明 PDF：左侧徽章保留原色，右侧中英文文字改为纯白，不加底色。
+文字轮廓、尺寸、间距与原始透明度保持不变；该深色适配版本由本项目制作，不代表官方 VI 版本。
 园区图片由正文显式选用，例如：
 
 ```tex
@@ -48,19 +49,23 @@
 为兼容 XeLaTeX，两个 WebP 文件另提供无损 PNG 编码副本：
 [`wordmark.png`](assets/wordmark.png) 和 [`campus-courtyard.png`](assets/campus-courtyard.png)。
 它们保持解码后的像素、尺寸与透明度，不放大或重采样。
+[`wordmark_on_dark.png`](assets/wordmark_on_dark.png) 由
+[`recolor_pcl_wordmark.py`](../../tools/recolor_pcl_wordmark.py) 从 `wordmark.png` 精确改色：
+以徽章与文字之间的透明间隔分区，只将右侧文字设为白色，左侧徽章及整图 alpha 保持不变。
 [`wordmark_on_dark.pdf`](assets/wordmark_on_dark.pdf) 由 [`wordmark.tex`](wordmark.tex)
-为横向标志排版白色衬底。
+直接嵌入此透明图像，不添加底色或留白框。
 
 ## 重建派生素材
 
 从仓库根目录运行。PNG 转码需要 ImageMagick；PDF 排版需要 XeLaTeX、
-`standalone`、`tikz`、`graphicx` 和 `xcolor`。平时编译文稿直接使用随主题分发的文件。
+`standalone`、`tikz`、`graphicx` 和 `xcolor`。精确改色脚本使用项目 Python 环境中的 Pillow。平时编译文稿直接使用随主题分发的文件。
 
 ```bash
 mkdir -p build/pcl-assets
 convert 'theme/pcl/assets/wordmark-source.webp' theme/pcl/assets/wordmark.png
 convert 'theme/pcl/assets/campus-courtyard-source.webp' theme/pcl/assets/campus-courtyard.png
 xelatex -output-directory=build/pcl-assets theme/pcl/emblem.tex
+uv run --frozen python tools/recolor_pcl_wordmark.py
 xelatex -output-directory=build/pcl-assets theme/pcl/wordmark.tex
 cp build/pcl-assets/emblem.pdf theme/pcl/assets/emblem.pdf
 cp build/pcl-assets/wordmark.pdf theme/pcl/assets/wordmark_on_dark.pdf

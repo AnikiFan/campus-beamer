@@ -28,7 +28,7 @@ def frame_wordmark(path, padding=12):
         panel = [(midpoint + shift, 0), (page.rect.width, 0),
                  (page.rect.width, page.rect.height),
                  (midpoint - shift, page.rect.height)]
-        page.draw_polyline(panel, color=None, fill=(85/255, 33/255, 116/255),
+        page.draw_polyline(panel, color=None, fill=(0, 0, 0),
                            closePath=True)
         page.show_pdf_page(page.rect, source, 0, clip=clip)
         data = framed.tobytes()
@@ -62,7 +62,7 @@ def main():
         (root / 'assets' / 'campus-beamer-logo.svg').write_bytes(ET.tostring(svg, encoding='utf-8'))
         pdf[0].get_pixmap(dpi=192, alpha=True).save(output / 'campus-beamer-logo.png')
 
-        # The icon already contains the cover's white-left/purple-right panels.
+        # The icon already contains the cover's white-left/black-right panels.
         # Keep the dark-mode asset identical so the split remains visible on a
         # dark README background; turning every fill white would erase the icon.
         white = ET.tostring(svg, encoding='utf-8')
@@ -77,7 +77,7 @@ def main():
                 page = preview.new_page(width=720, height=340)
                 page.draw_rect(page.rect, color=None, fill=(1, 1, 1))
                 page.draw_rect(pymupdf.Rect(0, 170, 720, 340), color=None,
-                               fill=(85 / 255, 33 / 255, 116 / 255))
+                               fill=(0, 0, 0))
                 page.show_pdf_page(pymupdf.Rect(35, 25, 685, 145), pdf, 0)
                 page.show_pdf_page(pymupdf.Rect(35, 195, 685, 315), reversed_pdf, 0)
                 page.get_pixmap(dpi=144).save(output / 'preview.png')

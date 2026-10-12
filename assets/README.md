@@ -10,12 +10,12 @@
 
 ## Campus Beamer 项目字标
 
-- [`campus-beamer-logo.svg`](campus-beamer-logo.svg)：仿封面白左紫右的 16:9 项目标志，紫色为 `#552174`。
-- [`campus-beamer-logo-white.svg`](campus-beamer-logo-white.svg)：深色 README 背景使用的同款分割标志，保留白左紫右面板。
+- [`campus-beamer-logo.svg`](campus-beamer-logo.svg)：仿封面白左黑右的 16:9 项目标志，黑色为 `#000000`。
+- [`campus-beamer-logo-white.svg`](campus-beamer-logo-white.svg)：深色 README 背景使用的同款分割标志，保留白左黑右面板。
 - [`campus-beamer-logo.tex`](campus-beamer-logo.tex)：可编辑的 LaTeX 排版源码，包含封面斜线、字号、升降量和字距。
 
 标志沿用封面的 61.8% 中点和 72° 斜线。画布由两个单词的可见字形外接矩形加四边相等的
-12 pt padding 自动生成。`Campus` 保持自然字形；`Beamer` 放在紫色区域，第一个 E 和 M
+12 pt padding 自动生成。`Campus` 保持自然字形；`Beamer` 放在黑色区域，第一个 E 和 M
 采用等比例缩小并配合紧字距，同时把 M 向左上方微移。两份 SVG 已将字形转为路径，缩放时保持清晰，
 显示时无需安装字体。默认 general 主题使用该字标的透明文字版本和原创博士帽，见
 [general 主题素材](../theme/general/README.md)；机构主题使用各自的校徽与校名标志。
