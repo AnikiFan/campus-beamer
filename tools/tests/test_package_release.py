@@ -9,7 +9,7 @@ import unittest
 from zipfile import ZipFile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from package_release import DEMO_ENTRIES, package
+from package_release import DEMO_FORMATS, package
 
 
 class ReleasePackageTests(unittest.TestCase):
@@ -18,7 +18,7 @@ class ReleasePackageTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         names = ['build/dist/campus-beamer.zip']
-        names.extend(f'build/{entry}.{suffix}' for entry in DEMO_ENTRIES for suffix in ('pdf', 'pptx'))
+        names.extend(f'build/{entry}.{suffix}' for entry, formats in DEMO_FORMATS.items() for suffix in formats)
         for name in names:
             path = self.root / name
             path.parent.mkdir(parents=True, exist_ok=True)
@@ -29,12 +29,15 @@ class ReleasePackageTests(unittest.TestCase):
 
     def test_public_artifacts_and_checksums(self):
         (self.root / 'build/main.pdf').write_bytes(b'Private user presentation')
+        for theme in ('tsinghua', 'pcl'):
+            (self.root / f'build/example-{theme}.pptx').write_bytes(b'Stale school export')
         output = package(self.root, '0.1.0')
         with ZipFile(output) as archive:
             expected = {'campus-beamer-0.1.0-source.zip', 'RELEASE_NOTES.md', 'SHA256SUMS'}
-            expected.update(f'campus-beamer-0.1.0-{entry}.{suffix}'
-                            for entry in ('example', 'example-tsinghua', 'example-pcl')
-                            for suffix in ('pdf', 'pptx'))
+            expected.update({'campus-beamer-0.1.0-example.pdf',
+                             'campus-beamer-0.1.0-example.pptx',
+                             'campus-beamer-0.1.0-example-tsinghua.pdf',
+                             'campus-beamer-0.1.0-example-pcl.pdf'})
             self.assertEqual(set(archive.namelist()), expected)
             for line in archive.read('SHA256SUMS').decode().splitlines():
                 expected, name = line.split('  ', 1)
@@ -47,7 +50,7 @@ class ReleasePackageTests(unittest.TestCase):
     def test_missing_artifact_preserves_existing_bundle(self):
         output = package(self.root, '0.1.0')
         before = output.read_bytes()
-        (self.root / 'build/example-pcl.pptx').unlink()
+        (self.root / 'build/example-pcl.pdf').unlink()
         with self.assertRaises(FileNotFoundError):
             package(self.root, '0.1.0')
         self.assertEqual(output.read_bytes(), before)

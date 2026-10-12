@@ -87,12 +87,12 @@ jobs:
           unzip -j "$BUNDLE" \
             "campus-beamer-*-source.zip" \
             "campus-beamer-*-example*.pdf" \
-            "campus-beamer-*-example*.pptx" \
+            "campus-beamer-*-example.pptx" \
             RELEASE_NOTES.md SHA256SUMS -d "$PUBLISH_DIR"
           gh release upload "$RELEASE_TAG" \
             "$PUBLISH_DIR"/campus-beamer-*-source.zip \
             "$PUBLISH_DIR"/campus-beamer-*-example*.pdf \
-            "$PUBLISH_DIR"/campus-beamer-*-example*.pptx \
+            "$PUBLISH_DIR"/campus-beamer-*-example.pptx \
             "$PUBLISH_DIR"/RELEASE_NOTES.md "$PUBLISH_DIR"/SHA256SUMS --clobber
           gh release edit "$RELEASE_TAG" --notes-file "$PUBLISH_DIR/RELEASE_NOTES.md"
       - name: Upload build diagnostics on failure

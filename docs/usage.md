@@ -125,12 +125,12 @@ build/
 
 ## 更换学校
 
-文档类为 `campusbeamer`，自动加载名为 `campus` 的主题。清华只是默认学校配置；
-使用 `\documentclass[theme=tsinghua]{campusbeamer}` 选择学校。配置、品牌标志、校园素材和来源声明
-集中放在 `theme/<名称>/`；省略 `theme` 时默认使用清华。
+文档类为 `campusbeamer`，自动加载名为 `campus` 的主题。默认使用与学校无关的 general 配置；
+使用 `\documentclass[theme=general]{campusbeamer}` 显式选择通用主题，也可选择 `tsinghua` 或 `pcl`。配置、品牌标志、校园素材和来源声明
+集中放在 `theme/<名称>/`；省略 `theme` 时默认使用 general。
 内置的鹏城实验室主题使用 `theme=pcl`，配色、徽章及园区素材见[主题说明](../theme/pcl/README.md)。
 
-新增学校可复制 `theme/tsinghua/` 为 `theme/myschool/`，修改其中的 `profile.tex` 与素材，
+新增学校可复制 `theme/general/` 为 `theme/myschool/`，修改其中的 `profile.tex` 与素材，
 然后设置 `theme=myschool`。本地使用无需登记名称或修改通用代码；
 完整步骤及旧素材路径迁移见[主题使用与扩展](../theme/README.md)。
 
@@ -145,7 +145,7 @@ build/
 颜色按功能命名，可以改变提示框的颜色而无需修改主题代码。默认 `notecolor`
 通过 `\colorlet{notecolor}{maincolor}` 跟随主色；需要独立配色时可改为
 `\definecolor{notecolor}{HTML}{所需色值}`。主题根据各框的基准色派生底色、标题色和边线。
-默认定义框使用琥珀色 `definitioncolor`（`B36B16`），与紫色注释框区分。
+默认定义框使用琥珀色 `definitioncolor`（`B36B16`），与主色注释框区分。
 需要其他颜色时，在汇报中自行定义。
 
 页脚固定使用 `maincolor` 背景和白色文字，无需在正文中设置颜色。
@@ -214,7 +214,7 @@ section/subsection 的内容、解释和证据，供用户确认。
 `bibliography/main.bib`，并在对应 TeX 页面中编写 `\note`。
 
 默认采用 16:9 布局、原文语言和适合现场讲述的页面，每节起始页使用整页主色；
-清华配置下为紫色。正文展示核心信息与必要证据，备注记录解释、过渡和讲述提示。
+general 为纯黑，清华配置下为紫色。正文展示核心信息与必要证据，备注记录解释、过渡和讲述提示。
 
 当受众、用途、时长、语言、关键事实、引用或素材范围不明确时，agent 会集中列出待确认项。
 生成后，它会编译 PDF、检查实际页面和备注顺序，再导出带有 PowerPoint speaker notes 的 PPTX。
@@ -511,7 +511,7 @@ sections/
 章节文件只包含内容，不重复写 `\documentclass` 或 `\begin{document}`。
 要给示例增加章节时，在 `example.tex` 中添加一条 `\input`；重排这些语句即可调整章节顺序。
 资源和嵌套 `\input` 路径相对于项目根目录，例如章节中使用
-`theme/tsinghua/assets/sigs_building` 和 `sections/math-examples.tex`。
+`theme/general/assets/backdrop.pdf` 和 `sections/math-examples.tex`。
 查看示例时从根目录运行 `make MAIN=example` 或 `make draft MAIN=example`，不单独编译章节；
 `latexmk` 会追踪这些文件的变化。调整顺序后同步核对逐页备注。
 演示片段与所属章节同放在 `sections/`，由章节中的 `\input` 引入。
@@ -520,9 +520,8 @@ sections/
 `example.tex` 在封面后先介绍推荐使用方式，再按“基础页面与图像、论文讲解与引用、提示框、导航布局、媒体与收尾”组织示例，
 五节分别包含 1、2、3、4、5 个 subsection，覆盖单列、两列及奇数项最后一行的排列。
 每节均显式调用 `\sectioncoverpage`，展示本节标题、全部小节和一句导读；第二节起始页前另有一次内容总览。
-五节分别使用 `theme/tsinghua/assets/sigs_building`、`theme/tsinghua/assets/tsinghua_door`、`theme/tsinghua/assets/sigs_dom`、
-`theme/tsinghua/assets/tsinghua_door1` 和 `theme/tsinghua/assets/sigs_night`，
-展示左侧紫底文字、右侧斜边图片的样式；原图右边缘贴齐页面右边缘，
+五节使用 `theme/general/assets/backdrop.pdf` 的原创几何背景，
+展示左侧主色背景文字、右侧斜边图片的样式；原图右边缘贴齐页面右边缘，
 可直接修改原图来调整显示区域。新演示文稿的章节起始页默认使用整页主色背景；
 需要图片样式时，把图片路径传给 `\sectioncoverpage`。
 每节内先展示效果，再介绍对应命令，便于复制使用。新增 section 时可沿用该结构，起始页可以按需增删。
@@ -571,7 +570,7 @@ section 起始页的编号标签、指导教师标签、参考文献页标题、
   `\section`，副标题区域自动列出该 section 下的全部 `subsection`，调用者只需提供图片和导读文字。
   可选参数也可填 `white`（左侧保持主色、右侧纯白）或 `primary`（整页主色、白色标题）：
   `\sectioncoverpage[white]{导读文字}`、`\sectioncoverpage[primary]{导读文字}`。
-  省略可选参数或写 `[]` 时使用纯紫色背景；也可以直接填写图片路径。
+  省略可选参数或写 `[]` 时使用主题主色背景（general 为纯黑）；也可以直接填写图片路径。
   图片默认不裁边。先等比例缩放覆盖右侧面板，再读取缩放后图片的实际宽度，按“左边位置 = 页面宽度 − 缩放后宽度”放置，使图片右边缘与页面右边缘重合；竖直方向居中，最后按斜边区域裁切。可直接调整原图来改变显示区域，图片自带白边也按原图显示。
   需要手动改变取景时，可在导读之后附加 `[trim right=.112,align=center]`：`trim right` 按原图宽度比例裁去右边缘，`align=center` 将照片在右侧面板的外接矩形中居中取景。示例不启用这些选项。
   没有 subsection 时自动隐藏列表。每个 subsection 前显示数字编号（如 `1.1`、`1.2`）。
@@ -914,8 +913,8 @@ userf = {<统计来源，截至 YYYY-MM-DD>},
 `\baselineskip`，色块右边到页眉标题和副标题的间距为一个 `\normalsize` 的
 `\baselineskip`，由 `\campusheadertextgap` 控制（当前为 13.6 pt，约 4.78 mm）。
 校徽使用配置中的 `\schoolemblemondark`（默认白色图案）和
-`\schoolemblemonlight`（默认紫色图案），背景色块由主题绘制：白色页面上为紫色，
-紫色章节页上为白色。色块宽度为一个 `\Huge` 的 `\baselineskip`（当前为 30 pt），高度采用页眉三行网格。
+`\schoolemblemonlight`（general 为黑色图案），背景色块由主题绘制：白色页面上为主色，
+主色章节页上为白色。色块宽度为一个 `\Huge` 的 `\baselineskip`（当前为 30 pt），高度采用页眉三行网格。
 透明校徽等比缩放并水平居中，其外接矩形到色块左、右和下边各留 `3 pt`。
 因此当前校徽宽度为 `30 - 2 × 3 = 24 pt`；
 上方留白由色块高度与校徽高度自动确定。图片尺寸和留白分别由主题中的

@@ -68,7 +68,7 @@ make release
 make release DPI=200
 ```
 
-`make release` 先检查锁文件同步，再顺序运行 Python 测试、完整功能演示 draft、功能演示与两套主题样例的 PDF/PPTX 导出、
+`make release` 先检查锁文件同步，再顺序运行 Python 测试、完整功能演示 draft、general 功能演示 PDF/PPTX 与两套机构主题 PDF 导出、
 源码打包及版本化发行包生成。默认 600 DPI，构建 `example.tex`、`example-tsinghua.tex` 和 `example-pcl.tex`，
 即使本地存在自己的 `main.tex` 也只导出公开演示。
 当前版本在 `CHANGELOG.md` 中缺少非空章节，或演示产物缺失时，打包失败。
@@ -77,8 +77,8 @@ make release DPI=200
 `build/releases/campus-beamer-vX.Y.Z-release.zip` 包含：
 
 - `campus-beamer-X.Y.Z-source.zip`：解压后直接得到项目根目录，可直接运行 `make`。
-- `campus-beamer-X.Y.Z-example.pdf` 与 `campus-beamer-X.Y.Z-example.pptx`：通用功能演示；
-- `campus-beamer-X.Y.Z-example-tsinghua.pdf` / `.pptx` 与 `campus-beamer-X.Y.Z-example-pcl.pdf` / `.pptx`：清华和鹏城实验室主题样例；GitHub Release 中分别上传。
+- `campus-beamer-X.Y.Z-example.pdf` 与 `campus-beamer-X.Y.Z-example.pptx`：general 主题的完整功能演示；只有它提供 PPTX。
+- `campus-beamer-X.Y.Z-example-tsinghua.pdf` 与 `campus-beamer-X.Y.Z-example-pcl.pdf`：清华和鹏城实验室主题样例；GitHub Release 中分别上传。
 - `RELEASE_NOTES.md`：本版变更与素材许可范围。
 - `SHA256SUMS`：上述文件的 SHA-256 校验和；下载同目录文件后运行 `sha256sum -c SHA256SUMS` 校验。
 
@@ -127,7 +127,7 @@ demo pages before merging.
 
 On merging, the **Release Please** workflow creates `vX.Y.Z` and a GitHub Release,
 then checks out that tag and runs Docker `make release` in the same workflow.
-It attaches the source ZIP, the feature tour and both theme samples as PDF/PPTX,
+It attaches the source ZIP, the general feature tour as PDF/PPTX and both institution samples as PDF,
 release notes and checksum as separate
 assets, then updates the release body with the notes, including the shared license
 scope and image-based PPTX limitation.
@@ -143,7 +143,7 @@ checks must still be run and reviewed.
 
 Manual **Run workflow** with an empty `tag` builds only an Actions artifact,
 retained for 14 days. Supplying an existing `vX.Y.Z` rebuilds and replaces its
-five individual release assets and notes, after checking the tag against the project version.
+the public release assets and notes, after checking the tag against the project version.
 Run `make release` locally for the same 600-DPI public-demo build; `DPI=200`
 is available for previews. Keep dependency locks on official PyPI and review
 every public source file before packaging.

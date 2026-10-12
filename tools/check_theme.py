@@ -28,7 +28,7 @@ from images_to_ppt import campus_metadata, pdf_info_string
 
 EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 3,
                   'single-header': 5,
-                  'profile-pcl': 8, 'profile-selection': 6, 'profile-selection-legacy': 6,
+                  'profile-general': 8, 'profile-general-legacy': 3, 'profile-pcl': 8, 'profile-selection': 6, 'profile-selection-legacy': 6,
                   'demo-without-guides': 50, 'language-layout': 10,
                   'toc-overview': 7, 'page-styles': 10,
                   'class-options': 6, 'class-handout': 1, 'class-mixed-language': 2,
@@ -488,9 +488,13 @@ def check_public_demo(document):
     overview = document[1]
     if not overview.search_for('目录') or len(overview.get_links()) != 5:
         raise RuntimeError('public demo: missing complete overview and section links')
+    # The current-section TOC keeps other entries legible on general's black.
+    inactive_colors = caption_colors(document[19], '基础页面与图像')
+    if not inactive_colors or any(color < 0x808080 for color in inactive_colors):
+        raise RuntimeError('public demo: inactive TOC entries are too dark')
     for title in ('简洁页面', '居中图片背景'):
         page = next(page for page in document if page.search_for(title))
-        if page.search_for('基础页面') or not page.search_for('| Tsinghua Beamer'):
+        if page.search_for('基础页面') or not page.search_for('| Campus Beamer'):
             raise RuntimeError('public demo: focus frame header/footer is wrong')
     diagram = next(page for page in document if page.search_for('流程图布局'))
     nodes = sorted((drawing['rect'] for drawing in diagram.get_drawings()
@@ -555,7 +559,7 @@ def check_caption_style(page, label, body, label_color, body_color):
 
 
 def check_class_fixture(name, document, log):
-    if 'biblatex.sty' not in log:
+    if name != 'profile-general-legacy' and 'biblatex.sty' not in log:
         raise RuntimeError(f'{name}: automatic bibliography support did not load')
     if name == 'brand-variants':
         expected = document[0].get_pixmap(dpi=96).samples
@@ -865,6 +869,9 @@ def check(root, output):
             shutil.copy2(root / 'tools/fixtures' / f'{name}.tex', workspace / f'{name}.tex')
             if name == 'page-styles':
                 prepare_background_fixtures(workspace)
+            if name.startswith('profile-general'):
+                shutil.rmtree(workspace / 'theme/tsinghua')
+                shutil.rmtree(workspace / 'theme/pcl')
             if name.startswith('profile-selection'):
                 prepare_profile_fixture(workspace)
                 shutil.rmtree(workspace / 'theme/tsinghua')
@@ -887,6 +894,15 @@ def check(root, output):
                 pages = len(document)
                 if pages != expected:
                     raise RuntimeError(f'{name}: expected {expected} pages, got {pages}')
+                if name.startswith('profile-general'):
+                    if 'Overfull' in result.stdout or 'Missing character:' in result.stdout:
+                        raise RuntimeError(f'{name}: overflow or missing glyphs')
+                    body = document[4 if name == 'profile-general' else 1]
+                    pixmap = body.get_pixmap()
+                    if pixmap.pixel(2, pixmap.height - 3) != (0, 0, 0):
+                        raise RuntimeError(f'{name}: default primary color must be pure black')
+                    if 'CAMPUS' not in document[0].get_text():
+                        raise RuntimeError(f'{name}: default cover must use the project wordmark')
                 if name == 'profile-pcl':
                     if 'Overfull' in result.stdout or 'Missing character:' in result.stdout:
                         raise RuntimeError('profile-pcl: overflow or missing glyphs')

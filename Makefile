@@ -47,7 +47,7 @@ override INPUT_BIB := $(value INPUT_BIB)
 # Pass text through the environment, so titles/keys are not shell fragments.
 export QUERY DBLP_KEY DOI CITE_KEY DBLP_HOST CITATION_SOURCE BIB_OUTPUT BIB_REPORT INPUT_BIB
 
-.PHONY: all pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist version examples theme-previews release clean help
+.PHONY: all pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist version examples theme-previews general-assets release clean help
 
 all: pptx
 
@@ -91,13 +91,18 @@ check-theme:
 # are deliberately separate from the reference feature tour so a release can
 # show the visual identity of every selectable theme.
 examples:
-	$(MAKE) MAIN=example-tsinghua DPI="$(DPI)"
-	$(MAKE) MAIN=example-pcl DPI="$(DPI)"
+	$(MAKE) pdf MAIN=example-tsinghua
+	$(MAKE) pdf MAIN=example-pcl
+
+general-assets:
+	$(UV) run --frozen python tools/generate_general_assets.py
 
 theme-previews:
+	$(MAKE) pdf MAIN=example
 	$(MAKE) pdf MAIN=example-tsinghua
 	$(MAKE) pdf MAIN=example-pcl
 	$(UV) run --frozen python tools/render_theme_previews.py \
+		--pdf build/example.pdf --theme general \
 		--pdf build/example-tsinghua.pdf --theme tsinghua \
 		--pdf build/example-pcl.pdf --theme pcl
 
@@ -143,7 +148,8 @@ help:
 	  'make citations DOI=10.../...  Query DOI-matched citation count + source/date' \
 	  '  CITATION_SOURCE=openalex (default), semantic-scholar, or none (BibTeX only)' \
 	  'make check-theme     Compile theme fixtures without changing main output' \
-	  'make examples        Build one public PDF/PPTX sample for each bundled theme' \
+	  'make examples        Build PDF samples for the institution themes' \
+	  'make general-assets  Rebuild general-theme icon, wordmarks and abstract background' \
 	  'make theme-previews   Build theme samples and refresh README preview images' \
 	  'make logo            Rebuild project logo SVGs and PDF/PNG previews' \
 	  'make dist            Create a standalone source ZIP in build/dist/' \

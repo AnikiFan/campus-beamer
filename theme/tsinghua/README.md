@@ -2,7 +2,7 @@
 
 [主题使用与扩展](../README.md) · [返回首页](../../README.md)
 
-使用 `\documentclass[theme=tsinghua]{campusbeamer}` 选择此主题；省略 `theme` 时默认启用。
+使用 `\documentclass[theme=tsinghua]{campusbeamer}` 选择此主题；省略 `theme` 时使用通用 `general` 主题。
 `profile.tex` 定义配色和品牌标志，`assets/` 保存校徽、校名及校园示例素材。
 
 ## 清华素材来源与使用声明

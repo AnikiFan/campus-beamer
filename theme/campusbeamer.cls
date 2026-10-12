@@ -22,7 +22,7 @@
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions{family=campusclass,prefix=campusclass@}
 \DeclareStringOption[chinese]{language}
-\DeclareStringOption[tsinghua]{theme}
+\DeclareStringOption[general]{theme}
 \DeclareStringOption[auto]{cjk}
 \DeclareStringOption[ieee]{bibstyle}
 \DeclareStringOption[none]{bibsorting}

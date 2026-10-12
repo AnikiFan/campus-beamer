@@ -25,12 +25,40 @@
   </p>
 </div>
 
-![Cover rendered with the default school profile](docs/images/cover.png)
+![Cover rendered with the default general theme](docs/images/cover.png)
+
+## Theme previews
+
+The default `general` theme uses a pure-black primary color, a graduation cap and transparent Campus Beamer lettering.
+Compare its cover, section and body pages with the institution themes below.
+Build the general tour with `make MAIN=example`; use `make pdf MAIN=example-tsinghua` or
+`make pdf MAIN=example-pcl` for the institution samples.
+
+<div align="center">
+  <p><strong>General (default)</strong></p>
+  <p>
+    <img src="docs/images/theme-general-cover.png" alt="General theme cover" width="280">
+    <img src="docs/images/theme-general-section.png" alt="General theme section page" width="280">
+    <img src="docs/images/theme-general-body.png" alt="General theme body page" width="280">
+  </p>
+  <p><strong>Tsinghua (tsinghua)</strong></p>
+  <p>
+    <img src="docs/images/theme-tsinghua-cover.png" alt="Tsinghua theme cover" width="280">
+    <img src="docs/images/theme-tsinghua-section.png" alt="Tsinghua theme section page" width="280">
+    <img src="docs/images/theme-tsinghua-body.png" alt="Tsinghua theme body page" width="280">
+  </p>
+  <p><strong>Peng Cheng Laboratory (pcl)</strong></p>
+  <p>
+    <img src="docs/images/theme-pcl-cover.png" alt="Peng Cheng Laboratory theme cover" width="280">
+    <img src="docs/images/theme-pcl-section.png" alt="Peng Cheng Laboratory theme section page" width="280">
+    <img src="docs/images/theme-pcl-body.png" alt="Peng Cheng Laboratory theme body page" width="280">
+  </p>
+</div>
 
 ## Example pages
 
 `example.tex` is the layout and feature tour. Download
-the three complete PDF/PPTX samples (generic, Tsinghua and Peng Cheng Laboratory)
+the general theme's complete PDF/PPTX feature tour and the Tsinghua and Peng Cheng Laboratory PDF samples
 from the [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases)
 page. The example PPTX includes per-slide PowerPoint speaker notes. Advance through
 the PDF/PPTX to see cumulative reveals and content replacement, with notes for each stage.
@@ -61,33 +89,13 @@ These representative pages show the range of layouts:
   </p>
 </div>
 
-### Theme previews
-
-Each bundled theme includes the same cover, section and body sample pages so you
-can compare the visual identity before choosing it. Build each sample with `make MAIN=example-tsinghua` or
-`make MAIN=example-pcl`; their sources live in the corresponding theme directory.
-
-<div align="center">
-  <p><strong>Tsinghua (tsinghua)</strong></p>
-  <p>
-    <img src="docs/images/theme-tsinghua-cover.png" alt="Tsinghua theme cover" width="280">
-    <img src="docs/images/theme-tsinghua-section.png" alt="Tsinghua theme section page" width="280">
-    <img src="docs/images/theme-tsinghua-body.png" alt="Tsinghua theme body page" width="280">
-  </p>
-  <p><strong>Peng Cheng Laboratory (pcl)</strong></p>
-  <p>
-    <img src="docs/images/theme-pcl-cover.png" alt="Peng Cheng Laboratory theme cover" width="280">
-    <img src="docs/images/theme-pcl-section.png" alt="Peng Cheng Laboratory theme section page" width="280">
-    <img src="docs/images/theme-pcl-body.png" alt="Peng Cheng Laboratory theme body page" width="280">
-  </p>
-</div>
-
 Theme previews are rendered from their sample PDFs at 600 DPI. The feature-tour
-thumbnails come from the converted PPTX; its video page includes the embedded video's poster frame. The emblems,
+thumbnails use the same PDF rendering; the video thumbnail comes from the PPTX and includes its embedded poster frame. The emblems,
 wordmarks and campus images follow the [asset source and rights notice](assets/README.md).
 
-Select a school with `\documentclass[theme=tsinghua]{campusbeamer}`; Tsinghua is the default.
-Its colors, emblems, wordmarks, assets and provenance live in [`theme/tsinghua/`](theme/tsinghua/README.md).
+The institution-neutral `general` profile is the default; select it explicitly with
+`\documentclass[theme=general]{campusbeamer}`. Its editable icon, transparent project
+wordmarks, colors and provenance live in [`theme/general/`](theme/general/README.md).
 The shared implementation uses the neutral `campus` name.
 `example.tex` demonstrates the layouts and features; the agent creates your presentation from your brief.
 This is not an official university template.
@@ -143,7 +151,7 @@ the agent can check the existing tools. `uv run --frozen` creates `.venv` from
 make doctor              # Check tools, TeX packages and fonts
 make draft MAIN=example  # Inspect reference-example pages and layout report
 make MAIN=example        # build/example.pdf and build/example.pptx
-make examples            # Build Tsinghua and Peng Cheng Laboratory samples
+make examples            # Build Tsinghua and Peng Cheng Laboratory PDFs
 make theme-previews      # Refresh README theme previews (600 DPI)
 make                     # Build main.tex if present; otherwise example.tex
 ```
@@ -155,7 +163,7 @@ speaker notes. The agent chooses useful layouts and creates
 your content separately. The example also lists all public class options and
 defaults; see [class options](docs/class-options.md).
 
-- Fixed 16:9 layout with Chinese and English support; full primary-color section pages by default (purple in the Tsinghua profile).
+- Fixed 16:9 layout with Chinese and English support; full primary-color section pages by default (black in general, purple in Tsinghua and blue in PCL).
 - `\sectiontocpage[overview]` shows all sections uniformly; [focus frames](docs/usage.md#简洁页面与图片背景) use a single header/footer row and optional centered image backgrounds with cover scaling and adjustable opacity.
 - Fitted figures, equations, paper walkthroughs and [terminal-style code windows](docs/usage.md#代码与终端窗口).
 - `biblatex` / `biber`, corner citations and cited references; optional [DBLP and citation-count tools](docs/literature.md).
@@ -176,11 +184,11 @@ See [environment workflows](docs/workflows.md) for VS Code, Overleaf and the com
 
 ## Another university or research institute
 
-Built-in profiles are `tsinghua` (default) and `pcl` (Peng Cheng Laboratory).
+Built-in profiles are `general` (default), `tsinghua` and `pcl` (Peng Cheng Laboratory).
 Select the latter with `\documentclass[theme=pcl]{campusbeamer}`; see its
 [profile and asset provenance](theme/pcl/README.md).
 
-Copy `theme/tsinghua/` to `theme/myschool/`, edit its `profile.tex` and assets, then
+Copy `theme/general/` to `theme/myschool/`, edit its `profile.tex` and assets, then
 select `theme=myschool` in the document class. No theme registry or shared-code edits are needed
 for local use. See [theme setup and extension](theme/README.md).
 
@@ -219,8 +227,8 @@ Track public changes in [CHANGELOG.md](CHANGELOG.md). Source ZIPs include only
 the individually reviewed files in `tools/package_source.py`; new files are
 excluded by default. `make release` creates
 `build/releases/campus-beamer-v<version>-release.zip` as a local checksummed bundle.
-GitHub Releases expose the source ZIP, the generic sample and the Tsinghua/Peng Cheng Laboratory
-theme sample PDFs/PPTXs, release notes
+GitHub Releases expose the source ZIP, the general feature tour as PDF/PPTX,
+the Tsinghua and Peng Cheng Laboratory samples as PDF, release notes
 and SHA-256 checksums as separate downloadable assets. It builds the three public entries independently of any local `main.tex`.
 The **Release Please** GitHub workflow maintains release
 PRs, creates releases and uploads bundles after merging, with a manual build

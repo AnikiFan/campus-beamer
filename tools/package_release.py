@@ -8,7 +8,8 @@ from pathlib import Path
 import re
 import zipfile
 
-DEMO_ENTRIES = ('example', 'example-tsinghua', 'example-pcl')
+DEMO_FORMATS = {'example': ('pdf', 'pptx'),
+                'example-tsinghua': ('pdf',), 'example-pcl': ('pdf',)}
 
 
 def release_notes(root: Path, version: str) -> str:
@@ -33,9 +34,9 @@ def package(root: Path, version: str) -> Path:
     if not re.fullmatch(r'(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)', version):
         raise ValueError('Release version must use MAJOR.MINOR.PATCH, e.g. 0.1.0.')
     files = {f'campus-beamer-{version}-source.zip': root / 'build/dist/campus-beamer.zip'}
-    for entry in DEMO_ENTRIES:
-        files[f'campus-beamer-{version}-{entry}.pdf'] = root / f'build/{entry}.pdf'
-        files[f'campus-beamer-{version}-{entry}.pptx'] = root / f'build/{entry}.pptx'
+    for entry, formats in DEMO_FORMATS.items():
+        for suffix in formats:
+            files[f'campus-beamer-{version}-{entry}.{suffix}'] = root / f'build/{entry}.{suffix}'
     contents = {name: path.read_bytes() for name, path in files.items()}
     contents['RELEASE_NOTES.md'] = release_notes(root, version).encode('utf-8')
     contents['SHA256SUMS'] = ''.join(

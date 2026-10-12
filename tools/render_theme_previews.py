@@ -14,12 +14,12 @@ def render(pdf: Path, theme: str, output: Path, dpi: int = 600) -> None:
     if not pdf.is_file():
         raise FileNotFoundError(pdf)
     with pymupdf.open(pdf) as document:
-        if len(document) < 5:
+        if len(document) < (6 if theme == 'general' else 5):
             raise ValueError(f'{pdf}: expected at least five pages, got {len(document)}')
         output.mkdir(parents=True, exist_ok=True)
         # Cover, section page, and ordinary body page make the profile differences
         # visible while keeping the README compact.
-        for label, index in (('cover', 0), ('section', 2), ('body', 4)):
+        for label, index in (('cover', 0), ('section', 2), ('body', 5 if theme == 'general' else 4)):
             page = document[index]
             pixmap = page.get_pixmap(dpi=dpi, alpha=False)
             pixmap.save(output / f'theme-{theme}-{label}.png')

@@ -10,8 +10,8 @@ Keep the implementation institution-neutral and use `campus…` identifiers.
 School colors, emblem/wordmark paths, and functional palette values belong only
 in `theme/<name>/profile.tex`; its assets and provenance belong in that school
 directory. `theme/campuscolor.sty` selects and validates the profile; layout geometry belongs in
-`theme/beamerthemecampus.sty`. The default profile is Tsinghua and its existing
-rendering is a compatibility baseline. Do not hard-code another school's brand
+`theme/beamerthemecampus.sty`. The default profile is institution-neutral `general`. Explicit `tsinghua` and
+`pcl` profiles retain their existing institutional identities. Do not hard-code another school's brand
 or create `imageone`/`demographic` registries. Keep demo metadata literal in
 `sections/metadata.tex`; keep user metadata in `sections/talk/metadata.tex`.
 

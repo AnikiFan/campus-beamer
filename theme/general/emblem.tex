@@ -1,0 +1,17 @@
+% Original geometric graduation cap; no institution-specific marks.
+% Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
+% SPDX-License-Identifier: GPL-3.0-or-later
+\documentclass[tikz,border=0pt]{standalone}
+\definecolor{brand}{HTML}{000000}
+\providecommand{\artcolor}{brand}
+\begin{document}
+\begin{tikzpicture}[x=1pt,y=1pt]
+  \path[use as bounding box] (0,0) rectangle (100,100);
+  \fill[\artcolor] (24,47) -- (50,35) -- (76,47) -- (76,31)
+    .. controls (61,19) and (39,19) .. (24,31) -- cycle;
+  \fill[\artcolor] (7,61) -- (50,80) -- (93,61) -- (50,42) -- cycle;
+  \draw[\artcolor,line width=3,line cap=round,line join=round]
+    (50,61) -- (86,46) -- (86,24);
+  \fill[\artcolor] (83,26) -- (89,26) -- (91,15) -- (81,15) -- cycle;
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,29 @@
+% Campus Beamer: Institution-neutral general profile.
+% Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
+% SPDX-License-Identifier: GPL-3.0-or-later
+% School identity and functional colors. Talk images belong in the talk source.
+% Default profile: Campus Beamer. Keep layout in beamerthemecampus.sty.
+% Loaded automatically by the campus theme after xcolor; do not load it twice.
+% Presentation metadata belongs in sections/metadata.tex, not this profile.
+
+% Main theme color: cover panels, section pages, headings, navigation and footer.
+% The footer uses this color automatically; it has no separate color option.
+\definecolor{maincolor}{HTML}{000000}
+% Keep inactive TOC entries readable on a pure-black section background.
+\setbeamertemplate{section in toc shaded}[default][65]
+
+% Callout colors: name the role, not the hue. The theme derives each box's
+% background, title shade and border from its role color.
+\definecolor{tipcolor}{HTML}{22A7E5}
+\colorlet{notecolor}{maincolor} % Follows the main color unless set independently.
+\definecolor{alertcolor}{HTML}{EC008C}
+\definecolor{examplecolor}{RGB/cmyk}{20,185,120/.73,0,.67,0}
+\definecolor{definitioncolor}{HTML}{B36B16} % Distinct from the black note color.
+
+% Transparent emblems: white artwork for dark blocks, colored artwork for light blocks.
+% Paths may include extensions. Keep local artwork beside this profile in assets/.
+\newcommand{\schoolemblemondark}{\campusthemedir/assets/emblem_on_dark}
+\newcommand{\schoolemblemonlight}{\campusthemedir/assets/emblem_on_light}
+% Transparent project wordmarks: white artwork for dark grounds, colored for light grounds.
+\newcommand{\schoolwordmarkondark}{\campusthemedir/assets/wordmark_on_dark}
+\newcommand{\schoolwordmarkonlight}{\campusthemedir/assets/wordmark_on_light}

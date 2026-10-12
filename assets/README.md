@@ -17,7 +17,8 @@
 标志沿用封面的 61.8% 中点和 72° 斜线。画布由两个单词的可见字形外接矩形加四边相等的
 12 pt padding 自动生成。`Campus` 保持自然字形；`Beamer` 放在紫色区域，第一个 E 和 M
 采用等比例缩小并配合紧字距，同时把 M 向左上方微移。两份 SVG 已将字形转为路径，缩放时保持清晰，
-显示时无需安装字体。项目字标不替代幻灯片中的学校校徽或校名标志。
+显示时无需安装字体。默认 general 主题使用该字标的透明文字版本和原创博士帽，见
+[general 主题素材](../theme/general/README.md)；机构主题使用各自的校徽与校名标志。
 
 在项目根目录执行 `make logo` 可重建两份 SVG，并在 `build/logo/` 中生成 PNG、
 PDF 和双色背景预览 `preview.png`。生成依赖 XeLaTeX、`standalone`、`fontspec`、

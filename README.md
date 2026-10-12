@@ -25,11 +25,38 @@
   </p>
 </div>
 
-![默认学校配置的封面预览](docs/images/cover.png)
+![默认 general 主题的封面预览](docs/images/cover.png)
+
+## 各主题预览
+
+默认 `general` 主题采用纯黑主色、博士帽和透明背景的 Campus Beamer 项目字标。下面按封面、章节页和正文展示各主题效果。
+运行 `make MAIN=example` 构建 general 完整演示；机构样例分别使用
+`make pdf MAIN=example-tsinghua` 或 `make pdf MAIN=example-pcl` 构建。
+
+<div align="center">
+  <p><strong>General 通用主题（默认）</strong></p>
+  <p>
+    <img src="docs/images/theme-general-cover.png" alt="General 通用主题封面" width="280">
+    <img src="docs/images/theme-general-section.png" alt="General 通用主题章节页" width="280">
+    <img src="docs/images/theme-general-body.png" alt="General 通用主题正文页" width="280">
+  </p>
+  <p><strong>清华大学（tsinghua）</strong></p>
+  <p>
+    <img src="docs/images/theme-tsinghua-cover.png" alt="清华主题封面" width="280">
+    <img src="docs/images/theme-tsinghua-section.png" alt="清华主题章节页" width="280">
+    <img src="docs/images/theme-tsinghua-body.png" alt="清华主题正文页" width="280">
+  </p>
+  <p><strong>鹏城实验室（pcl）</strong></p>
+  <p>
+    <img src="docs/images/theme-pcl-cover.png" alt="鹏城实验室主题封面" width="280">
+    <img src="docs/images/theme-pcl-section.png" alt="鹏城实验室主题章节页" width="280">
+    <img src="docs/images/theme-pcl-body.png" alt="鹏城实验室主题正文页" width="280">
+  </p>
+</div>
 
 ## 示例页面
 
-`example.tex` 是版式与功能演示；通用、清华和鹏城实验室三套完整的 PDF 与 PPTX 请前往
+`example.tex` 是版式与功能演示；general 主题完整功能演示的 PDF/PPTX，以及清华和鹏城实验室主题的 PDF 样例请前往
 [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 下载。
 Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲者视图查看。
 渐进显示页包含实际 overlays：在 PDF/PPTX 中按页推进，可看到要点累积与内容替换，并查看各阶段备注。
@@ -60,31 +87,11 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
   </p>
 </div>
 
-### 各主题预览
-
-每个内置主题都提供相同内容的封面、章节页和正文页样例，便于在选择主题前比较视觉效果。
-分别运行 `make MAIN=example-tsinghua` 或 `make MAIN=example-pcl` 构建；样例正文保存在对应主题目录中。
-
-<div align="center">
-  <p><strong>清华大学（tsinghua）</strong></p>
-  <p>
-    <img src="docs/images/theme-tsinghua-cover.png" alt="清华主题封面" width="280">
-    <img src="docs/images/theme-tsinghua-section.png" alt="清华主题章节页" width="280">
-    <img src="docs/images/theme-tsinghua-body.png" alt="清华主题正文页" width="280">
-  </p>
-  <p><strong>鹏城实验室（pcl）</strong></p>
-  <p>
-    <img src="docs/images/theme-pcl-cover.png" alt="鹏城实验室主题封面" width="280">
-    <img src="docs/images/theme-pcl-section.png" alt="鹏城实验室主题章节页" width="280">
-    <img src="docs/images/theme-pcl-body.png" alt="鹏城实验室主题正文页" width="280">
-  </p>
-</div>
-
-主题预览由对应样例 PDF 以 600 DPI 渲染；功能演示缩略图来自转换后的 PPTX，视频页包含内嵌视频的首帧预览。其中的校徽、校名和校园图像适用
+主题预览由对应样例 PDF 以 600 DPI 渲染；功能演示缩略图使用同一份 PDF 渲染，视频页取自 PPTX 并包含内嵌视频的首帧预览。其中的校徽、校名和校园图像适用
 [素材来源与使用声明](assets/README.md)。
 
-默认学校主题为清华；用 `\documentclass[theme=tsinghua]{campusbeamer}` 选择主题。
-配色、校徽、校名和素材说明集中在 [`theme/tsinghua/`](theme/tsinghua/README.md)。主题实现和变量使用通用的 `campus` 命名。
+默认主题为与机构无关的 `general`；可用 `\documentclass[theme=general]{campusbeamer}` 显式选择。
+博士帽、透明项目字标、配色和可编辑素材集中在 [`theme/general/`](theme/general/README.md)。主题实现沿用通用的 `campus` 命名。
 `example.tex` 展示模板的版式与功能；自己的汇报由 agent 根据你的需求生成。
 本项目不是学校官方发布的模板。
 
@@ -133,7 +140,7 @@ PPTX 自动保留原生章节分节、标题与作者，以及副标题、课题
 make doctor              # 检查环境
 make draft MAIN=example  # 查看示例的逐页预览与排版报告
 make MAIN=example        # 构建 build/example.pdf 和 build/example.pptx
-make examples            # 构建清华和鹏城实验室主题样例
+make examples            # 构建清华和鹏城实验室主题 PDF 样例
 make theme-previews      # 生成 README 使用的主题预览图（600 DPI）
 make                     # 有 main.tex 时构建自己的汇报，否则构建 example.tex
 ```
@@ -143,7 +150,7 @@ make                     # 有 main.tex 时构建自己的汇报，否则构建 
 [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 中的附件；agent 根据汇报目标挑选适合的版式，
 另行生成你的内容。全部文档类选项及默认值也列在示例入口中，见[选项说明](docs/class-options.md)。
 
-- 固定 16:9 布局，支持中英文；默认全主色章节页，清华配置下为紫色。
+- 固定 16:9 布局，支持中英文；默认全主色章节页：general 为纯黑，清华为紫色，PCL 为蓝色。
 - 完整目录可用 `\sectiontocpage[overview]` 统一展示章节；[简洁页面](docs/usage.md#简洁页面与图片背景)支持单行页眉、底行页脚及居中等比铺满的可调透明度图片背景。
 - 自动适配图片、公式、论文讲解页及[终端风格代码窗口](docs/usage.md#代码与终端窗口)。
 - `biblatex` / `biber` 文献管理，角落引用与已引用文献汇总；[网页来源引用](docs/usage.md#网页来源引用)同时显示来源名与实际 URL。可按需使用 [DBLP 与引用数工具](docs/literature.md)。
@@ -164,10 +171,10 @@ VS Code、Overleaf 和命令行用法见[环境说明](docs/workflows.md)。
 
 ## 更换学校
 
-内置 `tsinghua`（默认）和 `pcl`（鹏城实验室）主题。
+内置 `general`（通用，默认）、`tsinghua`（清华）和 `pcl`（鹏城实验室）主题。
 使用 `\documentclass[theme=pcl]{campusbeamer}` 切换，素材说明见[鹏城实验室主题](theme/pcl/README.md)。
 
-复制 `theme/tsinghua/` 为 `theme/myschool/`，修改其中的 `profile.tex` 与素材，
+复制 `theme/general/` 为 `theme/myschool/`，修改其中的 `profile.tex` 与素材，
 然后使用 `\documentclass[theme=myschool]{campusbeamer}`。本地添加主题无需修改通用代码或登记名称。
 详见[主题使用与扩展](theme/README.md)。
 
@@ -213,6 +220,7 @@ make help                      # 查看全部入口
 │   ├── beamerthemecampus.sty    主题版式与命令
 │   ├── campuscode.sty          代码与终端窗口
 │   ├── campuscolor.sty          学校主题加载器
+│   ├── general/                 默认通用配色、博士帽和透明项目字标
 │   ├── tsinghua/                清华配色、标志、素材及来源说明
 │   └── pcl/                     鹏城实验室配色、标志、素材及来源说明
 ├── bibliography/               文献数据库，默认 refs.bib
@@ -240,14 +248,14 @@ GitHub Actions 读取仓库根目录下的 `.github/workflows/`。
 版本变化记录在 [CHANGELOG.md](CHANGELOG.md)。`make dist` 只收录
 `tools/package_source.py` 中逐一登记的公开文件，新增文件默认不进入源码包。
 `make release` 生成本地校验用的 `build/releases/campus-beamer-v<版本>-release.zip`。
-GitHub Release 会将源码 ZIP、通用样例以及清华、鹏城实验室主题样例的 PDF/PPTX、发行说明和 SHA-256 校验文件分别作为附件，
+GitHub Release 会将源码 ZIP、general 完整演示的 PDF/PPTX、清华与鹏城实验室主题的 PDF 样例、发行说明和 SHA-256 校验文件分别作为附件，
 方便单独下载；始终构建 `example.tex`。GitHub 的 **Release Please** 工作流维护发行 PR，合并后创建 Release 并上传发行包，也保留手动构建入口；配置与发布步骤见
 [发布指南](docs/releases.md)。
 
 ## 许可与素材
 
 项目源码采用 **GPL-3.0-or-later**，见 [LICENSE](LICENSE)。
-默认清华校徽、校名、组合标志及校园图像来自[清华大学视觉形象识别系统](https://vi.tsinghua.edu.cn/)
+清华主题的校徽、校名、组合标志及校园图像来自[清华大学视觉形象识别系统](https://vi.tsinghua.edu.cn/)
 和[清华大学深圳国际研究生院官方图库](https://www.sigs.tsinghua.edu.cn/en/7453/list.htm)，部分经过裁剪。
 校徽、校名及相关标志涉及清华大学的注册商标与其他权利，除本模板的演示文稿用途外请勿用于其他用途。
 这些图像不适用项目的 GPL 许可证，本声明也不构成校方授权或背书。
