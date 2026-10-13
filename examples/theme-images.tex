@@ -2,7 +2,23 @@
 % Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
 % SPDX-License-Identifier: GPL-3.0-or-later
 \newcommand{\campusexampleimage}{theme/general/assets/backdrop.pdf}
+\newcommand{\campusexamplesectiononeimage}{theme/general/assets/backdrop.pdf}
+\newcommand{\campusexamplesectiontwoimage}{theme/general/assets/backdrop.pdf}
+\newcommand{\campusexamplesectionthreeimage}{theme/general/assets/backdrop.pdf}
+\newcommand{\campusexamplesectionfourimage}{theme/general/assets/backdrop.pdf}
+\newcommand{\campusexamplesectionfiveimage}{theme/general/assets/backdrop.pdf}
 \ifdefstring{\campusexampletheme}{tsinghua}{%
-  \renewcommand{\campusexampleimage}{theme/tsinghua/assets/sigs_building.jpg}}{}
+  \renewcommand{\campusexampleimage}{theme/tsinghua/assets/sigs_building.jpg}%
+  \renewcommand{\campusexamplesectiononeimage}{theme/tsinghua/assets/sigs_building.jpg}%
+  \renewcommand{\campusexamplesectiontwoimage}{theme/tsinghua/assets/sigs_dom.jpg}%
+  \renewcommand{\campusexamplesectionthreeimage}{theme/tsinghua/assets/sigs_night.jpg}%
+  \renewcommand{\campusexamplesectionfourimage}{theme/tsinghua/assets/tsinghua_door.png}%
+  \renewcommand{\campusexamplesectionfiveimage}{theme/tsinghua/assets/tsinghua_temple.png}}{}
 \ifdefstring{\campusexampletheme}{pcl}{%
-  \renewcommand{\campusexampleimage}{theme/pcl/assets/lakeside-aerial.jpg}}{}
+  \renewcommand{\campusexampleimage}{theme/pcl/assets/lakeside-aerial.jpg}%
+  % Keep the current PCL image mapping until its replacement set is selected.
+  \renewcommand{\campusexamplesectiononeimage}{theme/pcl/assets/lakeside-aerial.jpg}%
+  \renewcommand{\campusexamplesectiontwoimage}{theme/pcl/assets/lakeside-aerial.jpg}%
+  \renewcommand{\campusexamplesectionthreeimage}{theme/pcl/assets/lakeside-aerial.jpg}%
+  \renewcommand{\campusexamplesectionfourimage}{theme/pcl/assets/lakeside-aerial.jpg}%
+  \renewcommand{\campusexamplesectionfiveimage}{theme/pcl/assets/lakeside-aerial.jpg}}{}

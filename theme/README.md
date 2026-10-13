@@ -15,7 +15,8 @@
 例如 `\documentclass[theme=pcl]{campusbeamer}` 选择鹏城实验室主题。
 在仓库根目录运行 `make examples` 可导出清华和 PCL 的 PDF 样例；`make MAIN=example` 导出 general 完整演示；单独构建使用
 `make pdf MAIN=example-tsinghua` 或 `make pdf MAIN=example-pcl`。三个主题共用 `example.tex` 与 `examples/sections/` 的完整演示，页数、内容和顺序一致；
-机构目录中的 `sample.tex` 只选择主题，`examples/theme-images.tex` 选择对应配图。
+机构目录中的 `sample.tex` 只选择主题，`examples/theme-images.tex` 选择背景和各 section 起始页配图。
+每个 section 都有独立的图片配置位；清华示例已为五个 section 分别配置校园素材。
 未知名称或不完整的配置会给出编译错误。
 已有 Beamer 文稿也可使用 `\usetheme[theme=general]{campus}`。
 
