@@ -36,7 +36,7 @@ make MAIN=example
 
 README 的封面与引用截图从当前 `build/example.pdf` 以至少 **600 DPI** 直接渲染为 PNG，
 并保留 DPI 元信息；更新后检查文字、角落引用和页脚的清晰度。
-`make theme-previews` 重建三个主题的同一份完整演示，更新主题预览和中英文 README 的功能缩略图。
+`make theme-previews` 重建三个主题的同一份完整演示，并更新中英文 README 中各主题的完整功能缩略图。
 三套 PDF 的页数、章节和元信息必须一致。缩略图页码和顺序统一维护在
 `tools/render_theme_previews.py` 的 `GALLERY`，新增或移动页面时同步更新，致谢页始终位于最后。
 

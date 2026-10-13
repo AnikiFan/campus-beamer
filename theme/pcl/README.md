@@ -22,8 +22,7 @@
 运行 `make pdf MAIN=example-pcl` 查看完整功能演示。三个主题共用同一份正文与逐页备注，
 页面数量和顺序一致，仅配色、标志与配图随主题变化；Release 仅为 general 额外提供 PPTX。
 
-`docs/images/theme-pcl-*.png` 从 PCL 主题完整示例的 PDF 渲染，
-与其他主题展示相同页码，供 README 对照查看；其中的机构素材适用下述声明。
+根目录 README 会展示 PCL 主题完整示例的代表性页面；其中的机构素材适用下述声明。
 
 ## 素材与来源
 

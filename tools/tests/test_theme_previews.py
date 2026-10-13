@@ -10,7 +10,7 @@ from unittest.mock import patch
 import pymupdf
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from render_theme_previews import GALLERY, gallery_markup, validate_samples
+from render_theme_previews import GALLERY, THEMES, gallery_markup, validate_samples
 
 
 class ThemePreviewTests(unittest.TestCase):
@@ -60,6 +60,8 @@ class ThemePreviewTests(unittest.TestCase):
         for name, english in (('README.md', False), ('README.en.md', True)):
             text = (root / name).read_text()
             self.assertIn(gallery_markup(english), text)
+            for theme, _, _ in THEMES:
+                self.assertEqual(text.count(f'preview-{theme}-'), len(GALLERY))
 
 
 if __name__ == '__main__':

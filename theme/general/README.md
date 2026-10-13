@@ -18,8 +18,7 @@
 页面数量和顺序一致，仅配色、标志与配图随主题变化。
 Release 为 general 提供 PDF/PPTX，为清华和 PCL 提供同内容的 PDF。
 
-`docs/images/theme-general-*.png` 从 general 主题完整示例的 PDF 渲染，
-与其他主题展示相同页码，供 README 对照查看；原创素材与字体分别适用下述许可。
+根目录 README 会展示 general 主题完整示例的代表性页面；原创素材与字体分别适用下述许可。
 
 ## 素材与重建
 

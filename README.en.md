@@ -27,35 +27,6 @@
 
 ![Cover rendered with the default general theme](docs/images/cover.png)
 
-## Theme previews
-
-The default `general` theme uses a pure-black primary color, a graduation cap and transparent Campus Beamer lettering.
-All three themes share the same content, page count and page order; only colors, branding and illustrations vary.
-Compare its cover, section and body pages with the institution themes below.
-Build the general tour with `make MAIN=example`; use `make pdf MAIN=example-tsinghua` or
-`make pdf MAIN=example-pcl` for the institution samples.
-
-<div align="center">
-  <p><strong>General (default)</strong></p>
-  <p>
-    <img src="docs/images/theme-general-cover.png" alt="General theme cover" width="280">
-    <img src="docs/images/theme-general-section.png" alt="General theme section page" width="280">
-    <img src="docs/images/theme-general-body.png" alt="General theme body page" width="280">
-  </p>
-  <p><strong>Tsinghua (tsinghua)</strong></p>
-  <p>
-    <img src="docs/images/theme-tsinghua-cover.png" alt="Tsinghua theme cover" width="280">
-    <img src="docs/images/theme-tsinghua-section.png" alt="Tsinghua theme section page" width="280">
-    <img src="docs/images/theme-tsinghua-body.png" alt="Tsinghua theme body page" width="280">
-  </p>
-  <p><strong>Peng Cheng Laboratory (pcl)</strong></p>
-  <p>
-    <img src="docs/images/theme-pcl-cover.png" alt="Peng Cheng Laboratory theme cover" width="280">
-    <img src="docs/images/theme-pcl-section.png" alt="Peng Cheng Laboratory theme section page" width="280">
-    <img src="docs/images/theme-pcl-body.png" alt="Peng Cheng Laboratory theme body page" width="280">
-  </p>
-</div>
-
 ## Example pages
 
 `example.tex` is the layout and feature tour. Download
@@ -63,38 +34,97 @@ the general theme's complete PDF/PPTX feature tour and the Tsinghua and Peng Che
 from the [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases)
 page. The example PPTX includes per-slide PowerPoint speaker notes. Advance through
 the PDF/PPTX to see cumulative reveals and content replacement, with notes for each stage.
-These representative pages follow PDF order, with the closing page last:
+All three themes use the same page content, count and order; the complete representative pages for each theme are shown below:
 
 <!-- demo-gallery:start -->
+
+### General (default)
+
 <div align="center">
   <p>
-    <img src="docs/images/preview-cover.png" alt="Cover" width="200">
-    <img src="docs/images/preview-toc.png" alt="Contents" width="200">
-    <img src="docs/images/preview-focus.png" alt="Focus page" width="200">
-    <img src="docs/images/preview-background.png" alt="Centered image background" width="200">
+    <img src="docs/images/preview-general-cover.png" alt="Cover" width="200">
+    <img src="docs/images/preview-general-toc.png" alt="Contents" width="200">
+    <img src="docs/images/preview-general-focus.png" alt="Focus page" width="200">
+    <img src="docs/images/preview-general-background.png" alt="Centered image background" width="200">
   </p>
   <p>
-    <img src="docs/images/preview-flow.png" alt="Aligned flowchart" width="200">
-    <img src="docs/images/preview-layout.png" alt="Equations" width="200">
-    <img src="docs/images/preview-code.png" alt="Code window" width="200">
-    <img src="docs/images/preview-fullheight.png" alt="Full-height image" width="200">
+    <img src="docs/images/preview-general-flow.png" alt="Aligned flowchart" width="200">
+    <img src="docs/images/preview-general-layout.png" alt="Equations" width="200">
+    <img src="docs/images/preview-general-code.png" alt="Code window" width="200">
+    <img src="docs/images/preview-general-fullheight.png" alt="Full-height image" width="200">
   </p>
   <p>
-    <img src="docs/images/preview-paper.png" alt="Paper section" width="200">
-    <img src="docs/images/preview-callouts.png" alt="Callouts" width="200">
-    <img src="docs/images/preview-overlays.png" alt="Progressive reveal" width="200">
-    <img src="docs/images/preview-media.png" alt="Video" width="200">
+    <img src="docs/images/preview-general-paper.png" alt="Paper section" width="200">
+    <img src="docs/images/preview-general-callouts.png" alt="Callouts" width="200">
+    <img src="docs/images/preview-general-overlays.png" alt="Progressive reveal" width="200">
+    <img src="docs/images/preview-general-media.png" alt="Video" width="200">
   </p>
   <p>
-    <img src="docs/images/preview-notes.png" alt="TeX speaker notes" width="200">
-    <img src="docs/images/preview-references.png" alt="References" width="200">
-    <img src="docs/images/preview-closing.png" alt="Closing" width="200">
+    <img src="docs/images/preview-general-notes.png" alt="TeX speaker notes" width="200">
+    <img src="docs/images/preview-general-references.png" alt="References" width="200">
+    <img src="docs/images/preview-general-closing.png" alt="Closing" width="200">
   </p>
 </div>
+
+### Tsinghua (tsinghua)
+
+<div align="center">
+  <p>
+    <img src="docs/images/preview-tsinghua-cover.png" alt="Cover" width="200">
+    <img src="docs/images/preview-tsinghua-toc.png" alt="Contents" width="200">
+    <img src="docs/images/preview-tsinghua-focus.png" alt="Focus page" width="200">
+    <img src="docs/images/preview-tsinghua-background.png" alt="Centered image background" width="200">
+  </p>
+  <p>
+    <img src="docs/images/preview-tsinghua-flow.png" alt="Aligned flowchart" width="200">
+    <img src="docs/images/preview-tsinghua-layout.png" alt="Equations" width="200">
+    <img src="docs/images/preview-tsinghua-code.png" alt="Code window" width="200">
+    <img src="docs/images/preview-tsinghua-fullheight.png" alt="Full-height image" width="200">
+  </p>
+  <p>
+    <img src="docs/images/preview-tsinghua-paper.png" alt="Paper section" width="200">
+    <img src="docs/images/preview-tsinghua-callouts.png" alt="Callouts" width="200">
+    <img src="docs/images/preview-tsinghua-overlays.png" alt="Progressive reveal" width="200">
+    <img src="docs/images/preview-tsinghua-media.png" alt="Video" width="200">
+  </p>
+  <p>
+    <img src="docs/images/preview-tsinghua-notes.png" alt="TeX speaker notes" width="200">
+    <img src="docs/images/preview-tsinghua-references.png" alt="References" width="200">
+    <img src="docs/images/preview-tsinghua-closing.png" alt="Closing" width="200">
+  </p>
+</div>
+
+### Peng Cheng Laboratory (pcl)
+
+<div align="center">
+  <p>
+    <img src="docs/images/preview-pcl-cover.png" alt="Cover" width="200">
+    <img src="docs/images/preview-pcl-toc.png" alt="Contents" width="200">
+    <img src="docs/images/preview-pcl-focus.png" alt="Focus page" width="200">
+    <img src="docs/images/preview-pcl-background.png" alt="Centered image background" width="200">
+  </p>
+  <p>
+    <img src="docs/images/preview-pcl-flow.png" alt="Aligned flowchart" width="200">
+    <img src="docs/images/preview-pcl-layout.png" alt="Equations" width="200">
+    <img src="docs/images/preview-pcl-code.png" alt="Code window" width="200">
+    <img src="docs/images/preview-pcl-fullheight.png" alt="Full-height image" width="200">
+  </p>
+  <p>
+    <img src="docs/images/preview-pcl-paper.png" alt="Paper section" width="200">
+    <img src="docs/images/preview-pcl-callouts.png" alt="Callouts" width="200">
+    <img src="docs/images/preview-pcl-overlays.png" alt="Progressive reveal" width="200">
+    <img src="docs/images/preview-pcl-media.png" alt="Video" width="200">
+  </p>
+  <p>
+    <img src="docs/images/preview-pcl-notes.png" alt="TeX speaker notes" width="200">
+    <img src="docs/images/preview-pcl-references.png" alt="References" width="200">
+    <img src="docs/images/preview-pcl-closing.png" alt="Closing" width="200">
+  </p>
+</div>
+
 <!-- demo-gallery:end -->
 
-Theme previews are rendered from their sample PDFs at 600 DPI. The feature-tour
-thumbnails follow that PDF page order, ending with the closing page. The emblems,
+Each theme gallery is rendered from its sample PDF at 600 DPI and follows the same page order. The emblems,
 wordmarks and campus images follow the [asset source and rights notice](assets/README.md).
 
 The institution-neutral `general` profile is the default; select it explicitly with
@@ -156,7 +186,7 @@ make doctor              # Check tools, TeX packages and fonts
 make draft MAIN=example  # Inspect reference-example pages and layout report
 make MAIN=example        # build/example.pdf and build/example.pptx
 make examples            # Build Tsinghua and Peng Cheng Laboratory PDFs
-make theme-previews      # Refresh README theme previews (600 DPI)
+make theme-previews      # Refresh each theme's example pages in README (600 DPI)
 make                     # Build main.tex if present; otherwise example.tex
 ```
 

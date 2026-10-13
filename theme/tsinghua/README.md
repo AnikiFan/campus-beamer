@@ -61,8 +61,7 @@ SVG 及其派生 PNG 均适用下述清华标志权利声明，不采用脚本�
   PNG 经无损重新编码，保留 2205×2476 尺寸、RGBA 像素及 ICC 颜色配置，约 3.08 MB。
 - [`tsinghua_temple.png`](assets/tsinghua_temple.png)：校园建筑图像。
 
-`docs/images/theme-tsinghua-*.png` 从清华主题完整示例的 PDF 渲染，
-与其他主题展示相同页码，供 README 对照查看；其中的机构素材适用上述声明。
+根目录 README 会展示清华主题完整示例的代表性页面；其中的机构素材适用上述声明。
 
 随仓库分发的 PNG 已进行无损编码优化，保留原尺寸、像素、透明度、ICC 颜色配置、
 DPI 和已有元数据；其中 `tsinghua_door.png` 从约 11.12 MB 缩至 3.27 MB。

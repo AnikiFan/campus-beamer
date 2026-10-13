@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Render a small, deterministic preview set for each public theme sample."""
+"""Render the shared feature-tour pages for every public theme sample."""
 from __future__ import annotations
 
 import argparse
@@ -30,6 +30,17 @@ GALLERY = (
     ('closing', 50, '致谢页', 'Closing', 'Campus Beamer 模板'),
 )
 
+THEMES = (
+    ('general', 'General 通用主题', 'General (default)'),
+    ('tsinghua', '清华大学（tsinghua）', 'Tsinghua (tsinghua)'),
+    ('pcl', '鹏城实验室（pcl）', 'Peng Cheng Laboratory (pcl)'),
+)
+
+LEGACY_PREVIEWS = tuple(
+    [f'preview-{name}.png' for name, *_ in GALLERY]
+    + [f'theme-{theme}-{label}.png' for theme, *_ in THEMES for label in ('cover', 'section', 'body')]
+)
+
 
 def validate_samples(paths: list[Path]) -> None:
     """Reject mismatched pagination, navigation or preview anchors before rendering."""
@@ -49,38 +60,31 @@ def validate_samples(paths: list[Path]) -> None:
 
 
 def gallery_markup(english: bool = False) -> str:
-    lines = ['<!-- demo-gallery:start -->', '<div align="center">']
-    for start in range(0, len(GALLERY), 4):
-        lines.append('  <p>')
-        for name, _, chinese, english_label, _ in GALLERY[start:start + 4]:
-            label = english_label if english else chinese
-            lines.append(f'    <img src="docs/images/preview-{name}.png" alt="{label}" width="200">')
-        lines.append('  </p>')
-    lines.extend(['</div>', '<!-- demo-gallery:end -->'])
+    lines = ['<!-- demo-gallery:start -->', '']
+    for theme, chinese_theme, english_theme in THEMES:
+        lines.append(f'### {english_theme if english else chinese_theme}')
+        lines.append('')
+        lines.append('<div align="center">')
+        for start in range(0, len(GALLERY), 4):
+            lines.append('  <p>')
+            for name, _, chinese, english_label, _ in GALLERY[start:start + 4]:
+                label = english_label if english else chinese
+                lines.append(f'    <img src="docs/images/preview-{theme}-{name}.png" alt="{label}" width="200">')
+            lines.append('  </p>')
+        lines.append('</div>')
+        lines.append('')
+    lines.append('<!-- demo-gallery:end -->')
     return '\n'.join(lines)
 
 
-def render_gallery(pdf: Path, output: Path, dpi: int) -> None:
+def render_gallery(pdf: Path, theme: str, output: Path, dpi: int) -> None:
     with pymupdf.open(pdf) as document:
         for name, number, _, _, _ in GALLERY:
-            document[number - 1].get_pixmap(dpi=dpi, alpha=False).save(output / f'preview-{name}.png')
-        document[0].get_pixmap(dpi=dpi, alpha=False).save(output / 'cover.png')
-        document[23].get_pixmap(dpi=dpi, alpha=False).save(output / 'citations.png')
-
-
-def render(pdf: Path, theme: str, output: Path, dpi: int = 600) -> None:
-    if not pdf.is_file():
-        raise FileNotFoundError(pdf)
-    with pymupdf.open(pdf) as document:
-        if len(document) < 6:
-            raise ValueError(f'{pdf}: expected at least six pages, got {len(document)}')
-        output.mkdir(parents=True, exist_ok=True)
-        # Cover, section page, and ordinary body page make the profile differences
-        # visible while keeping the README compact.
-        for label, index in (('cover', 0), ('section', 2), ('body', 5)):
-            page = document[index]
-            pixmap = page.get_pixmap(dpi=dpi, alpha=False)
-            pixmap.save(output / f'theme-{theme}-{label}.png')
+            document[number - 1].get_pixmap(dpi=dpi, alpha=False).save(
+                output / f'preview-{theme}-{name}.png')
+        if theme == 'general':
+            document[0].get_pixmap(dpi=dpi, alpha=False).save(output / 'cover.png')
+            document[23].get_pixmap(dpi=dpi, alpha=False).save(output / 'citations.png')
 
 
 def main() -> None:
@@ -100,10 +104,14 @@ def main() -> None:
     if args.check_only:
         print('Theme samples: shared page count, sections, metadata and preview order verified.')
         return
+    output = args.output
+    output.mkdir(parents=True, exist_ok=True)
+    for name in LEGACY_PREVIEWS:
+        (output / name).unlink(missing_ok=True)
     for pdf, theme in zip(args.pdf, args.theme):
-        render(Path(pdf), theme, args.output, args.dpi)
-        if theme == 'general':
-            render_gallery(Path(pdf), args.output, args.dpi)
+        if not Path(pdf).is_file():
+            raise FileNotFoundError(pdf)
+        render_gallery(Path(pdf), theme, output, args.dpi)
     if args.update_readme:
         root = Path(__file__).resolve().parents[1]
         for name, english in (('README.md', False), ('README.en.md', True)):
