@@ -4,6 +4,7 @@
 
 `docker/Dockerfile` 构建一个专用于本项目的环境镜像，包含 GNU Make、
 XeLaTeX、latexmk、biber、中文与模板字体、Python、uv 和用于视频预览的 FFmpeg。
+镜像同时安装 Git，供 `make test` 和 `make release` 验证用户文件的忽略规则。
 只安装项目使用的 TeX 软件包集合，不安装整个 `texlive-full`。
 额外字体包较大，首次构建需要下载系统和 Python 依赖。
 宿主机只需安装并运行 Docker，无需另外安装 TeX 或 uv。

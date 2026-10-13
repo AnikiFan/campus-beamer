@@ -39,11 +39,13 @@ RUN apt-get update \
     && fc-cache -f
 
 # Beamer also loads base symbol fonts; these are not installed by the above
-# packages when apt recommendations are disabled. Keep the large TeX layer cached.
+# packages when apt recommendations are disabled. Git exercises ignore rules
+# during make test / make release. Keep the large TeX layer cached.
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         texlive-fonts-recommended \
         ffmpeg \
+        git \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=uv /uv /usr/local/bin/uv
@@ -73,6 +75,7 @@ ENV PATH="/opt/campus-venv/bin:${PATH}" \
 
 COPY tools/doctor.py /tmp/campus-doctor.py
 RUN python /tmp/campus-doctor.py \
+    && git --version \
     && python -c "import pymupdf, pptx" \
     && rm /tmp/campus-doctor.py
 
