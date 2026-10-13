@@ -87,9 +87,8 @@ citations:
 check-theme:
 	$(UV) run --frozen python tools/check_theme.py
 
-# Build the public sample once for each bundled school profile.  These entries
-# are deliberately separate from the reference feature tour so a release can
-# show the visual identity of every selectable theme.
+# Build the same public feature tour with each institutional profile.
+# General PDF/PPTX is built separately by release; institutional exports are PDF-only.
 examples:
 	$(MAKE) pdf MAIN=example-tsinghua
 	$(MAKE) pdf MAIN=example-pcl
@@ -104,7 +103,7 @@ theme-previews:
 	$(UV) run --frozen python tools/render_theme_previews.py \
 		--pdf build/example.pdf --theme general \
 		--pdf build/example-tsinghua.pdf --theme tsinghua \
-		--pdf build/example-pcl.pdf --theme pcl
+		--pdf build/example-pcl.pdf --theme pcl --update-readme
 
 logo:
 	$(UV) run --frozen python tools/generate_logo.py
@@ -123,6 +122,10 @@ release:
 	$(MAKE) draft MAIN=example
 	$(MAKE) MAIN=example DPI="$(DPI)"
 	$(MAKE) examples DPI="$(DPI)"
+	$(UV) run --frozen python tools/render_theme_previews.py --check-only \
+		--pdf build/example.pdf --theme general \
+		--pdf build/example-tsinghua.pdf --theme tsinghua \
+		--pdf build/example-pcl.pdf --theme pcl
 	$(MAKE) dist
 	$(UV) run --frozen python tools/package_release.py --version "$$($(UV) version --short)"
 

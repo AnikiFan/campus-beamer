@@ -28,7 +28,7 @@ FILES = (
     '.agents/skills/campus-beamer-validation/SKILL.md',
     'docker/Dockerfile', 'docker/Dockerfile.dockerignore', 'docker/entrypoint.sh',
     'example.tex', 'example-tsinghua.tex', 'example-pcl.tex', 'outline.md', 'STYLE.md', 'materials/.gitkeep',
-    'tools/templates/outline.md', 'sections/.gitkeep', 'bibliography/.gitkeep',
+    'examples/theme-images.tex', 'tools/templates/outline.md', 'sections/.gitkeep', 'bibliography/.gitkeep',
     'theme/campusbeamer.cls', 'theme/beamerthemecampus.sty',
     'theme/campuscolor.sty', 'theme/README.md',
     'theme/tsinghua/profile.tex', 'theme/tsinghua/README.md', 'theme/tsinghua/sample.tex',
@@ -123,7 +123,7 @@ FILES = (
     'tools/tests/test_draft_preview.py', 'tools/tests/test_images_to_ppt.py',
     'tools/tests/test_literature.py', 'tools/tests/test_make_entry.py',
     'tools/tests/test_package_release.py', 'tools/tests/test_package_source.py',
-    'tools/tests/test_theme_inspection.py',
+    'tools/tests/test_theme_inspection.py', 'tools/tests/test_theme_previews.py',
     'tools/tests/test_transitions.py',
     'tools/tests/test_native_notes.py',
 )

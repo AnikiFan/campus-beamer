@@ -30,6 +30,7 @@
 ## Theme previews
 
 The default `general` theme uses a pure-black primary color, a graduation cap and transparent Campus Beamer lettering.
+All three themes share the same content, page count and page order; only colors, branding and illustrations vary.
 Compare its cover, section and body pages with the institution themes below.
 Build the general tour with `make MAIN=example`; use `make pdf MAIN=example-tsinghua` or
 `make pdf MAIN=example-pcl` for the institution samples.
@@ -62,35 +63,38 @@ the general theme's complete PDF/PPTX feature tour and the Tsinghua and Peng Che
 from the [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases)
 page. The example PPTX includes per-slide PowerPoint speaker notes. Advance through
 the PDF/PPTX to see cumulative reveals and content replacement, with notes for each stage.
-These representative pages show the range of layouts:
+These representative pages follow PDF order, with the closing page last:
 
+<!-- demo-gallery:start -->
 <div align="center">
   <p>
     <img src="docs/images/preview-cover.png" alt="Cover" width="200">
-    <img src="docs/images/preview-toc.png" alt="Table of contents" width="200">
-    <img src="docs/images/preview-paper.png" alt="Paper section" width="200">
-    <img src="docs/images/preview-fullheight.png" alt="Right full-height image" width="200">
+    <img src="docs/images/preview-toc.png" alt="Contents" width="200">
+    <img src="docs/images/preview-focus.png" alt="Focus page" width="200">
+    <img src="docs/images/preview-background.png" alt="Centered image background" width="200">
   </p>
   <p>
-    <img src="docs/images/preview-layout.png" alt="Equation page" width="200">
+    <img src="docs/images/preview-flow.png" alt="Aligned flowchart" width="200">
+    <img src="docs/images/preview-layout.png" alt="Equations" width="200">
     <img src="docs/images/preview-code.png" alt="Code window" width="200">
-    <img src="docs/images/preview-callouts.png" alt="Callouts" width="200">
-    <img src="docs/images/preview-media.png" alt="Video link" width="200">
+    <img src="docs/images/preview-fullheight.png" alt="Full-height image" width="200">
   </p>
   <p>
+    <img src="docs/images/preview-paper.png" alt="Paper section" width="200">
+    <img src="docs/images/preview-callouts.png" alt="Callouts" width="200">
     <img src="docs/images/preview-overlays.png" alt="Progressive reveal" width="200">
+    <img src="docs/images/preview-media.png" alt="Video" width="200">
+  </p>
+  <p>
     <img src="docs/images/preview-notes.png" alt="TeX speaker notes" width="200">
     <img src="docs/images/preview-references.png" alt="References" width="200">
-    <img src="docs/images/preview-closing.png" alt="Closing page" width="200">
-    <br>
-    <img src="docs/images/preview-focus.png" alt="Focus frame" width="200">
-    <img src="docs/images/preview-background.png" alt="Centered image background" width="200">
-    <img src="docs/images/preview-flow.png" alt="Aligned flow diagram" width="200">
+    <img src="docs/images/preview-closing.png" alt="Closing" width="200">
   </p>
 </div>
+<!-- demo-gallery:end -->
 
 Theme previews are rendered from their sample PDFs at 600 DPI. The feature-tour
-thumbnails use the same PDF rendering; the video thumbnail comes from the PPTX and includes its embedded poster frame. The emblems,
+thumbnails follow that PDF page order, ending with the closing page. The emblems,
 wordmarks and campus images follow the [asset source and rights notice](assets/README.md).
 
 The institution-neutral `general` profile is the default; select it explicitly with
@@ -238,27 +242,30 @@ entry point as well. See the [release guide](docs/releases.md) for setup and pub
 
 ## License and assets
 
-Source code uses **GPL-3.0-or-later**; see [LICENSE](LICENSE). The bundled Tsinghua emblem, wordmark, combined marks
-and campus images come from the [Tsinghua visual identity system](https://vi.tsinghua.edu.cn/)
-and the
-[Tsinghua SIGS official photo gallery](https://www.sigs.tsinghua.edu.cn/en/7453/list.htm);
-some images have been cropped. The emblem, university name and related marks
-involve Tsinghua University's registered trademarks and other rights. Do not use
-these marks outside this template's presentation purposes. These images are not
-covered by the code's GPL license; this notice grants no university authorization
-and implies no university endorsement.
-The original procedural demo video, `assets/presentation_demo.mp4`, is separately
-dedicated under CC0-1.0; its geometric source and dedication are documented in
-[assets/README.md](assets/README.md#原创演示视频).
-We are currently unable to reach the relevant rights holders or photographers;
-explicit asset permissions and individual photographer credits have not been obtained or verified.
-If you believe an asset infringes your rights, or find missing credits or incorrect
-attribution, please contact [xiaofan140@gmail.com](mailto:xiaofan140@gmail.com)
-or open a repository Issue. We will promptly review the report and add credits,
-correct attribution, replace or remove the affected assets and derived previews as appropriate.
-This contact notice does not replace permission from the rights holder.
-The previews contain these assets and are subject to the same notice.
-See [the Tsinghua profile notice](theme/tsinghua/README.md) for the full school-asset notice and file list.
+Source code uses **GPL-3.0-or-later**; see [LICENSE](LICENSE). Asset terms are documented by theme:
+
+- **General**: the original graduation cap, geometric background and project lettering source use
+  GPL-3.0-or-later. The Latin Modern font retains its GUST Font License. See the
+  [general asset notice](theme/general/README.md) and [project lettering notice](assets/README.md#campus-beamer-项目字标).
+- **Tsinghua**: the emblem, university name, combined marks and campus images come from the
+  university's visual identity system and the SIGS official photo gallery; some are cropped.
+  See the [Tsinghua sources, file list and notice](theme/tsinghua/README.md).
+- **Peng Cheng Laboratory**: the emblem comes from the Shenzhen government's Hetao website;
+  lettering and campus images come from PCL's official website, campus gallery and recruitment site.
+  Derived assets include cropping, format conversion and lettering adapted for dark backgrounds.
+  See the [PCL sources, file list and notice](theme/pcl/README.md).
+
+Tsinghua and PCL marks and images remain subject to their rights holders' trademarks,
+copyrights and other rights. They are provided only for this template's presentation purposes,
+are not covered by the project's GPL license, and imply no institutional authorization or endorsement.
+Explicit permissions and individual photographer credits for these institutional assets
+have not been obtained or verified. For rights, credit or attribution concerns, contact
+[xiaofan140@gmail.com](mailto:xiaofan140@gmail.com) or open a repository Issue. We will review
+reports and add credits, correct notices, replace or remove affected assets. This contact notice
+does not replace permission. Assets in PDF, PPTX and README previews retain the same terms.
+
+The original procedural video `assets/presentation_demo.mp4` is separately dedicated under
+**CC0-1.0**; see its [source and dedication](assets/README.md#原创演示视频).
 
 ## Acknowledgements
 

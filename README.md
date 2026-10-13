@@ -30,7 +30,8 @@
 ## 各主题预览
 
 默认 `general` 主题采用纯黑主色、博士帽和透明背景的 Campus Beamer 项目字标。下面按封面、章节页和正文展示各主题效果。
-运行 `make MAIN=example` 构建 general 完整演示；机构样例分别使用
+三个主题共用相同的演示内容、页数与页序，仅配色、标志及配图不同。
+运行 `make MAIN=example` 构建 general 完整演示；机构主题分别使用
 `make pdf MAIN=example-tsinghua` 或 `make pdf MAIN=example-pcl` 构建。
 
 <div align="center">
@@ -60,34 +61,37 @@
 [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 下载。
 Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲者视图查看。
 渐进显示页包含实际 overlays：在 PDF/PPTX 中按页推进，可看到要点累积与内容替换，并查看各阶段备注。
-下面选取几页代表性画面，帮助快速了解模板支持的版式：
+下面按 PDF 页序选取代表性画面，致谢页位于最后：
 
+<!-- demo-gallery:start -->
 <div align="center">
   <p>
     <img src="docs/images/preview-cover.png" alt="封面" width="200">
     <img src="docs/images/preview-toc.png" alt="目录页" width="200">
-    <img src="docs/images/preview-paper.png" alt="论文讲解章节页" width="200">
+    <img src="docs/images/preview-focus.png" alt="简洁页面" width="200">
+    <img src="docs/images/preview-background.png" alt="居中图片背景" width="200">
+  </p>
+  <p>
+    <img src="docs/images/preview-flow.png" alt="对齐流程图" width="200">
+    <img src="docs/images/preview-layout.png" alt="公式页" width="200">
+    <img src="docs/images/preview-code.png" alt="代码窗口页" width="200">
     <img src="docs/images/preview-fullheight.png" alt="右侧满高图片页" width="200">
   </p>
   <p>
-    <img src="docs/images/preview-layout.png" alt="公式页" width="200">
-    <img src="docs/images/preview-code.png" alt="代码窗口页" width="200">
+    <img src="docs/images/preview-paper.png" alt="论文讲解章节页" width="200">
     <img src="docs/images/preview-callouts.png" alt="提示框页" width="200">
+    <img src="docs/images/preview-overlays.png" alt="逐步显示" width="200">
     <img src="docs/images/preview-media.png" alt="视频链接页" width="200">
   </p>
   <p>
-    <img src="docs/images/preview-overlays.png" alt="逐步显示" width="200">
     <img src="docs/images/preview-notes.png" alt="TeX 讲者备注" width="200">
     <img src="docs/images/preview-references.png" alt="参考文献页" width="200">
-    <img src="docs/images/preview-closing.png" alt="收尾页" width="200">
-    <br>
-    <img src="docs/images/preview-focus.png" alt="简洁页面" width="200">
-    <img src="docs/images/preview-background.png" alt="居中图片背景" width="200">
-    <img src="docs/images/preview-flow.png" alt="对齐流程图" width="200">
+    <img src="docs/images/preview-closing.png" alt="致谢页" width="200">
   </p>
 </div>
+<!-- demo-gallery:end -->
 
-主题预览由对应样例 PDF 以 600 DPI 渲染；功能演示缩略图使用同一份 PDF 渲染，视频页取自 PPTX 并包含内嵌视频的首帧预览。其中的校徽、校名和校园图像适用
+主题预览由对应样例 PDF 以 600 DPI 渲染；功能演示缩略图使用同一份 PDF 渲染，其中的校徽、校名和校园图像适用
 [素材来源与使用声明](assets/README.md)。
 
 默认主题为与机构无关的 `general`；可用 `\documentclass[theme=general]{campusbeamer}` 显式选择。
@@ -257,18 +261,27 @@ GitHub Release 会将源码 ZIP、general 完整演示的 PDF/PPTX、清华与�
 
 ## 许可与素材
 
-项目源码采用 **GPL-3.0-or-later**，见 [LICENSE](LICENSE)。
-清华主题的校徽、校名、组合标志及校园图像来自[清华大学视觉形象识别系统](https://vi.tsinghua.edu.cn/)
-和[清华大学深圳国际研究生院官方图库](https://www.sigs.tsinghua.edu.cn/en/7453/list.htm)，部分经过裁剪。
-校徽、校名及相关标志涉及清华大学的注册商标与其他权利，除本模板的演示文稿用途外请勿用于其他用途。
-这些图像不适用项目的 GPL 许可证，本声明也不构成校方授权或背书。
-演示视频 `assets/presentation_demo.mp4` 为程序生成的原创几何动画，单独采用 CC0-1.0，
-生成源码与授权说明见 [素材清单](assets/README.md#原创演示视频)。
-目前暂时无法联系到相关权利人或摄影者，尚未取得明确的素材许可或核实逐张摄影者署名。
-如有侵权、署名遗漏或来源标注问题，请随时通过 [xiaofan140@gmail.com](mailto:xiaofan140@gmail.com)
-或本仓库 Issue 联系维护者；我们会及时核实，并补充署名、更正说明、替换或移除相关素材。
-本联系声明不替代权利人许可。清华素材的完整声明及文件清单见 [清华主题说明](theme/tsinghua/README.md)。
-预览图来自本项目 PDF，其中的清华素材适用同一声明。
+项目源码采用 **GPL-3.0-or-later**，见 [LICENSE](LICENSE)。各主题素材分别说明：
+
+- **General**：原创博士帽、几何背景及项目字标排版源码采用 GPL-3.0-or-later；
+  字标使用的 Latin Modern 字体保留 GUST Font License。见 [general 素材说明](theme/general/README.md)
+  和[项目字标说明](assets/README.md#campus-beamer-项目字标)。
+- **清华大学**：校徽、校名、组合标志及校园图像来自清华大学视觉形象识别系统和
+  深圳国际研究生院官方图库，部分经过裁剪。来源、文件清单及使用声明见
+  [清华主题说明](theme/tsinghua/README.md)。
+- **鹏城实验室**：徽章来自深圳政府河套合作区网站；横向标志及园区图片来自鹏城实验室官网、
+  美丽园区页面和人才招聘网站。派生素材包含裁切、格式转换及深色背景字标适配，见
+  [PCL 主题说明](theme/pcl/README.md)。
+
+清华及鹏城实验室的标志和图片涉及各自权利人的商标、著作权及其他权利，
+仅供本模板的演示文稿用途，不适用项目 GPL 许可证；本项目不代表相关机构的授权或背书。
+目前尚未取得这些机构素材的明确许可或核实逐张摄影者署名。
+如有侵权、署名遗漏或来源标注问题，请通过 [xiaofan140@gmail.com](mailto:xiaofan140@gmail.com)
+或本仓库 Issue 联系维护者；我们会核实并补充署名、更正说明、替换或移除相关素材。
+联系声明不替代权利人许可；PDF、PPTX 及 README 预览中的素材适用各自同一声明。
+
+原创演示视频 `assets/presentation_demo.mp4` 单独采用 **CC0-1.0**；
+生成源码与授权说明见[素材清单](assets/README.md#原创演示视频)。
 
 ## 致谢
 

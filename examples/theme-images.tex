@@ -1,0 +1,8 @@
+% Shared talk content; only illustrations vary between the bundled themes.
+% Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
+% SPDX-License-Identifier: GPL-3.0-or-later
+\newcommand{\campusexampleimage}{theme/general/assets/backdrop.pdf}
+\ifdefstring{\campusexampletheme}{tsinghua}{%
+  \renewcommand{\campusexampleimage}{theme/tsinghua/assets/sigs_building.jpg}}{}
+\ifdefstring{\campusexampletheme}{pcl}{%
+  \renewcommand{\campusexampleimage}{theme/pcl/assets/lakeside-aerial.jpg}}{}

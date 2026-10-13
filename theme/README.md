@@ -14,7 +14,8 @@
 内置主题：`general`（[通用](general/README.md)，默认）、`tsinghua`（[清华](tsinghua/README.md)）和 `pcl`（[鹏城实验室](pcl/README.md)）。
 例如 `\documentclass[theme=pcl]{campusbeamer}` 选择鹏城实验室主题。
 在仓库根目录运行 `make examples` 可导出清华和 PCL 的 PDF 样例；`make MAIN=example` 导出 general 完整演示；单独构建使用
-`make pdf MAIN=example-tsinghua` 或 `make pdf MAIN=example-pcl`。机构样例正文位于对应主题的 `sample.tex`，general 功能演示位于根目录 `example.tex` 与 `examples/sections/`。
+`make pdf MAIN=example-tsinghua` 或 `make pdf MAIN=example-pcl`。三个主题共用 `example.tex` 与 `examples/sections/` 的完整演示，页数、内容和顺序一致；
+机构目录中的 `sample.tex` 只选择主题，`examples/theme-images.tex` 选择对应配图。
 未知名称或不完整的配置会给出编译错误。
 已有 Beamer 文稿也可使用 `\usetheme[theme=general]{campus}`。
 
@@ -45,6 +46,7 @@ theme/myschool/
 
 `profile.tex` 定义 `maincolor`、`tipcolor`、`notecolor`、`alertcolor`、
 `examplecolor`、`definitioncolor`。页脚使用主色与白色文字；general 的主色为纯黑 `#000000`。
+目录中非当前章节统一使用 65% 前景色混合，保持各主题的可读性。
 四个品牌命令分别是 `\schoolemblemondark`、`\schoolemblemonlight`、
 `\schoolwordmarkondark`、`\schoolwordmarkonlight`。使用加载器提供的
 `\campusthemedir` 引用本主题的素材，复制目录后无需改写目录前缀：

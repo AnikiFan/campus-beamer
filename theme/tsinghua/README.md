@@ -5,6 +5,9 @@
 使用 `\documentclass[theme=tsinghua]{campusbeamer}` 选择此主题；省略 `theme` 时使用通用 `general` 主题。
 `profile.tex` 定义配色和品牌标志，`assets/` 保存校徽、校名及校园示例素材。
 
+运行 `make pdf MAIN=example-tsinghua` 查看完整功能演示。三个主题共用同一份正文与逐页备注，
+页面数量和顺序一致，仅配色、标志与配图随主题变化；Release 仅为 general 额外提供 PPTX。
+
 ## 清华素材来源与使用声明
 
 本项目分发的清华大学校徽、校名及组合标志图形，以及校园图像，来自
@@ -58,10 +61,8 @@ SVG 及其派生 PNG 均适用下述清华标志权利声明，不采用脚本�
   PNG 经无损重新编码，保留 2205×2476 尺寸、RGBA 像素及 ICC 颜色配置，约 3.08 MB。
 - [`tsinghua_temple.png`](assets/tsinghua_temple.png)：校园建筑图像。
 
-[`docs/images/cover.png`](../../docs/images/cover.png)、
-[`docs/images/citations.png`](../../docs/images/citations.png) 和
-`docs/images/preview-*.png` 来自当前示例 PPTX 转换后的幻灯片图像；视频预览页还合成了 PPTX 内嵌视频的首帧，
-其中的清华素材适用上述声明；缩略图用于 README 页面预览。
+`docs/images/theme-tsinghua-*.png` 从清华主题完整示例的 PDF 渲染，
+与其他主题展示相同页码，供 README 对照查看；其中的机构素材适用上述声明。
 
 随仓库分发的 PNG 已进行无损编码优化，保留原尺寸、像素、透明度、ICC 颜色配置、
 DPI 和已有元数据；其中 `tsinghua_door.png` 从约 11.12 MB 缩至 3.27 MB。

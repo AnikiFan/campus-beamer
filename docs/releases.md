@@ -70,7 +70,8 @@ make release DPI=200
 
 `make release` 先检查锁文件同步，再顺序运行 Python 测试、完整功能演示 draft、general 功能演示 PDF/PPTX 与两套机构主题 PDF 导出、
 源码打包及版本化发行包生成。默认 600 DPI，构建 `example.tex`、`example-tsinghua.tex` 和 `example-pcl.tex`，
-即使本地存在自己的 `main.tex` 也只导出公开演示。
+即使本地存在自己的 `main.tex` 也只导出公开演示。三个主题共用相同内容和页序，
+发行打包前会核对页数、章节、元信息和 README 预览锚点；仅 general 额外导出 PPTX。
 当前版本在 `CHANGELOG.md` 中缺少非空章节，或演示产物缺失时，打包失败。
 支持 Release Please 的普通、链接式版本标题及手动的 `[X.Y.Z]` 标题。
 

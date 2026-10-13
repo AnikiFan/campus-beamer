@@ -14,8 +14,12 @@
 主色为 `#000000`，双行正文页眉、章节导航和页脚沿用公共版式。
 当前章节目录中的其他条目使用 65% 前景色混合，保持黑底上的可读性。
 
-运行 `make MAIN=example` 构建完整功能演示与讲者备注。
-Release 提供这份 general 演示的 PDF 和 PPTX，以及清华、PCL 主题的 PDF 样例。
+运行 `make MAIN=example` 构建完整功能演示与讲者备注。三个主题共用同一份正文与逐页备注，
+页面数量和顺序一致，仅配色、标志与配图随主题变化。
+Release 为 general 提供 PDF/PPTX，为清华和 PCL 提供同内容的 PDF。
+
+`docs/images/theme-general-*.png` 从 general 主题完整示例的 PDF 渲染，
+与其他主题展示相同页码，供 README 对照查看；原创素材与字体分别适用下述许可。
 
 ## 素材与重建
 
