@@ -5,6 +5,18 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.14.0](https://github.com/AnikiFan/campus-beamer/compare/v0.13.0...v0.14.0) (2026-10-13)
+
+
+### Features
+
+* refresh PCL imagery and trim wordmark ([fb0054c](https://github.com/AnikiFan/campus-beamer/commit/fb0054cabf8ff6882c1ac738e2a196306863e33d))
+
+
+### Bug Fixes
+
+* use updated section preview image mapping ([6500804](https://github.com/AnikiFan/campus-beamer/commit/6500804c39c239cc1ee119fa9dc8d8fb31d53b9d))
+
 ## [0.13.0](https://github.com/AnikiFan/campus-beamer/compare/v0.12.1...v0.13.0) (2026-10-13)
 
 
