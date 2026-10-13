@@ -41,7 +41,7 @@
 本项目分发的横向标志与园区图片来自[鹏城实验室官网](https://www.pcl.ac.cn/index.html)、
 [美丽园区](https://www.pcl.ac.cn/html/1018/)和
 [人才招聘网站](https://hr.pcl.ac.cn/SU62b979a5bef57c0f6fb046d7/pb/index.html#/)；
-上述来源由项目维护者确认。文件按内容命名，原始文件内容保持不变。
+上述来源由项目维护者确认。原始 WebP 文件保留不变；字标另提供供 XeLaTeX 使用的派生素材。
 这些素材用于本模板的封面、页眉、园区背景及版式演示。
 
 - [`wordmark-source.webp`](assets/wordmark-source.webp)：横向中英文组合标志，保留 WebP 原始编码。
@@ -49,14 +49,21 @@
 - [`lakeside-aerial.jpg`](assets/lakeside-aerial.jpg)：湖畔建筑鸟瞰效果图。
 - [`lakeside-building.jpg`](assets/lakeside-building.jpg)：湖畔建筑效果图。
 - [`campus-buildings-aerial.jpg`](assets/campus-buildings-aerial.jpg)：园区建筑群鸟瞰效果图。
-- [`campus-courtyard-source.webp`](assets/campus-courtyard-source.webp)：园区庭院图片，保留 WebP 原始编码。
+- [`campus-courtyard.png`](assets/campus-courtyard.png)：当前示例使用的园区庭院图片。
+- [`campus-courtyard-source.webp`](assets/campus-courtyard-source.webp)：另存的庭院 WebP 素材，保留原始编码。
 
-为兼容 XeLaTeX，两个 WebP 文件另提供无损 PNG 编码副本：
-[`wordmark.png`](assets/wordmark.png) 和 [`campus-courtyard.png`](assets/campus-courtyard.png)。
-它们保持解码后的像素、尺寸与透明度，不放大或重采样。
+当前 JPEG 已去除 EXIF/XMP 元数据但保留 ICC 色彩配置和原始 JPEG 图像数据；庭院 PNG
+重新压缩了无损 IDAT 数据并保留 RGBA 像素、ICC 配置和分辨率信息。压缩前后逐像素核对一致，
+因此不会改变示例页面的图像内容。
+
+为兼容 XeLaTeX，字标另提供 [`wordmark.png`](assets/wordmark.png)。
+它裁去原图左侧 94 像素、右侧 128 像素的透明留边，画布由 1108×224 变为 886×224，
+保留图案像素与透明度，不重采样。封面沿用与清华主题相同的字标宽度和右下角锚点，保持纵横比。
+当前园区图片由维护者更新；`campus-courtyard.png` 不再由早期 WebP 转码生成。
 [`wordmark_on_dark.png`](assets/wordmark_on_dark.png) 由
 [`recolor_pcl_wordmark.py`](../../tools/recolor_pcl_wordmark.py) 从 `wordmark.png` 精确改色：
-以徽章与文字之间的透明间隔分区，只将右侧文字设为白色，左侧徽章及整图 alpha 保持不变。
+先规范化左右透明边界，再以徽章与文字之间的透明间隔分区，只将右侧文字设为白色，
+左侧徽章及整图 alpha 保持不变。
 [`wordmark_on_dark.pdf`](assets/wordmark_on_dark.pdf) 由 [`wordmark.tex`](wordmark.tex)
 直接嵌入此透明图像，不添加底色或留白框。
 
@@ -68,7 +75,6 @@
 ```bash
 mkdir -p build/pcl-assets
 convert 'theme/pcl/assets/wordmark-source.webp' theme/pcl/assets/wordmark.png
-convert 'theme/pcl/assets/campus-courtyard-source.webp' theme/pcl/assets/campus-courtyard.png
 xelatex -output-directory=build/pcl-assets theme/pcl/emblem.tex
 uv run --frozen python tools/recolor_pcl_wordmark.py
 xelatex -output-directory=build/pcl-assets theme/pcl/wordmark.tex
