@@ -5,6 +5,18 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.13.0](https://github.com/AnikiFan/campus-beamer/compare/v0.12.1...v0.13.0) (2026-10-13)
+
+
+### Features
+
+* assign distinct section images to Tsinghua demo ([b306516](https://github.com/AnikiFan/campus-beamer/commit/b306516cfae7436804d4a83b6dd2fc35a5a51db1))
+
+
+### Bug Fixes
+
+* align paper demo citations with top-right style ([8ae4aec](https://github.com/AnikiFan/campus-beamer/commit/8ae4aecf8e7af014068be0ff78760fcb18407bca))
+
 ## [0.12.1](https://github.com/AnikiFan/campus-beamer/compare/v0.12.0...v0.12.1) (2026-10-13)
 
 
