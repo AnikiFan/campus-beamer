@@ -485,6 +485,19 @@ def check_url_layout(document, log):
 
 def check_public_demo(document):
     """The public tour must exercise real reveal states and working links."""
+    guide = next(page for page in document if page.search_for('版式对齐检查'))
+    blocks = [drawing['rect'] for drawing in guide.get_drawings()
+              if drawing.get('fill') == (0.0, 0.0, 0.0)
+              and abs(drawing['rect'].y0) < .1
+              and 0 < drawing['rect'].x0 < 50
+              and drawing['rect'].width < 80]
+    # Default 11pt Beamer fonts: Huge baseline 30pt + tiny baseline 7pt.
+    # PDF coordinates use 72 points/inch; TeX dimensions use 72.27.
+    if len(blocks) != 1 or abs(blocks[0].width - 37 * 72 / 72.27) > .1:
+        raise RuntimeError('public demo: emblem block must be Huge + tiny baselines (37pt)')
+    guide_text = ''.join(guide.get_text().split())
+    if r'1baselineskip(\Huge)+1baselineskip(\tiny)=37.0pt' not in guide_text:
+        raise RuntimeError('public demo: emblem width annotation is out of sync')
     overview = document[1]
     if not overview.search_for('目录') or len(overview.get_links()) != 5:
         raise RuntimeError('public demo: missing complete overview and section links')

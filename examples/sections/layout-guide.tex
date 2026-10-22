@@ -50,7 +50,7 @@
       \draw[layout dimension] (emblem-right) -- ([xshift=\campuslogopadding]emblem-right);
       \draw[layout dimension] (emblem-bottom) -- ([yshift=-\campuslogopadding]emblem-bottom);
       \node[layout label,anchor=north west] at
-        ([xshift=\campuslogoleftskip,yshift=\dimexpr-\campuslogoheight-2mm\relax]
+        ([xshift=\campuslogoleftskip,yshift=\dimexpr-\campuslogoheight-8mm\relax]
           current page.north west)
         {校徽左右/下方留白：\the\campuslogopadding};
       \foreach \offset/\tag in {
@@ -111,8 +111,8 @@
       \coordinate (logo-b) at (V2 |- logo-a);
       \draw[layout dimension] (logo-a) -- (logo-b)
         node[midway,above,anchor=south west,layout label] {校徽色块：%
-          \layoutGuideHorizontalBaselineDistance[\campuslogowidth]{logo-a}{logo-b}
-          (\string\Huge)};
+          \texttt{1 baselineskip (\string\Huge) + 1 baselineskip (\string\tiny)
+          = \the\campuslogowidth}};
       \coordinate (gap-a) at ([yshift=-67mm]V2);
       \coordinate (gap-b) at (V3 |- gap-a);
       \draw[layout dimension] (gap-a) -- (gap-b)

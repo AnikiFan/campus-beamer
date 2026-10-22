@@ -933,9 +933,9 @@ userf = {<统计来源，截至 YYYY-MM-DD>},
 `\baselineskip`，由 `\campusheadertextgap` 控制（当前为 13.6 pt，约 4.78 mm）。
 校徽使用配置中的 `\schoolemblemondark`（默认白色图案）和
 `\schoolemblemonlight`（general 为黑色图案），背景色块由主题绘制：白色页面上为主色，
-主色章节页上为白色。色块宽度为 `\Large` 与 `\tiny` 的 `\baselineskip` 之和（当前为 18 + 7 = 25 pt），高度采用页眉三行网格。
+主色章节页上为白色。色块宽度为 `\Huge` 与 `\tiny` 的 `\baselineskip` 之和（当前为 30 + 7 = 37 pt），高度采用页眉三行网格。
 透明校徽等比缩放并水平居中，其外接矩形到色块左、右和下边各留 `3 pt`。
-因此当前校徽宽度为 `25 - 2 × 3 = 19 pt`；
+因此当前校徽宽度为 `37 - 2 × 3 = 31 pt`；
 上方留白由色块高度与校徽高度自动确定。图片尺寸和留白分别由主题中的
 `\campuslogoimagewidth`、`\campuslogopadding` 推导，色块本身的几何尺寸保持独立。
 description 的可选参数是标签列的**宽度样本**，Beamer 不自动寻找最宽标签。使用当前
