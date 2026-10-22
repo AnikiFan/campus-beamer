@@ -675,6 +675,7 @@ PDF/PPTX 的作者和导师属性保持正常姓名文本，不写入用于视�
 该 skill 提供按当前 profile 生成共享样式的本地渲染脚本，统一字体、字号、颜色和线条。
 颜色从 `maincolor` 和正文色派生，保留 `.mmd`、SVG/PDF 和生成命令。Mermaid 是可选的
 预生成工具，不加入默认构建依赖，也不在 `make` 时联网下载。
+首次配置请参照 [Mermaid 可选安装指南](installation.md#mermaid-绘图可选)。
 
 图形的最终字号、插入尺寸和版面适配遵循
 [AGENTS.md](../AGENTS.md#non-negotiable-boundaries) 中的仓库级图形规则。

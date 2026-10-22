@@ -66,6 +66,108 @@ uv lock --no-config --default-index https://pypi.org/simple
 但不要提交由个人镜像重新生成的锁文件。`--frozen` 会保留锁文件，单独配置镜像
 不代表已替换其中的下载地址。
 
+## Mermaid 绘图（可选）
+
+**仅在需要新建或修改 Mermaid 图时安装。** 编译已有图片、构建 PDF/PPTX 和 GitHub
+发布不需要这组依赖；默认 `make` 不安装或调用 Mermaid。下面的命令适用于
+Linux、macOS 或 WSL，并从仓库根目录执行。
+
+### 准备 Node、浏览器与字体
+
+通过 [Node.js 官方下载页](https://nodejs.org/en/download) 选择 **Node.js 24 LTS**
+及对应平台的安装方式，安装包含 npm 的发行包，然后确认命令可用：
+
+```bash
+node --version
+npm --version
+```
+
+复用本机已有的 Chrome/Chromium；若尚未安装，可从
+[Chrome 官网](https://www.google.com/chrome/) 安装适合本机的版本，或使用系统软件包中的
+Chromium。WSL 中请使用 Linux 浏览器及 Linux 版 Node/TeX。Linux 可先查找浏览器：
+
+```bash
+command -v google-chrome || command -v chromium || command -v chromium-browser
+```
+
+将实际可执行文件路径存入变量；下面是常见示例，按本机情况选择一行：
+
+```bash
+# Linux 示例；Chromium 的路径以 command -v 输出为准。
+MERMAID_BROWSER=/usr/bin/google-chrome
+# macOS 示例（使用此行替换上面的 Linux 路径）。
+# MERMAID_BROWSER='/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+"$MERMAID_BROWSER" --version
+```
+
+默认绘图字体复用前述 TeX 安装中的 Carlito 和 FandolHei；以下命令均应返回文件路径：
+
+```bash
+kpsewhich Carlito-Regular.ttf
+kpsewhich Carlito-Bold.ttf
+kpsewhich FandolHei-Regular.otf
+kpsewhich FandolHei-Bold.otf
+```
+
+### 安装本地绘图运行时
+
+将已测试的 CLI 与 Mermaid 引擎版本安装到被 Git 忽略的 `build/mermaid-runtime/`，
+无需全局安装或 `sudo npm`。安装会联网下载 npm 包；通过
+[`PUPPETEER_SKIP_DOWNLOAD`](https://pptr.dev/api/puppeteer.configuration)
+跳过 Puppeteer 的浏览器下载，使用上一步准备的浏览器：
+
+```bash
+mkdir -p build/mermaid-runtime
+PUPPETEER_SKIP_DOWNLOAD=true npm install --prefix build/mermaid-runtime --save-exact \
+  @mermaid-js/mermaid-cli@11.12.0 mermaid@11.17.2
+npm ls --prefix build/mermaid-runtime --depth=0
+```
+
+npm 会同时安装 CLI 所需的 Puppeteer。这组固定版本依赖 Puppeteer 23，安装时会出现
+其已停止支持的弃用提示；这里保留已验证的兼容组合，升级时需一起验证 CLI、引擎与浏览器。
+保留该目录中的 `package.json` 和
+`package-lock.json`；它们与 `node_modules/` 都属于本地环境，不提交到公共模板。
+需要按同一锁文件重建时运行：
+
+```bash
+PUPPETEER_SKIP_DOWNLOAD=true npm ci --prefix build/mermaid-runtime
+```
+
+手动删除整个 `build/` 时也会移除上述运行时。若希望独立保留，可将运行时放到
+仓库外的固定目录，并同步修改安装命令的 `--prefix` 和渲染命令的 `--runtime`。
+
+### 验证一次中文绘图
+
+保持在设置 `MERMAID_BROWSER` 的同一终端中，创建测试图并调用仓库渲染脚本：
+
+```bash
+mkdir -p build/mermaid-check
+cat > build/mermaid-check/check.mmd <<'EOF'
+flowchart LR
+  A[输入材料] --> B[处理模块]
+  B --> C[结果检查]
+EOF
+node .agents/skills/campus-mermaid/scripts/render.mjs \
+  --input build/mermaid-check/check.mmd \
+  --output build/mermaid-check/check \
+  --profile general \
+  --runtime build/mermaid-runtime \
+  --browser "$MERMAID_BROWSER"
+```
+
+成功后应生成 `check.pdf`、`check.svg`、`check.png` 和 `check.render.json`。
+打开 PNG 确认中文、箭头和边界正常，并检查 JSON 中的 `actualFonts`、`warnings`
+与文字 `clipped` 字段；命令成功仍需视觉检查。`make doctor` 不检查这组可选依赖。
+渲染脚本使用本地资源，不下载包或访问在线绘图服务。
+
+若提示找不到 `puppeteer` 或 Mermaid，检查 `--runtime` 是否指向包含 `node_modules/`
+的目录；字体缺失时补齐 TeX 字体或使用脚本的 `--latin-font` / `--cjk-font` 参数。
+浏览器启动失败时先核对路径和系统依赖，参见
+[Puppeteer 故障排查](https://pptr.dev/troubleshooting)。默认保留浏览器沙箱，
+`--no-sandbox` 仅供确实需要该选项的受控环境显式使用。
+更多配色、字体覆盖与生成参数见
+[Mermaid 渲染说明](../.agents/skills/campus-mermaid/references/rendering.md)。
+
 ## 常见问题
 
 - **`caladea.sty` / `carlito.sty` 找不到**：安装 TeX 的额外字体包，并确认 TeX 文件索引已更新。

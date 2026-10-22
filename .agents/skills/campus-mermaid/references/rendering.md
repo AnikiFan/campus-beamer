@@ -2,7 +2,9 @@
 
 Run `scripts/render.mjs` from the repository root. It produces a PDF, an SVG
 with embedded fonts, a 2x PNG preview and a JSON report. Node is needed for
-this rendering command.
+this rendering command. For first-time setup, follow the optional
+[Mermaid installation guide](../../../../docs/installation.md#mermaid-绘图可选),
+including local npm installation, browser/font checks and a smoke render.
 
 ## Select the actual profile and runtime
 
