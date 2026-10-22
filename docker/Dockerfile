@@ -18,35 +18,23 @@
 # Build an environment image; mount the presentation source at /workspace.
 # Keep the uv version explicit rather than pulling a changing latest tag.
 FROM ghcr.io/astral-sh/uv:0.12.3 AS uv
-FROM ubuntu:24.04
+# Full TeX Live 2025, including XeLaTeX, latexmk, biber and the CJK packages.
+# Pin the multi-platform index so amd64 and arm64 use the same release.
+FROM ghcr.io/xu-cheng/texlive-historic-debian:2025@sha256:d3e42adc0c8d84bc913bfc33571feaf7037616260a771bb6f027504661568bf6
 
+# Keep TeX and biber from the upstream image; apt only supplies system tools/fonts.
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        biber \
         ca-certificates \
+        ffmpeg \
         fontconfig \
         fonts-crosextra-caladea \
         fonts-crosextra-carlito \
-        latexmk \
+        git \
         make \
         python3 \
-        texlive-bibtex-extra \
-        texlive-fonts-extra \
-        texlive-lang-chinese \
-        texlive-latex-extra \
-        texlive-xetex \
     && rm -rf /var/lib/apt/lists/* \
     && fc-cache -f
-
-# Beamer also loads base symbol fonts; these are not installed by the above
-# packages when apt recommendations are disabled. Git exercises ignore rules
-# during make test / make release. Keep the large TeX layer cached.
-RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        texlive-fonts-recommended \
-        ffmpeg \
-        git \
-    && rm -rf /var/lib/apt/lists/*
 
 COPY --from=uv /uv /usr/local/bin/uv
 
@@ -57,6 +45,7 @@ ENV UV_PROJECT_ENVIRONMENT=/opt/campus-venv \
     UV_LINK_MODE=copy \
     UV_CACHE_DIR=/tmp/campus-uv-cache \
     XDG_CACHE_HOME=/tmp/campus-cache \
+    TEXMFHOME=/tmp/campus-texmf-home \
     TEXMFVAR=/tmp/campus-texmf-var \
     TEXMFCONFIG=/tmp/campus-texmf-config
 

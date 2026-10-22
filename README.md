@@ -319,6 +319,8 @@ GitHub Release 会将源码 ZIP、general 完整演示的 PDF/PPTX、清华与�
 
 感谢以下项目的作者与贡献者：
 
+- **构建环境**：[xu-cheng/latex-docker](https://github.com/xu-cheng/latex-docker)。
+  本项目的 Docker 环境基于其预装 TeX Live 的 Debian 镜像，补充模板字体和 PDF/PPTX 工具。
 - **工程实践**：[TongjiThesis 同济论文模板](https://github.com/TJ-CSCCG/TongjiThesis)。
   本项目参考了其文档类选项、文献配置入口、章节文件组织，以及 Make 构建、环境检查和
   命令行、VS Code、Overleaf、GitHub Actions 的使用说明，结合 Beamer 汇报流程独立实现。

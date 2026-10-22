@@ -5,8 +5,10 @@
 `docker/Dockerfile` 构建一个专用于本项目的环境镜像，包含 GNU Make、
 XeLaTeX、latexmk、biber、中文与模板字体、Python、uv 和用于视频预览的 FFmpeg。
 镜像同时安装 Git，供 `make test` 和 `make release` 验证用户文件的忽略规则。
-只安装项目使用的 TeX 软件包集合，不安装整个 `texlive-full`。
-额外字体包较大，首次构建需要下载系统和 Python 依赖。
+基础环境来自 [xu-cheng/latex-docker](https://github.com/xu-cheng/latex-docker)
+的 `ghcr.io/xu-cheng/texlive-historic-debian:2025`，包含完整 TeX Live 2025，
+并固定多架构镜像摘要。项目只额外安装系统工具、字体和 Python 依赖。
+首次构建需要下载较大的预装镜像及补充依赖；无需在本项目构建步骤中安装 TeX Live。
 宿主机只需安装并运行 Docker，无需另外安装 TeX 或 uv。
 
 镜像内不包含汇报源码、学校图片或视频。运行时挂载项目，输出仍在项目的 `build/`。
@@ -19,7 +21,7 @@ XeLaTeX、latexmk、biber、中文与模板字体、Python、uv 和用于视频�
 docker build -f docker/Dockerfile -t campus-beamer:local .
 ```
 
-构建时使用 Ubuntu 24.04 和固定版本的 uv，按照 `uv.lock` 安装 Python 依赖，
+构建时使用预装 TeX Live 的 Debian 镜像和固定版本的 uv，按照 `uv.lock` 安装 Python 依赖，
 并运行项目的环境检查和 Python 导入检查；缺少必要工具、TeX 包或字体时构建失败。
 `docker/Dockerfile.dockerignore` 使用 Dockerfile 专用命名，只允许构建所需的依赖文件和
 辅助工具进入上下文，排除私人汇报、素材、`.venv` 和构建产物。
@@ -78,6 +80,8 @@ DBLP 和引用次数检索仍需要网络。
 容器预装默认 Fandol、Caladea 和 Carlito 字体。自定义系统字体需要在 `docker/Dockerfile` 中
 安装对应字体包，或将字体文件作为本地素材提供，并在汇报中按文件路径加载。
 不指定 CPU 架构时，Docker 默认为当前主机选择镜像；不需要强制模拟 amd64。
+基础镜像支持 amd64 和 arm64。升级 TeX Live 时，在 `docker/Dockerfile` 中同时更新年份
+和多架构镜像摘要，并重新检查 `make doctor`、`make check-theme` 和公开演示的 PDF/PPTX。
 
 实现方式参考 [uv 官方 Docker 指南](https://docs.astral.sh/uv/guides/integration/docker/)
 和 [Docker 容器运行文档](https://docs.docker.com/engine/containers/run/)。

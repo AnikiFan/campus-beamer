@@ -60,6 +60,11 @@ Action 固定为 `v4.4.1`；其 TOML 更新器将名称包装在 `value` 节点�
 Release 会先创建，再构建附件。构建失败时 Release 可能暂时没有发行 ZIP；
 查看诊断并修复后，使用下方按 tag 手动重试的入口，勿将旧附件当作本次成功构建的结果。
 
+发布工作流通过 Docker Buildx 将环境镜像的构建层保存到 GitHub Actions 缓存，
+使用固定的 `campus-beamer-release` scope 跨版本复用。基础镜像预装 TeX Live 2025，
+首次构建或缓存失效时仍需拉取镜像并安装补充依赖；后续缓存命中时可复用构建层。
+镜像加载到当前 runner 后继续执行 `make release`，环境详情见 [Docker 构建环境](docker.md)。
+
 ## 本地准备发行包
 
 ```bash

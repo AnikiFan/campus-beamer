@@ -301,6 +301,9 @@ The original procedural video `assets/presentation_demo.mp4` is separately dedic
 
 Thanks to the authors and contributors of these projects:
 
+- **Build environment**: [xu-cheng/latex-docker](https://github.com/xu-cheng/latex-docker).
+  This project's Docker environment extends its Debian image with preinstalled TeX Live,
+  adding template fonts and PDF/PPTX tools.
 - **Engineering practices**: [TongjiThesis](https://github.com/TJ-CSCCG/TongjiThesis).
   Its document-class options, bibliography interface, chapter organization, Make workflow,
   environment checks and guidance for the command line, VS Code, Overleaf and GitHub Actions
