@@ -94,6 +94,11 @@ For description lists, confirm that the width sample is the actual widest label
 at the selected font/size, and inspect aligned right edges, explanation starts,
 column boundaries and wrapped text.
 
+For tables, verify that labels shared by multiple detail rows occupy merged
+cells and are vertically centered across the complete row group, including
+wrapped text. Partial rules must not cross those cells; check group boundaries
+and consistent text/numeric alignment across columns.
+
 Every content diagram/image/screenshot has a nearby caption below it describing
 objects or relationships; check the visible text, spacing and clearance from
 body/footer. Exempt logos, decorative backgrounds and theme overlay TikZ.
@@ -104,6 +109,9 @@ Code and video captions use the localized theme-colored label followed by
 normal caption text, matching figures and tables. Check both `caption` and
 `description` code options, `\campusvideocaption`, and empty captions; do not
 color the entire description or leave a label when the caption is absent.
+Image and video titles/captions must describe their content. Original paper
+figure numbers belong in citations or source notes; file sizes and durations
+are visible only when they serve as evidence in the talk.
 
 Web sources use the standard gray top-right citation style. Verify both the
 source name and actual URL are visible and clickable, including fragments and
@@ -111,9 +119,30 @@ query parameters. For the long-address fallback, match the corner label to the
 named full URL on that page. Keep the configured citation font readable;
 shorten a title, relocate the full URL or split rather than shrink text.
 
-Search rendered body text for authoring-process phrases such as “作者提供”、
-“本次材料”、“作者截图”、“本页来自草稿” and “素材来源”. Replace them with
-audience-facing resource labels; keep provenance and editing notes in speaker notes.
+Check rendered academic citations for verified paper affiliations, publication
+dates and citation counts with provider and snapshot date. Do not treat populated
+BibTeX fields as proof that these details are visible. Report unavailable fields
+to the user; never render metadata placeholders or invent a zero count.
+
+For bibliography summaries, verify the fitting sequence in STYLE.md: existing
+font and single column when one page suffices; progressively smaller fonts down
+to tiny; then tiny two-column; then multiple pages retaining that format. Check
+actual rendered font sizes, column layout, complete entry coverage and footer
+clearance. Do not accept hidden frame scaling below tiny or prematurely reduced
+fonts. This is an authoring policy, not an automatic `\referencespage` feature.
+
+If the talk's corner-citation width was increased to reduce wrapping, inspect
+all affected pages, especially the longest frame and subsection titles and the
+longest citation blocks. Require a visible safe horizontal gap and body
+clearance, without additional title wrapping or smaller citation text.
+
+Search rendered body text and speaker notes for authoring-process phrases such
+as “作者提供”, “本次材料”, “作者截图”, “本页来自草稿”, “待完成”, “待补充”,
+“TODO” and “请替换图片”. Use audience-facing resource labels, keep detailed
+provenance in speaker notes, and move editing tasks to user messages. Review
+matches in context: scientific open questions, limitations and future work may
+be legitimate talk content. An unresolved gap that prevents the intended talk
+from being delivered must block a readiness claim, even if no placeholder remains.
 
 Inspect section lists for phantom blank rows as well as genuine wrapped titles.
 Verify top-right citation placement and clearance from both header lines;

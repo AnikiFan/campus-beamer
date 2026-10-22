@@ -239,7 +239,10 @@ Write visible text for the audience, not for the authoring process. Remove
 phrases such as “作者提供”“本次材料”“作者截图”“本页来自草稿” and
 “素材来源”; replace them with audience-facing labels such as “课后学习资源”、
 “课程规则来源” or “相关文档”. Keep detailed provenance, source paths and
-editing instructions in speaker notes. Preserve necessary visible scientific
+source locators in speaker notes. Send editing instructions, TODOs and missing
+material requests in user messages, never in slides or speaker notes. Track
+gaps in the working outline; resolve any gap that prevents delivery before
+calling the talk ready. Preserve necessary visible scientific
 citations, attribution, and evidence labels.
 Use `\cornercite{key}` for slide citations, and create a references summary before
 the closing page when citations are present. For code, use a `fragile` frame.
@@ -300,6 +303,14 @@ labels and page titles do not replace this explanation. Decorative graphics,
 logos, theme backgrounds, plain prose and a single mathematical arrow do not
 need content-figure captions.
 
+Use content-based image and video titles/captions: describe the phenomenon,
+method or result. Put original paper figure numbers in citations or source notes,
+not in the content title; retain meaningful subfigure labels. File size, duration
+and filenames belong on the slide only when they are evidence for its argument.
+For tables, merge a shared label across the rows it describes and vertically
+center it over that group. Check wrapped labels and partial horizontal rules
+in the rendered PDF; follow the table alignment defaults in STYLE.md.
+
 For resources the audience must visit, show the resource name and visible URL
 on the same page and keep the hyperlink target identical. Web citations use
 the corner URL by default; a long-address fallback uses a named full body URL. Use `\url` or `\href` with
@@ -328,6 +339,13 @@ makes TeX authoritative; the exporter does not blend two note sources.
 
 ## Citation facts
 
+By default, show verified paper affiliations, publication dates and citation
+counts together with the count provider and snapshot date. Preserve the known
+date precision and paper-version affiliations. Follow [literature.md](literature.md)
+for field mapping and rendering; ordinary `\cornercite` does not automatically
+display the extra `paperframe` fields. Report unavailable fields in user messages
+and show only verified metadata, without placeholders or invented zero counts.
+
 When lookup is authorized, use `make literature`, then `make bibtex`; inspect
 the candidate rather than assuming the first result. Merge a verified entry
 into `bibliography/main.bib` after checking key, DOI, title, authors, year, and
@@ -335,10 +353,33 @@ publication version. Use `make citations DOI=...` only for an exact DOI. A
 missing or rate-limited count is unavailable, not zero. BibTeX and citation
 counts do not establish research findings; read the source paper first.
 
+### Fit references and corner citations
+
+For the bibliography summary, retain the talk's existing font size and single
+column while it fits one page. If it would spill, compile with successively
+smaller sizes, starting at the current size and following `\normalsize`,
+`\small`, `\footnotesize`, `\scriptsize`, `\tiny`. Use the largest size that
+fits one page. Only after tiny single-column fails, use tiny two-column; if
+that still needs multiple pages, keep tiny two-column and paginate. Verify
+every entry remains present. Set the size and pagination explicitly rather
+than using frame `shrink` to scale below the selected size. This bibliography
+exception does not permit shrinking body text or diagrams. The existing
+`\referencespage` command does not choose sizes or columns automatically;
+the agent must adjust the source and inspect the result.
+
+When corner citations wrap into too many lines and intrude on the body, first
+consider widening the citation area for this talk via `cornerwidth` or a
+preamble `\setcornercitewidth{...}`. Check actual rendered widths of the
+longest frame title and subsection header across the talk. Keep a visible safe
+gap to the citation block and clearance below it, without forcing extra title
+wrapping. Preserve the citation font size; if widening cannot fit safely,
+condense the citation format or redistribute/split the slide's content. Do not
+change the reusable theme's width to solve one talk's layout.
+
 ## Authoring finish line
 
 Run `make draft`, inspect the report and every rendered page, and revise density,
 overflow, or collisions. Then run `make` to produce the final PDF/PPTX. Verify
 page count, notes coverage, links, section boundaries, and document metadata.
-Use `docs/agent-validation.md` for the detailed checks and report placeholders
-or unresolved evidence.
+Use `docs/agent-validation.md` for the detailed checks and report content gaps
+or unresolved evidence in the delivery message, outside the deck.

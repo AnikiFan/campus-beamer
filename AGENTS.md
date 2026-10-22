@@ -37,8 +37,17 @@ when the task touches their subject.
 - Bundle necessary clarifications when an unknown would change the meaning,
   require external/proprietary material, or cross a privacy or safety boundary.
   Routine condensation, layout choices, local inspection, and safe local tests
-  are authorized work. If a missing fact does not change the argument, use a
-  clear placeholder and report it.
+  are authorized work. Track missing facts in the working outline and report
+  them in user messages; never put editorial placeholders in slides or notes.
+- Author each compiled user talk as a presentation-ready artifact. Visible
+  text must serve the audience; speaker notes must support delivery. Keep
+  editing tasks such as TODO, “待完成” and “请替换图片” in user messages.
+  Follow [STYLE.md](STYLE.md) for content-based captions, verified citation
+  metadata (institution, publication date and citation count with its snapshot
+  date/source), and merged, vertically centered table cells for shared row groups.
+- Apply the bibliography fitting and corner-citation width policies in
+  [STYLE.md](STYLE.md) during authoring and rendered validation. These are agent
+  layout decisions, not automatic compiler behavior or global theme changes.
 - Develop content in the outline stage: expand the user's free-form draft into
   sections and subsections with substantive explanations, evidence, and sources
   within the supplied purpose/materials. External research, proprietary assets,
@@ -78,7 +87,8 @@ when the task touches their subject.
 For a talk, completion means authored source plus aligned speaker notes,
 successful PDF and PPTX output, and the checks in the authoring/validation
 guides. Do not report a deck as ready without inspecting the rendered pages and
-reporting any unresolved placeholder or warning.
+reporting unresolved content gaps or warnings in the delivery message. A gap
+that prevents the intended talk from being delivered means the deck is not ready.
 
 For code, theme, or documentation work, completion means the requested change,
 the narrowest meaningful tests/checks, and a brief report of what was not run or
