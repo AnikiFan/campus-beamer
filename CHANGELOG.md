@@ -5,6 +5,13 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.15.2](https://github.com/AnikiFan/campus-beamer/compare/v0.15.1...v0.15.2) (2026-10-22)
+
+
+### Documentation
+
+* add optional Mermaid installation guide ([0850e9f](https://github.com/AnikiFan/campus-beamer/commit/0850e9f7a448815383a5bcf0fce79e1229fcc0a2))
+
 ## [0.15.1](https://github.com/AnikiFan/campus-beamer/compare/v0.15.0...v0.15.1) (2026-10-22)
 
 
