@@ -5,10 +5,15 @@
 from __future__ import annotations
 
 import argparse
+import math
 import re
 from pathlib import Path
 
 import pymupdf
+
+
+MAX_PREVIEW_BYTES = 1024 * 1024
+MIN_PREVIEW_DPI = 150
 
 
 # Physical PDF pages, in presentation order. Closing remains the final page.
@@ -77,14 +82,35 @@ def gallery_markup(english: bool = False) -> str:
     return '\n'.join(lines)
 
 
+def save_preview(page: pymupdf.Page, destination: Path, dpi: int,
+                 max_bytes: int = MAX_PREVIEW_BYTES) -> None:
+    """Keep small PNGs intact; rerender large pages within a byte budget."""
+    if dpi < MIN_PREVIEW_DPI or max_bytes <= 0:
+        raise ValueError('Preview DPI must be at least 150 and byte limit must be positive.')
+    render_dpi = dpi
+    while True:
+        data = page.get_pixmap(dpi=render_dpi, alpha=False).tobytes('png')
+        if len(data) <= max_bytes:
+            destination.write_bytes(data)
+            if render_dpi != dpi:
+                print(f'{destination.name}: {len(data) / 1024:.0f} KiB at {render_dpi} DPI')
+            return
+        if render_dpi == MIN_PREVIEW_DPI:
+            raise ValueError(f'{destination.name}: cannot fit {max_bytes} bytes at '
+                             f'{MIN_PREVIEW_DPI} DPI; simplify the preview image.')
+        # Pixel count scales quadratically. Leave room for PNG compression
+        # variability and always make progress, without sacrificing readability.
+        scale = min(0.9, 0.9 * math.sqrt(max_bytes / len(data)))
+        render_dpi = max(MIN_PREVIEW_DPI, int(render_dpi * scale))
+
+
 def render_gallery(pdf: Path, theme: str, output: Path, dpi: int) -> None:
     with pymupdf.open(pdf) as document:
         for name, number, _, _, _ in GALLERY:
-            document[number - 1].get_pixmap(dpi=dpi, alpha=False).save(
-                output / f'preview-{theme}-{name}.png')
+            save_preview(document[number - 1], output / f'preview-{theme}-{name}.png', dpi)
         if theme == 'general':
-            document[0].get_pixmap(dpi=dpi, alpha=False).save(output / 'cover.png')
-            document[23].get_pixmap(dpi=dpi, alpha=False).save(output / 'citations.png')
+            save_preview(document[0], output / 'cover.png', dpi)
+            save_preview(document[23], output / 'citations.png', dpi)
 
 
 def main() -> None:
@@ -94,7 +120,8 @@ def main() -> None:
     parser.add_argument('--check-only', action='store_true')
     parser.add_argument('--update-readme', action='store_true')
     parser.add_argument('--output', type=Path, default=Path('docs/images'))
-    parser.add_argument('--dpi', type=int, default=600)
+    parser.add_argument('--dpi', type=int, default=600,
+                        help='Initial DPI (at least 600); large PNGs adapt down to 150 DPI to fit 1 MiB')
     args = parser.parse_args()
     if args.dpi < 600:
         raise ValueError('Preview DPI must be at least 600.')

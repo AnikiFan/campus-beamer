@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Keep theme samples comparable and README previews in presentation order."""
 from pathlib import Path
+import random
 import sys
 import tempfile
 import unittest
@@ -10,7 +11,8 @@ from unittest.mock import patch
 import pymupdf
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from render_theme_previews import GALLERY, THEMES, gallery_markup, validate_samples
+from render_theme_previews import (GALLERY, THEMES, MAX_PREVIEW_BYTES, MIN_PREVIEW_DPI,
+                                   gallery_markup, save_preview, validate_samples)
 
 
 class ThemePreviewTests(unittest.TestCase):
@@ -35,6 +37,43 @@ class ThemePreviewTests(unittest.TestCase):
     def test_matching_samples_pass(self):
         with patch('render_theme_previews.GALLERY', self.gallery):
             validate_samples([self.pdf('general.pdf'), self.pdf('school.pdf')])
+
+    def test_small_preview_keeps_pixels_and_dpi(self):
+        output = self.root / 'preview.png'
+        with pymupdf.open(self.pdf('small.pdf')) as document:
+            expected = document[0].get_pixmap(dpi=600, alpha=False)
+            save_preview(document[0], output, 600)
+        actual = pymupdf.Pixmap(output)
+        self.assertEqual(actual.samples, expected.samples)
+        self.assertEqual((actual.xres, actual.yres), (600, 600))
+
+    def test_large_preview_fits_budget_with_readable_resolution(self):
+        output = self.root / 'preview.png'
+        with pymupdf.open() as document:
+            page = document.new_page(width=144, height=81)
+            noise = pymupdf.Pixmap(pymupdf.csRGB, 1200, 675,
+                                  random.Random(42).randbytes(1200 * 675 * 3), False)
+            page.insert_image(page.rect, pixmap=noise)
+            self.assertGreater(len(page.get_pixmap(dpi=600).tobytes('png')), MAX_PREVIEW_BYTES)
+            save_preview(page, output, 600)
+            self.assertLessEqual(output.stat().st_size, MAX_PREVIEW_BYTES)
+            actual = pymupdf.Pixmap(output)
+            self.assertGreaterEqual(actual.xres, MIN_PREVIEW_DPI)
+            self.assertLess(actual.xres, 600)
+            self.assertAlmostEqual(actual.width / actual.height, 16 / 9, places=2)
+            saved = output.read_bytes()
+            with self.assertRaisesRegex(ValueError, 'cannot fit'):
+                save_preview(page, output, 600, max_bytes=100)
+            self.assertEqual(output.read_bytes(), saved)
+
+    def test_documentation_previews_stay_within_size_limit(self):
+        images = Path(__file__).resolve().parents[2] / 'docs' / 'images'
+        previews = list(images.glob('*.png'))
+        self.assertTrue(previews)
+        for path in previews:
+            with self.subTest(image=path.name):
+                self.assertLessEqual(path.stat().st_size, MAX_PREVIEW_BYTES,
+                                     'Regenerate documentation previews with make theme-previews')
 
     def test_different_page_count_or_sections_fail(self):
         first = self.pdf('general.pdf')
