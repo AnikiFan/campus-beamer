@@ -5,6 +5,21 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.15.0](https://github.com/AnikiFan/campus-beamer/compare/v0.14.0...v0.15.0) (2026-10-22)
+
+
+### Features
+
+* add Mermaid diagram skill with shared Campus styling ([d32fd3b](https://github.com/AnikiFan/campus-beamer/commit/d32fd3b3c7cea272aa87c46c840a5d5f2fe15d33))
+
+
+### Bug Fixes
+
+* cap documentation preview images at one MiB ([175fd3a](https://github.com/AnikiFan/campus-beamer/commit/175fd3a82f5f6cdee610c5bfa2264b8880c1dc93))
+* increase emblem padding to 3.5pt ([1975193](https://github.com/AnikiFan/campus-beamer/commit/1975193ce18f7de5b5bcbb4f4bd431e6805ea8bf))
+* size emblem block from Large and tiny baselines ([b094d63](https://github.com/AnikiFan/campus-beamer/commit/b094d63a80433c591a067255c859ca734e0f6e06))
+* use Huge and tiny baselines for emblem block width ([6cbbf12](https://github.com/AnikiFan/campus-beamer/commit/6cbbf127b8645a2ee2da453505080be991a6ae02))
+
 ## [0.14.0](https://github.com/AnikiFan/campus-beamer/compare/v0.13.0...v0.14.0) (2026-10-13)
 
 
