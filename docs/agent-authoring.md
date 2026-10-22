@@ -283,8 +283,11 @@ Do not impose an unrequested character limit; check the rendered width at the
 normal font size.
 
 When a slide expresses multiple nodes, steps, branches, device boundaries, or
-spatial relationships, draw a node-based diagram with TikZ or a separately
-generated Mermaid/PDF/SVG source. Use profile-derived colors and theme-matched
+spatial relationships, prefer an appropriate Mermaid type using
+[campus-mermaid](../.agents/skills/campus-mermaid/SKILL.md). Use TikZ when Mermaid
+does not suit the relationship, geometry or overlays. Follow the shared
+figure-layout rules in [AGENTS.md](../AGENTS.md#non-negotiable-boundaries).
+Use profile-derived colors and theme-matched
 fonts and size; preserve editable source and generation metadata. Where semantics
 permit, align peer nodes, give equivalent nodes equal dimensions and spacing, and
 arrange parallel branches symmetrically around a common axis. Use explicit border

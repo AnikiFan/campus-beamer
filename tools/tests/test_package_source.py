@@ -85,6 +85,16 @@ class SourcePackageTests(unittest.TestCase):
                 self.assertNotIn('assets/' + name, names)
             self.assertFalse(any(name.startswith('theme/private-school/') for name in names))
 
+    def test_mermaid_skill_has_its_renderer_and_style_resources(self):
+        package(self.root, self.output)
+        with ZipFile(self.output) as archive:
+            names = set(archive.namelist())
+        prefix = '.agents/skills/campus-mermaid/'
+        for resource in ('SKILL.md', 'agents/openai.yaml', 'assets/config.json',
+                         'scripts/render.mjs', 'references/diagram-selection.md',
+                         'references/rendering.md'):
+            self.assertIn(prefix + resource, names)
+
     def test_repeated_archives_are_byte_identical(self):
         package(self.root, self.output)
         first = self.output.read_bytes()

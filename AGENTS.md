@@ -11,6 +11,9 @@ workflow guide only when the task needs it.
   [`campus-beamer-authoring`](.agents/skills/campus-beamer-authoring/SKILL.md).
   A request such as “根据大纲制作 PPT” starts this workflow. Inventory authorized
   materials with ignore rules disabled and review coverage before confirmation.
+- **Visualize approved content:** use
+  [`campus-mermaid`](.agents/skills/campus-mermaid/SKILL.md) when a diagram helps.
+  Prefer a suitable Mermaid type with the shared style.
 - **Change theme geometry, colors, class options, or visual behavior:** read
   [`docs/agent-theme.md`](docs/agent-theme.md) and the affected files under
   `theme/` or `tools/fixtures/`.
@@ -56,6 +59,12 @@ when the task touches their subject.
   the frame title. Give every body frame a meaningful subsection and a title;
   keep single-line headers for generated TOC and references pages. The explicit
   `campusfocus` style is also single-line, with only the bottom footer row.
+- Render generated content diagrams at their intended final font size and
+  insert exported diagrams at natural size. If a diagram does not fit, first
+  adjust its layout, direction, grouping and spacing; then simplify or split
+  while preserving meaning. Use TikZ if it remains unsuitable. Do not solve fit
+  by shrinking text or rescaling a finished figure. This rule applies across
+  diagram tools and authoring workflows.
 - Treat compiler output in `build/` as generated. Agent-authored normalized
   outlines are editable working documents; speaker notes live in native `\note`
   commands alongside the TeX frames. Do not

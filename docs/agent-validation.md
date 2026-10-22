@@ -75,7 +75,10 @@ type marker and file/path, while an optional global description is below the cod
 area in the figure-caption style; check Terminal, configuration-file, source-file,
 line-number, fragile, and column cases. For node-based diagrams, inspect node/arrow anchors, profile-derived
 colors, final font size, wrapping, clipping, and editable source/generation
-metadata. Where semantics permit, check symmetry, equal peer-node dimensions,
+metadata. Check compliance with the shared figure-layout rules in
+[AGENTS.md](../AGENTS.md#non-negotiable-boundaries). For Mermaid, also check the
+actual fonts and text size in the render report.
+Where semantics permit, check symmetry, equal peer-node dimensions,
 aligned centers and regular gaps. Check edge anchors, routing and visible shafts
 longer than arrowheads at the final insertion size. A plain sentence or single
 mathematical arrow does not need a diagram.

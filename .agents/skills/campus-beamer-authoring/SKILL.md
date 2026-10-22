@@ -41,7 +41,10 @@ facts. Keep the public demo separate from the user's talk.
 ## Finish the approved talk
 
 Apply the authoring guide and current STYLE.md to body headers, figures, citations,
-code, semantic boxes and notes. Follow the relevant checks in the
+code, semantic boxes and notes. When approved relationships benefit from a
+diagram, use [campus-mermaid](../campus-mermaid/SKILL.md) to select an appropriate
+Mermaid type and render it in the active theme's style; use TikZ when needed.
+Follow the relevant checks in the
 [validation guide](../../../docs/agent-validation.md): build the final draft,
 inspect every rendered page, then export PDF/PPTX and verify notes, links,
 sections and metadata. Fix failures caused by the work and report unresolved

@@ -144,7 +144,7 @@ agent 按 [`AGENTS.md`](AGENTS.md) 读取草稿和素材，先扩充成按章节
 展开要点、解释、证据和讲述顺序，供你审阅。内容补充与重组在这个阶段完成。
 确认后，它会按详细大纲编排页面、分配正文与备注、检查排版，并导出 `build/main.pdf` 和 `build/main.pptx`。
 
-制作与验证流程由仓库内置的 [Agent Skills](docs/usage.md#内置-agent-skills) 提供，agent 按任务调用对应入口。
+制作、验证与 Mermaid 图形流程由仓库内置的 [Agent Skills](docs/usage.md#内置-agent-skills) 提供，agent 按任务调用对应入口。
 
 [`STYLE.md`](STYLE.md) 定义默认汇报风格，**可按你的需求修改**：
 包括每页内容密度、正文与备注的分工、备注详细程度、引用位置及日期格式。

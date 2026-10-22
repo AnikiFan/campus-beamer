@@ -52,12 +52,14 @@ agent 按 `AGENTS.md` 和[制作指南](agent-authoring.md) 组织内容并完�
 
 ### 内置 Agent Skills
 
-仓库在 `.agents/skills/` 中提供两个任务入口：
+仓库在 `.agents/skills/` 中提供三个任务入口：
 
 - [`campus-beamer-authoring`](../.agents/skills/campus-beamer-authoring/SKILL.md)：
   从草稿和材料扩充详细大纲，确认后制作页面与备注，并完成交付。
 - [`campus-beamer-validation`](../.agents/skills/campus-beamer-validation/SKILL.md)：
   编译、导出、检查 PDF/PPTX 或排查输出问题。
+- [`campus-mermaid`](../.agents/skills/campus-mermaid/SKILL.md)：
+  根据待绘制的关系选择 Mermaid 类型，按当前主题统一字体与配色，并生成和检查图片。
 
 agent 根据请求调用对应 skill；日常制作可直接说“根据大纲制作 PPT”。
 整体风格继续由根目录的 `STYLE.md` 定义，用户可按需修改；详细指南按任务读取。
@@ -667,11 +669,17 @@ PDF/PPTX 的作者和导师属性保持正常姓名文本，不写入用于视�
 
 ## 流程图与课堂链接
 
-当页面需要表达多个节点、步骤、分支、设备边界或空间关系时，使用 TikZ
-节点和锚点，或在独立步骤中用 Mermaid 生成 PDF/SVG；不要用居中的文字、换行和
-箭头拼成流程图。颜色从当前 profile 的 `maincolor` 和正文色派生，字体与最终主题
-一致，先在插入尺寸下检查节点间距、连线、换行、裁切和可读字号。保留 `.mmd` 或
-TikZ 源文件以及生成命令；Mermaid 不加入默认构建依赖，也不在 `make` 时联网下载。
+当页面中的关系适合用图表达时，优先使用
+[campus-mermaid](../.agents/skills/campus-mermaid/SKILL.md) 选择合适的 Mermaid 类型：
+流程与分支用 flowchart，状态转换用状态图，消息交互用时序图，阶段演进用时间线等。
+该 skill 提供按当前 profile 生成共享样式的本地渲染脚本，统一字体、字号、颜色和线条。
+颜色从 `maincolor` 和正文色派生，保留 `.mmd`、SVG/PDF 和生成命令。Mermaid 是可选的
+预生成工具，不加入默认构建依赖，也不在 `make` 时联网下载。
+
+图形的最终字号、插入尺寸和版面适配遵循
+[AGENTS.md](../AGENTS.md#non-negotiable-boundaries) 中的仓库级图形规则。
+精确数学排版、特殊几何和 overlays 可直接使用 TikZ。不用手工文字与
+箭头拼图；普通说明句和单个公式箭头不必画图。科研统计图和需精确坐标的图使用绘图工具。
 
 在语义允许时，同层节点使用一致尺寸、对齐基线和等距间隔，并行分支围绕主轴对称排列。
 使用 `positioning`、矩阵或统一坐标管理节点，连线从明确的边界锚点出发；调整节点间距与转折点，

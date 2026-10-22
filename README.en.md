@@ -147,7 +147,7 @@ The agent follows [`AGENTS.md`](AGENTS.md), reads the draft and materials, and d
 It expands key points, explanations, evidence and the narrative for your review. Content development and restructuring happen at this stage.
 After confirmation, it composes pages, distributes content between slides and notes, checks the layout and exports `build/main.pdf` and `build/main.pptx`.
 
-The agent uses the repository's [authoring and validation Agent Skills](docs/usage.md#内置-agent-skills)
+The agent uses the repository's [authoring, validation and Mermaid Agent Skills](docs/usage.md#内置-agent-skills)
 for the corresponding tasks.
 
 [`STYLE.md`](STYLE.md) defines the default presentation style. **Edit it to suit your needs:**
