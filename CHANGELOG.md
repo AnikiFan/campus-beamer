@@ -5,6 +5,13 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.18.0](https://github.com/AnikiFan/campus-beamer/compare/v0.17.0...v0.18.0) (2026-10-23)
+
+
+### Features
+
+* add Tokyo Night theme and focus READMEs on template users ([fa0f136](https://github.com/AnikiFan/campus-beamer/commit/fa0f136c08c10d1c5ec986d616ac0cb5108efa63))
+
 ## [0.17.0](https://github.com/AnikiFan/campus-beamer/compare/v0.16.0...v0.17.0) (2026-10-23)
 
 
