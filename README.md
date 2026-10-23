@@ -31,6 +31,8 @@
 
 `example.tex` 是版式与功能演示；general 主题完整功能演示的 PDF/PPTX，以及清华和鹏城实验室主题的 PDF 样例请前往
 [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 下载。
+general 另提供完整英文版 [`example-en.tex`](example-en.tex)，可用 `make pdf MAIN=example-en` 编译。
+Release 中的 `campus-beamer-X.Y.Z-example-en.pdf` 为英文 PDF；英文版不附带 PPTX。
 Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲者视图查看。
 渐进显示页包含实际 overlays：在 PDF/PPTX 中按页推进，可看到要点累积与内容替换，并查看各阶段备注。
 三个主题使用相同的页面内容、页数和页序，下面分别展示各主题的完整代表性页面：

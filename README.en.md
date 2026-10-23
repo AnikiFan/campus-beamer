@@ -25,12 +25,32 @@
   </p>
 </div>
 
-![Cover rendered with the default general theme](docs/images/cover.png)
+![English general feature tour](docs/images/preview-general-en-cover.png)
+
+## English general example
+
+[`example-en.tex`](example-en.tex) is the complete **English general-theme feature tour**:
+English slide text, navigation labels, bibliography examples and native TeX speaker notes.
+It follows the same five chapters and 50-page sequence as the Chinese demo and uses
+`language=english, cjk=false`, so no Chinese typesetting is needed for this entry.
+
+Build its PDF from the project root:
+
+```bash
+make pdf MAIN=example-en
+# Render all pages for inspection:
+make draft MAIN=example-en
+```
+
+The output is `build/example-en.pdf`. On [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases/latest),
+choose **`campus-beamer-X.Y.Z-example-en.pdf`** for the English edition.
+Releases include this English PDF only; the existing Chinese general edition supplies PDF and PPTX.
+The gallery below shows the Chinese feature tour across the three themes.
 
 ## Example pages
 
 `example.tex` is the layout and feature tour. Download
-the general theme's complete PDF/PPTX feature tour and the Tsinghua and Peng Cheng Laboratory PDF samples
+the Chinese general theme's PDF/PPTX feature tour, the English general PDF, and the Tsinghua and Peng Cheng Laboratory PDF samples
 from the [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases)
 page. The example PPTX includes per-slide PowerPoint speaker notes. Advance through
 the PDF/PPTX to see cumulative reveals and content replacement, with notes for each stage.
@@ -204,6 +224,7 @@ the agent can check the existing tools. `uv run --frozen` creates `.venv` from
 ```bash
 make doctor              # Check tools, TeX packages and fonts
 make draft MAIN=example  # Inspect reference-example pages and layout report
+make pdf MAIN=example-en # English general PDF
 make MAIN=example        # build/example.pdf and build/example.pptx
 make examples            # Build Tsinghua and Peng Cheng Laboratory PDFs
 make theme-previews      # Refresh README previews (start at 600 DPI; at most 0.5 MiB each)

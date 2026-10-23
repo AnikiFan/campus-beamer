@@ -671,6 +671,22 @@ section 起始页的编号标签、指导教师标签、参考文献页标题、
 旧的 `\advisor{姓名\,职称}` 仍可编译，但整段作为自由文本显示；需要姓名对齐和自动职称间隔时请使用可选参数写法。
 PDF/PPTX 的作者和导师属性保持正常姓名文本，不写入用于视觉对齐的空格。
 
+## 英文 general 示例
+
+`example-en.tex` 是 general 主题的完整英文功能演示，正文在 `examples/english/`。
+五章与 50 页顺序对应中文示例，正文、导航、引用字段示例和原生 TeX 备注均为英文。
+它使用 `language=english, cjk=false`，无需载入中文排版；主题几何与默认 general 一致。
+
+```bash
+make pdf MAIN=example-en
+make draft MAIN=example-en
+```
+
+分别生成 `build/example-en.pdf` 和 `build/draft/example-en/` 逐页预览。
+Release 仅增加 `campus-beamer-X.Y.Z-example-en.pdf`，不打包英文 PPTX。
+英文版引用数据库只翻译演示字段的占位说明，论文作者、标题、发表年份等保持与中文示例一致。
+修改公开演示功能时同步维护中英文的覆盖范围；翻译可以调整措辞和换行以适应页面。
+
 ## 流程图与课堂链接
 
 当页面中的关系适合用图表达时，优先使用

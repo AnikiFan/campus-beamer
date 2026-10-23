@@ -118,6 +118,7 @@ explicit `MAIN` wins. Use `make help` for the complete command list.
 - `build/outline-normalized.md`: agent-expanded section/subsection content for
   review; keep approval tied to a specific outline revision.
 - `example.tex`, `examples/sections/`, `examples/bibliography/refs.bib`: public reference demo.
+- `example-en.tex`, `examples/english/`: English general reference demo; releases include its PDF only.
 - `main.tex`, `sections/`, `bibliography/main.bib`, `materials/`: local
   agent-authored talk inputs and sources.
 - `theme/`: class, theme implementation, school profile, and code-window style.

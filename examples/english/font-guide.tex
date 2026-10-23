@@ -1,0 +1,40 @@
+% Read sizes from the active LaTeX commands rather than duplicating point values.
+\begingroup
+\makeatletter
+\newcommand{\fontGuideSize}[1]{%
+  \begingroup #1\edef\fontGuideValue{\f@size}%
+    \footnotesize\fontGuideValue\,pt\endgroup}
+\makeatother
+\newcommand{\fontGuideSample}[1]{%
+  \makebox[24mm][l]{{\color{maincolor}#1 Aa}}}
+\begin{frame}{Type sizes and roles}
+  \footnotesize
+  \setlength{\tabcolsep}{0pt}
+  \renewcommand{\arraystretch}{1.05}
+  \begin{tabular}{@{}l@{\hspace{2mm}}p{28mm}@{\hspace{2mm}}p{15mm}@{\hspace{2mm}}p{72mm}@{}}
+    \textbf{Sample} & \textbf{Command} & \textbf{Size} & \textbf{Main roles} \\[.15mm]
+    \fontGuideSample{\Huge\bfseries} & \texttt{\string\Huge} & \fontGuideSize{\Huge} &
+      Main titles on cover, section and closing pages \\[.15mm]
+    \fontGuideSample{\LARGE} & \texttt{\string\LARGE} & \fontGuideSize{\LARGE} &
+      Single-line headers; the closing thank-you message \\[.15mm]
+    \fontGuideSample{\Large\bfseries} & \texttt{\string\Large} & \fontGuideSize{\Large} &
+      Upper body header; section number; cover subtitle \\[.15mm]
+    \fontGuideSample{\large} & \texttt{\string\large} & \fontGuideSize{\large} &
+      Optional emphasis in body text \\[.15mm]
+    \fontGuideSample{\normalsize} & \texttt{\string\normalsize} & \fontGuideSize{\normalsize} &
+      Body text; lower header; metadata; subsection guide \\[.15mm]
+    \fontGuideSample{\small} & \texttt{\string\small} & \fontGuideSize{\small} &
+      Callout body; nested lists; this demo's bibliography \\[.15mm]
+    \fontGuideSample{\footnotesize} & \texttt{\string\footnotesize} & \fontGuideSize{\footnotesize} &
+      Callout titles; third-level lists; captions \\[.15mm]
+    \fontGuideSample{\scriptsize} & \texttt{\string\scriptsize} & \fontGuideSize{\scriptsize} &
+      Navigation and the footer information row \\[.15mm]
+    \fontGuideSample{\tiny} & \texttt{\string\tiny} & \fontGuideSize{\tiny} &
+      Diagnostic labels; corner citations; paper metadata
+  \end{tabular}
+  \par\smallskip
+  {\scriptsize Values are read from this document in TeX points. Weight follows the element style.\par
+  Bibliography commands accept a font size; frame shrinking can reduce the final display further.\par}
+\end{frame}
+\note{Compare the actual sizes. Normal size is the body default, while code uses small. Split crowded content before reducing type sizes.}
+\endgroup

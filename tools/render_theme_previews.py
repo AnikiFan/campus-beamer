@@ -134,6 +134,8 @@ def main() -> None:
     parser.add_argument('--theme', action='append', required=True)
     parser.add_argument('--check-only', action='store_true')
     parser.add_argument('--update-readme', action='store_true')
+    parser.add_argument('--english-pdf', type=Path,
+                        help='Also render the English general cover for README.en.md')
     parser.add_argument('--output', type=Path, default=Path('docs/images'))
     parser.add_argument('--dpi', type=int, default=600,
                         help='Initial DPI (at least 600); large PNGs adapt down to 150 DPI to fit 0.5 MiB')
@@ -154,6 +156,9 @@ def main() -> None:
         if not Path(pdf).is_file():
             raise FileNotFoundError(pdf)
         render_gallery(Path(pdf), theme, output, args.dpi)
+    if args.english_pdf:
+        with pymupdf.open(args.english_pdf) as document:
+            save_preview(document[0], output / 'preview-general-en-cover.png', args.dpi)
     if args.update_readme:
         root = Path(__file__).resolve().parents[1]
         for name, english in (('README.md', False), ('README.en.md', True)):

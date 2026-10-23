@@ -106,12 +106,13 @@ dist-theme-assets:
 
 theme-previews:
 	$(MAKE) pdf MAIN=example
+	$(MAKE) pdf MAIN=example-en
 	$(MAKE) pdf MAIN=example-tsinghua
 	$(MAKE) pdf MAIN=example-pcl
 	$(UV) run --frozen python tools/render_theme_previews.py \
 		--pdf build/example.pdf --theme general \
 		--pdf build/example-tsinghua.pdf --theme tsinghua \
-		--pdf build/example-pcl.pdf --theme pcl --update-readme
+		--pdf build/example-pcl.pdf --theme pcl --english-pdf build/example-en.pdf --update-readme
 
 logo:
 	$(UV) run --frozen python tools/generate_logo.py
@@ -129,6 +130,7 @@ release:
 	$(MAKE) test
 	$(MAKE) draft MAIN=example
 	$(MAKE) MAIN=example DPI="$(DPI)"
+	$(MAKE) pdf MAIN=example-en
 	$(MAKE) examples DPI="$(DPI)"
 	$(UV) run --frozen python tools/render_theme_previews.py --check-only \
 		--pdf build/example.pdf --theme general \

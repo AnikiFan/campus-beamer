@@ -90,6 +90,17 @@ class SourcePackageTests(unittest.TestCase):
                          'references/rendering.md'):
             self.assertIn(prefix + resource, names)
 
+    def test_english_demo_entry_inputs_and_cover_are_distributed(self):
+        package(self.root, self.output)
+        with ZipFile(self.output) as archive:
+            names = set(archive.namelist())
+        self.assertIn('example-en.tex', names)
+        self.assertIn('docs/images/preview-general-en-cover.png', names)
+        for name in ('metadata.tex', 'refs.bib', '01_basics.tex', '02_papers.tex',
+                     '03_callouts.tex', '04_navigation.tex', '05_media.tex',
+                     'font-guide.tex', 'layout-guide.tex'):
+            self.assertIn('examples/english/' + name, names)
+
     def test_repeated_archives_are_byte_identical(self):
         package(self.root, self.output)
         first = self.output.read_bytes()

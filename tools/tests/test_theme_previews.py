@@ -114,7 +114,9 @@ class ThemePreviewTests(unittest.TestCase):
             text = (root / name).read_text()
             self.assertIn(gallery_markup(english), text)
             for theme, _, _ in THEMES:
-                self.assertEqual(text.count(f'preview-{theme}-'), len(GALLERY))
+                for key, *_ in GALLERY:
+                    self.assertEqual(text.count(f'preview-{theme}-{key}.png'), 1)
+            self.assertEqual(text.count('preview-general-en-cover.png'), int(english))
 
 
 if __name__ == '__main__':

@@ -9,6 +9,7 @@ import re
 import zipfile
 
 DEMO_FORMATS = {'example': ('pdf', 'pptx'),
+                'example-en': ('pdf',),
                 'example-tsinghua': ('pdf',), 'example-pcl': ('pdf',)}
 
 

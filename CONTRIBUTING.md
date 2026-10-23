@@ -40,8 +40,8 @@ make MAIN=example
 若仍超限则生成失败，需要简化该预览页的配图。检查调色板预览的照片色阶与文字边缘。
 这项限制只用于 `docs/images/`，不改变主题原图或 PDF/PPTX 导出质量。
 更新后检查文字、角落引用和页脚的清晰度；`make test` 会检查文档 PNG 的体积上限。
-`make theme-previews` 重建三个主题的同一份完整演示，并更新中英文 README 中各主题的完整功能缩略图。
-三套 PDF 的页数、章节和元信息必须一致。缩略图页码和顺序统一维护在
+`make theme-previews` 重建三个主题的中文完整演示及英文 general 示例，更新主题缩略图和英文 README 的英文封面。
+三套中文 PDF 的页数、章节和元信息必须一致。英文版使用独立的 `examples/english/` 正文，保持同等功能覆盖与页序。缩略图页码和顺序统一维护在
 `tools/render_theme_previews.py` 的 `GALLERY`，新增或移动页面时同步更新，致谢页始终位于最后。
 
 纯重构需要比较前后 PDF。先保存基线，再使用
@@ -52,8 +52,8 @@ make MAIN=example
 ## 组织与提交
 
 - 草稿入口 `outline.md` 和功能示例 `example.tex` 保留在根目录；用户汇报由 agent 生成在 `main.tex` 与 `sections/`，文档类、主题、配色和学校配置统一放在 `theme/`，通过 `.latexmkrc` 配置搜索路径。
-- 演示元信息、章节正文与可复用演示片段统一放在 `examples/sections/`；示例代码源文件放在 `examples/sections/code/`。
-- 用户文献数据库放在 `bibliography/`，公开演示文献放在 `examples/bibliography/`；Dockerfile、构建上下文清单与容器入口放在 `docker/`。
+- 中文演示元信息、章节正文与可复用演示片段放在 `examples/sections/`，英文版放在 `examples/english/`；两者共用的示例代码源文件放在 `examples/sections/code/`。
+- 用户文献数据库放在 `bibliography/`，中文公开演示文献放在 `examples/bibliography/`，英文版使用 `examples/english/refs.bib`；Dockerfile、构建上下文清单与容器入口放在 `docker/`。
 - 手册与少量精选预览放在 `docs/`；测试源码放在 `tools/fixtures/`。
 - 仓库级 skill 入口放在 `.agents/skills/`，描述明确触发任务，详细流程引用 `docs/agent-*.md`。
   风格偏好保留在可编辑的 `STYLE.md`；新增 skill 文件也须登记源码打包清单。
@@ -95,7 +95,7 @@ agent 扩充后的详细大纲保存在忽略的 `build/outline-normalized.md`�
 `feat!:` 或正文中的 `BREAKING CHANGE:` 表示不兼容变化。
 Release Please 根据这些提交维护版本、锁文件和 [CHANGELOG.md](CHANGELOG.md)；
 合并发行 PR 前检查版本变化、迁移说明及完整演示的视觉效果。
-`make release` 运行测试、编译功能演示与全部内置主题样例，并生成包含源码 ZIP、general PDF/PPTX 和机构主题 PDF、
+`make release` 运行测试、编译功能演示与全部内置主题样例，并生成包含源码 ZIP、中文 general PDF/PPTX、英文 general PDF 和机构主题 PDF、
 发行说明与校验和的版本化发行包。发行 PR 合并后，GitHub 工作流会自动构建并上传附件。
 详细配置、令牌与手动重试入口见
 [版本维护与发布](docs/releases.md)。

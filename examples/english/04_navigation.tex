@@ -1,0 +1,59 @@
+% !TeX root = ../../example-en.tex
+\section{Navigation and overlays}
+\sectioncoverpage[\campusexamplesectionfourimage]{Progressive reveal, content replacement, links and transitions.}
+\note{Four subsections retain the two-column navigation example. First show cumulative steps and fixed-area replacement, then links and export behavior.}
+\subsection{Progressive reveal}
+\begin{frame}[fragile,label=demo-reveal]{Reveal points in speaking order}
+  \transfade<2-|handout:0>[duration=0.2]
+  \begin{enumerate}
+    \item<1-> \textbf{Question}: establish what this page needs to answer.
+    \item<2-> \textbf{Evidence}: show the material supporting the argument.
+    \item<3-> \textbf{Conclusion}: bring the page to one central message.
+  \end{enumerate}
+  \medskip
+  \small Use \verb|\item<1->|, \verb|\item<2->| and \verb|\item<3->| to retain earlier points.
+  \note<1>{Stage one: explain the question. Space is reserved for the two later points. This first stage has no transition effect.}
+  \note<2>{Stage two: add evidence while keeping the question in place. The PDF fade setting exports to a native PPTX fade transition; advancement remains click-driven.}
+  \note<3>{Stage three: add the conclusion while keeping both earlier points. This is the complete state, with its own TeX speaker note.}
+\end{frame}
+
+\subsection{Content replacement}
+\begin{frame}[fragile,label=demo-replace]{Replace content in a fixed area}
+  \transdissolve<2-|handout:0>[duration=0.4]
+  \begin{overlayarea}{\textwidth}{1.8cm}
+    \only<1|handout:0>{%
+      \textbf{Input: free-form draft}\par\medskip
+      Questions, evidence and speaking prompts are not yet organized.
+    }
+    \only<2|handout:1>{%
+      \textbf{Output: detailed outline}\par\medskip
+      Sections and subsections organize points, evidence and notes.
+    }
+  \end{overlayarea}
+  \small Reserve space with \verb|overlayarea|; switch its content with \verb|\only|.
+  \note<1>{Replacement stage one shows the input. A fixed-height overlayarea reserves the next stage's space so later text and the footer do not shift.}
+  \note<2>{Replacement stage two shows the output in the same position. PPTX retains the dissolve transition. Handout mode keeps only this final state. Substantive content development still belongs to the outline stage.}
+\end{frame}
+
+\subsection{Navigation links}
+\begin{frame}{Navigation and frame labels}
+  \begin{description}[Frame labels]
+    \item[Sections] The section navigation row links to chapters.
+    \item[Subsections] The subsection row links to topics in this chapter.
+    \item[Frame labels] \hyperlink{demo-reveal}{Return to progressive reveal}\quad
+      \hyperlink{demo-notes}{Speaker note syntax}
+  \end{description}
+\end{frame}
+\note{Click the frame links and footer navigation. PDF and PPTX should point to the same targets; the reveal link returns to its first stage. The four subsection entries alternate between the two columns on the section page.}
+
+\subsection{Export behavior}
+\begin{frame}{Stages and transitions}
+  \begin{description}[Handout]
+    \item[PDF] Each overlay becomes a separately viewable page.
+    \item[PPTX] Each stage becomes a slide, preserving supported fade or dissolve settings.
+    \item[Handout] Stages collapse; replacement areas retain their final content.
+  \end{description}
+  \medskip
+  Click to advance at the pace of the explanation.
+\end{frame}
+\note{The examples use transfade and transdissolve with handout:0 to omit effects from handouts. PPTX slides remain rendered images; individual words are not separate animation objects. Footer numbers follow logical Beamer frames, so stages of one frame share a number.}

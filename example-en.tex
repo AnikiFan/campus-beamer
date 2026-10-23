@@ -1,0 +1,31 @@
+% English general feature tour. Build from the repository root:
+% make pdf MAIN=example-en
+\documentclass[
+  theme=general,
+  language=english,
+  cjk=false,
+  bibstyle=ieee,
+  bibsorting=none,
+  mathfont=serif,
+  navigation=true,
+  cornerwidth=4.8cm,
+  layoutguides=false,
+  shownotes=false
+]{campusbeamer}
+
+\campusbibresource{examples/english/refs.bib}
+\newcommand{\campusexampletheme}{general}
+\input{examples/theme-images.tex}
+\input{examples/english/metadata.tex}
+
+\begin{document}
+\maketitle
+\note{Introduce the complete feature tour: page structure, code, citations, navigation and export. The cover uses the same example identity as the Chinese edition, with English labels.}
+\sectiontocpage[overview]
+\note{Show the complete structure. The section names are clickable navigation targets.}
+\input{examples/english/01_basics.tex}
+\input{examples/english/02_papers.tex}
+\input{examples/english/03_callouts.tex}
+\input{examples/english/04_navigation.tex}
+\input{examples/english/05_media.tex}
+\end{document}

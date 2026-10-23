@@ -1,0 +1,148 @@
+% !TeX root = ../../example-en.tex
+\section{Papers and citations}
+\sectiontocpage
+\note{The complete contents remain visible, with the current section highlighted. Demonstrate a clickable section link.}
+\sectioncoverpage[\campusexamplesectiontwoimage]{Paper pages, bibliography fields and citation display rules.}
+\note{These entries demonstrate citation formatting; the example metadata is not a verified literature review.}
+\subsection{Paper pages}
+
+\begin{paperframe}{A paper page}{Zadeh2017TensorFN,Liu2018EfficientLM}[top-right][5.5cm]
+  \begin{description}[Citations]
+    \item[Body] Show the paper's main point, method or results.
+    \item[Header] The subsection is above the frame title.
+    \item[Citations] Keys select entries from the bibliography; two citations appear at the top right.
+  \end{description}
+  \medskip
+  The next page shows the source for this layout.
+\end{paperframe}
+\note{The paperframe environment reads the current subsection and adds top-right citations. Institution, citation count and date fields in this template are explicitly illustrative placeholders.}
+
+\begin{frame}[fragile]{Paper page source}
+  \begin{verbatim}
+\begin{paperframe}{A paper page}
+  {Zadeh2017TensorFN,Liu2018EfficientLM}
+  [top-right][5.5cm]
+  % Main point, method diagram or results
+\end{paperframe}
+  \end{verbatim}
+  \begin{description}[Position]
+    \item[Header] Uses the current subsection and the supplied frame title.
+    \item[Keys] Separate multiple bibliography keys with commas.
+    \item[Position] Choose \texttt{top-right}, \texttt{bottom-left} or \texttt{bottom-right}.
+    \item[Width] An optional width follows the position, for example \texttt{[5.5cm]}.
+  \end{description}
+\end{frame}
+\note{Read the argument order: title, bibliography keys, position and width. Top right is the default position; a fraction of paperwidth is also accepted as the width.}
+
+\subsection{Citations}
+\begin{frame}{Corner citation positions}
+  \setcornercitewidth{5.5cm}
+  \begin{description}[Bottom right]
+    \item[Top right] The default supports multiple comma-separated keys.
+    \item[Bottom left] The last citation line keeps its distance from the footer.
+    \item[Bottom right] Useful when the left side already contains body content.
+  \end{description}
+  \cornercite{Zadeh2017TensorFN,Liu2018EfficientLM}
+  \cornercite[bottom-left]{Zadeh2017TensorFN}
+  \cornercite[bottom-right]{Liu2018EfficientLM}
+\end{frame}
+\note{Compare the three positions. Leave sufficient body space for the citations in a real presentation.}
+
+\begin{frame}[fragile]{Corner citation commands}
+  \begin{verbatim}
+\setcornercitewidth{5.5cm}
+\cornercite{key1,key2}
+\cornercite[bottom-left]{key1}
+\cornercite[bottom-right]{key2}
+  \end{verbatim}
+  \begin{description}[Width]
+    \item[Width] Set the width before the citation; this change is local to the frame.
+    \item[Data] Maintain entries in the bibliography. The final list collects cited entries.
+  \end{description}
+\end{frame}
+\note{Comma-separated keys produce multiple citations. The next frame returns to the default citation width.}
+
+\begin{frame}{Bibliography fields in corner citations}
+  \begin{description}[\texttt{shorttitle}]
+    \item[\texttt{author}] Names follow the citation style's abbreviation rules.
+    \item[\texttt{year}] The publication year follows the authors.
+    \item[\texttt{title}] The full paper title follows the author and year.
+    \item[\texttt{shorttitle}] Used only when \texttt{title} is absent.
+  \end{description}
+  \medskip
+  The Liu entry shows the default form without \texttt{usera}.
+  \cornercite{Liu2018EfficientLM}
+\end{frame}
+\note{Without a custom prefix, the corner citation is generated from standard bibliography fields.}
+
+\begin{frame}[fragile]{Custom citation prefix: usera}
+  An extract from the Zadeh entry in \texttt{examples/english/refs.bib}:
+  \begin{verbatim}
+usera      = {Zadeh et al., EMNLP 2017},
+title      = {Tensor Fusion Network for
+              Multimodal Sentiment Analysis},
+shorttitle = {Tensor Fusion Network},
+year       = {2017},
+  \end{verbatim}
+  \begin{itemize}
+    \item With \texttt{usera}, the corner shows the custom prefix and full title.
+    \item Include the desired year and venue in the prefix; they are not added again.
+    \item This entry has a \texttt{title}, so \texttt{shorttitle} is not used.
+  \end{itemize}
+  \cornercite{Zadeh2017TensorFN}
+\end{frame}
+\note{The custom prefix does not replace numeric bibliography labels. Only use verified information in real citations.}
+
+\begin{frame}[fragile]{Additional paper metadata}
+  These optional fields add metadata to \texttt{paperframe}:
+  \begin{verbatim}
+userb = {<Paper affiliations>},
+userc = {<Venue and publication date, or arXiv>},
+usere = {<Citation count>},
+userf = {<Provider, as of YYYY-MM-DD>},
+  \end{verbatim}
+  \begin{itemize}
+    \item Angle brackets illustrate the field format; absent fields are hidden.
+    \item Values share a compact paragraph with vertical-bar separators.
+    \item Ordinary corner citations and the bibliography keep their standard forms.
+  \end{itemize}
+\end{frame}
+\note{Affiliations, publication details and citation counts are optional fields. A real count needs both its provider and snapshot date. The angle brackets are part of this syntax demonstration.}
+
+\begin{paperframe}[Metadata display]{Paper metadata example}{Zadeh2017TensorFN}[top-right][7cm]
+  \begin{itemize}
+    \item Metadata uses the corner citation's gray text and compact spacing.
+    \item The paper title comes from the \texttt{title} field.
+    \item Affiliations, venue, count and date use \texttt{userb}, \texttt{userc}, \texttt{usere} and \texttt{userf}.
+    \item Angle-bracket values illustrate the format of these optional fields.
+  \end{itemize}
+\end{paperframe}
+\note{Point out the appended fields. This is a template formatting demonstration, not a statement about the paper's verified affiliations or citation count.}
+
+\begin{frame}{Full references at the end}
+  \begin{description}[\texttt{booktitle}]
+    \item[\texttt{author}] IEEE style uses initials for given names.
+    \item[\texttt{title}] Prints the paper title; \texttt{usera} does not replace it.
+    \item[\texttt{booktitle}] Prints the proceedings title for conference papers.
+    \item[\texttt{year}] Prints the year; other fields follow the entry type and style.
+  \end{description}
+  \begin{notebox}[Corner citations and full references]
+    Corner citations do not automatically include venue, pages or DOI.
+    The final list gives complete entries in citation order; \texttt{usera} does not alter their numeric labels.
+  \end{notebox}
+\end{frame}
+\note{Compact corner citations and full bibliography entries serve complementary purposes.}
+
+\begin{frame}[fragile]{Citation keys and compilation}
+  \begin{verbatim}
+\addbibresource{examples/english/refs.bib}
+\cornercite{Zadeh2017TensorFN}
+\referencespage[break][\small][onecolumn]
+  \end{verbatim}
+  \begin{description}[Authors]
+    \item[Keys] The entry identifier selects the reference; it is not the printed title.
+    \item[Authors] Separate authors with \texttt{and}, not punctuation.
+    \item[Build] \texttt{latexmk} runs XeLaTeX and biber as needed.
+  \end{description}
+\end{frame}
+\note{The key selects an entry, while the bibliography style formats it. Changes to bibliography data require a complete build so biber and XeLaTeX can resolve the references.}

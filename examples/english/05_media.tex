@@ -1,0 +1,56 @@
+% !TeX root = ../../example-en.tex
+\section{Media and closing}
+\sectioncoverpage[\campusexamplesectionfiveimage]{Video captions, speaker notes, references and the closing page.}
+\note{Five subsections demonstrate an odd number of entries in two columns. The last entry stays in the left column.}
+\subsection{Video links}
+\begin{frame}{Video example}
+  \centering
+  \href{run:../assets/presentation_demo.mp4}{%
+    \XeTeXLinkBox{\parbox[c][.60\textheight][c]{\dimexpr .60\textheight*16/9\relax}{\mbox{}}}%
+  }
+  \campusvideocaption{From an outline to slides and speaker notes.}
+\end{frame}
+\note{The original six-second geometric animation shows outline items becoming slides and aligned notes. It is CC0-1.0, without external footage or audio. Clicking in the PDF opens the local video; PPTX export embeds it with a first-frame poster.}
+
+\subsection{References and closing}
+\begin{frame}[fragile]{Reference and closing commands}
+  \begin{description}[More pages]
+    \item[Single page] \texttt{\string\referencespage[shrink][\string\small]} sets a font and fits one page.
+    \item[More pages] \texttt{\string\referencespage[break][\string\footnotesize]} allows continuation pages.
+    \item[Columns] Append \texttt{[twocolumn]}; the default is one column.
+    \item[Closing] \texttt{\string\backmatter} repeats the cover metadata; \texttt{[notitle]} hides the main title.
+  \end{description}
+\end{frame}
+\note{Explain the single-page, continuation and two-column interfaces. The closing page repeats title, subtitle, course or group, author, advisor and date. The main title can be hidden.}
+
+\subsection{Speaker notes}
+\begin{frame}[fragile,label=demo-notes]{Slides and speaker notes}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.48\textwidth}
+      \textbf{Source for one page}
+      \begin{verbatim}
+\begin{itemize}
+  \item Main point
+\end{itemize}
+\note{Explain and connect.}
+      \end{verbatim}
+      Keep the slide and its notes in the same TeX source.
+    \end{column}
+    \begin{column}{.48\textwidth}
+      \begin{description}[Notes]
+        \item[PDF] \texttt{shownotes=false} shows slides only.
+        \item[Notes] \texttt{shownotes=true} places notes on the right.
+        \item[PPTX] TeX notes export to PowerPoint speaker notes.
+      \end{description}
+    \end{column}
+  \end{columns}
+\end{frame}
+\note{Keep the main point on the slide and explanations, transitions and speaking cues in note. The shownotes class option defaults to false. Enabling it produces a slide-plus-notes PDF for a compatible viewer. PPTX always exports notes from the same TeX source, independently of whether the PDF displays them. Use note<1> and note<2> for stage-specific prompts.}
+
+\subsection{Bibliography}
+\referencespage[break][\small][onecolumn]
+\note{The list collects the two cited entries in order of first citation. It demonstrates the full bibliography rather than the custom corner prefix.}
+
+\subsection{Closing}
+\backmatter
+\note{Close the tour and invite feedback on code windows, readability and the authoring workflow.}

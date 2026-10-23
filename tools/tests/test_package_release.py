@@ -31,11 +31,13 @@ class ReleasePackageTests(unittest.TestCase):
         (self.root / 'build/main.pdf').write_bytes(b'Private user presentation')
         for theme in ('tsinghua', 'pcl'):
             (self.root / f'build/example-{theme}.pptx').write_bytes(b'Stale school export')
+        (self.root / 'build/example-en.pptx').write_bytes(b'English PPTX must not be released')
         output = package(self.root, '0.1.0')
         with ZipFile(output) as archive:
             expected = {'campus-beamer-0.1.0-source.zip', 'RELEASE_NOTES.md', 'SHA256SUMS'}
             expected.update({'campus-beamer-0.1.0-example.pdf',
                              'campus-beamer-0.1.0-example.pptx',
+                             'campus-beamer-0.1.0-example-en.pdf',
                              'campus-beamer-0.1.0-example-tsinghua.pdf',
                              'campus-beamer-0.1.0-example-pcl.pdf'})
             self.assertEqual(set(archive.namelist()), expected)

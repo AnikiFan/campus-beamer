@@ -1,0 +1,71 @@
+% !TeX root = ../../example-en.tex
+\section{Callouts}
+\sectioncoverpage[\campusexamplesectionthreeimage]{Callout styles, semantic roles and usage.}
+\note{Use a small amount of visual emphasis to distinguish advice, context and warnings.}
+\subsection{Styles}
+\begin{frame}{Tips, notes and alerts}
+  \begin{tipbox}[Tip]
+    Use \texttt{tipbox} for practical advice, such as a recommended experiment setup.
+  \end{tipbox}
+  \begin{notebox}[Note]
+    Use \texttt{notebox} for context, such as data sources or experimental conditions.
+  \end{notebox}
+  \begin{alertbox}[Alert]
+    Use \texttt{alertbox} for pitfalls, such as settings that matter for reproduction.
+  \end{alertbox}
+\end{frame}
+\note{Compare the functional colors. Each box should carry one point that deserves emphasis.}
+
+\begin{frame}{Content and production}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.46\textwidth}
+      \textbf{Outline stage}
+      \begin{itemize}
+        \item Organize sections and topics
+        \item Develop explanations and evidence
+        \item Review and approve the content
+      \end{itemize}
+    \end{column}
+    \begin{column}{.46\textwidth}
+      \textbf{Production stage}
+      \begin{itemize}
+        \item Divide slides and choose layouts
+        \item Allocate body text and notes
+        \item Validate and export PDF/PPTX
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \begin{notebox}[Before production]
+    Approve the detailed outline; keep essential evidence and limitations visible.
+  \end{notebox}
+\end{frame}
+\note{Compare the two stages before discussing the condition below them. A note box suits necessary context, a tip box suits advice, and an alert box suits a critical limitation. Do not put every sentence in a box or repeat the slide's entire message.}
+
+\subsection{Definitions and examples}
+\begin{frame}{Definitions and examples}
+  \begin{definitionbox}[Definition]
+    A \textbf{modality} is a form of information, such as text, images or audio.
+    Multimodal learning models these heterogeneous sources jointly.
+  \end{definitionbox}
+  \begin{examplebox}[Example]
+    Tensor Fusion uses an outer product to retain unimodal, bimodal and trimodal interactions explicitly, forming a richer joint representation.
+  \end{examplebox}
+\end{frame}
+\note{Distinguish definitions from examples. The Tensor Fusion description is retained from the Chinese template example; this slide demonstrates semantic boxes.}
+
+\subsection{Usage}
+\begin{frame}[fragile]{Callout syntax}
+  \begin{verbatim}
+\begin{tipbox}[Custom title]
+  The point to emphasize.
+\end{tipbox}
+  \end{verbatim}
+  \begin{itemize}
+    \item Other environments: \texttt{notebox}, \texttt{alertbox}, \texttt{examplebox}, \texttt{definitionbox}.
+    \item Omit the optional title to use the environment's default label.
+  \end{itemize}
+  \begin{tipbox}
+    This box uses the default English title.
+  \end{tipbox}
+\end{frame}
+\note{Default labels follow the document's language setting. The optional argument overrides an individual box title.}

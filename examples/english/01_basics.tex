@@ -1,0 +1,212 @@
+% !TeX root = ../../example-en.tex
+\section{Pages and images}
+\sectioncoverpage[\campusexamplesectiononeimage]{Page layouts, equations, image fitting and captions.}
+\note{Start with the body area and type sizes, then demonstrate equations, code and images. The background is the general theme's original geometric artwork.}
+\subsection{Page basics}
+
+\begin{frame}[campusfocus]{Focus page}
+  \begin{description}[Header]
+    \item[Header] Only the frame title is shown.
+    \item[Footer] Page number, author and title remain; navigation is hidden.
+    \item[Option] Add \texttt{campusfocus} to the frame options.
+  \end{description}
+\end{frame}
+\note{Use the focus style when less navigation is useful. Ordinary body frames retain the subsection and frame title on two header lines.}
+
+\begin{frame}[campusbackground=\campusexampleimage,
+  campusbackgroundopacity=.18]{Centered image background}
+  \begin{description}[Opacity]
+    \item[Crop] Fill the page proportionally, align centers and crop the excess.
+    \item[Opacity] \texttt{campusbackgroundopacity=.18}; 0 is transparent, 1 is opaque.
+    \item[Scope] The background applies the focus style to this frame only.
+  \end{description}
+\end{frame}
+\note{Adjust opacity to preserve text contrast. This is decorative imagery, so a content caption is unnecessary.}
+
+\usetikzlibrary{positioning,arrows.meta}
+\begin{frame}{Aligned flowchart}
+  \begin{figure}
+    \centering
+    \begin{tikzpicture}[
+      node distance=1.7cm,
+      stage/.style={draw=maincolor,fill=maincolor!8,rounded corners=2pt,
+        minimum width=3cm,minimum height=1.2cm,align=center},
+      flow/.style={draw=maincolor,line width=.7pt,-{Latex[length=2.2mm]}}]
+      \node[stage] (draft) {Free-form draft};
+      \node[stage,right=of draft] (outline) {Detailed outline};
+      \node[stage,right=of outline] (slides) {Slides and notes};
+      \draw[flow] (draft.east) -- (outline.west);
+      \draw[flow] (outline.east) -- (slides.west);
+    \end{tikzpicture}
+    \caption{From a free-form draft to an approved outline, then slides and notes}
+  \end{figure}
+\end{frame}
+\note{Point out aligned nodes and evenly spaced connections. Approve the detailed outline before producing slides and notes; diagram symmetry should follow its meaning.}
+
+\begin{frame}{Draft, outline and production}
+  \begin{description}[Produce]
+    \item[Prepare] Fill in \texttt{outline.md}; put sources in \texttt{materials/}.
+    \item[Outline] The agent develops sections and subsections for your review.
+    \item[Produce] The authoring skill creates slides and notes from the approved outline.
+    \item[Deliver] The validation skill checks the PDF and PPTX in \texttt{build/}.
+  \end{description}
+  \medskip
+  Ask the agent: Make a presentation from the outline.
+\end{frame}
+\note{The authoring entry is campus-beamer-authoring; validation uses campus-beamer-validation. Public examples live in examples/sections/ and examples/english/; private talk chapters live in sections/. The user supplies purpose, audience, duration, a free-form draft and local materials. The agent develops explanations, evidence, transitions and limitations in build/outline-normalized.md for approval. Production selects layouts and allocates content between slides and notes. Layout changes can stay within approved content; new substantive claims return to outline review. STYLE.md controls presentation preferences.}
+
+\input{examples/english/layout-guide.tex}
+\input{examples/english/font-guide.tex}
+
+\begin{frame}{Three levels of structure}
+  \begin{description}[Subsection]
+    \item[Section] Groups a chapter and appears on section pages and in navigation.
+    \item[Subsection] Groups a topic and supplies the upper header line.
+    \item[Frametitle] Describes this page on the smaller, lower header line.
+    \item[More pages] Reuse a subsection and give each frame its own title.
+  \end{description}
+\end{frame}
+\note{Distinguish chapter structure, topic labels and individual page titles before moving to specific content examples.}
+
+\begin{frame}{Inline math and derivations}
+  For $\mathbf{x}_i\in\mathbb{R}^{d}$, predict the scalar target $y_i$ with a linear model:
+  \begin{align*}
+    \widehat{y}_i &= \mathbf{w}^{\mathsf T}\mathbf{x}_i+b, \\
+    \mathcal{L}(\mathbf{w},b)
+      &= \frac{1}{N}\sum_{i=1}^{N}(\widehat{y}_i-y_i)^2
+         +\lambda\lVert\mathbf{w}\rVert_2^2, \\
+    \nabla_{\mathbf{w}}\mathcal{L}
+      &= \frac{2}{N}\sum_{i=1}^{N}(\widehat{y}_i-y_i)\mathbf{x}_i
+         +2\lambda\mathbf{w}.
+  \end{align*}
+  \begin{notebox}[Typesetting]
+    Use \texttt{\$...\$} for inline math and \texttt{align*} for multiple lines.
+    Put \texttt{\&} before the equals sign; the star suppresses numbering.
+  \end{notebox}
+\end{frame}
+\note{Follow the equals signs through prediction, loss and gradient. The example illustrates aligned mathematical typesetting.}
+
+\begin{frame}{Matrices, cases and notation}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.47\textwidth}
+      \textbf{Matrix: batch prediction}
+      \[
+        \mathbf{X}=\begin{bmatrix}
+          \mathbf{x}_1^{\mathsf T}\\ \vdots\\ \mathbf{x}_N^{\mathsf T}
+        \end{bmatrix},\qquad
+        \widehat{\mathbf{y}}=\mathbf{X}\mathbf{w}+b\mathbf{1}.
+      \]
+      \texttt{bmatrix} supplies square brackets; \texttt{\&} separates columns.
+    \end{column}
+    \begin{column}{.47\textwidth}
+      \textbf{Piecewise function: ReLU}
+      \[
+        f(z)=\begin{cases}z, & z\geq 0,\\ 0, & z<0.\end{cases}
+      \]
+      \texttt{cases} aligns values and conditions. Use \texttt{\string\text\{...\}} for words inside math.
+    \end{column}
+  \end{columns}
+  \medskip
+  \begin{tipbox}[Define the symbols]
+    $N$ is the sample count, $d$ the feature dimension, and $\mathbf{1}\in\mathbb{R}^{N}$ the all-ones vector.
+    Keep notation and its explanation on the same page.
+  \end{tipbox}
+\end{frame}
+\note{Compare the matrix spacing with the piecewise conditions. Define the symbols where they are first used.}
+
+\begin{frame}[fragile]{Python code}
+\begin{campuscode}[language=Python,numbers,caption={Indentation makes the function structure clear.}]{normalize.py}
+def normalize(values):
+    # Normalize values while preserving clear indentation.
+    total = sum(values)
+    if total == 0:
+        return [0.0 for value in values]
+    return [value / total for value in values]
+
+print(normalize([2, 3, 5]))
+\end{campuscode}
+\small The title bar identifies the file and language; captions use the figure style.
+\end{frame}
+\note{Point out the Python icon, filename, indentation, syntax highlighting and optional line numbers. This example assumes nonnegative values and returns zeros when their sum is zero. Inline code requires a fragile frame. The optional caption has its own line below the code window and does not increment the figure counter.}
+
+\begin{frame}[fragile]{Terminal commands and output}
+\begin{campuscode}[language=bash,caption={A static transcript; commands are not executed during compilation.}]{Terminal}
+$ python -m venv .venv
+$ source .venv/bin/activate
+$ python normalize.py
+[0.2, 0.3, 0.5]
+\end{campuscode}
+\small The prompt distinguishes input from output.
+\end{frame}
+\note{Lines beginning with a dollar sign are commands; the final line is their displayed output. The activation command targets a typical Unix shell. The icon and label identify the content type and can be overridden separately from syntax highlighting.}
+
+\begin{frame}[fragile]{Read code from a file}
+\campusinputcode[language=Python,description={Read and highlight an existing source file.}]
+  {normalize.py}{examples/sections/code/normalize.py}
+\small Reuse source with \verb|\campusinputcode[language=Python]{name}{path}|.
+\end{frame}
+\note{This page reads the shared normalize.py source. Use firstline and lastline for a snippet and firstnumber for original line numbers. The description option is an alias for caption.}
+
+\begin{frame}[fragile]{Fit an image}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.48\textwidth}
+      \textbf{Fit and caption}
+      \begin{verbatim}
+\begin{figure}
+  \fitgraphic[
+    width=.42,
+    height=.40
+  ]{\schoolwordmarkonlight}
+  \caption{Fitted wordmark}
+\end{figure}
+      \end{verbatim}
+      Width and height are fractions of the page; the aspect ratio is preserved.
+    \end{column}
+    \begin{column}{.48\textwidth}
+      \begin{figure}
+        \fitgraphic[width=.42,height=.40]{\schoolwordmarkonlight}
+        \caption{Fitted wordmark}
+      \end{figure}
+    \end{column}
+  \end{columns}
+\end{frame}
+\note{Compare the source on the left with its output on the right. The image stays within both page-relative bounds without distortion.}
+
+\begin{frame}[fragile]{Fit an image with a caption}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.48\textwidth}
+      \textbf{Image and caption together}
+      \begin{verbatim}
+\fitfigure[
+  width=.42,
+  height=.28
+]{\schoolwordmarkonlight}
+ {Fitted horizontal wordmark}
+      \end{verbatim}
+      Leave the final argument empty to omit the caption.
+    \end{column}
+    \begin{column}{.48\textwidth}
+      \fitfigure[width=.42,height=.28]{\schoolwordmarkonlight}{Fitted horizontal wordmark}
+    \end{column}
+  \end{columns}
+\end{frame}
+\note{The fitfigure command combines fitting and caption placement. An empty caption argument leaves no caption line.}
+
+\begin{rightimageframe}[image width=.40]{Full-height image}{\campusexampleimage}
+  \begin{description}[Height]
+    \item[Height] The image reaches from the page top to the navigation area.
+    \item[Width] \texttt{image width} sets its fraction of the page width.
+    \item[Body] Lists, equations and callouts remain on the left.
+  \end{description}
+\end{rightimageframe}
+\note{The right-hand image ends above navigation; body content stays in the left column. The talk selects the image explicitly.}
+
+\begin{frame}[fragile]{Image command reference}
+  \begin{description}[PDF page]
+    \item[Fit] \verb|\fitgraphic[width=.8,height=.6]{file}|
+    \item[Caption] \verb|\fitfigure[width=.8,height=.6]{file}{caption}|
+    \item[Right] \verb|\begin{rightimageframe}{title}{file}|
+    \item[PDF page] Use \texttt{page=2} to select the second page of a PDF.
+  \end{description}
+\end{frame}
+\note{Recap the three image interfaces and PDF page selection before introducing paper citations.}
