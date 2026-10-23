@@ -135,7 +135,7 @@ release:
 	$(UV) run --frozen python tools/render_theme_previews.py --check-only \
 		--pdf build/example.pdf --theme general \
 		--pdf build/example-tsinghua.pdf --theme tsinghua \
-		--pdf build/example-pcl.pdf --theme pcl
+		--pdf build/example-pcl.pdf --theme pcl --english-pdf build/example-en.pdf
 	$(MAKE) dist
 	$(UV) run --frozen python tools/package_release.py --version "$$($(UV) version --short)"
 

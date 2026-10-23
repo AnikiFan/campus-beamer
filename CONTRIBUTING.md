@@ -34,15 +34,19 @@ make MAIN=example
 它检查编译、预期页数、语言与字体锚点、可选宏包以及错误选项的诊断，不能代替肉眼检查。
 修改主题后应检查全部演示页面、引用、PPTX 跳转和备注，参见[完整 draft 流程](docs/usage.md#快速排版迭代draft)。
 
-文档预览图每张不超过 **0.5 MiB（512 KiB）**。生成器从对应 PDF 以 **600 DPI** 开始渲染 PNG；
-未超限的图片保持原分辨率，超限页面按比例降低渲染分辨率，最低 **150 DPI**，
-并保留实际 DPI 元信息。达到最低分辨率时先尝试无损 PNG 优化，仍超限则使用 256 色调色板；
-若仍超限则生成失败，需要简化该预览页的配图。检查调色板预览的照片色阶与文字边缘。
+文档预览图每张不超过 **0.25 MiB（256 KiB）**，中英文图库合计不超过 **3 MiB**。
+README 用三行四列比较主题的封面、章节页、正文页和致谢页，再用 general 展示六种公共功能。
+英文 README 使用英文 general 图片，机构主题图片在中英文文档间共用。
+生成器按屏幕显示尺寸直接从 PDF 渲染 PNG：普通缩略图宽 **640 px**，复用为 README 顶图的
+中英文 general 封面宽 **1200 px**。超限时先无损优化，再降低分辨率，最低 **480 px**；
+达到下限仍超限时尝试 256 色调色板，否则报错。检查照片色阶、文字边缘与点击放大的效果。
 这项限制只用于 `docs/images/`，不改变主题原图或 PDF/PPTX 导出质量。
-更新后检查文字、角落引用和页脚的清晰度；`make test` 会检查文档 PNG 的体积上限。
-`make theme-previews` 重建三个主题的中文完整演示及英文 general 示例，更新主题缩略图和英文 README 的英文封面。
-三套中文 PDF 的页数、章节和元信息必须一致。英文版使用独立的 `examples/english/` 正文，保持同等功能覆盖与页序。缩略图页码和顺序统一维护在
-`tools/render_theme_previews.py` 的 `GALLERY`，新增或移动页面时同步更新，致谢页始终位于最后。
+`make test` 检查图片体积、图库总预算、README 引用与源码打包清单。
+`make theme-previews` 重建三套中文完整演示及英文 general 示例，更新全部预览和两个 README，
+并移除已知的废弃预览文件；不再单独保存与 general 缩略图重复的顶图和引用示例图。
+三套中文 PDF 的页数、章节和元信息必须一致；英文版保持同等功能覆盖与页序，并单独核对英文文本锚点。
+预览页码、用途和中英文锚点维护在 `tools/render_theme_previews.py` 的 `MATRIX_PAGES` 与
+`FEATURE_PAGES`。调整选页时同步维护显式源码打包清单；新增主题只需生成四种对比页。
 
 纯重构需要比较前后 PDF。先保存基线，再使用
 `uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf`；

@@ -25,7 +25,7 @@
   </p>
 </div>
 
-![默认 general 主题的封面预览](docs/images/cover.png)
+![默认 general 主题的封面预览](docs/images/preview-general-cover.png)
 
 ## 示例页面
 
@@ -35,97 +35,75 @@ general 另提供完整英文版 [`example-en.tex`](example-en.tex)，可用 `ma
 Release 中的 `campus-beamer-X.Y.Z-example-en.pdf` 为英文 PDF；英文版不附带 PPTX。
 Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲者视图查看。
 渐进显示页包含实际 overlays：在 PDF/PPTX 中按页推进，可看到要点累积与内容替换，并查看各阶段备注。
-三个主题使用相同的页面内容、页数和页序，下面分别展示各主题的完整代表性页面：
+下表按主题比较封面、章节页、正文页和致谢页；点击缩略图可放大，完整页面与交互示例见各主题 PDF。
 
 <!-- demo-gallery:start -->
 
-### General 通用主题
+<table>
+  <thead>
+    <tr>
+      <th nowrap>主题</th>
+      <th nowrap>封面</th>
+      <th nowrap>章节页</th>
+      <th nowrap>正文页</th>
+      <th nowrap>致谢页</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row" nowrap><a href="theme/general/README.md">通用</a></th>
+      <td nowrap><a href="docs/images/preview-general-cover.png"><img src="docs/images/preview-general-cover.png" alt="通用: 封面" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-general-section.png"><img src="docs/images/preview-general-section.png" alt="通用: 章节页" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-general-body.png"><img src="docs/images/preview-general-body.png" alt="通用: 正文页" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-general-closing.png"><img src="docs/images/preview-general-closing.png" alt="通用: 致谢页" width="170"></a></td>
+    </tr>
+    <tr>
+      <th scope="row" nowrap><a href="theme/tsinghua/README.md">清华大学</a></th>
+      <td nowrap><a href="docs/images/preview-tsinghua-cover.png"><img src="docs/images/preview-tsinghua-cover.png" alt="清华大学: 封面" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-tsinghua-section.png"><img src="docs/images/preview-tsinghua-section.png" alt="清华大学: 章节页" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-tsinghua-body.png"><img src="docs/images/preview-tsinghua-body.png" alt="清华大学: 正文页" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-tsinghua-closing.png"><img src="docs/images/preview-tsinghua-closing.png" alt="清华大学: 致谢页" width="170"></a></td>
+    </tr>
+    <tr>
+      <th scope="row" nowrap><a href="theme/pcl/README.md">鹏城实验室</a></th>
+      <td nowrap><a href="docs/images/preview-pcl-cover.png"><img src="docs/images/preview-pcl-cover.png" alt="鹏城实验室: 封面" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-pcl-section.png"><img src="docs/images/preview-pcl-section.png" alt="鹏城实验室: 章节页" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-pcl-body.png"><img src="docs/images/preview-pcl-body.png" alt="鹏城实验室: 正文页" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-pcl-closing.png"><img src="docs/images/preview-pcl-closing.png" alt="鹏城实验室: 致谢页" width="170"></a></td>
+    </tr>
+  </tbody>
+</table>
 
-<div align="center">
-  <p>
-    <img src="docs/images/preview-general-cover.png" alt="封面" width="200">
-    <img src="docs/images/preview-general-toc.png" alt="目录页" width="200">
-    <img src="docs/images/preview-general-focus.png" alt="简洁页面" width="200">
-    <img src="docs/images/preview-general-background.png" alt="居中图片背景" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-general-flow.png" alt="对齐流程图" width="200">
-    <img src="docs/images/preview-general-layout.png" alt="公式页" width="200">
-    <img src="docs/images/preview-general-code.png" alt="代码窗口页" width="200">
-    <img src="docs/images/preview-general-fullheight.png" alt="右侧满高图片页" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-general-paper.png" alt="论文讲解章节页" width="200">
-    <img src="docs/images/preview-general-callouts.png" alt="提示框页" width="200">
-    <img src="docs/images/preview-general-overlays.png" alt="逐步显示" width="200">
-    <img src="docs/images/preview-general-media.png" alt="视频链接页" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-general-notes.png" alt="TeX 讲者备注" width="200">
-    <img src="docs/images/preview-general-references.png" alt="参考文献页" width="200">
-    <img src="docs/images/preview-general-closing.png" alt="致谢页" width="200">
-  </p>
-</div>
+### 公共功能精选
 
-### 清华大学（tsinghua）
+以下功能适用于全部主题，统一用 general 展示。
 
-<div align="center">
-  <p>
-    <img src="docs/images/preview-tsinghua-cover.png" alt="封面" width="200">
-    <img src="docs/images/preview-tsinghua-toc.png" alt="目录页" width="200">
-    <img src="docs/images/preview-tsinghua-focus.png" alt="简洁页面" width="200">
-    <img src="docs/images/preview-tsinghua-background.png" alt="居中图片背景" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-tsinghua-flow.png" alt="对齐流程图" width="200">
-    <img src="docs/images/preview-tsinghua-layout.png" alt="公式页" width="200">
-    <img src="docs/images/preview-tsinghua-code.png" alt="代码窗口页" width="200">
-    <img src="docs/images/preview-tsinghua-fullheight.png" alt="右侧满高图片页" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-tsinghua-paper.png" alt="论文讲解章节页" width="200">
-    <img src="docs/images/preview-tsinghua-callouts.png" alt="提示框页" width="200">
-    <img src="docs/images/preview-tsinghua-overlays.png" alt="逐步显示" width="200">
-    <img src="docs/images/preview-tsinghua-media.png" alt="视频链接页" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-tsinghua-notes.png" alt="TeX 讲者备注" width="200">
-    <img src="docs/images/preview-tsinghua-references.png" alt="参考文献页" width="200">
-    <img src="docs/images/preview-tsinghua-closing.png" alt="致谢页" width="200">
-  </p>
-</div>
-
-### 鹏城实验室（pcl）
-
-<div align="center">
-  <p>
-    <img src="docs/images/preview-pcl-cover.png" alt="封面" width="200">
-    <img src="docs/images/preview-pcl-toc.png" alt="目录页" width="200">
-    <img src="docs/images/preview-pcl-focus.png" alt="简洁页面" width="200">
-    <img src="docs/images/preview-pcl-background.png" alt="居中图片背景" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-pcl-flow.png" alt="对齐流程图" width="200">
-    <img src="docs/images/preview-pcl-layout.png" alt="公式页" width="200">
-    <img src="docs/images/preview-pcl-code.png" alt="代码窗口页" width="200">
-    <img src="docs/images/preview-pcl-fullheight.png" alt="右侧满高图片页" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-pcl-paper.png" alt="论文讲解章节页" width="200">
-    <img src="docs/images/preview-pcl-callouts.png" alt="提示框页" width="200">
-    <img src="docs/images/preview-pcl-overlays.png" alt="逐步显示" width="200">
-    <img src="docs/images/preview-pcl-media.png" alt="视频链接页" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-pcl-notes.png" alt="TeX 讲者备注" width="200">
-    <img src="docs/images/preview-pcl-references.png" alt="参考文献页" width="200">
-    <img src="docs/images/preview-pcl-closing.png" alt="致谢页" width="200">
-  </p>
-</div>
+<table>
+  <tr>
+    <th nowrap>流程图</th>
+    <th nowrap>公式</th>
+    <th nowrap>代码</th>
+  </tr>
+  <tr>
+    <td><a href="docs/images/preview-general-flow.png"><img src="docs/images/preview-general-flow.png" alt="流程图" width="240"></a></td>
+    <td><a href="docs/images/preview-general-layout.png"><img src="docs/images/preview-general-layout.png" alt="公式" width="240"></a></td>
+    <td><a href="docs/images/preview-general-code.png"><img src="docs/images/preview-general-code.png" alt="代码" width="240"></a></td>
+  </tr>
+  <tr>
+    <th nowrap>图文混排</th>
+    <th nowrap>论文引用</th>
+    <th nowrap>提示框</th>
+  </tr>
+  <tr>
+    <td><a href="docs/images/preview-general-fullheight.png"><img src="docs/images/preview-general-fullheight.png" alt="图文混排" width="240"></a></td>
+    <td><a href="docs/images/preview-general-citations.png"><img src="docs/images/preview-general-citations.png" alt="论文引用" width="240"></a></td>
+    <td><a href="docs/images/preview-general-callouts.png"><img src="docs/images/preview-general-callouts.png" alt="提示框" width="240"></a></td>
+  </tr>
+</table>
 
 <!-- demo-gallery:end -->
 
-各主题示例页由对应样例 PDF 从 600 DPI 开始渲染，每张不超过 0.5 MiB，保持相同页序；其中的校徽、校名和校园图像适用
+预览图按屏幕显示尺寸生成，每张不超过 **0.25 MiB（256 KiB）**；中英文图库合计不超过 3 MiB。完整 PDF 保留原始细节。其中的校徽、校名和校园图像适用
 [素材来源与使用声明](assets/README.md)。
 
 默认主题为与机构无关的 `general`；可用 `\documentclass[theme=general]{campusbeamer}` 显式选择。
@@ -196,7 +174,7 @@ make doctor              # 检查环境
 make draft MAIN=example  # 查看示例的逐页预览与排版报告
 make MAIN=example        # 构建 build/example.pdf 和 build/example.pptx
 make examples            # 构建清华和鹏城实验室主题 PDF 样例
-make theme-previews      # 更新 README 预览图（从 600 DPI 开始，每张不超过 0.5 MiB）
+make theme-previews      # 更新主题矩阵与公共功能预览（每张不超过 0.25 MiB）
 make                     # 有 main.tex 时构建自己的汇报，否则构建 example.tex
 ```
 
@@ -216,7 +194,7 @@ make                     # 有 main.tex 时构建自己的汇报，否则构建 
 <details>
 <summary>查看引用与导航示例</summary>
 
-![完整演示中的角落引用与章节导航](docs/images/citations.png)
+![完整演示中的角落引用与章节导航](docs/images/preview-general-citations.png)
 
 </details>
 

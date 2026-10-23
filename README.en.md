@@ -45,7 +45,7 @@ make draft MAIN=example-en
 The output is `build/example-en.pdf`. On [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases/latest),
 choose **`campus-beamer-X.Y.Z-example-en.pdf`** for the English edition.
 Releases include this English PDF only; the existing Chinese general edition supplies PDF and PPTX.
-The gallery below shows the Chinese feature tour across the three themes.
+The comparison below uses the English General demo and the Chinese institution demos.
 
 ## Example pages
 
@@ -54,98 +54,77 @@ the Chinese general theme's PDF/PPTX feature tour, the English general PDF, and 
 from the [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases)
 page. The example PPTX includes per-slide PowerPoint speaker notes. Advance through
 the PDF/PPTX to see cumulative reveals and content replacement, with notes for each stage.
-All three themes use the same page content, count and order; the complete representative pages for each theme are shown below:
+Compare each theme's cover, section, body and closing layouts below. Click a thumbnail to enlarge it;
+download the corresponding PDF for the complete tour and interactive examples.
 
 <!-- demo-gallery:start -->
 
-### General (default)
+<table>
+  <thead>
+    <tr>
+      <th nowrap>Theme</th>
+      <th nowrap>Cover</th>
+      <th nowrap>Section</th>
+      <th nowrap>Body</th>
+      <th nowrap>Closing</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row" nowrap><a href="theme/general/README.md">General</a></th>
+      <td nowrap><a href="docs/images/preview-general-en-cover.png"><img src="docs/images/preview-general-en-cover.png" alt="General: Cover" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-general-en-section.png"><img src="docs/images/preview-general-en-section.png" alt="General: Section" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-general-en-body.png"><img src="docs/images/preview-general-en-body.png" alt="General: Body" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-general-en-closing.png"><img src="docs/images/preview-general-en-closing.png" alt="General: Closing" width="170"></a></td>
+    </tr>
+    <tr>
+      <th scope="row" nowrap><a href="theme/tsinghua/README.md">Tsinghua</a></th>
+      <td nowrap><a href="docs/images/preview-tsinghua-cover.png"><img src="docs/images/preview-tsinghua-cover.png" alt="Tsinghua: Cover" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-tsinghua-section.png"><img src="docs/images/preview-tsinghua-section.png" alt="Tsinghua: Section" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-tsinghua-body.png"><img src="docs/images/preview-tsinghua-body.png" alt="Tsinghua: Body" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-tsinghua-closing.png"><img src="docs/images/preview-tsinghua-closing.png" alt="Tsinghua: Closing" width="170"></a></td>
+    </tr>
+    <tr>
+      <th scope="row" nowrap><a href="theme/pcl/README.md">PCL</a></th>
+      <td nowrap><a href="docs/images/preview-pcl-cover.png"><img src="docs/images/preview-pcl-cover.png" alt="PCL: Cover" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-pcl-section.png"><img src="docs/images/preview-pcl-section.png" alt="PCL: Section" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-pcl-body.png"><img src="docs/images/preview-pcl-body.png" alt="PCL: Body" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-pcl-closing.png"><img src="docs/images/preview-pcl-closing.png" alt="PCL: Closing" width="170"></a></td>
+    </tr>
+  </tbody>
+</table>
 
-<div align="center">
-  <p>
-    <img src="docs/images/preview-general-cover.png" alt="Cover" width="200">
-    <img src="docs/images/preview-general-toc.png" alt="Contents" width="200">
-    <img src="docs/images/preview-general-focus.png" alt="Focus page" width="200">
-    <img src="docs/images/preview-general-background.png" alt="Centered image background" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-general-flow.png" alt="Aligned flowchart" width="200">
-    <img src="docs/images/preview-general-layout.png" alt="Equations" width="200">
-    <img src="docs/images/preview-general-code.png" alt="Code window" width="200">
-    <img src="docs/images/preview-general-fullheight.png" alt="Full-height image" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-general-paper.png" alt="Paper section" width="200">
-    <img src="docs/images/preview-general-callouts.png" alt="Callouts" width="200">
-    <img src="docs/images/preview-general-overlays.png" alt="Progressive reveal" width="200">
-    <img src="docs/images/preview-general-media.png" alt="Video" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-general-notes.png" alt="TeX speaker notes" width="200">
-    <img src="docs/images/preview-general-references.png" alt="References" width="200">
-    <img src="docs/images/preview-general-closing.png" alt="Closing" width="200">
-  </p>
-</div>
+### Shared features
 
-### Tsinghua (tsinghua)
+All themes share these features; the examples below use General.
 
-<div align="center">
-  <p>
-    <img src="docs/images/preview-tsinghua-cover.png" alt="Cover" width="200">
-    <img src="docs/images/preview-tsinghua-toc.png" alt="Contents" width="200">
-    <img src="docs/images/preview-tsinghua-focus.png" alt="Focus page" width="200">
-    <img src="docs/images/preview-tsinghua-background.png" alt="Centered image background" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-tsinghua-flow.png" alt="Aligned flowchart" width="200">
-    <img src="docs/images/preview-tsinghua-layout.png" alt="Equations" width="200">
-    <img src="docs/images/preview-tsinghua-code.png" alt="Code window" width="200">
-    <img src="docs/images/preview-tsinghua-fullheight.png" alt="Full-height image" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-tsinghua-paper.png" alt="Paper section" width="200">
-    <img src="docs/images/preview-tsinghua-callouts.png" alt="Callouts" width="200">
-    <img src="docs/images/preview-tsinghua-overlays.png" alt="Progressive reveal" width="200">
-    <img src="docs/images/preview-tsinghua-media.png" alt="Video" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-tsinghua-notes.png" alt="TeX speaker notes" width="200">
-    <img src="docs/images/preview-tsinghua-references.png" alt="References" width="200">
-    <img src="docs/images/preview-tsinghua-closing.png" alt="Closing" width="200">
-  </p>
-</div>
-
-### Peng Cheng Laboratory (pcl)
-
-<div align="center">
-  <p>
-    <img src="docs/images/preview-pcl-cover.png" alt="Cover" width="200">
-    <img src="docs/images/preview-pcl-toc.png" alt="Contents" width="200">
-    <img src="docs/images/preview-pcl-focus.png" alt="Focus page" width="200">
-    <img src="docs/images/preview-pcl-background.png" alt="Centered image background" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-pcl-flow.png" alt="Aligned flowchart" width="200">
-    <img src="docs/images/preview-pcl-layout.png" alt="Equations" width="200">
-    <img src="docs/images/preview-pcl-code.png" alt="Code window" width="200">
-    <img src="docs/images/preview-pcl-fullheight.png" alt="Full-height image" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-pcl-paper.png" alt="Paper section" width="200">
-    <img src="docs/images/preview-pcl-callouts.png" alt="Callouts" width="200">
-    <img src="docs/images/preview-pcl-overlays.png" alt="Progressive reveal" width="200">
-    <img src="docs/images/preview-pcl-media.png" alt="Video" width="200">
-  </p>
-  <p>
-    <img src="docs/images/preview-pcl-notes.png" alt="TeX speaker notes" width="200">
-    <img src="docs/images/preview-pcl-references.png" alt="References" width="200">
-    <img src="docs/images/preview-pcl-closing.png" alt="Closing" width="200">
-  </p>
-</div>
+<table>
+  <tr>
+    <th nowrap>Flowcharts</th>
+    <th nowrap>Equations</th>
+    <th nowrap>Code</th>
+  </tr>
+  <tr>
+    <td><a href="docs/images/preview-general-en-flow.png"><img src="docs/images/preview-general-en-flow.png" alt="Flowcharts" width="240"></a></td>
+    <td><a href="docs/images/preview-general-en-layout.png"><img src="docs/images/preview-general-en-layout.png" alt="Equations" width="240"></a></td>
+    <td><a href="docs/images/preview-general-en-code.png"><img src="docs/images/preview-general-en-code.png" alt="Code" width="240"></a></td>
+  </tr>
+  <tr>
+    <th nowrap>Text and images</th>
+    <th nowrap>Citations</th>
+    <th nowrap>Callouts</th>
+  </tr>
+  <tr>
+    <td><a href="docs/images/preview-general-en-fullheight.png"><img src="docs/images/preview-general-en-fullheight.png" alt="Text and images" width="240"></a></td>
+    <td><a href="docs/images/preview-general-en-citations.png"><img src="docs/images/preview-general-en-citations.png" alt="Citations" width="240"></a></td>
+    <td><a href="docs/images/preview-general-en-callouts.png"><img src="docs/images/preview-general-en-callouts.png" alt="Callouts" width="240"></a></td>
+  </tr>
+</table>
 
 <!-- demo-gallery:end -->
 
-Each theme gallery is rendered from its sample PDF starting at 600 DPI, capped at 0.5 MiB per image,
-and follows the same page order. The emblems,
+Previews are rendered for screen display, capped at **0.25 MiB (256 KiB) per image** and 3 MiB across both languages.
+The full PDFs retain the original detail. The emblems,
 wordmarks and campus images follow the [asset source and rights notice](assets/README.md).
 
 The institution-neutral `general` profile is the default; select it explicitly with
@@ -227,7 +206,7 @@ make draft MAIN=example  # Inspect reference-example pages and layout report
 make pdf MAIN=example-en # English general PDF
 make MAIN=example        # build/example.pdf and build/example.pptx
 make examples            # Build Tsinghua and Peng Cheng Laboratory PDFs
-make theme-previews      # Refresh README previews (start at 600 DPI; at most 0.5 MiB each)
+make theme-previews      # Refresh theme matrix and shared features (at most 0.25 MiB each)
 make                     # Build main.tex if present; otherwise example.tex
 ```
 
@@ -249,7 +228,7 @@ defaults; see [class options](docs/class-options.md).
 <details>
 <summary>See corner citations and navigation</summary>
 
-![Corner citations and section navigation from the full demo](docs/images/citations.png)
+![Corner citations and section navigation from the full demo](docs/images/preview-general-en-citations.png)
 
 </details>
 
