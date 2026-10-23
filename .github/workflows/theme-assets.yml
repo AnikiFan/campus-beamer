@@ -1,0 +1,79 @@
+name: Theme assets
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'theme/tsinghua/assets/**'
+      - 'theme/pcl/assets/**'
+      - 'theme/tsinghua/README.md'
+      - 'theme/pcl/README.md'
+      - 'tools/theme_assets.py'
+      - '.github/workflows/theme-assets.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: theme-assets
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        theme: [tsinghua, pcl]
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      THEME: ${{ matrix.theme }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test asset packaging and installation
+        run: python3 -m unittest discover -s tools/tests -p test_theme_assets.py -v
+      - name: Build this theme's bundle
+        run: make dist-theme-assets THEME="$THEME"
+      - name: Publish only changed assets at the theme's fixed address
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="theme-assets-$THEME"
+          DIRECTORY="build/theme-assets/$THEME"
+          BUNDLE="$DIRECTORY/campus-beamer-$THEME-assets.zip"
+          CHECKSUMS="$DIRECTORY/SHA256SUMS"
+          NOTES="$DIRECTORY/RELEASE_NOTES.md"
+          cat > "$NOTES" <<EOF
+          # $THEME theme assets (latest)
+
+          此主题独立维护最新版素材，不与模板版本绑定。
+          在模板根目录运行 make theme-assets THEME=$THEME 下载并校验素材。
+          普通模板发布不重复附带这些素材；保留现有文件名以兼容旧版模板。
+
+          素材来源和使用范围见 ZIP 内的 THEME_ASSETS_NOTICES.md；机构素材不适用代码的 GPL 许可。
+          Asset source commit: $GITHUB_SHA
+          EOF
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            mkdir -p "$DIRECTORY/remote"
+            gh release download "$TAG" --pattern SHA256SUMS --dir "$DIRECTORY/remote"
+            if cmp -s "$CHECKSUMS" "$DIRECTORY/remote/SHA256SUMS"; then
+              echo 'This theme is unchanged; keeping the existing assets.'
+              exit 0
+            fi
+            if [ "$(gh api "repos/$GH_REPO/releases/tags/$TAG" --jq .immutable)" = true ]; then
+              echo 'This asset release is immutable; it cannot be updated.' >&2
+              exit 1
+            fi
+            gh release upload "$TAG" "$BUNDLE" "$CHECKSUMS" --clobber
+            gh release edit "$TAG" --latest=false --notes-file "$NOTES"
+          else
+            gh release create "$TAG" "$BUNDLE" "$CHECKSUMS" \
+              --target "$GITHUB_SHA" --latest=false --title "$THEME theme assets (latest)" \
+              --notes-file "$NOTES"
+          fi

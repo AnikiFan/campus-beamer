@@ -2,6 +2,9 @@
 
 [主题使用与扩展](../README.md) · [返回首页](../../README.md)
 
+从 Release 源码包使用此主题前，在项目根目录运行 `make theme-assets THEME=tsinghua`，
+下载该主题独立维护的最新版素材。已有素材时不联网；详见[安装说明](../../docs/installation.md#机构主题素材)。
+
 使用 `\documentclass[theme=tsinghua]{campusbeamer}` 选择此主题；省略 `theme` 时使用通用 `general` 主题。
 `profile.tex` 定义配色和品牌标志，`assets/` 保存校徽、校名及校园示例素材。
 

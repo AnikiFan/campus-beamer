@@ -9,6 +9,7 @@ import unittest
 from unittest.mock import patch
 
 import pymupdf
+from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from render_theme_previews import (GALLERY, THEMES, MAX_PREVIEW_BYTES, MIN_PREVIEW_DPI,
@@ -74,6 +75,19 @@ class ThemePreviewTests(unittest.TestCase):
             with self.subTest(image=path.name):
                 self.assertLessEqual(path.stat().st_size, MAX_PREVIEW_BYTES,
                                      'Regenerate documentation previews with make theme-previews')
+
+    def test_palette_fallback_preserves_minimum_resolution(self):
+        output = self.root / 'palette.png'
+        with pymupdf.open() as document:
+            page = document.new_page(width=144, height=81)
+            noise = pymupdf.Pixmap(pymupdf.csRGB, 1200, 675,
+                                  random.Random(42).randbytes(1200 * 675 * 3), False)
+            page.insert_image(page.rect, pixmap=noise)
+            save_preview(page, output, 600, max_bytes=60_000)
+        with Image.open(output) as image:
+            self.assertEqual(image.mode, 'P')
+            self.assertAlmostEqual(image.info['dpi'][0], MIN_PREVIEW_DPI, delta=1)
+        self.assertLessEqual(output.stat().st_size, 60_000)
 
     def test_different_page_count_or_sections_fail(self):
         first = self.pdf('general.pdf')

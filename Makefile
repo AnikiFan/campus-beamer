@@ -44,10 +44,12 @@ override CITATION_SOURCE := $(value CITATION_SOURCE)
 override BIB_OUTPUT := $(value BIB_OUTPUT)
 override BIB_REPORT := $(value BIB_REPORT)
 override INPUT_BIB := $(value INPUT_BIB)
+override THEME := $(value THEME)
 # Pass text through the environment, so titles/keys are not shell fragments.
 export QUERY DBLP_KEY DOI CITE_KEY DBLP_HOST CITATION_SOURCE BIB_OUTPUT BIB_REPORT INPUT_BIB
+export THEME
 
-.PHONY: all pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist version examples theme-previews general-assets release clean help
+.PHONY: all pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist version examples theme-previews general-assets theme-assets dist-theme-assets release clean help
 
 all: pptx
 
@@ -95,6 +97,12 @@ examples:
 
 general-assets:
 	$(UV) run --frozen python tools/generate_general_assets.py
+
+theme-assets:
+	$(PYTHON) tools/theme_assets.py download --theme "$$THEME"
+
+dist-theme-assets:
+	$(PYTHON) tools/theme_assets.py package --theme "$$THEME"
 
 theme-previews:
 	$(MAKE) pdf MAIN=example
@@ -153,6 +161,8 @@ help:
 	  'make check-theme     Compile theme fixtures without changing main output' \
 	  'make examples        Build PDF samples for the institution themes' \
 	  'make general-assets  Rebuild general-theme icon, wordmarks and abstract background' \
+	  'make theme-assets THEME=tsinghua|pcl  Download latest assets for one theme (Python only)' \
+	  'make dist-theme-assets THEME=tsinghua|pcl  Package reviewed assets for one theme' \
 	  'make theme-previews   Build theme samples and refresh README preview images' \
 	  'make logo            Rebuild project logo SVGs and PDF/PNG previews' \
 	  'make dist            Create a standalone source ZIP in build/dist/' \

@@ -123,13 +123,30 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
 
 <!-- demo-gallery:end -->
 
-各主题示例页由对应样例 PDF 以 600 DPI 渲染，保持相同页序；其中的校徽、校名和校园图像适用
+各主题示例页由对应样例 PDF 从 600 DPI 开始渲染，每张不超过 0.5 MiB，保持相同页序；其中的校徽、校名和校园图像适用
 [素材来源与使用声明](assets/README.md)。
 
 默认主题为与机构无关的 `general`；可用 `\documentclass[theme=general]{campusbeamer}` 显式选择。
 博士帽、透明项目字标、配色和可编辑素材集中在 [`theme/general/`](theme/general/README.md)。主题实现沿用通用的 `campus` 命名。
 `example.tex` 展示模板的版式与功能；自己的汇报由 agent 根据你的需求生成。
 本项目不是学校官方发布的模板。
+
+## 下载主题素材
+
+从 Release 下载并解压所选版本的 `campus-beamer-*-source.zip` 后，默认 general 主题可直接使用。
+清华与鹏城实验室素材分别维护一份最新版，不随每次模板发布重复打包；按需在项目根目录执行：
+
+```bash
+make theme-assets THEME=tsinghua
+# 使用鹏城实验室主题时：
+make theme-assets THEME=pcl
+```
+
+命令只需 Python 3.10+，会下载对应主题、校验 SHA-256 并安装到 `theme/<主题>/assets/`。
+已有完整素材时不联网；Git 克隆通常已包含素材，无需另行下载。预览图仍随源码包提供。
+[清华素材](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-tsinghua)与
+[鹏城实验室素材](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-pcl)独立更新。
+显式更新和手动下载方法见[安装说明](docs/installation.md#机构主题素材)。
 
 ## 推荐使用方式：提供思路与素材
 
@@ -177,7 +194,7 @@ make doctor              # 检查环境
 make draft MAIN=example  # 查看示例的逐页预览与排版报告
 make MAIN=example        # 构建 build/example.pdf 和 build/example.pptx
 make examples            # 构建清华和鹏城实验室主题 PDF 样例
-make theme-previews      # 生成 README 中各主题的示例页（600 DPI）
+make theme-previews      # 更新 README 预览图（从 600 DPI 开始，每张不超过 0.5 MiB）
 make                     # 有 main.tex 时构建自己的汇报，否则构建 example.tex
 ```
 

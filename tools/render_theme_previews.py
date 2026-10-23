@@ -5,14 +5,16 @@
 from __future__ import annotations
 
 import argparse
+from io import BytesIO
 import math
 import re
 from pathlib import Path
 
 import pymupdf
+from PIL import Image
 
 
-MAX_PREVIEW_BYTES = 1024 * 1024
+MAX_PREVIEW_BYTES = 512 * 1024
 MIN_PREVIEW_DPI = 150
 
 
@@ -90,6 +92,19 @@ def save_preview(page: pymupdf.Page, destination: Path, dpi: int,
     render_dpi = dpi
     while True:
         data = page.get_pixmap(dpi=render_dpi, alpha=False).tobytes('png')
+        if len(data) > max_bytes and render_dpi == MIN_PREVIEW_DPI:
+            # Preserve the minimum readable resolution. First optimize PNG
+            # losslessly; use a palette only for photos still above the budget.
+            with Image.open(BytesIO(data)) as image:
+                optimized = BytesIO()
+                image.save(optimized, format='PNG', optimize=True, dpi=(render_dpi, render_dpi))
+                data = optimized.getvalue()
+                if len(data) > max_bytes:
+                    optimized = BytesIO()
+                    image.quantize(colors=256).save(optimized, format='PNG', optimize=True,
+                                                    dpi=(render_dpi, render_dpi))
+                    data = optimized.getvalue()
+                    print(f'{destination.name}: using a 256-color preview at {render_dpi} DPI')
         if len(data) <= max_bytes:
             destination.write_bytes(data)
             if render_dpi != dpi:
@@ -121,7 +136,7 @@ def main() -> None:
     parser.add_argument('--update-readme', action='store_true')
     parser.add_argument('--output', type=Path, default=Path('docs/images'))
     parser.add_argument('--dpi', type=int, default=600,
-                        help='Initial DPI (at least 600); large PNGs adapt down to 150 DPI to fit 1 MiB')
+                        help='Initial DPI (at least 600); large PNGs adapt down to 150 DPI to fit 0.5 MiB')
     args = parser.parse_args()
     if args.dpi < 600:
         raise ValueError('Preview DPI must be at least 600.')

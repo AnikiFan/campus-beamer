@@ -34,9 +34,10 @@ make MAIN=example
 它检查编译、预期页数、语言与字体锚点、可选宏包以及错误选项的诊断，不能代替肉眼检查。
 修改主题后应检查全部演示页面、引用、PPTX 跳转和备注，参见[完整 draft 流程](docs/usage.md#快速排版迭代draft)。
 
-文档预览图每张不超过 **1 MiB**。生成器从对应 PDF 以 **600 DPI** 开始渲染 PNG；
+文档预览图每张不超过 **0.5 MiB（512 KiB）**。生成器从对应 PDF 以 **600 DPI** 开始渲染 PNG；
 未超限的图片保持原分辨率，超限页面按比例降低渲染分辨率，最低 **150 DPI**，
-并保留实际 DPI 元信息。达到最低分辨率仍超限时生成失败，需要简化该预览页的配图。
+并保留实际 DPI 元信息。达到最低分辨率时先尝试无损 PNG 优化，仍超限则使用 256 色调色板；
+若仍超限则生成失败，需要简化该预览页的配图。检查调色板预览的照片色阶与文字边缘。
 这项限制只用于 `docs/images/`，不改变主题原图或 PDF/PPTX 导出质量。
 更新后检查文字、角落引用和页脚的清晰度；`make test` 会检查文档 PNG 的体积上限。
 `make theme-previews` 重建三个主题的同一份完整演示，并更新中英文 README 中各主题的完整功能缩略图。
@@ -70,10 +71,13 @@ make MAIN=example
 本地通过不等于远程 CI 已通过。主题编译验证需要 TeX 环境，使用 `make check-theme`。
 
 `make dist` 生成 `build/dist/campus-beamer.zip`，只包含清单内的源码、文档、配置和示例素材。
+机构素材不进入该 ZIP，按主题分别维护最新版包；general 素材和文档预览图保留。
+使用机构主题前运行 `make theme-assets THEME=tsinghua` 或 `THEME=pcl`。
 这份 ZIP 可以作为独立仓库的根目录；GitHub 只从仓库根目录读取 workflows。
 不包含 `.venv`、生成的备注、构建产物，或未列入清单的根目录汇报；新增源码时同步更新打包清单。
 `materials/`、`sections/` 和 `bibliography/` 仅打包各自的 `.gitkeep` 以保留写作目录；其中的用户内容及生成的 `main.tex` 不会被打包。
-所有公开文件逐一登记在 `tools/package_source.py` 的 `FILES` 白名单中，不递归收录目录中的新文件。
+源码包公开文件逐一登记在 `tools/package_source.py` 的 `FILES` 白名单中，不递归收录目录中的新文件。
+独立主题素材包使用 `tools/theme_assets.py` 的 `ASSET_FILES` 白名单，详见[素材发布流程](docs/releases.md#每个主题独立维护最新版素材)。
 新增文件默认不打包；审核其内容可公开后，再将路径加入白名单并运行 `make test`、`make dist`。
 清单文件及其父目录不能是符号链接。已登记文件的内容仍需审核，白名单不代替隐私检查。
 `outline.md` 是用户草稿入口。源码包从 `tools/templates/outline.md` 提供起始模板，

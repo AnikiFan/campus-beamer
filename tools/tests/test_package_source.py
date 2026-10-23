@@ -61,7 +61,7 @@ class SourcePackageTests(unittest.TestCase):
                                  or name.startswith('.venv/') or name.startswith('build/')
                                  or name.endswith('.log') for name in names))
 
-    def test_selected_school_is_complete_and_unlisted_schools_stay_private(self):
+    def test_school_configs_remain_but_shared_assets_and_private_schools_are_excluded(self):
         private = self.root / 'theme/private-school'
         private.mkdir()
         (private / 'profile.tex').write_text('Private school configuration')
@@ -71,18 +71,13 @@ class SourcePackageTests(unittest.TestCase):
             self.assertIn('theme/README.md', names)
             self.assertIn('theme/tsinghua/profile.tex', names)
             self.assertIn('theme/tsinghua/README.md', names)
-            for name in ('profile.tex', 'README.md', 'emblem.tex', 'wordmark.tex',
-                         'assets/emblem.pdf', 'assets/emblem-source.png',
-                         'assets/wordmark.png', 'assets/wordmark_on_dark.pdf',
-                         'assets/campus-courtyard.png'):
+            for name in ('profile.tex', 'README.md', 'emblem.tex', 'wordmark.tex'):
                 self.assertIn('theme/pcl/' + name, names)
-            for name in ('emblem_on_dark.png', 'emblem_on_light.png',
-                         'wordmark_on_dark.png', 'wordmark_on_light.png', 'wordmark.svg',
-                         'sigs_wordmark.png', 'sigs_building.jpg', 'sigs_dom.jpg',
-                         'sigs_night.jpg', 'tsinghua_door.png', 'tsinghua_door1.png',
-                         'tsinghua_temple.png'):
-                self.assertIn('theme/tsinghua/assets/' + name, names)
-                self.assertNotIn('assets/' + name, names)
+            self.assertFalse(any(name.startswith(('theme/tsinghua/assets/', 'theme/pcl/assets/'))
+                                 for name in names))
+            self.assertIn('theme/general/assets/backdrop.pdf', names)
+            self.assertIn('docs/images/preview-tsinghua-cover.png', names)
+            self.assertIn('tools/theme_assets.py', names)
             self.assertFalse(any(name.startswith('theme/private-school/') for name in names))
 
     def test_mermaid_skill_has_its_renderer_and_style_resources(self):

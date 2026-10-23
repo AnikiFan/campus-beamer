@@ -124,7 +124,8 @@ All three themes use the same page content, count and order; the complete repres
 
 <!-- demo-gallery:end -->
 
-Each theme gallery is rendered from its sample PDF at 600 DPI and follows the same page order. The emblems,
+Each theme gallery is rendered from its sample PDF starting at 600 DPI, capped at 0.5 MiB per image,
+and follows the same page order. The emblems,
 wordmarks and campus images follow the [asset source and rights notice](assets/README.md).
 
 The institution-neutral `general` profile is the default; select it explicitly with
@@ -133,6 +134,25 @@ wordmarks, colors and provenance live in [`theme/general/`](theme/general/README
 The shared implementation uses the neutral `campus` name.
 `example.tex` demonstrates the layouts and features; the agent creates your presentation from your brief.
 This is not an official university template.
+
+## Download theme assets
+
+Extract your chosen Release's `campus-beamer-*-source.zip`; the default general theme is ready to use.
+Tsinghua and PCL each maintain their own latest asset bundle, separate from template versions.
+Run only the command for the theme you need from the project root:
+
+```bash
+make theme-assets THEME=tsinghua
+# For Peng Cheng Laboratory:
+make theme-assets THEME=pcl
+```
+
+Only Python 3.10+ is needed. The command downloads that theme, verifies SHA-256 and installs it
+under `theme/<theme>/assets/`. Complete local assets are reused without network access;
+Git clones normally already include them. Documentation previews remain in the source ZIP.
+The [Tsinghua](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-tsinghua) and
+[PCL](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-pcl) bundles update independently.
+See [installation instructions](docs/installation.md#机构主题素材) for explicit updates and manual downloads.
 
 ## Recommended workflow: ideas and local materials
 
@@ -186,7 +206,7 @@ make doctor              # Check tools, TeX packages and fonts
 make draft MAIN=example  # Inspect reference-example pages and layout report
 make MAIN=example        # build/example.pdf and build/example.pptx
 make examples            # Build Tsinghua and Peng Cheng Laboratory PDFs
-make theme-previews      # Refresh each theme's example pages in README (600 DPI)
+make theme-previews      # Refresh README previews (start at 600 DPI; at most 0.5 MiB each)
 make                     # Build main.tex if present; otherwise example.tex
 ```
 

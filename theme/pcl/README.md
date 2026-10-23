@@ -2,6 +2,9 @@
 
 [主题使用与扩展](../README.md) · [返回首页](../../README.md)
 
+从 Release 源码包使用此主题前，在项目根目录运行 `make theme-assets THEME=pcl`，
+下载该主题独立维护的最新版素材。已有素材时不联网；详见[安装说明](../../docs/installation.md#机构主题素材)。
+
 ```tex
 \documentclass[theme=pcl]{campusbeamer}
 ```
