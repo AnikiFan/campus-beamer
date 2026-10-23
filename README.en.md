@@ -31,8 +31,7 @@
 
 [`example-en.tex`](example-en.tex) is the complete **English general-theme feature tour**:
 English slide text, navigation labels, bibliography examples and native TeX speaker notes.
-It follows the same five chapters and 50-page sequence as the Chinese demo and uses
-`language=english, cjk=false`, so no Chinese typesetting is needed for this entry.
+It uses `language=english, cjk=false`, so no Chinese typesetting is needed for this entry.
 
 Build its PDF from the project root:
 
@@ -45,12 +44,12 @@ make draft MAIN=example-en
 The output is `build/example-en.pdf`. On [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases/latest),
 choose **`campus-beamer-X.Y.Z-example-en.pdf`** for the English edition.
 Releases include this English PDF only; the existing Chinese general edition supplies PDF and PPTX.
-The comparison below uses the English General demo and the Chinese institution demos.
+The comparison below uses the English General demo and the Chinese institution and Tokyo Night demos.
 
 ## Example pages
 
 `example.tex` is the layout and feature tour. Download
-the Chinese general theme's PDF/PPTX feature tour, the English general PDF, and the Tsinghua and Peng Cheng Laboratory PDF samples
+the Chinese general theme's PDF/PPTX feature tour, the English general PDF, and the Tsinghua, Peng Cheng Laboratory and Tokyo Night PDF samples
 from the [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases)
 page. The example PPTX includes per-slide PowerPoint speaker notes. Advance through
 the PDF/PPTX to see cumulative reveals and content replacement, with notes for each stage.
@@ -76,6 +75,13 @@ download the corresponding PDF for the complete tour and interactive examples.
       <td nowrap><a href="docs/images/preview-general-en-section.png"><img src="docs/images/preview-general-en-section.png" alt="General: Section" width="170"></a></td>
       <td nowrap><a href="docs/images/preview-general-en-body.png"><img src="docs/images/preview-general-en-body.png" alt="General: Body" width="170"></a></td>
       <td nowrap><a href="docs/images/preview-general-en-closing.png"><img src="docs/images/preview-general-en-closing.png" alt="General: Closing" width="170"></a></td>
+    </tr>
+    <tr>
+      <th scope="row" nowrap><a href="theme/tokyo-night/README.md">Tokyo Night</a></th>
+      <td nowrap><a href="docs/images/preview-tokyo-night-cover.png"><img src="docs/images/preview-tokyo-night-cover.png" alt="Tokyo Night: Cover" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-tokyo-night-section.png"><img src="docs/images/preview-tokyo-night-section.png" alt="Tokyo Night: Section" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-tokyo-night-body.png"><img src="docs/images/preview-tokyo-night-body.png" alt="Tokyo Night: Body" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-tokyo-night-closing.png"><img src="docs/images/preview-tokyo-night-closing.png" alt="Tokyo Night: Closing" width="170"></a></td>
     </tr>
     <tr>
       <th scope="row" nowrap><a href="theme/tsinghua/README.md">Tsinghua</a></th>
@@ -123,14 +129,16 @@ All themes share these features; the examples below use General.
 
 <!-- demo-gallery:end -->
 
-Previews are rendered for screen display, capped at **0.25 MiB (256 KiB) per image** and 3 MiB across both languages.
-The full PDFs retain the original detail. The emblems,
-wordmarks and campus images follow the [asset source and rights notice](assets/README.md).
+See the [asset source and rights notice](assets/README.md) for the permitted use of
+emblems, wordmarks and campus images.
+
+The dark [`tokyo-night`](theme/tokyo-night/README.md) profile is also included. Select it with
+`\documentclass[theme=tokyo-night]{campusbeamer}` and build its full demo with
+`make pdf MAIN=example-tokyo-night`. Its assets are included in the source ZIP.
 
 The institution-neutral `general` profile is the default; select it explicitly with
 `\documentclass[theme=general]{campusbeamer}`. Its editable icon, transparent project
 wordmarks, colors and provenance live in [`theme/general/`](theme/general/README.md).
-The shared implementation uses the neutral `campus` name.
 `example.tex` demonstrates the layouts and features; the agent creates your presentation from your brief.
 This is not an official university template.
 
@@ -148,7 +156,7 @@ make theme-assets THEME=pcl
 
 Only Python 3.10+ is needed. The command downloads that theme, verifies SHA-256 and installs it
 under `theme/<theme>/assets/`. Complete local assets are reused without network access;
-Git clones normally already include them. Documentation previews remain in the source ZIP.
+Git clones normally already include them.
 The [Tsinghua](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-tsinghua) and
 [PCL](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-pcl) bundles update independently.
 See [installation instructions](docs/installation.md#机构主题素材) for explicit updates and manual downloads.
@@ -205,8 +213,7 @@ make doctor              # Check tools, TeX packages and fonts
 make draft MAIN=example  # Inspect reference-example pages and layout report
 make pdf MAIN=example-en # English general PDF
 make MAIN=example        # build/example.pdf and build/example.pptx
-make examples            # Build Tsinghua and Peng Cheng Laboratory PDFs
-make theme-previews      # Refresh theme matrix and shared features (at most 0.25 MiB each)
+make examples            # Build institution and Tokyo Night PDFs
 make                     # Build main.tex if present; otherwise example.tex
 ```
 
@@ -217,7 +224,7 @@ speaker notes. The agent chooses useful layouts and creates
 your content separately. The example also lists all public class options and
 defaults; see [class options](docs/class-options.md).
 
-- Fixed 16:9 layout with Chinese and English support; full primary-color section pages by default (black in general, purple in Tsinghua and blue in PCL).
+- Fixed 16:9 layout with Chinese and English support; full primary-color section pages by default (black in general, purple in Tsinghua, blue in PCL and dark blue-gray in Tokyo Night).
 - `\sectiontocpage[overview]` shows all sections uniformly; [focus frames](docs/usage.md#简洁页面与图片背景) use a single header/footer row and optional centered image backgrounds with cover scaling and adjustable opacity.
 - Fitted figures, equations, paper walkthroughs and [terminal-style code windows](docs/usage.md#代码与终端窗口).
 - `biblatex` / `biber`, corner citations and cited references; optional [DBLP and citation-count tools](docs/literature.md).
@@ -236,59 +243,59 @@ Use `materials/` for personal source material and `build/` for outputs. Personal
 see the [user guide](docs/usage.md#快速开始) for directory and distribution rules.
 See [environment workflows](docs/workflows.md) for VS Code, Overleaf and the command line.
 
-## Another university or research institute
+## Choose and customize a theme
 
-Built-in profiles are `general` (default), `tsinghua` and `pcl` (Peng Cheng Laboratory).
-Select the latter with `\documentclass[theme=pcl]{campusbeamer}`; see its
+Built-in profiles are `general` (default), `tsinghua`, `pcl` (Peng Cheng Laboratory) and `tokyo-night` (dark).
+Select PCL with `\documentclass[theme=pcl]{campusbeamer}`; see its
 [profile and asset provenance](theme/pcl/README.md).
 
 Copy `theme/general/` to `theme/myschool/`, edit its `profile.tex` and assets, then
 select `theme=myschool` in the document class. No theme registry or shared-code edits are needed
 for local use. See [theme setup and extension](theme/README.md).
 
-Each profile defines functional colors (`maincolor`, `tipcolor`,
-`notecolor`, `alertcolor`, `examplecolor`, `definitioncolor`) and paths to transparent
-emblems/wordmarks. Pass campus photo and illustration
-paths directly in your section files. Section backgrounds can also be `primary`,
-`white`, or empty. Demo metadata lives in `examples/sections/metadata.tex`; the agent writes
-your metadata in `sections/metadata.tex`.
-Layout geometry stays in the theme implementation.
-The footer uses `maincolor` with white text. The cover uses the primary-color diagonal layout,
-with its color taken from `maincolor`; the explicit setting is `\titlebackground{primary}`.
+The agent writes your talk metadata in `sections/metadata.tex`; section files reference your
+photos and illustrations. See [theme setup and extension](theme/README.md) for palette,
+transparent artwork and section-background options.
 
-## Development
+## Common commands
 
 ```bash
-make test          # Python regression tests
-make check-theme   # Compile theme fixtures in isolation
-make dist          # Standalone source ZIP, without generated output
-make version       # Project version from pyproject.toml
-make release       # Test, build the public demo and bundle checksummed release artifacts
-make clean         # Manually remove intermediates after a failed build
-make help
+make pdf                       # Build the PDF
+make DPI=200                   # Smaller PPTX for previewing
+make draft PAGES=3,8-10         # Inspect selected pages
+make literature QUERY="title"  # Search DBLP candidates
+make bibtex DBLP_KEY=conf/...    # Download BibTeX and citation metadata
+make citations DOI=10.../...    # Query citation count, provider and date
+make version                   # Show the current template version
+make clean                     # Remove intermediates after a failed build
+make help                      # List all commands
 ```
 
-Document-class, theme and school-profile files live in `theme/`. Keep this directory
-and `.latexmkrc` when copying the template: latexmk configures the TeX search path,
-so `\documentclass{campusbeamer}` and the Make commands remain unchanged.
-Your presentation uses `main.tex`, `sections/` for metadata and chapters, and
-`bibliography/` for references. Public demo content lives separately in
-`examples/sections/` and `examples/bibliography/`, with `example.tex` as its entry.
-Documentation lives in `docs/`, and test sources in `tools/fixtures/`.
-Local output lives in ignored `build/` directories.
-GitHub Actions reads `.github/workflows/` from the repository root.
-See [CONTRIBUTING.md](CONTRIBUTING.md) for bug reports and pull requests.
+## Project files
 
-Track public changes in [CHANGELOG.md](CHANGELOG.md). Source ZIPs include only
-the individually reviewed files in `tools/package_source.py`; new files are
-excluded by default. `make release` creates
-`build/releases/campus-beamer-v<version>-release.zip` as a local checksummed bundle.
-GitHub Releases expose the source ZIP, the general feature tour as PDF/PPTX,
-the Tsinghua and Peng Cheng Laboratory samples as PDF, release notes
-and SHA-256 checksums as separate downloadable assets. It builds the three public entries independently of any local `main.tex`.
-The **Release Please** GitHub workflow maintains release
-PRs, creates releases and uploads bundles after merging, with a manual build
-entry point as well. See the [release guide](docs/releases.md) for setup and publishing.
+```text
+outline.md       Your talk details and free-form draft
+main.tex         The presentation entry created by the agent
+sections/        Talk metadata, chapters and native TeX notes
+materials/       Local papers, figures and experimental results
+bibliography/    The talk's bibliography
+example*.tex     Theme and English feature-tour entries
+examples/        Public feature-tour sources
+STYLE.md         Presentation style preferences you can adjust
+theme/           Shared layouts, theme palettes and artwork
+docs/            Installation, usage and environment guides
+build/           Generated PDF, PPTX and page previews
+```
+
+Run Make from the project root. Keep `theme/` and `.latexmkrc` when copying the template.
+Use `make help` to see all available commands.
+
+## Contributing
+
+Bug reports, documentation improvements and new theme profiles are welcome.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for reporting and development instructions,
+[CHANGELOG.md](CHANGELOG.md) for version changes, and the [release guide](docs/releases.md)
+for packaging and publishing.
 
 ## License and assets
 
@@ -297,6 +304,9 @@ Source code uses **GPL-3.0-or-later**; see [LICENSE](LICENSE). Asset terms are d
 - **General**: the original graduation cap, geometric background and project lettering source use
   GPL-3.0-or-later. The Latin Modern font retains its GUST Font License. See the
   [general asset notice](theme/general/README.md) and [project lettering notice](assets/README.md#campus-beamer-项目字标).
+- **Tokyo Night**: the original crescent-and-star icon, city illustration and project lettering
+  adaptation use GPL-3.0-or-later. See the [Tokyo Night asset notice](theme/tokyo-night/README.md)
+  for the upstream palette's MIT notice and font license.
 - **Tsinghua**: the emblem, university name, combined marks and campus images come from the
   university's visual identity system and the SIGS official photo gallery; some are cropped.
   See the [Tsinghua sources, file list and notice](theme/tsinghua/README.md).
@@ -321,6 +331,9 @@ The original procedural video `assets/presentation_demo.mp4` is separately dedic
 
 Thanks to the authors and contributors of these projects:
 
+- **Dark palette**: [Tokyo Night](https://github.com/tokyo-night/tokyo-night-vscode-theme) by Enkia (MIT).
+  The `tokyo-night` profile adapts its night palette with brighter body, citation and navigation text
+  for presentations; see the [source and license notice](theme/tokyo-night/README.md).
 - **Build environment**: [xu-cheng/latex-docker](https://github.com/xu-cheng/latex-docker).
   This project's Docker environment extends its Debian image with preinstalled TeX Live,
   adding template fonts and PDF/PPTX tools.

@@ -6,7 +6,7 @@
 按主题集中存放在 `theme/<名称>/`；原创博士帽和几何背景见 [general 主题](../theme/general/README.md)。
 清华素材及完整的来源、权利和联系声明见
 [清华主题](../theme/tsinghua/README.md)；鹏城实验室素材见
-[鹏城实验室主题](../theme/pcl/README.md)。原创演示视频单独采用 CC0-1.0。
+[鹏城实验室主题](../theme/pcl/README.md)。[Tokyo Night 深色主题](../theme/tokyo-night/README.md)独立保存本项目原创的月牙星光标志、城市插画及适配的项目字标，并保留上游色板的 MIT 许可通知。原创演示视频单独采用 CC0-1.0。
 主题代码的 GPL 许可证不适用于学校标志和校园图像。
 
 ## Campus Beamer 项目字标

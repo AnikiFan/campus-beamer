@@ -24,13 +24,13 @@
 \AtEndPreamble{\@ifpackageloaded{xeCJK}{\RequirePackage{xeCJK-listings}}{}}
 
 % Neutral UI colors, independent of the institution's brand palette.
-\definecolor{campuscodebackground}{HTML}{20242C}
-\definecolor{campuscodebar}{HTML}{303640}
-\definecolor{campuscodetext}{HTML}{EDF0F5}
-\definecolor{campuscodemuted}{HTML}{A9B4C3}
-\definecolor{campuscodekeyword}{HTML}{C5ADFF}
-\definecolor{campuscodestring}{HTML}{B7D99B}
-\definecolor{campuscodeaccent}{HTML}{87CEEB}
+\providecolor{campuscodebackground}{HTML}{20242C}
+\providecolor{campuscodebar}{HTML}{303640}
+\providecolor{campuscodetext}{HTML}{EDF0F5}
+\providecolor{campuscodemuted}{HTML}{A9B4C3}
+\providecolor{campuscodekeyword}{HTML}{C5ADFF}
+\providecolor{campuscodestring}{HTML}{B7D99B}
+\providecolor{campuscodeaccent}{HTML}{87CEEB}
 
 \lstdefinestyle{campus-code}{
   basicstyle=\ttfamily\small\color{campuscodetext},

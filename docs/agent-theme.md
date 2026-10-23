@@ -11,7 +11,8 @@ School colors, emblem/wordmark paths, and functional palette values belong only
 in `theme/<name>/profile.tex`; its assets and provenance belong in that school
 directory. `theme/campuscolor.sty` selects and validates the profile; layout geometry belongs in
 `theme/beamerthemecampus.sty`. The default profile is institution-neutral `general`. Explicit `tsinghua` and
-`pcl` profiles retain their existing institutional identities. Do not hard-code another school's brand
+`pcl` profiles retain their existing institutional identities. The `tokyo-night` profile provides
+a dark, institution-neutral palette through the optional surface/text colors in `theme/README.md`. Do not hard-code another school's brand
 or create `imageone`/`demographic` registries. Keep demo metadata literal in
 `examples/sections/metadata.tex`; keep user metadata in `sections/metadata.tex`.
 
@@ -30,7 +31,8 @@ Preserve these unless the user explicitly requests a design change:
   `frame/total` plus `author | title` arrangement;
 - the top-left emblem block flush with the page top and using the configured
   dark/light emblem assets;
-- the white-left, primary-color-right cover split, its documented diagonal and
+- the profile-body-color-left, primary-color-right cover split (white left for the
+  original light profiles), its documented diagonal and
   wordmark anchors, and full primary-color section pages by default;
 - ordinary two-line headers (subsection over frame title), single-line header
   baselines, and shared header gaps; explicitly selected `campusfocus` frames use

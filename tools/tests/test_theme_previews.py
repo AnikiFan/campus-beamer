@@ -15,7 +15,7 @@ from PIL import Image
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from package_source import FILES
-from render_theme_previews import (GALLERY,
+from render_theme_previews import (GALLERY, THEMES,
                                    MAX_PREVIEW_BYTES, MAX_GALLERY_BYTES, MIN_PREVIEW_WIDTH,
                                    gallery_markup, main, preview_names, render_gallery,
                                    save_preview, validate_samples)
@@ -110,7 +110,7 @@ class ThemePreviewTests(unittest.TestCase):
     def test_documentation_budget_and_packaging_match_used_images(self):
         root = Path(__file__).resolve().parents[2]
         previews = list((root / 'docs/images').glob('*.png'))
-        expected = set().union(*(preview_names(theme) for theme in ('general', 'general-en', 'tsinghua', 'pcl')))
+        expected = set().union(*(preview_names(theme) for theme in [*(item[0] for item in THEMES), 'general-en']))
         self.assertEqual({path.name for path in previews}, expected)
         self.assertLessEqual(sum(path.stat().st_size for path in previews), MAX_GALLERY_BYTES)
         for path in previews:
@@ -140,7 +140,7 @@ class ThemePreviewTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'gallery anchor'):
                 validate_samples([other])
 
-    def test_readmes_have_three_theme_rows_and_shared_features(self):
+    def test_readmes_have_all_theme_rows_and_shared_features(self):
         root = Path(__file__).resolve().parents[2]
         self.assertEqual(GALLERY[-1][0], 'closing')
         for name, english in (('README.md', False), ('README.en.md', True)):
@@ -149,11 +149,11 @@ class ThemePreviewTests(unittest.TestCase):
                 self.assertIn(markup, (root / name).read_text())
                 parsed = GalleryParser()
                 parsed.feed(markup)
-                self.assertEqual([len(row) for row in parsed.tables[0]], [5, 5, 5, 5])
+                self.assertEqual([len(row) for row in parsed.tables[0]], [5] * (len(THEMES) + 1))
                 self.assertEqual([len(row) for row in parsed.tables[1]], [3, 3, 3, 3])
-                self.assertEqual(len(parsed.images), 18)
+                self.assertEqual(len(parsed.images), 4 * len(THEMES) + 6)
                 self.assertTrue(all(parsed.alt_texts))
-                self.assertEqual(len(set(parsed.images)), 18)
+                self.assertEqual(len(set(parsed.images)), 4 * len(THEMES) + 6)
                 for path in parsed.images:
                     self.assertIn(path, parsed.links)
                     self.assertTrue((root / path).is_file())
@@ -164,7 +164,7 @@ class ThemePreviewTests(unittest.TestCase):
 
     def test_renderer_only_emits_selected_pages(self):
         pdf = self.pdf('all.pdf', [f'Page {i}' for i in range(1, 51)])
-        for theme, count in (('tsinghua', 4), ('general-en', 10)):
+        for theme, count in (('tsinghua', 4), ('tokyo-night', 4), ('general-en', 10)):
             output = self.root / theme
             output.mkdir()
             render_gallery(pdf, theme, output)

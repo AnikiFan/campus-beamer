@@ -1,0 +1,19 @@
+% Original crescent and single star; no institutional or third-party marks.
+% Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
+% SPDX-License-Identifier: GPL-3.0-or-later
+\documentclass[tikz,border=0pt]{standalone}
+\definecolor{brand}{HTML}{7AA2F7}
+\providecommand{\artcolor}{brand}
+\begin{document}
+\begin{tikzpicture}[x=1pt,y=1pt]
+  \path[use as bounding box] (0,0) rectangle (100,100);
+  % Knock out the inner moon with a clip, retaining real transparency.
+  \begin{scope}[even odd rule]
+    \clip (0,0) rectangle (100,100) (61,62) circle (29);
+    \fill[\artcolor] (47,50) circle (32);
+  \end{scope}
+  % One small sparkle balances the crescent without adding silhouette detail.
+  \fill[\artcolor] (78,82) -- (80,77) -- (85,75) -- (80,73)
+    -- (78,68) -- (76,73) -- (71,75) -- (76,77) -- cycle;
+\end{tikzpicture}
+\end{document}

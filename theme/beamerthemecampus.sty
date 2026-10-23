@@ -483,7 +483,7 @@
     \setbeamercolor{footline}{fg=white,bg=maincolor}
 	\ifstrequal{#1}{main}{%
 		\setbeamercolor{headline}{fg=white,bg=maincolor}
-        \setbeamercolor{logo block}{bg=white}
+        \setbeamercolor{logo block}{bg=campusbackground}
 		\setbeamercolor{navigation muted}{fg=white!65!maincolor}
 		\setbeamercolor{navigation footer}{fg=white,bg=maincolor}
 		\setbeamercolor{navigation footer section}{fg=white,bg=maincolor}
@@ -494,25 +494,25 @@
 		\setbeamercolor{structure}{fg=white}
 		\renewcommand{\@logo}{whitelogo}
 	}{%
-		\setbeamercolor{headline}{fg=darkgray,bg=white}
+		\setbeamercolor{headline}{fg=campusheading,bg=campusbackground}
         \setbeamercolor{logo block}{bg=maincolor}
-		\setbeamercolor{navigation muted}{fg=black!55}
-		\setbeamercolor{navigation footer}{fg=maincolor,bg=white}
-		\setbeamercolor{navigation footer section}{fg=maincolor,bg=maincolor!18!white}
-		\setbeamercolor{navigation footer subsection}{fg=maincolor,bg=maincolor!7!white}
-		\setbeamercolor{section in head/foot}{fg=maincolor,bg=}
-		\setbeamercolor{subsection in head/foot}{fg=maincolor,bg=}
-		\setbeamercolor{normal text}{fg=darkgray,bg=white}
-		\setbeamercolor{structure}{fg=maincolor}
+		\setbeamercolor{navigation muted}{fg=campusnavigationmuted}
+		\setbeamercolor{navigation footer}{fg=campusaccent,bg=campusbackground}
+		\setbeamercolor{navigation footer section}{fg=campusaccent,bg=campusnavigationsection}
+		\setbeamercolor{navigation footer subsection}{fg=campusaccent,bg=campusnavigationsubsection}
+		\setbeamercolor{section in head/foot}{fg=campusaccent,bg=}
+		\setbeamercolor{subsection in head/foot}{fg=campusaccent,bg=}
+		\setbeamercolor{normal text}{fg=campustext,bg=campusbackground}
+		\setbeamercolor{structure}{fg=campusaccent}
 		\renewcommand{\@logo}{logo}
 	}
 }
-\themecolor{white} % Default: white theme
+\themecolor{white} % Profile body palette; legacy name retained.
 
-\setbeamercolor{title}{fg=maincolor,bg=white}
-\setbeamercolor{alerted text}{fg=maincolor}
-\setbeamercolor{author}{fg=black}
-\setbeamercolor{date}{fg=black}
+\setbeamercolor{title}{fg=campusaccent,bg=campusbackground}
+\setbeamercolor{alerted text}{fg=campusaccent}
+\setbeamercolor{author}{fg=campusmetadatatext}
+\setbeamercolor{date}{fg=campusmetadatatext}
 
 % Shared by the title and closing pages (advisor uses the author font).
 \setbeamerfont{author}{size=\normalsize}
@@ -582,7 +582,7 @@
 \setbeamerfont{caption}{size=\footnotesize}
 \setbeamerfont{caption name}{size=\footnotesize}
 \setbeamerfont{slide citation}{size=\tiny}
-\setbeamercolor{slide citation}{fg=black!50,bg=}
+\setbeamercolor{slide citation}{fg=campuscitation,bg=}
 \setlength{\abovecaptionskip}{2pt}
 \setlength{\belowcaptionskip}{0pt}
 % Reuse the native caption template, colors, spacing and wrapping without
@@ -621,10 +621,11 @@
 \tcbset{
   campus callout/.style n args={1}{
     enhanced,
-    colback=#1!5!white,
+    colback=#1!5!campusbackground,
+    colupper=campuscallouttext,
     colframe=#1,
-    colbacktitle=#1!10!white,
-    coltitle=#1!70!black,
+    colbacktitle=#1!10!campusbackground,
+    coltitle=#1!70!campuscallouttitlebase,
     boxrule=0pt,
     leftrule=3pt,
     titlerule=0pt,

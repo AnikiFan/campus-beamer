@@ -28,7 +28,7 @@ from images_to_ppt import campus_metadata, pdf_info_string
 
 EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 3,
                   'single-header': 5,
-                  'profile-general': 8, 'profile-general-legacy': 3, 'profile-pcl': 8, 'profile-selection': 6, 'profile-selection-legacy': 6,
+                  'profile-tokyo-night': 9, 'profile-general': 8, 'profile-general-legacy': 3, 'profile-pcl': 8, 'profile-selection': 6, 'profile-selection-legacy': 6,
                   'demo-without-guides': 50, 'language-layout': 10,
                   'toc-overview': 7, 'page-styles': 10,
                   'class-options': 6, 'class-handout': 1, 'class-mixed-language': 2,
@@ -63,6 +63,24 @@ def prepare_profile_fixture(workspace):
     profile = '\n'.join(lines) + '\n'
     (directory / 'profile.tex').write_text(profile)
     return profile
+
+
+
+def check_tokyo_night(document, log):
+    """Assert rendered dark surfaces and readable body/code/citation colors."""
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('profile-tokyo-night: overflow or missing glyphs')
+    for number in (0, 4, 6, 7):
+        pixmap = document[number].get_pixmap()
+        if any(abs(a-b) > 1 for a, b in zip(pixmap.pixel(2, 80), (26, 27, 38))):
+            raise RuntimeError(f'profile-tokyo-night: dark body surface lost on page {number+1}')
+    for number, required in ((4, {0xC0CAF5}), (6, {0xBB9AF7, 0x9ECE6A}), (7, {0x9AA5CE})):
+        colors = {span['color'] for block in document[number].get_text('dict')['blocks']
+                  for line in block.get('lines', []) for span in line['spans']}
+        if not required <= colors:
+            raise RuntimeError(f'profile-tokyo-night: missing foreground colors on page {number+1}')
+    if not document[7].get_links():
+        raise RuntimeError('profile-tokyo-night: citation URL is not clickable')
 
 
 def check_profile_selection(document, log):
@@ -915,6 +933,8 @@ def check(root, output):
                         raise RuntimeError(f'{name}: default primary color must be pure black')
                     if 'CAMPUS' not in document[0].get_text():
                         raise RuntimeError(f'{name}: default cover must use the project wordmark')
+                if name == 'profile-tokyo-night':
+                    check_tokyo_night(document, result.stdout)
                 if name == 'profile-pcl':
                     if 'Overfull' in result.stdout or 'Missing character:' in result.stdout:
                         raise RuntimeError('profile-pcl: overflow or missing glyphs')

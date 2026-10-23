@@ -38,6 +38,7 @@ FEATURE_PAGES = (
 GALLERY = tuple(sorted(MATRIX_PAGES + FEATURE_PAGES, key=lambda item: item[1]))
 THEMES = (
     ('general', '通用', 'General'),
+    ('tokyo-night', 'Tokyo Night', 'Tokyo Night'),
     ('tsinghua', '清华大学', 'Tsinghua'),
     ('pcl', '鹏城实验室', 'PCL'),
 )
@@ -174,7 +175,7 @@ def main() -> None:
     if len(args.pdf) != len(args.theme) or len(set(args.theme)) != len(args.theme):
         parser.error('--pdf and --theme must be supplied in unique matching pairs')
     if args.update_readme and (set(args.theme) != {item[0] for item in THEMES} or not args.english_pdf):
-        parser.error('--update-readme requires all three themes and --english-pdf')
+        parser.error('--update-readme requires all built-in themes and --english-pdf')
     validate_samples(args.pdf, args.english_pdf)
     if args.check_only:
         print('Theme samples: shared Chinese metadata and localized preview anchors verified.')

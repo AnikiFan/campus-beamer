@@ -128,7 +128,7 @@ build/
 ## 更换学校
 
 文档类为 `campusbeamer`，自动加载名为 `campus` 的主题。默认使用与学校无关的 general 配置；
-使用 `\documentclass[theme=general]{campusbeamer}` 显式选择通用主题，也可选择 `tsinghua` 或 `pcl`。配置、品牌标志、校园素材和来源声明
+使用 `\documentclass[theme=general]{campusbeamer}` 显式选择通用主题，也可选择 `tsinghua`、`pcl` 或深色 `tokyo-night`。配置、品牌标志、校园素材和来源声明
 集中放在 `theme/<名称>/`；省略 `theme` 时默认使用 general。
 从 Release 源码包使用机构主题前，运行 `make theme-assets THEME=tsinghua` 或
 `make theme-assets THEME=pcl` 补齐所选主题的最新版素材。两个主题独立维护，

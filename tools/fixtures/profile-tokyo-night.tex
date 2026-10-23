@@ -1,0 +1,43 @@
+% Dark-profile regression: surfaces, code, citations and restoration after covers.
+\documentclass[theme=tokyo-night,language=english,cjk=false]{campusbeamer}
+\title{Tokyo Night}
+\subtitle{Dark profile regression}
+\author{Campus Beamer}
+\date{}
+\begin{document}
+\maketitle
+\section{Dark surfaces}
+\subsection{Palette and contrast}
+\sectiontocpage[overview]
+\sectioncoverpage[primary]{The default primary-color section page.}
+\sectioncoverpage[white]{An explicitly requested white split remains available.}
+\begin{frame}{Semantic callouts}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.48\textwidth}
+      \begin{tipbox}A practical suggestion.\end{tipbox}
+      \begin{notebox}Supporting context.\end{notebox}
+      \begin{alertbox}An important condition.\end{alertbox}
+    \end{column}
+    \begin{column}{.48\textwidth}
+      \begin{examplebox}A concrete example.\end{examplebox}
+      \begin{definitionbox}A precise definition.\end{definitionbox}
+    \end{column}
+  \end{columns}
+\end{frame}
+\begin{frame}[campusfocus,campusbackground=theme/tokyo-night/assets/backdrop.pdf,
+  campusbackgroundopacity=.2]{Focus on the message}
+  Light text remains readable over the dark decorative background.
+\end{frame}
+\begin{frame}[fragile]{Code and its caption}
+\begin{campuscode}[language=Python,caption={A minimal greeting.}]{hello.py}
+def greet(name):
+    return "Hello " + name
+\end{campuscode}
+\end{frame}
+\begin{frame}{Citations and project artwork}
+  \campusdoccite{Project}{https://github.com/AnikiFan/campus-beamer}
+  See the project documentation for the full example.
+  \fitfigure[width=.55,height=.35]{\schoolwordmarkonlight}{Project lettering on a dark surface}
+\end{frame}
+\backmatter
+\end{document}

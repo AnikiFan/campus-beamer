@@ -24,7 +24,9 @@ workflow guide only when the task needs it.
   and read the paper or other authorized primary source before making claims.
 - **Change public documentation, packaging, CI, or releases:** inspect the
   affected document and [`CONTRIBUTING.md`](CONTRIBUTING.md), then run the
-  checks that cover the change.
+  checks that cover the change. README files serve people using the template;
+  keep preview budgets, generation parameters, packaging internals and maintainer
+  procedures in contributor documentation, linked from the README when useful.
 
 Do not read every guide for every edit. `README.md`, `docs/usage.md`,
 `docs/class-options.md`, and `make help` are reference material; consult them

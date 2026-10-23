@@ -45,4 +45,19 @@
     \PackageError{campuscolor}{Theme '\campusprofile@theme' is missing '#1'}%
       {Define all four emblem and wordmark paths in \campusthemedir/profile.tex.}}}
 \forcsvlist{\campusprofile@checkcommand}{schoolemblemondark,schoolemblemonlight,schoolwordmarkondark,schoolwordmarkonlight}
+% Optional surface/text roles let dark profiles retain the shared geometry.
+% Defaults reproduce the existing light profiles; no extra fields are required.
+\newcommand{\campusprofile@defaultcolor}[2]{%
+  \@ifundefinedcolor{#1}{\colorlet{#1}{#2}}{}}
+\campusprofile@defaultcolor{campusbackground}{white}
+\campusprofile@defaultcolor{campustext}{darkgray}
+\campusprofile@defaultcolor{campusheading}{darkgray}
+\campusprofile@defaultcolor{campusaccent}{maincolor}
+\campusprofile@defaultcolor{campusmetadatatext}{black}
+\campusprofile@defaultcolor{campuscitation}{black!50}
+\campusprofile@defaultcolor{campusnavigationmuted}{black!55}
+\campusprofile@defaultcolor{campusnavigationsection}{maincolor!18!white}
+\campusprofile@defaultcolor{campusnavigationsubsection}{maincolor!7!white}
+\campusprofile@defaultcolor{campuscallouttitlebase}{black}
+\campusprofile@defaultcolor{campuscallouttext}{black}
 \endinput

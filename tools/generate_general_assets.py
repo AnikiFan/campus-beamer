@@ -1,23 +1,27 @@
 #!/usr/bin/env python3
 # Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Build transparent general-theme vectors from editable TeX sources."""
+"""Build the bundled institution-neutral theme vectors from editable TeX sources."""
+import argparse
 from pathlib import Path
 import subprocess
 
 import pymupdf
 
 
-def generate(root: Path) -> None:
-    output = root / 'build/general-assets'
+def generate(root: Path, theme: str = 'general') -> None:
+    if theme not in ('general', 'tokyo-night'):
+        raise ValueError('Select general or tokyo-night.')
+    output = root / f'build/{theme}-assets'
     output.mkdir(parents=True, exist_ok=True)
-    assets = root / 'theme/general/assets'
+    assets = root / f'theme/{theme}/assets'
+    assets.mkdir(parents=True, exist_ok=True)
     for name, source, color in (
-        ('emblem_on_dark', 'theme/general/emblem.tex', 'white'),
-        ('emblem_on_light', 'theme/general/emblem.tex', 'brand'),
-        ('wordmark_on_dark', 'theme/general/wordmark.tex', 'white'),
-        ('wordmark_on_light', 'theme/general/wordmark.tex', 'brand'),
-        ('backdrop', 'theme/general/backdrop.tex', 'brand'),
+        ('emblem_on_dark', f'theme/{theme}/emblem.tex', 'white'),
+        ('emblem_on_light', f'theme/{theme}/emblem.tex', 'brand'),
+        ('wordmark_on_dark', f'theme/{theme}/wordmark.tex', 'white'),
+        ('wordmark_on_light', f'theme/{theme}/wordmark.tex', 'brand'),
+        ('backdrop', f'theme/{theme}/backdrop.tex', 'brand'),
     ):
         with (output / f'{name}.build.log').open('w') as log:
             subprocess.run([
@@ -33,8 +37,10 @@ def generate(root: Path) -> None:
                         bounds |= pymupdf.Rect(box)
                 pdf[0].set_cropbox(bounds + (-2, -2, 2, 2))
             pdf.save(assets / f'{name}.pdf')
-    print(f'General theme assets: {assets}')
+    print(f'{theme} theme assets: {assets}')
 
 
 if __name__ == '__main__':
-    generate(Path(__file__).resolve().parents[1])
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--theme', choices=('general', 'tokyo-night'), default='general')
+    generate(Path(__file__).resolve().parents[1], parser.parse_args().theme)

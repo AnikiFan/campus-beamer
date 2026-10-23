@@ -49,7 +49,7 @@ override THEME := $(value THEME)
 export QUERY DBLP_KEY DOI CITE_KEY DBLP_HOST CITATION_SOURCE BIB_OUTPUT BIB_REPORT INPUT_BIB
 export THEME
 
-.PHONY: all pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist version examples theme-previews general-assets theme-assets dist-theme-assets release clean help
+.PHONY: all pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist version examples theme-previews general-assets tokyo-night-assets theme-assets dist-theme-assets release clean help
 
 all: pptx
 
@@ -89,14 +89,18 @@ citations:
 check-theme:
 	$(UV) run --frozen python tools/check_theme.py
 
-# Build the same public feature tour with each institutional profile.
-# General PDF/PPTX is built separately by release; institutional exports are PDF-only.
+# Build the shared public feature tour with each non-default profile.
+# General PDF/PPTX is built separately by release; other profiles are PDF-only.
 examples:
 	$(MAKE) pdf MAIN=example-tsinghua
 	$(MAKE) pdf MAIN=example-pcl
+	$(MAKE) pdf MAIN=example-tokyo-night
 
 general-assets:
 	$(UV) run --frozen python tools/generate_general_assets.py
+
+tokyo-night-assets:
+	$(UV) run --frozen python tools/generate_general_assets.py --theme tokyo-night
 
 theme-assets:
 	$(PYTHON) tools/theme_assets.py download --theme "$$THEME"
@@ -109,10 +113,12 @@ theme-previews:
 	$(MAKE) pdf MAIN=example-en
 	$(MAKE) pdf MAIN=example-tsinghua
 	$(MAKE) pdf MAIN=example-pcl
+	$(MAKE) pdf MAIN=example-tokyo-night
 	$(UV) run --frozen python tools/render_theme_previews.py \
 		--pdf build/example.pdf --theme general \
 		--pdf build/example-tsinghua.pdf --theme tsinghua \
-		--pdf build/example-pcl.pdf --theme pcl --english-pdf build/example-en.pdf --update-readme
+		--pdf build/example-pcl.pdf --theme pcl \
+		--pdf build/example-tokyo-night.pdf --theme tokyo-night --english-pdf build/example-en.pdf --update-readme
 
 logo:
 	$(UV) run --frozen python tools/generate_logo.py
@@ -135,7 +141,8 @@ release:
 	$(UV) run --frozen python tools/render_theme_previews.py --check-only \
 		--pdf build/example.pdf --theme general \
 		--pdf build/example-tsinghua.pdf --theme tsinghua \
-		--pdf build/example-pcl.pdf --theme pcl --english-pdf build/example-en.pdf
+		--pdf build/example-pcl.pdf --theme pcl \
+		--pdf build/example-tokyo-night.pdf --theme tokyo-night --english-pdf build/example-en.pdf
 	$(MAKE) dist
 	$(UV) run --frozen python tools/package_release.py --version "$$($(UV) version --short)"
 
@@ -161,8 +168,9 @@ help:
 	  'make citations DOI=10.../...  Query DOI-matched citation count + source/date' \
 	  '  CITATION_SOURCE=openalex (default), semantic-scholar, or none (BibTeX only)' \
 	  'make check-theme     Compile theme fixtures without changing main output' \
-	  'make examples        Build PDF samples for the institution themes' \
+	  'make examples        Build institution and Tokyo Night PDF samples' \
 	  'make general-assets  Rebuild general-theme icon, wordmarks and abstract background' \
+	  'make tokyo-night-assets  Rebuild Tokyo Night vectors from editable TeX sources' \
 	  'make theme-assets THEME=tsinghua|pcl  Download latest assets for one theme (Python only)' \
 	  'make dist-theme-assets THEME=tsinghua|pcl  Package reviewed assets for one theme' \
 	  'make theme-previews   Build theme samples and refresh README preview images' \
