@@ -5,6 +5,18 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.17.0](https://github.com/AnikiFan/campus-beamer/compare/v0.16.0...v0.17.0) (2026-10-23)
+
+
+### Features
+
+* add English general demo with PDF-only releases ([1fc28e0](https://github.com/AnikiFan/campus-beamer/commit/1fc28e05b14a31f62cab8a285e8631d977444939))
+
+
+### Bug Fixes
+
+* compact theme previews and enforce 256 KiB image limit ([2225af5](https://github.com/AnikiFan/campus-beamer/commit/2225af539a81da3fa8d3132c993a331436cc20ef))
+
 ## [0.16.0](https://github.com/AnikiFan/campus-beamer/compare/v0.15.2...v0.16.0) (2026-10-23)
 
 
