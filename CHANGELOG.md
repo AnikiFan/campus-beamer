@@ -5,6 +5,13 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.16.0](https://github.com/AnikiFan/campus-beamer/compare/v0.15.2...v0.16.0) (2026-10-23)
+
+
+### Features
+
+* publish theme assets separately and cap preview images ([9a56fd9](https://github.com/AnikiFan/campus-beamer/commit/9a56fd95fb1b7072b81e388ae1557c4383470812))
+
 ## [0.15.2](https://github.com/AnikiFan/campus-beamer/compare/v0.15.1...v0.15.2) (2026-10-22)
 
 
