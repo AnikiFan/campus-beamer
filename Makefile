@@ -49,7 +49,7 @@ override THEME := $(value THEME)
 export QUERY DBLP_KEY DOI CITE_KEY DBLP_HOST CITATION_SOURCE BIB_OUTPUT BIB_REPORT INPUT_BIB
 export THEME
 
-.PHONY: all pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist version examples theme-previews general-assets tokyo-night-assets undefined-assets theme-assets dist-theme-assets release clean help
+.PHONY: all pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist version examples examples-43 theme-previews general-assets tokyo-night-assets undefined-assets theme-assets dist-theme-assets release clean help
 
 all: pptx
 
@@ -97,6 +97,15 @@ examples:
 	$(MAKE) pdf MAIN=example-tokyo-night
 	$(MAKE) pdf MAIN=example-undefined
 
+# Review all themes at 4:3; only Chinese general enters the release.
+examples-43:
+	$(MAKE) pdf MAIN=example-43
+	$(MAKE) pdf MAIN=example-en-43
+	$(MAKE) pdf MAIN=example-tsinghua-43
+	$(MAKE) pdf MAIN=example-pcl-43
+	$(MAKE) pdf MAIN=example-tokyo-night-43
+	$(MAKE) pdf MAIN=example-undefined-43
+
 general-assets:
 	$(UV) run --frozen python tools/generate_general_assets.py
 
@@ -143,6 +152,7 @@ release:
 	$(MAKE) draft MAIN=example
 	$(MAKE) MAIN=example DPI="$(DPI)"
 	$(MAKE) pdf MAIN=example-en
+	$(MAKE) pdf MAIN=example-43
 	$(MAKE) examples DPI="$(DPI)"
 	$(UV) run --frozen python tools/render_theme_previews.py --check-only \
 		--pdf build/example.pdf --theme general \
@@ -176,6 +186,7 @@ help:
 	  '  CITATION_SOURCE=openalex (default), semantic-scholar, or none (BibTeX only)' \
 	  'make check-theme     Compile theme fixtures without changing main output' \
 	  'make examples        Build all non-default theme PDF samples' \
+	  'make examples-43     Build all 4:3 review PDFs (including English general)' \
 	  'make general-assets  Rebuild general-theme icon, wordmarks and abstract background' \
 	  'make undefined-assets    Rebuild the undefined eye and wordmark' \
 	  'make tokyo-night-assets  Rebuild Tokyo Night vectors from editable TeX sources' \

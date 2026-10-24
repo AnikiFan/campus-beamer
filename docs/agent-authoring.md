@@ -28,7 +28,7 @@ availability of a tool alone does not. Local paper sources authorize reading
 their text, figures, captions, and bibliography. Do not substitute demo claims
 for missing evidence.
 
-Use routine judgment for the rest: keep the 16:9 layout, source language,
+Use routine judgment for the rest: keep the requested aspect ratio (16:9 by default), source language,
 concise slide wording, local assets, primary-color section pages, and a slide
 count derived from the brief. State a consequential but non-blocking assumption
 and continue.

@@ -41,6 +41,21 @@
 文献支持始终启用，自动配置 `backend=biber,style=ieee,giveninits=true,sorting=none`，
 无需设置启用开关。
 
+## 页面比例
+
+```tex
+\documentclass[aspectratio=43,theme=general]{campusbeamer}
+```
+
+省略 `aspectratio` 或使用 `aspectratio=169` 保持原来的 16:9 布局。
+所有内置主题都支持这两个比例，背景图片保持等比缩放并按页面裁切。
+切换比例后检查图片主体、图文页和标题与引用的间距；内容不会自动改写。
+
+`make pdf MAIN=example-43` 生成 general 的中文 4:3 示例；Release 附带这份 PDF。
+`make examples-43` 可生成所有主题的 4:3 PDF，以及英文 general 的 4:3 示例。
+例如 `make pdf MAIN=example-undefined-43`、`make pdf MAIN=example-en-43`。
+需要 PowerPoint 时运行 `make MAIN=example-43`，备注与链接保持原有导出流程。
+
 ## 原生讲者备注
 
 在 frame 内使用 `\note{...}` 撰写备注；overlay 可用 `\note<1>{...}`、
@@ -58,6 +73,8 @@
 选项由 agent 写在生成入口的 `\documentclass[...]` 中，不必提前填写。功能示例 `example.tex` 列出全部模板选项、
 默认值与可选值注释，方便直接修改；实际汇报也可以省略使用默认值的项：
 
+- `aspectratio=169`（默认）或 `43`：选择 16:9 或 4:3。页面分别为 16 × 9 cm 和 16 × 12 cm；
+  保持相同宽度、字号与正文边距，4:3 增加纵向空间。PDF 与 PPTX 使用相同比例。
 - `theme=general`（默认）、`tsinghua`（清华）、`pcl`（鹏城实验室）、`tokyo-night`（深色）或 `undefined`（奶蛙名画）：选择 `theme/<名称>/profile.tex`；可复制主题目录添加学校，见[主题使用与扩展](../theme/README.md)。
 - `language=chinese`（默认）或 `english`：选择主题自动生成的目录、章节标签、
   图表标签、提示框标题、日期和致谢文字。中文版本自动加载 xeCJK；英文版本默认不加载。
@@ -81,7 +98,7 @@
   普通页面的“版式对齐检查”示例固定显示参考线，不受此选项控制。
 
 Beamer 自身的选项会传递给底层文档类，例如 `handout` 可将 overlays 合并为讲义页。
-默认 16:9 几何由主题固定。通用字体与版式在主题中，学校配色和素材路径在配置文件中。
+默认使用 16:9，设 `aspectratio=43` 可切换至 4:3；其他比例暂不支持。通用字体与版式在主题中，学校配色和素材路径在配置文件中。
 
 ## 常见用法
 

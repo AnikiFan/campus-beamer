@@ -1,6 +1,6 @@
 # Campus Beamer 使用手册
 
-这是一个面向组会汇报的 16:9 Beamer 模板，使用 XeLaTeX 排版中文，并使用
+这是一个面向组会汇报的 Beamer 模板，默认 16:9，可选 4:3，使用 XeLaTeX 排版中文，并使用
 `biblatex`/`biber` 管理幻灯片引用。
 
 [返回首页](../README.md) · [English overview](../README.en.md) · [贡献指南](../CONTRIBUTING.md)
@@ -252,7 +252,7 @@ general 为纯黑，清华配置下为紫色。正文展示核心信息与必要
 ```
 
 该 PDF 左侧为幻灯片、右侧为备注。普通阅读器显示整张双宽页面；支持双屏备注的阅读器
-可把两侧分别交给听众与讲者。正文的 16:9 版式保持不变。
+可把两侧分别交给听众与讲者。正文所选的 16:9 或 4:3 比例保持不变。
 
 `make` 在两种设置下都导出带备注的 PPTX。构建过程从同一份 TeX 自动生成
 `build/main.notes.pdf`，其右侧只排版备注，再提取为 PowerPoint 讲者备注的纯文本。
@@ -583,13 +583,15 @@ section 起始页的编号标签、指导教师标签、参考文献页标题、
   样式与当前角落引用保持一致。
 - `\begin{rightimageframe}[image width=.40]{标题}{图片} ... \end{rightimageframe}`：
   生成右侧图片页，图片不覆盖导航和页脚，左侧保留正文空间。
+  默认 `align=right` 将图片右边缘贴齐页面；可加 `align=center` 在图片区域内居中取景，
+  适用于人物肖像等主体偏中间的图片，切换页面比例后应检查裁切。
 - `\sectioncoverpage[图片]{导读文字}`：按需生成当前 section 的起始页；主标题和编号自动取当前
   `\section`，副标题区域自动列出该 section 下的全部 `subsection`，调用者只需提供图片和导读文字。
   可选参数也可填 `white`（左侧保持主色、右侧纯白）或 `primary`（整页主色、白色标题）：
   `\sectioncoverpage[white]{导读文字}`、`\sectioncoverpage[primary]{导读文字}`。
   省略可选参数或写 `[]` 时使用主题主色背景（general 为纯黑）；也可以直接填写图片路径。
   图片默认不裁边。先等比例缩放覆盖右侧面板，再读取缩放后图片的实际宽度，按“左边位置 = 页面宽度 − 缩放后宽度”放置，使图片右边缘与页面右边缘重合；竖直方向居中，最后按斜边区域裁切。可直接调整原图来改变显示区域，图片自带白边也按原图显示。
-  需要手动改变取景时，可在导读之后附加 `[trim right=.112,align=center]`：`trim right` 按原图宽度比例裁去右边缘，`align=center` 将照片在右侧面板的外接矩形中居中取景。示例不启用这些选项。
+  需要手动改变取景时，可在导读之后附加 `[trim right=.112,align=center]`：`trim right` 按原图宽度比例裁去右边缘，`align=center` 将照片在右侧面板的外接矩形中居中取景。可根据图片主体和页面比例选择取景；undefined 的 4:3 示例使用居中取景及少量右侧裁边。
   没有 subsection 时自动隐藏列表。每个 subsection 前显示数字编号（如 `1.1`、`1.2`）。
   section 编号使用 `\Large`，subsection 清单和自定义导读语句使用 `\normalsize`。
   1–3 个小节采用单列，4 个及以上自动采用两列，按从左到右、再从上到下的顺序排列；奇数个小节的最后一项位于左列。

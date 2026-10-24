@@ -10,6 +10,7 @@ import zipfile
 
 DEMO_FORMATS = {'example': ('pdf', 'pptx'),
                 'example-en': ('pdf',),
+                'example-43': ('pdf',),
                 'example-tokyo-night': ('pdf',),
                 'example-undefined': ('pdf',),
                 'example-tsinghua': ('pdf',), 'example-pcl': ('pdf',)}

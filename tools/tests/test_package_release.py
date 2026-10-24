@@ -29,7 +29,7 @@ class ReleasePackageTests(unittest.TestCase):
 
     def test_public_artifacts_and_checksums(self):
         (self.root / 'build/main.pdf').write_bytes(b'Private user presentation')
-        for theme in ('tsinghua', 'pcl', 'tokyo-night', 'undefined'):
+        for theme in ('43', 'tsinghua', 'pcl', 'tokyo-night', 'undefined'):
             (self.root / f'build/example-{theme}.pptx').write_bytes(b'Stale school export')
         (self.root / 'build/example-en.pptx').write_bytes(b'English PPTX must not be released')
         output = package(self.root, '0.1.0')
@@ -38,6 +38,7 @@ class ReleasePackageTests(unittest.TestCase):
             expected.update({'campus-beamer-0.1.0-example.pdf',
                              'campus-beamer-0.1.0-example.pptx',
                              'campus-beamer-0.1.0-example-en.pdf',
+                             'campus-beamer-0.1.0-example-43.pdf',
                              'campus-beamer-0.1.0-example-tsinghua.pdf',
                              'campus-beamer-0.1.0-example-pcl.pdf',
                              'campus-beamer-0.1.0-example-tokyo-night.pdf',

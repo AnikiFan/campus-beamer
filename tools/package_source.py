@@ -21,6 +21,15 @@ import argparse
 import zipfile
 
 FILES = (
+    'example-43.tex',
+    'example-en-43.tex',
+    'example-tsinghua-43.tex',
+    'example-pcl-43.tex',
+    'example-tokyo-night-43.tex',
+    'example-undefined-43.tex',
+    'tools/fixtures/aspect-ratio-43.tex',
+    'tools/fixtures/aspect-ratio-169.tex',
+    'tools/fixtures/aspect-ratio-notes.tex',
     'theme/undefined/profile.tex',
     'theme/undefined/sample.tex',
     'theme/undefined/README.md',

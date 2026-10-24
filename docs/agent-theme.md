@@ -26,7 +26,7 @@ option.
 
 Preserve these unless the user explicitly requests a design change:
 
-- fixed 16:9 geometry and symmetric body margins;
+- default 16:9 geometry, optional `aspectratio=43` (4:3), and symmetric body margins;
 - profile `campusonprimary` text (white by default) on a `maincolor` footline,
   with the existing centered baseline and
   `frame/total` plus `author | title` arrangement;

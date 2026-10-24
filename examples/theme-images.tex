@@ -2,7 +2,9 @@
 % Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
 % SPDX-License-Identifier: GPL-3.0-or-later
 \newcommand{\campusexamplesectionalign}{right}
+\newcommand{\campusexamplesectiontrim}{0}
 \newcommand{\campusexamplerightimagewidth}{.40}
+\newcommand{\campusexamplerightimagealign}{right}
 \newcommand{\campusexampleimage}{theme/general/assets/backdrop.pdf}
 \newcommand{\campusexamplesectiononeimage}{theme/general/assets/backdrop.pdf}
 \newcommand{\campusexamplesectiontwoimage}{theme/general/assets/backdrop.pdf}
@@ -36,6 +38,9 @@
 \ifdefstring{\campusexampletheme}{undefined}{%
   \renewcommand{\campusexamplesectionalign}{center}%
   \renewcommand{\campusexamplerightimagewidth}{.55}%
+  \ifdefstring{\campusexampleaspectratio}{43}{%
+    \renewcommand{\campusexamplerightimagealign}{center}%
+    \renewcommand{\campusexamplesectiontrim}{.10}}{}%
   \renewcommand{\campusexampleimage}{theme/undefined/assets/pearl-earring.png}%
   \renewcommand{\campusexamplesectiononeimage}{theme/undefined/assets/pearl-earring.png}%
   \renewcommand{\campusexamplesectiontwoimage}{theme/undefined/assets/mona-lisa.png}%

@@ -23,6 +23,7 @@
 \SetupKeyvalOptions{family=campusclass,prefix=campusclass@}
 \DeclareStringOption[chinese]{language}
 \DeclareStringOption[general]{theme}
+\DeclareStringOption[169]{aspectratio}
 \DeclareStringOption[auto]{cjk}
 \DeclareStringOption[ieee]{bibstyle}
 \DeclareStringOption[none]{bibsorting}
@@ -54,6 +55,14 @@
   \expandafter\endinput
 \fi
 \LoadClass{beamer}
+
+% Keep the established 16 cm text canvas at both supported page proportions.
+\ifdefstring{\campusclass@aspectratio}{169}{}{%
+  \ifdefstring{\campusclass@aspectratio}{43}{}{%
+    \ClassError{campusbeamer}{Unsupported aspectratio '\campusclass@aspectratio'}
+      {Use aspectratio=169 (default) or aspectratio=43.}%
+  }%
+}
 
 \ifdefstring{\campusclass@language}{chinese}{}{%
   \ifdefstring{\campusclass@language}{english}{}{%

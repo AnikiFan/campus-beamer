@@ -130,6 +130,6 @@ explicit `MAIN` wins. Use `make help` for the complete command list.
   detailed workflows remain in the linked guides.
 - `build/`: ignored PDFs, PPTX, notes, previews, logs, and intermediate files.
 
-Keep the existing 16:9 layout, default primary-color section pages, fixed
+Keep the default 16:9 layout (or explicitly selected 4:3), primary-color section pages, fixed
 footline behavior, and documented asset/license boundaries unless the user asks
 for a deliberate design change and confirms its meaning.

@@ -39,10 +39,10 @@ class NativeNotesTests(unittest.TestCase):
             info(pdf, 'CampusNotesLayout', 'none')
             pdf.save(self.pdf)
 
-    def note_pdf(self, texts=('First note', '', 'Last note'), *, width=640, layout='right', fingerprint=None, has_notes='true'):
+    def note_pdf(self, texts=('First note', '', 'Last note'), *, width=640, height=180, layout='right', fingerprint=None, has_notes='true'):
         with pymupdf.open() as pdf:
             for index, text in enumerate(texts):
-                page = pdf.new_page(width=width, height=180)
+                page = pdf.new_page(width=width, height=height)
                 page.insert_text((20, 50), f'Audience content {index}')
                 if text:
                     page.insert_text((width / 2 + 20, 50), text)
@@ -65,6 +65,27 @@ class NativeNotesTests(unittest.TestCase):
         for slide in ppt.slides:
             self.assertNotIn('Audience', slide.notes_slide.notes_text_frame.text)
         self.assertAlmostEqual(ppt.slide_width / ppt.slide_height, 320 / 180, places=5)
+
+    def test_four_by_three_keeps_slide_geometry_links_and_native_notes(self):
+        with pymupdf.open() as pdf:
+            for index in range(3):
+                page = pdf.new_page(width=400, height=300)
+                page.insert_text((20, 50), f'Visible {index}')
+            pdf[0].insert_link({'kind': pymupdf.LINK_GOTO, 'from': pymupdf.Rect(20, 40, 80, 60), 'page': 2})
+            info(pdf, 'CampusNotesLayout', 'none')
+            pdf.save(self.pdf)
+        self.note_pdf(width=800, height=300)
+        ppt = self.convert()
+        self.assertAlmostEqual(ppt.slide_width / ppt.slide_height, 4 / 3, places=5)
+        self.assertEqual([s.notes_slide.notes_text_frame.text for s in ppt.slides],
+                         ['First note', '', 'Last note'])
+        image = ppt.slides[0].shapes[0]
+        self.assertEqual((image.left, image.top), (0, 0))
+        self.assertAlmostEqual(image.width / ppt.slide_width, 1, places=5)
+        self.assertAlmostEqual(image.height / ppt.slide_height, 1, places=5)
+        hotspot = ppt.slides[0].shapes[1]
+        self.assertAlmostEqual(hotspot.top / ppt.slide_height, 40 / 300, places=5)
+        self.assertEqual(hotspot.click_action.target_slide, ppt.slides[2])
 
     def test_explicit_legacy_json_still_overrides_auto_discovery(self):
         self.note_pdf()

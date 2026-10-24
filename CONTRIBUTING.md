@@ -103,7 +103,7 @@ agent 扩充后的详细大纲保存在忽略的 `build/outline-normalized.md`�
 `feat!:` 或正文中的 `BREAKING CHANGE:` 表示不兼容变化。
 Release Please 根据这些提交维护版本、锁文件和 [CHANGELOG.md](CHANGELOG.md)；
 合并发行 PR 前检查版本变化、迁移说明及完整演示的视觉效果。
-`make release` 运行测试、编译功能演示与全部内置主题样例，并生成包含源码 ZIP、中文 general PDF/PPTX、英文 general PDF、Tokyo Night、undefined PDF 和机构主题 PDF、
+`make release` 运行测试、编译功能演示与全部内置主题样例，并生成包含源码 ZIP、中文 general PDF/PPTX、英文 general PDF、general 4:3 PDF、Tokyo Night、undefined PDF 和机构主题 PDF、
 发行说明与校验和的版本化发行包。发行 PR 合并后，GitHub 工作流会自动构建并上传附件。
 详细配置、令牌与手动重试入口见
 [版本维护与发布](docs/releases.md)。

@@ -26,7 +26,8 @@ import tempfile
 import pymupdf
 from images_to_ppt import campus_metadata, pdf_info_string
 
-EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 3,
+EXPECTED_PAGES = {'aspect-ratio-43': 9, 'aspect-ratio-169': 9, 'aspect-ratio-notes': 9,
+                  'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 3,
                   'single-header': 5,
                   'profile-tokyo-night': 9, 'profile-general': 8, 'profile-general-legacy': 3, 'profile-pcl': 8, 'profile-selection': 6, 'profile-selection-legacy': 6,
                   'demo-without-guides': 50, 'language-layout': 10,
@@ -797,6 +798,7 @@ def check_class_errors(root, output):
         ('invalid-theme', 'theme=../tsinghua', '', 'xelatex', 'Invalid theme name'),
         ('incomplete-palette', 'theme=missing-color', '', 'xelatex', "missing color 'tipcolor'"),
         ('incomplete-identity', 'theme=missing-logo', '', 'xelatex', "missing 'schoolwordmarkonlight'"),
+        ('bad-aspectratio', 'aspectratio=1610', '', 'xelatex', 'Unsupported aspectratio'),
         ('bad-language', 'language=french', '', 'xelatex', 'Unknown language'),
         ('bad-cjk', 'cjk=invalid', '', 'xelatex', 'Unknown cjk setting'),
         ('bad-mathfont', 'mathfont=invalid', '', 'xelatex', 'Unknown mathfont'),
@@ -910,6 +912,32 @@ def check_language_layout(document):
             raise RuntimeError(f'language-layout: font sizes differ on pages {a+1}/{b+1}')
 
 
+def check_aspect_ratio(name, document, log):
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError(f'{name}: overflow or missing glyphs')
+    notes = name == 'aspect-ratio-notes'
+    width = 160 / 25.4 * 72 * (2 if notes else 1)
+    height = (90 if name == 'aspect-ratio-169' else 120) / 25.4 * 72
+    for page in document:
+        if abs(page.rect.width - width) > .02 or abs(page.rect.height - height) > .02:
+            raise RuntimeError(f'{name}: incorrect PDF page dimensions')
+    texts = [page.get_text() for page in document]
+    if ('Cover speaker note.' in texts[0]) != notes:
+        raise RuntimeError(f'{name}: incorrect notes visibility')
+    if not notes:
+        for index in (4, 5):
+            page = document[index]
+            if not page.search_for('Body and citation') or not page.search_for('Anchors and content'):
+                raise RuntimeError(f'{name}: missing two-line header')
+            if not any(link.get('uri', '').startswith('https://github.com/') for link in page.get_links()):
+                raise RuntimeError(f'{name}: missing clickable corner citation')
+            pixmap = page.get_pixmap()
+            if pixmap.pixel(2, pixmap.height - 3) != (0, 0, 0):
+                raise RuntimeError(f'{name}: footer is not anchored to the page bottom')
+        if 'Second visible point.' in texts[4] or 'Second visible point.' not in texts[5]:
+            raise RuntimeError(f'{name}: overlay stages changed')
+
+
 def check(root, output):
     if not shutil.which('latexmk'):
         raise RuntimeError('latexmk is required for theme checks')
@@ -931,6 +959,10 @@ def check(root, output):
             if name.startswith('profile-selection'):
                 prepare_profile_fixture(workspace)
                 shutil.rmtree(workspace / 'theme/tsinghua')
+            if name.startswith('aspect-ratio-'):
+                fixtures = workspace / 'tools/fixtures'
+                fixtures.mkdir(parents=True)
+                shutil.copy2(root / 'tools/fixtures/aspect-ratio-43.tex', fixtures)
             bibliography = root / 'tools/fixtures' / f'{name}.bib'
             if bibliography.exists():
                 shutil.copy2(bibliography, workspace / bibliography.name)
@@ -950,6 +982,8 @@ def check(root, output):
                 pages = len(document)
                 if pages != expected:
                     raise RuntimeError(f'{name}: expected {expected} pages, got {pages}')
+                if name.startswith('aspect-ratio-'):
+                    check_aspect_ratio(name, document, result.stdout)
                 if name.startswith('profile-general'):
                     if 'Overfull' in result.stdout or 'Missing character:' in result.stdout:
                         raise RuntimeError(f'{name}: overflow or missing glyphs')

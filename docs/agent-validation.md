@@ -180,8 +180,8 @@ same physical stage count. Direct converter calls can use `--notes-pdf`,
 `--notes-dir`, `--no-notes`, and `--verbose`; `--notes` retains legacy JSON import.
 
 Check `shownotes=false` for a clean audience PDF and `shownotes=true` for a
-paired slide/notes PDF. In both cases the PPTX must contain ordinary 16:9 slide
-images with notes only in the speaker-note field. Inspect empty stages,
+paired slide/notes PDF. In both cases the PPTX must contain slide
+images at the selected 16:9 or 4:3 ratio with notes only in the speaker-note field. Inspect empty stages,
 overlay-specific notes, outside-frame notes and reference continuations. A
 paired PDF passed directly to the converter is rejected; use Make, which renders
 a clean slide variant when needed. Count/fingerprint mismatches must stop export

@@ -1,0 +1,40 @@
+% Exercise page anchors, image cropping, citations and overlays at 4:3.
+\providecommand{\fixtureaspectratio}{43}
+\providecommand{\fixturenotes}{false}
+\documentclass[aspectratio=\fixtureaspectratio,language=english,
+  shownotes=\fixturenotes]{campusbeamer}
+\title{Page proportions}
+\subtitle{Readable content at either aspect ratio}
+\author{Template check}
+\date{}
+\begin{document}
+\maketitle
+\note{Cover speaker note.}
+\section{Geometry}
+\subsection{Anchors and content}
+\sectiontocpage[overview]
+\note{Overview speaker note.}
+\sectioncoverpage[theme/general/assets/backdrop.pdf]{A chapter with proportional artwork.}[align=center]
+\note{Section speaker note.}
+\sectioncoverpage[white]{A white panel shares the diagonal geometry.}
+\note{White panel speaker note.}
+\begin{frame}{Body and citation}
+  \campusdoccite{Project}{https://github.com/AnikiFan/campus-beamer}
+  \begin{itemize}
+    \item<1-> First visible point.
+    \item<2-> Second visible point.
+  \end{itemize}
+  \note<1>{First overlay speaker note.}
+  \note<2>{Second overlay speaker note.}
+\end{frame}
+\begin{frame}[campusfocus,campusbackground=theme/general/assets/backdrop.pdf,
+  campusbackgroundopacity=.15]{Full-page background}
+  Content keeps its normal font size.
+  \note{Focus speaker note.}
+\end{frame}
+\begin{rightimageframe}[image width=.4,align=center]{Centered image panel}{theme/general/assets/backdrop.pdf}
+  The image is centered inside the panel.
+  \note{Image panel speaker note.}
+\end{rightimageframe}
+\backmatter
+\end{document}

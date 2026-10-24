@@ -59,9 +59,14 @@
 \newsavebox{\campus@guidesectionlist}
 \newlength{\campus@guidesectionlistheight}
 
-% Force 16:9 aspect ratio
+% Preserve the default and legacy 16:9 canvas. The wrapper class may select
+% 4:3 with the same width/fonts; all page anchors follow the resulting height.
 \RequirePackage{geometry}
-\geometry{paperwidth=16cm,paperheight=9cm}
+\ifdefstring{\campusclass@aspectratio}{43}{%
+  \geometry{paperwidth=16cm,paperheight=12cm}%
+}{%
+  \geometry{paperwidth=16cm,paperheight=9cm}%
+}
 
 % Caladea is a Cambria clone, Carlito a Calibri clone
 \RequirePackage{caladea,carlito}
@@ -1324,6 +1329,9 @@
   /campus right image,
   image width/.store in = \campus@rightimagewidthratio,
   page/.store in = \campus@rightimagepage,
+  align/.is choice,
+  align/right/.code={\def\campus@rightimagealign{right}},
+  align/center/.code={\def\campus@rightimagealign{center}},
 }
 
 \newcommand{\campus@rightimagegraphic}[1]{%
@@ -1342,6 +1350,7 @@
   \begingroup
     \def\campus@rightimagewidthratio{0.40}%
     \def\campus@rightimagepage{}%
+    \def\campus@rightimagealign{right}%
     \pgfkeys{/campus right image,#1}%
     \setlength{\campusrightimagewidth}{%
       \campus@rightimagewidthratio\paperwidth}%
@@ -1352,11 +1361,14 @@
     \campuspartialheadline{\dimexpr\paperwidth-\campusrightimagewidth\relax}%
     \setbeamertemplate{background}{%
       \begin{tikzpicture}[remember picture,overlay]
-        \node[
-          anchor=north east,
-          inner sep=0pt,
-          outer sep=0pt
-        ] at (current page.north east) {\campus@rightimagegraphic{#3}};
+        \ifdefstring{\campus@rightimagealign}{center}{%
+          \node[anchor=north,inner sep=0pt,outer sep=0pt]
+            at ([xshift=-.5\campusrightimagewidth]current page.north east)
+            {\campus@rightimagegraphic{#3}};
+        }{%
+          \node[anchor=north east,inner sep=0pt,outer sep=0pt]
+            at (current page.north east) {\campus@rightimagegraphic{#3}};
+        }%
         \usebeamercolor[bg]{normal text}
         \fill (current page.north west)
           rectangle ([xshift=-\campusrightimagewidth]current page.south east);

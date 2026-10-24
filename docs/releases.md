@@ -84,6 +84,7 @@ make release DPI=200
 
 - `campus-beamer-X.Y.Z-source.zip`：解压后得到项目根目录，general 可直接运行 `make`；其他主题先运行 `make theme-assets THEME=undefined`，或将 `undefined` 换成所选主题名。
 - `campus-beamer-X.Y.Z-example.pdf` 与 `campus-beamer-X.Y.Z-example.pptx`：中文 general 主题的完整功能演示；只有它提供 PPTX。
+- `campus-beamer-X.Y.Z-example-43.pdf`：中文 general 主题的 4:3 完整功能演示，只提供 PDF。
 - `campus-beamer-X.Y.Z-example-en.pdf`：英文 general 完整功能演示，只提供 PDF。
 - `campus-beamer-X.Y.Z-example-undefined.pdf`：undefined 奶蛙名画主题完整功能演示，只提供 PDF。
 - `campus-beamer-X.Y.Z-example-tokyo-night.pdf`：Tokyo Night 深色主题完整功能演示，只提供 PDF。

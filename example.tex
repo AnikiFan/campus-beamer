@@ -1,6 +1,8 @@
 % 功能与版式参考示例；自己的汇报由 agent 根据 outline.md 和本地素材生成 main.tex。
 \providecommand{\campusexampletheme}{general}
+\providecommand{\campusexampleaspectratio}{169}
 \documentclass[
+      aspectratio=\campusexampleaspectratio, % 169 (16:9, default) / 43 (4:3)
       theme=\campusexampletheme,    % 学校主题：对应 theme/<名称>/profile.tex
       language=chinese,  % 主题文字：chinese / english
       cjk=auto,          % 中文支持：auto 随语言选择；也可设为 true / false
@@ -14,7 +16,7 @@
 ]{campusbeamer}
 
 % ============================== 示例配置区 ==============================
-% 上方列出全部模板选项及其默认值，直接修改即可；页面保持固定 16:9。
+% 上方列出全部模板选项及其默认值，直接修改即可；默认 16:9，也可选择 aspectratio=43。
 
 \campusbibresource{examples/bibliography/refs.bib} % 只指定本次汇报的文献文件，无需自行加载 biblatex
 % 版式微调时可打开此开关：封面、章节起始页和致谢页会叠加红色

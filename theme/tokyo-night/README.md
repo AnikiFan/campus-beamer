@@ -6,7 +6,7 @@
 下载该主题独立维护的最新版素材。Git 克隆通常已包含素材。
 
 `tokyo-night` 是与机构无关的深色主题，采用 Tokyo Night 的夜间配色，沿用 Campus Beamer
-的 16:9 版式、双行正文页眉、章节导航和固定页脚。
+的默认 16:9（可选 4:3）版式、双行正文页眉、章节导航和固定页脚。
 
 ```tex
 \documentclass[theme=tokyo-night]{campusbeamer}

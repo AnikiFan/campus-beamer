@@ -152,6 +152,16 @@ wordmarks, colors and provenance live in [`theme/general/`](theme/general/README
 `example.tex` demonstrates the layouts and features; the agent creates your presentation from your brief.
 This is not an official university template.
 
+## Aspect ratio
+
+The default is 16:9. Use `\documentclass[aspectratio=43]{campusbeamer}` for 4:3 with any theme.
+Releases include the Chinese general demo as a 4:3 PDF; build it with `make pdf MAIN=example-43`.
+For the English 4:3 demo, run `make pdf MAIN=example-en-43`.
+See [aspect ratio options](docs/class-options.md#页面比例) for all theme examples.
+
+The bundled illustrations are currently cropped for the 16:9 layout and have not been specifically optimized for 4:3.
+When using 4:3, check the framing and visibility of the subject, and adjust the crop as needed.
+
 ## Download theme assets
 
 Extract your chosen Release's `campus-beamer-*-source.zip`; the default general theme is ready to use.
@@ -231,7 +241,7 @@ speaker notes. The agent chooses useful layouts and creates
 your content separately. The example also lists all public class options and
 defaults; see [class options](docs/class-options.md).
 
-- Fixed 16:9 layout with Chinese and English support; full primary-color section pages by default.
+- Default 16:9 layout, with 4:3 available through `aspectratio=43`, and Chinese and English support; full primary-color section pages by default.
 - `\sectiontocpage[overview]` shows all sections uniformly; [focus frames](docs/usage.md#简洁页面与图片背景) use a single header/footer row and optional centered image backgrounds with cover scaling and adjustable opacity.
 - Fitted figures, equations, paper walkthroughs and [terminal-style code windows](docs/usage.md#代码与终端窗口).
 - `biblatex` / `biber`, corner citations and cited references; optional [DBLP and citation-count tools](docs/literature.md).

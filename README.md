@@ -130,6 +130,15 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
 `example.tex` 展示模板的版式与功能；自己的汇报由 agent 根据你的需求生成。
 本项目不是学校官方发布的模板。
 
+## 页面比例
+
+默认 16:9；需要 4:3 时使用 `\documentclass[aspectratio=43]{campusbeamer}`，可与任意主题组合。
+Release 提供 general 主题的 4:3 PDF；本地运行 `make pdf MAIN=example-43` 构建。
+各主题与英文版的 4:3 示例命令见[页面比例](docs/class-options.md#页面比例)。
+
+目前随主题提供的插图主要按 16:9 版式裁剪，尚未专门针对 4:3 进行优化。
+使用 4:3 时请检查插图的取景与主体是否完整，必要时自行调整裁切。
+
 ## 下载主题素材
 
 从 Release 下载并解压所选版本的 `campus-beamer-*-source.zip` 后，默认 general 主题可直接使用。
@@ -198,7 +207,7 @@ make                     # 有 main.tex 时构建自己的汇报，否则构建 
 [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 中的附件；agent 根据汇报目标挑选适合的版式，
 另行生成你的内容。全部文档类选项及默认值也列在示例入口中，见[选项说明](docs/class-options.md)。
 
-- 固定 16:9 布局，支持中英文；默认章节页使用所选主题的主色。
+- 默认 16:9，可用 `aspectratio=43` 选择 4:3，支持中英文；默认章节页使用所选主题的主色。
 - 完整目录可用 `\sectiontocpage[overview]` 统一展示章节；[简洁页面](docs/usage.md#简洁页面与图片背景)支持单行页眉、底行页脚及居中等比铺满的可调透明度图片背景。
 - 自动适配图片、公式、论文讲解页及[终端风格代码窗口](docs/usage.md#代码与终端窗口)。
 - `biblatex` / `biber` 文献管理，角落引用与已引用文献汇总；[网页来源引用](docs/usage.md#网页来源引用)同时显示来源名与实际 URL。可按需使用 [DBLP 与引用数工具](docs/literature.md)。
