@@ -164,7 +164,7 @@ class ThemePreviewTests(unittest.TestCase):
 
     def test_renderer_only_emits_selected_pages(self):
         pdf = self.pdf('all.pdf', [f'Page {i}' for i in range(1, 51)])
-        for theme, count in (('tsinghua', 4), ('tokyo-night', 4), ('general-en', 10)):
+        for theme, count in (('tsinghua', 4), ('tokyo-night', 4), ('undefined', 4), ('general-en', 10)):
             output = self.root / theme
             output.mkdir()
             render_gallery(pdf, theme, output)

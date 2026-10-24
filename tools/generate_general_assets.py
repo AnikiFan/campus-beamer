@@ -10,8 +10,8 @@ import pymupdf
 
 
 def generate(root: Path, theme: str = 'general') -> None:
-    if theme not in ('general', 'tokyo-night'):
-        raise ValueError('Select general or tokyo-night.')
+    if theme not in ('general', 'tokyo-night', 'undefined'):
+        raise ValueError('Select general, tokyo-night or undefined.')
     output = root / f'build/{theme}-assets'
     output.mkdir(parents=True, exist_ok=True)
     assets = root / f'theme/{theme}/assets'
@@ -23,6 +23,10 @@ def generate(root: Path, theme: str = 'general') -> None:
         ('wordmark_on_light', f'theme/{theme}/wordmark.tex', 'brand'),
         ('backdrop', f'theme/{theme}/backdrop.tex', 'brand'),
     ):
+        if name == 'backdrop' and theme == 'undefined':
+            continue  # The painting is a generated raster, not a TeX asset.
+        if theme == 'undefined' and name == 'wordmark_on_dark':
+            color = 'brand'  # This legacy slot sits on the bright yellow cover panel.
         with (output / f'{name}.build.log').open('w') as log:
             subprocess.run([
                 'xelatex', '-interaction=nonstopmode', '-halt-on-error',
@@ -42,5 +46,5 @@ def generate(root: Path, theme: str = 'general') -> None:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--theme', choices=('general', 'tokyo-night'), default='general')
+    parser.add_argument('--theme', choices=('general', 'tokyo-night', 'undefined'), default='general')
     generate(Path(__file__).resolve().parents[1], parser.parse_args().theme)

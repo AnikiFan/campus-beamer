@@ -58,7 +58,7 @@
 选项由 agent 写在生成入口的 `\documentclass[...]` 中，不必提前填写。功能示例 `example.tex` 列出全部模板选项、
 默认值与可选值注释，方便直接修改；实际汇报也可以省略使用默认值的项：
 
-- `theme=general`（默认）、`tsinghua`（清华）、`pcl`（鹏城实验室）或 `tokyo-night`（深色）：选择 `theme/<名称>/profile.tex`；可复制主题目录添加学校，见[主题使用与扩展](../theme/README.md)。
+- `theme=general`（默认）、`tsinghua`（清华）、`pcl`（鹏城实验室）、`tokyo-night`（深色）或 `undefined`（奶蛙名画）：选择 `theme/<名称>/profile.tex`；可复制主题目录添加学校，见[主题使用与扩展](../theme/README.md)。
 - `language=chinese`（默认）或 `english`：选择主题自动生成的目录、章节标签、
   图表标签、提示框标题、日期和致谢文字。中文版本自动加载 xeCJK；英文版本默认不加载。
   不会翻译用户撰写的正文。

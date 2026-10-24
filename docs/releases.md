@@ -73,9 +73,9 @@ make release
 make release DPI=200
 ```
 
-`make release` 先检查锁文件同步，再顺序运行 Python 测试、完整功能演示 draft、中文 general 功能演示 PDF/PPTX、英文 general PDF、Tokyo Night PDF 与两套机构主题 PDF 导出、
-源码打包及版本化发行包生成。默认 600 DPI，构建 `example.tex`、`example-en.tex`、`example-tsinghua.tex`、`example-pcl.tex` 和 `example-tokyo-night.tex`，
-即使本地存在自己的 `main.tex` 也只导出公开演示。四个中文主题示例共用相同内容和页序，
+`make release` 先检查锁文件同步，再顺序运行 Python 测试、完整功能演示 draft、中文 general 功能演示 PDF/PPTX、英文 general PDF、Tokyo Night、undefined PDF 与两套机构主题 PDF 导出、
+源码打包及版本化发行包生成。默认 600 DPI，构建 `example.tex`、`example-en.tex`、`example-tsinghua.tex`、`example-pcl.tex`、`example-tokyo-night.tex` 和 `example-undefined.tex`，
+即使本地存在自己的 `main.tex` 也只导出公开演示。五个中文主题示例共用相同内容和页序，
 发行打包前会核对页数、章节、元信息和 README 预览锚点；仅中文 general 额外导出 PPTX。英文版独立编译，不参与中文主题样例的元信息一致性比较。
 当前版本在 `CHANGELOG.md` 中缺少非空章节，或演示产物缺失时，打包失败。
 支持 Release Please 的普通、链接式版本标题及手动的 `[X.Y.Z]` 标题。
@@ -85,6 +85,7 @@ make release DPI=200
 - `campus-beamer-X.Y.Z-source.zip`：解压后得到项目根目录，general 可直接运行 `make`；机构主题先按需运行 `make theme-assets THEME=tsinghua` 或 `THEME=pcl`。
 - `campus-beamer-X.Y.Z-example.pdf` 与 `campus-beamer-X.Y.Z-example.pptx`：中文 general 主题的完整功能演示；只有它提供 PPTX。
 - `campus-beamer-X.Y.Z-example-en.pdf`：英文 general 完整功能演示，只提供 PDF。
+- `campus-beamer-X.Y.Z-example-undefined.pdf`：undefined 奶蛙名画主题完整功能演示，只提供 PDF。
 - `campus-beamer-X.Y.Z-example-tokyo-night.pdf`：Tokyo Night 深色主题完整功能演示，只提供 PDF。
 - `campus-beamer-X.Y.Z-example-tsinghua.pdf` 与 `campus-beamer-X.Y.Z-example-pcl.pdf`：清华和鹏城实验室主题样例；GitHub Release 中分别上传。
 - `RELEASE_NOTES.md`：本版变更与素材许可范围。
@@ -170,7 +171,7 @@ demo pages before merging.
 
 On merging, the **Release Please** workflow creates `vX.Y.Z` and a GitHub Release,
 then checks out that tag and runs Docker `make release` in the same workflow.
-It attaches the source ZIP, the Chinese general feature tour as PDF/PPTX, the English general feature tour as PDF, the Tokyo Night PDF, and both institution samples as PDF,
+It attaches the source ZIP, the Chinese general feature tour as PDF/PPTX, the English general feature tour as PDF, the Tokyo Night and undefined PDFs, and both institution samples as PDF,
 release notes and checksum as separate
 assets, then updates the release body with the notes, including the shared license
 scope and image-based PPTX limitation.

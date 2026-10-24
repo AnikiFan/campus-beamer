@@ -128,7 +128,7 @@ build/
 ## 更换学校
 
 文档类为 `campusbeamer`，自动加载名为 `campus` 的主题。默认使用与学校无关的 general 配置；
-使用 `\documentclass[theme=general]{campusbeamer}` 显式选择通用主题，也可选择 `tsinghua`、`pcl` 或深色 `tokyo-night`。配置、品牌标志、校园素材和来源声明
+使用 `\documentclass[theme=general]{campusbeamer}` 显式选择通用主题，也可选择 `tsinghua`、`pcl`、深色 `tokyo-night` 或奶蛙名画主题 `undefined`。配置、品牌标志、校园素材和来源声明
 集中放在 `theme/<名称>/`；省略 `theme` 时默认使用 general。
 从 Release 源码包使用机构主题前，运行 `make theme-assets THEME=tsinghua` 或
 `make theme-assets THEME=pcl` 补齐所选主题的最新版素材。两个主题独立维护，
@@ -154,7 +154,7 @@ build/
 默认定义框使用琥珀色 `definitioncolor`（`B36B16`），与主色注释框区分。
 需要其他颜色时，在汇报中自行定义。
 
-页脚固定使用 `maincolor` 背景和白色文字，无需在正文中设置颜色。
+页脚固定使用主题的 `maincolor` 背景，文字颜色由主题决定：默认白色，黄色 undefined 使用深色，无需在正文中设置颜色。
 要更换页脚颜色，修改学校配置中的 `maincolor`，其他主色元素也随之变化。
 
 把校徽和校名标志放到本主题的 `assets/`，再用 `\campusthemedir/assets/...` 设置路径；支持写扩展名。

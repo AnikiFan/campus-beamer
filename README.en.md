@@ -44,12 +44,12 @@ make draft MAIN=example-en
 The output is `build/example-en.pdf`. On [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases/latest),
 choose **`campus-beamer-X.Y.Z-example-en.pdf`** for the English edition.
 Releases include this English PDF only; the existing Chinese general edition supplies PDF and PPTX.
-The comparison below uses the English General demo and the Chinese institution and Tokyo Night demos.
+The comparison below uses the English General demo and the Chinese demos for the other themes.
 
 ## Example pages
 
 `example.tex` is the layout and feature tour. Download
-the Chinese general theme's PDF/PPTX feature tour, the English general PDF, and the Tsinghua, Peng Cheng Laboratory and Tokyo Night PDF samples
+the Chinese general theme's PDF/PPTX feature tour, the English general PDF, and the Tsinghua, Peng Cheng Laboratory, Tokyo Night and undefined PDF samples
 from the [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases)
 page. The example PPTX includes per-slide PowerPoint speaker notes. Advance through
 the PDF/PPTX to see cumulative reveals and content replacement, with notes for each stage.
@@ -75,6 +75,13 @@ download the corresponding PDF for the complete tour and interactive examples.
       <td nowrap><a href="docs/images/preview-general-en-section.png"><img src="docs/images/preview-general-en-section.png" alt="General: Section" width="170"></a></td>
       <td nowrap><a href="docs/images/preview-general-en-body.png"><img src="docs/images/preview-general-en-body.png" alt="General: Body" width="170"></a></td>
       <td nowrap><a href="docs/images/preview-general-en-closing.png"><img src="docs/images/preview-general-en-closing.png" alt="General: Closing" width="170"></a></td>
+    </tr>
+    <tr>
+      <th scope="row" nowrap><a href="theme/undefined/README.md">undefined</a></th>
+      <td nowrap><a href="docs/images/preview-undefined-cover.png"><img src="docs/images/preview-undefined-cover.png" alt="undefined: Cover" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-undefined-section.png"><img src="docs/images/preview-undefined-section.png" alt="undefined: Section" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-undefined-body.png"><img src="docs/images/preview-undefined-body.png" alt="undefined: Body" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-undefined-closing.png"><img src="docs/images/preview-undefined-closing.png" alt="undefined: Closing" width="170"></a></td>
     </tr>
     <tr>
       <th scope="row" nowrap><a href="theme/tokyo-night/README.md">Tokyo Night</a></th>
@@ -135,6 +142,9 @@ emblems, wordmarks and campus images.
 The dark [`tokyo-night`](theme/tokyo-night/README.md) profile is also included. Select it with
 `\documentclass[theme=tokyo-night]{campusbeamer}` and build its full demo with
 `make pdf MAIN=example-tokyo-night`. Its assets are included in the source ZIP.
+
+The [`undefined`](theme/undefined/README.md) profile uses Naiwa’s signature yellow, a circular single-eye icon, and five distinct painting parodies.
+Select `theme=undefined` and run `make pdf MAIN=example-undefined` to view the full demo.
 
 The institution-neutral `general` profile is the default; select it explicitly with
 `\documentclass[theme=general]{campusbeamer}`. Its editable icon, transparent project
@@ -213,7 +223,7 @@ make doctor              # Check tools, TeX packages and fonts
 make draft MAIN=example  # Inspect reference-example pages and layout report
 make pdf MAIN=example-en # English general PDF
 make MAIN=example        # build/example.pdf and build/example.pptx
-make examples            # Build institution and Tokyo Night PDFs
+make examples            # Build all non-default theme PDFs
 make                     # Build main.tex if present; otherwise example.tex
 ```
 
@@ -224,7 +234,7 @@ speaker notes. The agent chooses useful layouts and creates
 your content separately. The example also lists all public class options and
 defaults; see [class options](docs/class-options.md).
 
-- Fixed 16:9 layout with Chinese and English support; full primary-color section pages by default (black in general, purple in Tsinghua, blue in PCL and dark blue-gray in Tokyo Night).
+- Fixed 16:9 layout with Chinese and English support; full primary-color section pages by default.
 - `\sectiontocpage[overview]` shows all sections uniformly; [focus frames](docs/usage.md#简洁页面与图片背景) use a single header/footer row and optional centered image backgrounds with cover scaling and adjustable opacity.
 - Fitted figures, equations, paper walkthroughs and [terminal-style code windows](docs/usage.md#代码与终端窗口).
 - `biblatex` / `biber`, corner citations and cited references; optional [DBLP and citation-count tools](docs/literature.md).
@@ -245,7 +255,7 @@ See [environment workflows](docs/workflows.md) for VS Code, Overleaf and the com
 
 ## Choose and customize a theme
 
-Built-in profiles are `general` (default), `tsinghua`, `pcl` (Peng Cheng Laboratory) and `tokyo-night` (dark).
+Built-in profiles are `general` (default), `tsinghua`, `pcl` (Peng Cheng Laboratory), `tokyo-night` (dark), and `undefined` (Naiwa art parody).
 Select PCL with `\documentclass[theme=pcl]{campusbeamer}`; see its
 [profile and asset provenance](theme/pcl/README.md).
 
@@ -307,6 +317,8 @@ Source code uses **GPL-3.0-or-later**; see [LICENSE](LICENSE). Asset terms are d
 - **Tokyo Night**: the original crescent-and-star icon, city illustration and project lettering
   adaptation use GPL-3.0-or-later. See the [Tokyo Night asset notice](theme/tokyo-night/README.md)
   for the upstream palette's MIT notice and font license.
+- **undefined**: A Naiwa-inspired circular eye and AI-generated painting parodies. See the
+  [asset provenance and rights notice](theme/undefined/README.md).
 - **Tsinghua**: the emblem, university name, combined marks and campus images come from the
   university's visual identity system and the SIGS official photo gallery; some are cropped.
   See the [Tsinghua sources, file list and notice](theme/tsinghua/README.md).

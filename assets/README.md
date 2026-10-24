@@ -46,3 +46,5 @@ GPL-3.0-or-later；字体自身的授权保持不变，不归入演示视频的 
 ```bash
 uv run --frozen python tools/generate_demo_video.py
 ```
+
+[undefined 主题](../theme/undefined/README.md)使用奶蛙眼睛衍生图案与 AI 生成的名画恶搞配图；角色来源及独立权利说明见主题文档。

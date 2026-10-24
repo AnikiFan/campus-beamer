@@ -1,0 +1,17 @@
+% One circular Naiwa-inspired eye. Character provenance: README.md.
+\documentclass[tikz,border=0pt]{standalone}
+\definecolor{brand}{HTML}{34311C}
+\definecolor{eyegreen}{HTML}{8CCB59}
+\definecolor{eyegold}{HTML}{FFD52A}
+\definecolor{pupil}{HTML}{17231C}
+\providecommand{\artcolor}{brand}
+\begin{document}
+\begin{tikzpicture}[x=1pt,y=1pt]
+  \path[use as bounding box] (0,0) rectangle (100,100);
+  % Circular iris; the pupil looks down-right toward the slide content.
+  \fill[eyegold] (50,50) circle (39);
+  \fill[eyegreen] (50,50) circle (35);
+  % A visible green gap remains all around the offset pupil.
+  \fill[pupil] (58,45) circle (20);
+\end{tikzpicture}
+\end{document}

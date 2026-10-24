@@ -27,7 +27,8 @@ option.
 Preserve these unless the user explicitly requests a design change:
 
 - fixed 16:9 geometry and symmetric body margins;
-- white text on a `maincolor` footline, with the existing centered baseline and
+- profile `campusonprimary` text (white by default) on a `maincolor` footline,
+  with the existing centered baseline and
   `frame/total` plus `author | title` arrangement;
 - the top-left emblem block flush with the page top and using the configured
   dark/light emblem assets;

@@ -1,6 +1,8 @@
 % Shared talk content; only illustrations vary between the bundled themes.
 % Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
 % SPDX-License-Identifier: GPL-3.0-or-later
+\newcommand{\campusexamplesectionalign}{right}
+\newcommand{\campusexamplerightimagewidth}{.40}
 \newcommand{\campusexampleimage}{theme/general/assets/backdrop.pdf}
 \newcommand{\campusexamplesectiononeimage}{theme/general/assets/backdrop.pdf}
 \newcommand{\campusexamplesectiontwoimage}{theme/general/assets/backdrop.pdf}
@@ -30,3 +32,13 @@
   \renewcommand{\campusexamplesectionthreeimage}{theme/tokyo-night/assets/backdrop.pdf}%
   \renewcommand{\campusexamplesectionfourimage}{theme/tokyo-night/assets/backdrop.pdf}%
   \renewcommand{\campusexamplesectionfiveimage}{theme/tokyo-night/assets/backdrop.pdf}}{}
+
+\ifdefstring{\campusexampletheme}{undefined}{%
+  \renewcommand{\campusexamplesectionalign}{center}%
+  \renewcommand{\campusexamplerightimagewidth}{.55}%
+  \renewcommand{\campusexampleimage}{theme/undefined/assets/pearl-earring.png}%
+  \renewcommand{\campusexamplesectiononeimage}{theme/undefined/assets/pearl-earring.png}%
+  \renewcommand{\campusexamplesectiontwoimage}{theme/undefined/assets/mona-lisa.png}%
+  \renewcommand{\campusexamplesectionthreeimage}{theme/undefined/assets/scream.png}%
+  \renewcommand{\campusexamplesectionfourimage}{theme/undefined/assets/napoleon.png}%
+  \renewcommand{\campusexamplesectionfiveimage}{theme/undefined/assets/starry-night.png}}{}

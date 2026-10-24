@@ -2,7 +2,7 @@
 \section{基础页面与图像}
 % 本示例每节显式插入起始页：图片直接在本次汇报中选择。
 % 实际使用时，可按需省略目录页或起始页，也可交换两者顺序。
-\sectioncoverpage[\campusexamplesectiononeimage]{本节介绍页面布局、公式排版、图像适配与图注。}
+\sectioncoverpage[\campusexamplesectiononeimage]{本节介绍页面布局、公式排版、图像适配与图注。}[align=\campusexamplesectionalign]
 \note{本节先说明正文区域和字号，再演示公式、代码与图片。章节背景是模板已有示例素材。}
 \subsection{基础页面}
 \input{examples/sections/page-styles.tex}
@@ -75,7 +75,7 @@
 \end{frame}
 \note{fitfigure 同时提供适配与图注。最后一个参数留空时不显示图注，便于简洁展示。}
 
-\begin{rightimageframe}[image width=.40]{右侧满高图片}{\campusexampleimage}
+\begin{rightimageframe}[image width=\campusexamplerightimagewidth]{右侧满高图片}{\campusexampleimage}
       \begin{description}[高度]
             \item[高度] 图片从页面顶端延伸到导航上边缘。
             \item[宽度] \texttt{image width} 控制右侧图片区域占页面宽度的比例。

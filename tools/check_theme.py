@@ -37,7 +37,7 @@ EXPECTED_PAGES = {'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 
                   'citation-top-right': 3, 'flow-layout': 1, 'url-layout': 2,
                   'doc-citations': 7, 'description-alignment': 4, 'callout-layout': 1,
                   'overlays': 6, 'overlays-handout': 3,
-                  'native-notes': 4, 'native-notes-screen': 4}
+                  'native-notes': 4, 'native-notes-screen': 4, 'profile-undefined': 10}
 
 
 def prepare_profile_fixture(workspace):
@@ -64,6 +64,32 @@ def prepare_profile_fixture(workspace):
     (directory / 'profile.tex').write_text(profile)
     return profile
 
+
+
+def check_undefined(document, log):
+    """The painting must render and subsequent frames must restore light surfaces."""
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('profile-undefined: overflow or missing glyphs')
+    if not document[4].get_images():
+        raise RuntimeError('profile-undefined: missing section painting')
+    for number in (1, 2, 3, 4, 9):
+        pixmap = document[number].get_pixmap()
+        if any(abs(a - b) > 1 for a, b in zip(pixmap.pixel(2, 80), (255, 213, 42))):
+            raise RuntimeError(f'profile-undefined: yellow primary surface lost on page {number + 1}')
+        colors = {span['color'] for block in document[number].get_text('dict')['blocks']
+                  for line in block.get('lines', []) for span in line['spans']}
+        if 0x34311C not in colors or 0xFFFFFF in colors:
+            raise RuntimeError(f'profile-undefined: dark primary text lost on page {number + 1}')
+    body = document[5].get_pixmap()
+    if any(abs(a - b) > 1 for a, b in zip(body.pixel(2, body.height - 3), (255, 213, 42))):
+        raise RuntimeError('profile-undefined: footer must use the yellow primary color')
+
+    for number in (5, 7, 8):
+        pixmap = document[number].get_pixmap()
+        if any(abs(a - b) > 1 for a, b in zip(pixmap.pixel(2, 80), (255, 252, 240))):
+            raise RuntimeError(f'profile-undefined: light surface lost on page {number + 1}')
+    if not document[8].get_links():
+        raise RuntimeError('profile-undefined: citation URL is not clickable')
 
 
 def check_tokyo_night(document, log):
@@ -933,6 +959,8 @@ def check(root, output):
                         raise RuntimeError(f'{name}: default primary color must be pure black')
                     if 'CAMPUS' not in document[0].get_text():
                         raise RuntimeError(f'{name}: default cover must use the project wordmark')
+                if name == 'profile-undefined':
+                    check_undefined(document, result.stdout)
                 if name == 'profile-tokyo-night':
                     check_tokyo_night(document, result.stdout)
                 if name == 'profile-pcl':

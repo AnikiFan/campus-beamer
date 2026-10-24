@@ -11,10 +11,10 @@
 
 `theme` 默认为 `general`。名称对应 `theme/<名称>/profile.tex`，区分大小写，
 使用英文字母、数字、连字符或下划线，首字符为字母或数字。
-内置主题：`general`（[通用](general/README.md)，默认）、`tsinghua`（[清华](tsinghua/README.md)）、`pcl`（[鹏城实验室](pcl/README.md)）和 `tokyo-night`（[深色](tokyo-night/README.md)）。
+内置主题：`general`（[通用](general/README.md)，默认）、`tsinghua`（[清华](tsinghua/README.md)）、`pcl`（[鹏城实验室](pcl/README.md)）、`tokyo-night`（[深色](tokyo-night/README.md)）和 `undefined`（[奶蛙名画](undefined/README.md)）。
 例如 `\documentclass[theme=pcl]{campusbeamer}` 选择鹏城实验室主题。
-在仓库根目录运行 `make examples` 可导出清华、PCL 和 Tokyo Night 的 PDF 样例；`make MAIN=example` 导出 general 完整演示；单独构建使用
-`make pdf MAIN=example-tsinghua`、`make pdf MAIN=example-pcl` 或 `make pdf MAIN=example-tokyo-night`。四个中文主题示例共用 `example.tex` 与 `examples/sections/` 的完整演示，页数、内容和顺序一致；
+在仓库根目录运行 `make examples` 可导出清华、PCL、Tokyo Night 和 undefined 的 PDF 样例；`make MAIN=example` 导出 general 完整演示；单独构建使用
+`make pdf MAIN=example-tsinghua`、`make pdf MAIN=example-pcl`、`make pdf MAIN=example-tokyo-night` 或 `make pdf MAIN=example-undefined`。五个中文主题示例共用 `example.tex` 与 `examples/sections/` 的完整演示，页数、内容和顺序一致；
 主题目录中的 `sample.tex` 只选择主题，`examples/theme-images.tex` 选择背景和各 section 起始页配图。
 每个 section 都有独立的图片配置位；清华示例已为五个 section 分别配置校园素材。
 未知名称或不完整的配置会给出编译错误。
@@ -46,7 +46,7 @@ theme/myschool/
 ```
 
 `profile.tex` 定义 `maincolor`、`tipcolor`、`notecolor`、`alertcolor`、
-`examplecolor`、`definitioncolor`。页脚使用主色与白色文字；general 的主色为纯黑 `#000000`。
+`examplecolor`、`definitioncolor`。页脚使用主色与 `campusonprimary` 文字（默认白色）；general 的主色为纯黑 `#000000`。
 目录中非当前章节统一使用 65% 前景色混合，保持各主题的可读性。
 四个品牌命令分别是 `\schoolemblemondark`、`\schoolemblemonlight`、
 `\schoolwordmarkondark`、`\schoolwordmarkonlight`。使用加载器提供的
@@ -65,13 +65,14 @@ theme/myschool/
 个人信息和演讲内容写在文稿中；学校照片可与主题一起保存，但由具体页面显式引用，
 切换主题不会自动替换正文照片。布局、字体与几何参数继续使用通用主题。
 
-## 深色主题的可选颜色
+## 主题的可选前景与背景颜色
 
 现有六种功能色和四个素材路径仍是必填字段。以下颜色可以在 `profile.tex` 中覆盖；
 省略时保持原有浅色主题效果，不需要在文稿中修改通用主题。
 
 | 可选颜色 | 默认值 | 用途 |
 |---|---|---|
+| `campusonprimary` | `white` | 主色背景上的文字：章节页、目录、致谢页和底部页脚；明亮主色可设为深色 |
 | `campusbackground` | `white` | 正文、封面左侧与提示框的基底 |
 | `campustext` / `campusheading` | `darkgray` | 正文 / 页眉文字 |
 | `campusaccent` | `maincolor` | 标题、结构标记、图注标签和正文导航 |
@@ -83,6 +84,8 @@ theme/myschool/
 | `campuscallouttitlebase` / `campuscallouttext` | `black` | 提示框标题混色基准 / 正文 |
 
 `maincolor` 继续控制封面右侧、默认章节页和页脚底色；深色主题应配合明亮的 `campusaccent`。
+黄色等明亮主色应配合深色 `campusonprimary`，如 [`undefined/profile.tex`](undefined/profile.tex)。
+封面字标是独立素材，应同时提供与主色背景对比清楚的版本。
 `campuscodebackground`、`campuscodebar`、`campuscodetext`、`campuscodemuted`、`campuscodekeyword`、
 `campuscodestring` 和 `campuscodeaccent` 也可以在 profile 中定义；省略时保留原有代码窗口配色。
 参考 [`tokyo-night/profile.tex`](tokyo-night/profile.tex)。自绘图表可使用 `campusaccent` 与

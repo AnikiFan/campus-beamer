@@ -29,7 +29,7 @@
 
 ## 示例页面
 
-`example.tex` 是版式与功能演示；general 主题完整功能演示的 PDF/PPTX，以及清华、鹏城实验室和 Tokyo Night 主题的 PDF 样例请前往
+`example.tex` 是版式与功能演示；general 主题完整功能演示的 PDF/PPTX，以及清华、鹏城实验室、Tokyo Night 和 undefined 主题的 PDF 样例请前往
 [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 下载。
 general 另提供完整英文版 [`example-en.tex`](example-en.tex)，可用 `make pdf MAIN=example-en` 编译。
 Release 中的 `campus-beamer-X.Y.Z-example-en.pdf` 为英文 PDF；英文版不附带 PPTX。
@@ -56,6 +56,13 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
       <td nowrap><a href="docs/images/preview-general-section.png"><img src="docs/images/preview-general-section.png" alt="通用: 章节页" width="170"></a></td>
       <td nowrap><a href="docs/images/preview-general-body.png"><img src="docs/images/preview-general-body.png" alt="通用: 正文页" width="170"></a></td>
       <td nowrap><a href="docs/images/preview-general-closing.png"><img src="docs/images/preview-general-closing.png" alt="通用: 致谢页" width="170"></a></td>
+    </tr>
+    <tr>
+      <th scope="row" nowrap><a href="theme/undefined/README.md">undefined</a></th>
+      <td nowrap><a href="docs/images/preview-undefined-cover.png"><img src="docs/images/preview-undefined-cover.png" alt="undefined: 封面" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-undefined-section.png"><img src="docs/images/preview-undefined-section.png" alt="undefined: 章节页" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-undefined-body.png"><img src="docs/images/preview-undefined-body.png" alt="undefined: 正文页" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-undefined-closing.png"><img src="docs/images/preview-undefined-closing.png" alt="undefined: 致谢页" width="170"></a></td>
     </tr>
     <tr>
       <th scope="row" nowrap><a href="theme/tokyo-night/README.md">Tokyo Night</a></th>
@@ -114,6 +121,9 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
 
 内置深色主题 [`tokyo-night`](theme/tokyo-night/README.md)，使用 `\documentclass[theme=tokyo-night]{campusbeamer}`；
 运行 `make pdf MAIN=example-tokyo-night` 查看完整示例。其素材随源码包提供，无需额外下载。
+
+[`undefined`](theme/undefined/README.md) 是奶蛙名画主题，使用经典黄色、圆形单眼图标和五幅不同的奶蛙名画配图；
+使用 `theme=undefined`，运行 `make pdf MAIN=example-undefined` 查看示例。
 
 默认主题为与机构无关的 `general`；可用 `\documentclass[theme=general]{campusbeamer}` 显式选择。
 博士帽、透明项目字标、配色和可编辑素材集中在 [`theme/general/`](theme/general/README.md)。
@@ -182,7 +192,7 @@ PPTX 自动保留原生章节分节、标题与作者，以及副标题、课题
 make doctor              # 检查环境
 make draft MAIN=example  # 查看示例的逐页预览与排版报告
 make MAIN=example        # 构建 build/example.pdf 和 build/example.pptx
-make examples            # 构建清华、鹏城实验室和 Tokyo Night PDF 样例
+make examples            # 构建清华、鹏城实验室、Tokyo Night 和 undefined PDF 样例
 make                     # 有 main.tex 时构建自己的汇报，否则构建 example.tex
 ```
 
@@ -191,7 +201,7 @@ make                     # 有 main.tex 时构建自己的汇报，否则构建 
 [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 中的附件；agent 根据汇报目标挑选适合的版式，
 另行生成你的内容。全部文档类选项及默认值也列在示例入口中，见[选项说明](docs/class-options.md)。
 
-- 固定 16:9 布局，支持中英文；默认全主色章节页：general 为纯黑，Tokyo Night 为深蓝灰，清华为紫色，PCL 为蓝色。
+- 固定 16:9 布局，支持中英文；默认章节页使用所选主题的主色。
 - 完整目录可用 `\sectiontocpage[overview]` 统一展示章节；[简洁页面](docs/usage.md#简洁页面与图片背景)支持单行页眉、底行页脚及居中等比铺满的可调透明度图片背景。
 - 自动适配图片、公式、论文讲解页及[终端风格代码窗口](docs/usage.md#代码与终端窗口)。
 - `biblatex` / `biber` 文献管理，角落引用与已引用文献汇总；[网页来源引用](docs/usage.md#网页来源引用)同时显示来源名与实际 URL。可按需使用 [DBLP 与引用数工具](docs/literature.md)。
@@ -212,7 +222,7 @@ VS Code、Overleaf 和命令行用法见[环境说明](docs/workflows.md)。
 
 ## 选择与定制主题
 
-内置 `general`（通用，默认）、`tokyo-night`（深色）、`tsinghua`（清华）和 `pcl`（鹏城实验室）主题。
+内置 `general`（通用，默认）、`tokyo-night`（深色）、`tsinghua`（清华）、`pcl`（鹏城实验室）和 `undefined`（奶蛙名画）主题。
 使用 `\documentclass[theme=pcl]{campusbeamer}` 切换，素材说明见[鹏城实验室主题](theme/pcl/README.md)。
 
 复制 `theme/general/` 为 `theme/myschool/`，修改其中的 `profile.tex` 与素材，
@@ -272,6 +282,8 @@ build/                生成的 PDF、PPTX 和逐页预览
   和[项目字标说明](assets/README.md#campus-beamer-项目字标)。
 - **Tokyo Night**：原创月牙星光标志、城市插画和项目字标适配采用 GPL-3.0-or-later；
   上游配色的 MIT 通知和字体许可见 [Tokyo Night 素材说明](theme/tokyo-night/README.md)。
+- **undefined**：奶蛙眼睛图案与 AI 生成的名画恶搞配图，角色来源及权利说明见
+  [undefined 素材说明](theme/undefined/README.md)。
 - **清华大学**：校徽、校名、组合标志及校园图像来自清华大学视觉形象识别系统和
   深圳国际研究生院官方图库，部分经过裁剪。来源、文件清单及使用声明见
   [清华主题说明](theme/tsinghua/README.md)。

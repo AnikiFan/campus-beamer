@@ -1,0 +1,44 @@
+% undefined: multicolor eyes, warm surfaces and painting crop.
+\documentclass[theme=undefined,language=english,cjk=false]{campusbeamer}
+\title{undefined}
+\subtitle{Eyes, color and painted artwork}
+\author{Campus Beamer}
+\date{}
+\begin{document}
+\maketitle
+\section{One familiar eye}
+\subsection{Color and contrast}
+\sectiontocpage[overview]
+\sectioncoverpage[primary]{A playful chapter opening.}
+\sectioncoverpage[white]{A circular eye on a light surface.}
+\sectioncoverpage[theme/undefined/assets/pearl-earring.png]{A pearl, a headscarf and an unexpected sitter.}[align=center]
+\begin{frame}{Semantic callouts}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{.48\textwidth}
+      \begin{tipbox}A practical suggestion.\end{tipbox}
+      \begin{notebox}Supporting context.\end{notebox}
+      \begin{alertbox}An important condition.\end{alertbox}
+    \end{column}
+    \begin{column}{.48\textwidth}
+      \begin{examplebox}A concrete example.\end{examplebox}
+      \begin{definitionbox}A precise definition.\end{definitionbox}
+    \end{column}
+  \end{columns}
+\end{frame}
+\begin{frame}[campusfocus,campusbackground=theme/undefined/assets/pearl-earring.png,
+  campusbackgroundopacity=.15]{A portrait with a twist}
+  Dark text on a cream background.
+\end{frame}
+\begin{frame}[fragile]{Code and its caption}
+\begin{campuscode}[language=Python,caption={A minimal greeting.}]{hello.py}
+def greet(name):
+    return "Hello " + name
+\end{campuscode}
+\end{frame}
+\begin{frame}{Citations and the project wordmark}
+  \campusdoccite{Project}{https://github.com/AnikiFan/campus-beamer}
+  See the project documentation for the full example.
+  \fitfigure[width=.55,height=.35]{\schoolwordmarkonlight}{The project wordmark}
+\end{frame}
+\backmatter
+\end{document}

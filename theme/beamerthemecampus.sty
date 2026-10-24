@@ -480,18 +480,18 @@
 %       \themecolor should only be called from the preamble.
 \newcommand{\themecolor}[1]{
     % The footer always follows the school profile's main color.
-    \setbeamercolor{footline}{fg=white,bg=maincolor}
+    \setbeamercolor{footline}{fg=campusonprimary,bg=maincolor}
 	\ifstrequal{#1}{main}{%
-		\setbeamercolor{headline}{fg=white,bg=maincolor}
+		\setbeamercolor{headline}{fg=campusonprimary,bg=maincolor}
         \setbeamercolor{logo block}{bg=campusbackground}
-		\setbeamercolor{navigation muted}{fg=white!65!maincolor}
-		\setbeamercolor{navigation footer}{fg=white,bg=maincolor}
-		\setbeamercolor{navigation footer section}{fg=white,bg=maincolor}
-		\setbeamercolor{navigation footer subsection}{fg=white,bg=maincolor!72!white}
-		\setbeamercolor{section in head/foot}{fg=white,bg=}
-		\setbeamercolor{subsection in head/foot}{fg=white,bg=}
-		\setbeamercolor{normal text}{fg=white,bg=maincolor}
-		\setbeamercolor{structure}{fg=white}
+		\setbeamercolor{navigation muted}{fg=campusonprimary!65!maincolor}
+		\setbeamercolor{navigation footer}{fg=campusonprimary,bg=maincolor}
+		\setbeamercolor{navigation footer section}{fg=campusonprimary,bg=maincolor}
+		\setbeamercolor{navigation footer subsection}{fg=campusonprimary,bg=maincolor!72!white}
+		\setbeamercolor{section in head/foot}{fg=campusonprimary,bg=}
+		\setbeamercolor{subsection in head/foot}{fg=campusonprimary,bg=}
+		\setbeamercolor{normal text}{fg=campusonprimary,bg=maincolor}
+		\setbeamercolor{structure}{fg=campusonprimary}
 		\renewcommand{\@logo}{whitelogo}
 	}{%
 		\setbeamercolor{headline}{fg=campusheading,bg=campusbackground}
@@ -1072,10 +1072,10 @@
 \setbeamerfont{section page title}{parent=title,size=\Huge}
 \setbeamerfont{section page subtitle}{parent=subtitle,series=\mdseries,size=\normalsize}
 \setbeamerfont{section page body}{parent=subtitle,series=\mdseries,size=\normalsize}
-\setbeamercolor{section page label}{fg=white!82!maincolor}
-\setbeamercolor{section page title}{fg=white}
-\setbeamercolor{section page subtitle}{fg=white!95!maincolor}
-\setbeamercolor{section page body}{fg=white!80!maincolor}
+\setbeamercolor{section page label}{fg=campusonprimary!82!maincolor}
+\setbeamercolor{section page title}{fg=campusonprimary}
+\setbeamercolor{section page subtitle}{fg=campusonprimary!95!maincolor}
+\setbeamercolor{section page body}{fg=campusonprimary!80!maincolor}
 
 % Collect every subsection belonging to the current section.  The information
 % is read from Beamer's TOC file, so the command can appear immediately after
@@ -1204,7 +1204,7 @@
   \setbeamertemplate{footline}{}
   \setbeamertemplate{frametitle}{}
   \campuspartialheadline{0.56\paperwidth}
-  \setbeamercolor{normal text}{fg=white,bg=maincolor}
+  \setbeamercolor{normal text}{fg=campusonprimary,bg=maincolor}
   \setbeamertemplate{background}{}
   \ifdefstring{\campus@sectionbackground}{white}{%
     \setbeamertemplate{background}{\TikzWhiteRightSplit}
@@ -1439,9 +1439,9 @@
 \newcommand{\backmatter}[1][]{
 \begingroup
   \themecolor{main}
-  \setbeamercolor{normal text}{fg=white,bg=maincolor}
-  \setbeamercolor{author}{fg=white}
-  \setbeamercolor{date}{fg=white}
+  \setbeamercolor{normal text}{fg=campusonprimary,bg=maincolor}
+  \setbeamercolor{author}{fg=campusonprimary}
+  \setbeamercolor{date}{fg=campusonprimary}
   \begin{frame}[plain,c]
     \campus@prepareclosingmessage
     % Keep the closing title on the same vertical centre as the cover title.

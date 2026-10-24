@@ -38,6 +38,7 @@ FEATURE_PAGES = (
 GALLERY = tuple(sorted(MATRIX_PAGES + FEATURE_PAGES, key=lambda item: item[1]))
 THEMES = (
     ('general', '通用', 'General'),
+    ('undefined', 'undefined', 'undefined'),
     ('tokyo-night', 'Tokyo Night', 'Tokyo Night'),
     ('tsinghua', '清华大学', 'Tsinghua'),
     ('pcl', '鹏城实验室', 'PCL'),
