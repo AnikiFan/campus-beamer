@@ -5,6 +5,13 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.19.0](https://github.com/AnikiFan/campus-beamer/compare/v0.18.0...v0.19.0) (2026-10-24)
+
+
+### Features
+
+* add undefined Naiwa art theme ([80270f6](https://github.com/AnikiFan/campus-beamer/commit/80270f65e92122c6ce69cbfa7710617819f17e69))
+
 ## [0.18.0](https://github.com/AnikiFan/campus-beamer/compare/v0.17.0...v0.18.0) (2026-10-23)
 
 
