@@ -61,7 +61,7 @@ class SourcePackageTests(unittest.TestCase):
                                  or name.startswith('.venv/') or name.startswith('build/')
                                  or name.endswith('.log') for name in names))
 
-    def test_school_configs_remain_but_shared_assets_and_private_schools_are_excluded(self):
+    def test_theme_configs_remain_but_optional_assets_and_private_themes_are_excluded(self):
         private = self.root / 'theme/private-school'
         private.mkdir()
         (private / 'profile.tex').write_text('Private school configuration')
@@ -73,9 +73,13 @@ class SourcePackageTests(unittest.TestCase):
             self.assertIn('theme/tsinghua/README.md', names)
             for name in ('profile.tex', 'README.md', 'emblem.tex', 'wordmark.tex'):
                 self.assertIn('theme/pcl/' + name, names)
-            self.assertFalse(any(name.startswith(('theme/tsinghua/assets/', 'theme/pcl/assets/'))
+            self.assertFalse(any(name.startswith('theme/') and '/assets/' in name
+                                 and not name.startswith('theme/general/')
                                  for name in names))
             self.assertIn('theme/general/assets/backdrop.pdf', names)
+            for theme in ('general', 'tokyo-night', 'undefined'):
+                self.assertIn(f'theme/{theme}/profile.tex', names)
+                self.assertIn(f'theme/{theme}/README.md', names)
             self.assertIn('docs/images/preview-tsinghua-cover.png', names)
             self.assertIn('tools/theme_assets.py', names)
             self.assertFalse(any(name.startswith('theme/private-school/') for name in names))

@@ -2,6 +2,9 @@
 
 [主题使用与扩展](../README.md) · [返回首页](../../README.md)
 
+从 Release 源码包使用此主题前，在项目根目录运行 `make theme-assets THEME=tokyo-night`，
+下载该主题独立维护的最新版素材。Git 克隆通常已包含素材。
+
 `tokyo-night` 是与机构无关的深色主题，采用 Tokyo Night 的夜间配色，沿用 Campus Beamer
 的 16:9 版式、双行正文页眉、章节导航和固定页脚。
 
@@ -17,7 +20,7 @@ make MAIN=example-tokyo-night
 ```
 
 完整功能演示在 `build/example-tokyo-night.pdf`，内容与中文 general 示例对应，共 50 页。
-Release 仅包含 Tokyo Night 的 PDF。主题的全部素材随源码包提供，不需要额外下载。
+Release 仅包含 Tokyo Night 的 PDF。主题素材通过独立的最新版素材包提供。
 
 ## 配色
 

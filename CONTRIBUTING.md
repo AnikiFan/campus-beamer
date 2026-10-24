@@ -78,8 +78,9 @@ README 每个主题一行，用四列比较封面、章节页、正文页和致�
 本地通过不等于远程 CI 已通过。主题编译验证需要 TeX 环境，使用 `make check-theme`。
 
 `make dist` 生成 `build/dist/campus-beamer.zip`，只包含清单内的源码、文档、配置和示例素材。
-机构素材不进入该 ZIP，按主题分别维护最新版包；general 素材和文档预览图保留。
-使用机构主题前运行 `make theme-assets THEME=tsinghua` 或 `THEME=pcl`。
+除 general 外，所有 `theme/<名称>/assets/` 素材不进入该 ZIP，按主题分别维护最新版包；
+general 素材、全部主题配置、可编辑素材源码、来源说明和文档预览图保留。
+从源码包使用其他主题前运行 `make theme-assets THEME=undefined`，或将 `undefined` 换成所选主题名。
 这份 ZIP 可以作为独立仓库的根目录；GitHub 只从仓库根目录读取 workflows。
 不包含 `.venv`、生成的备注、构建产物，或未列入清单的根目录汇报；新增源码时同步更新打包清单。
 `materials/`、`sections/` 和 `bibliography/` 仅打包各自的 `.gitkeep` 以保留写作目录；其中的用户内容及生成的 `main.tex` 不会被打包。

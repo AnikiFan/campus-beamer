@@ -120,7 +120,7 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
 校徽、校名和校园图像的使用范围见[素材来源与使用声明](assets/README.md)。
 
 内置深色主题 [`tokyo-night`](theme/tokyo-night/README.md)，使用 `\documentclass[theme=tokyo-night]{campusbeamer}`；
-运行 `make pdf MAIN=example-tokyo-night` 查看完整示例。其素材随源码包提供，无需额外下载。
+运行 `make pdf MAIN=example-tokyo-night` 查看完整示例。首次使用源码包时，先按下文下载对应主题素材。
 
 [`undefined`](theme/undefined/README.md) 是奶蛙名画主题，使用经典黄色、圆形单眼图标和五幅不同的奶蛙名画配图；
 使用 `theme=undefined`，运行 `make pdf MAIN=example-undefined` 查看示例。
@@ -133,19 +133,16 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
 ## 下载主题素材
 
 从 Release 下载并解压所选版本的 `campus-beamer-*-source.zip` 后，默认 general 主题可直接使用。
-清华与鹏城实验室素材分别维护一份最新版，不随每次模板发布重复打包；按需在项目根目录执行：
+其他主题分别维护一份最新版素材，不随每次模板发布重复打包；在项目根目录执行对应命令：
 
 ```bash
-make theme-assets THEME=tsinghua
-# 使用鹏城实验室主题时：
-make theme-assets THEME=pcl
+make theme-assets THEME=undefined
+# 将 undefined 换成 tokyo-night、tsinghua 或 pcl 即可下载其他主题。
 ```
 
 命令只需 Python 3.10+，会下载对应主题、校验 SHA-256 并安装到 `theme/<主题>/assets/`。
 已有完整素材时不联网；Git 克隆通常已包含素材，无需另行下载。
-[清华素材](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-tsinghua)与
-[鹏城实验室素材](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-pcl)独立更新。
-显式更新和手动下载方法见[安装说明](docs/installation.md#机构主题素材)。
+各主题的下载入口、显式更新和手动下载方法见[安装说明](docs/installation.md#主题素材)。
 
 ## 推荐使用方式：提供思路与素材
 

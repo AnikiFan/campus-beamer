@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
 # SPDX-License-Identifier: GPL-3.0-or-later
-"""Package or install the latest per-theme institutional theme assets (stdlib only)."""
+"""Package or install the latest per-theme assets (stdlib only)."""
 import argparse
 import hashlib
 from pathlib import Path, PurePosixPath
@@ -12,10 +12,24 @@ import tempfile
 from urllib.request import urlopen
 import zipfile
 
-THEMES = ('tsinghua', 'pcl')
+THEMES = ('tokyo-night', 'undefined', 'tsinghua', 'pcl')
 BASE_URL = 'https://github.com/AnikiFan/campus-beamer/releases/download'
 NOTICE_NAME = 'THEME_ASSETS_NOTICES.md'
 ASSET_FILES = (
+    'theme/undefined/assets/emblem_on_dark.pdf',
+    'theme/undefined/assets/emblem_on_light.pdf',
+    'theme/undefined/assets/wordmark_on_dark.pdf',
+    'theme/undefined/assets/wordmark_on_light.pdf',
+    'theme/undefined/assets/pearl-earring.png',
+    'theme/undefined/assets/mona-lisa.png',
+    'theme/undefined/assets/scream.png',
+    'theme/undefined/assets/napoleon.png',
+    'theme/undefined/assets/starry-night.png',
+    'theme/tokyo-night/assets/emblem_on_dark.pdf',
+    'theme/tokyo-night/assets/emblem_on_light.pdf',
+    'theme/tokyo-night/assets/wordmark_on_dark.pdf',
+    'theme/tokyo-night/assets/wordmark_on_light.pdf',
+    'theme/tokyo-night/assets/backdrop.pdf',
     'theme/pcl/assets/campus-aerial.jpg',
     'theme/pcl/assets/lakeside-aerial.jpg',
     'theme/pcl/assets/lakeside-building.jpg',
@@ -44,9 +58,9 @@ ASSET_FILES = (
 
 
 def asset_files(theme: str) -> tuple[str, ...]:
-    """Return the reviewed manifest for exactly one institutional theme."""
+    """Return the reviewed manifest for exactly one theme."""
     if theme not in THEMES:
-        raise ValueError(f'Unknown institutional theme: {theme}')
+        raise ValueError(f'Unknown theme: {theme}')
     return tuple(name for name in ASSET_FILES if name.startswith(f'theme/{theme}/assets/'))
 
 
@@ -71,7 +85,7 @@ def package(root: Path, output: Path, theme: str) -> Path:
     root = root.resolve()
     contents = {name: checked_path(root, name).read_bytes() for name in asset_files(theme)}
     notices = ['# Theme asset sources and usage rights\n\n'
-               'These institutional assets are not covered by the code license.\n']
+               'Asset licenses vary by theme and file; see the source and usage notices below.\n']
     for name in (f'theme/{theme}/README.md',):
         notices.append(f'\n---\n\nSource: `{name}`\n\n' + checked_path(root, name).read_text())
     contents[NOTICE_NAME] = '\n'.join(notices).encode('utf-8')

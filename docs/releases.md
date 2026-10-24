@@ -82,7 +82,7 @@ make release DPI=200
 
 `build/releases/campus-beamer-vX.Y.Z-release.zip` 包含：
 
-- `campus-beamer-X.Y.Z-source.zip`：解压后得到项目根目录，general 可直接运行 `make`；机构主题先按需运行 `make theme-assets THEME=tsinghua` 或 `THEME=pcl`。
+- `campus-beamer-X.Y.Z-source.zip`：解压后得到项目根目录，general 可直接运行 `make`；其他主题先运行 `make theme-assets THEME=undefined`，或将 `undefined` 换成所选主题名。
 - `campus-beamer-X.Y.Z-example.pdf` 与 `campus-beamer-X.Y.Z-example.pptx`：中文 general 主题的完整功能演示；只有它提供 PPTX。
 - `campus-beamer-X.Y.Z-example-en.pdf`：英文 general 完整功能演示，只提供 PDF。
 - `campus-beamer-X.Y.Z-example-undefined.pdf`：undefined 奶蛙名画主题完整功能演示，只提供 PDF。
@@ -105,35 +105,39 @@ make release DPI=200
 
 ## 每个主题独立维护最新版素材
 
-机构图片不再进入每次发布的源码 ZIP；general 素材、主题配置与来源声明、文档预览图仍保留。
-Git 仓库继续跟踪机构素材，发布构建直接使用检出的文件，普通编译与代码发布不额外下载它们。
+除 general 外，所有主题的 `assets/` 不进入每次发布的源码 ZIP；general 素材、全部主题配置、可编辑素材源码、来源声明和文档预览图仍保留。
+Git 仓库继续跟踪主题素材，发布构建直接使用检出的文件，普通编译与代码发布不额外下载它们。
 这不会减小已嵌入图片的 PDF/PPTX，也不修改历史 Release 附件。
 请下载项目上传的 `campus-beamer-*-source.zip`；GitHub 自动生成的 `Source code (zip/tar.gz)`
-仍是 Git 仓库快照，包含仓库中跟踪的机构素材。
+仍是 Git 仓库快照，包含仓库中跟踪的主题素材。
 
-每个机构主题使用独立的固定标签和附件名：
+四个非默认主题各使用独立的固定标签和附件名：
 
 | 主题 | Release 标签 | 附件 |
 | --- | --- | --- |
+| Tokyo Night | `theme-assets-tokyo-night` | `campus-beamer-tokyo-night-assets.zip` |
+| undefined | `theme-assets-undefined` | `campus-beamer-undefined-assets.zip` |
 | 清华 | `theme-assets-tsinghua` | `campus-beamer-tsinghua-assets.zip` |
 | 鹏城实验室 | `theme-assets-pcl` | `campus-beamer-pcl-assets.zip` |
 
-两个 Release 均附有各自的 `SHA256SUMS`，设置 `--latest=false`，不占用正式模板版本的 Latest 入口。
+每个 Release 均附有各自的 `SHA256SUMS`，设置 `--latest=false`，不占用正式模板版本的 Latest 入口。
 素材更新替换同名附件，下载地址保持不变；这是最新版渠道，不提供模板版本到素材版本的锁定。
 保持原有文件名和目录结构，以兼容旧模板。更新前留存必要备份，更新后下载并校验附件。
 
 `.github/workflows/theme-assets.yml` 在素材、来源声明或素材发布工具变化时运行，也可手动触发。
-它分别打包两个主题，比较各自校验值，仅上传发生变化的包。发布不依赖 TeX 或 uv。
-白名单在 `tools/theme_assets.py` 的 `ASSET_FILES`，新增机构图片必须逐个审核并登记。
+它分别打包四个主题，比较各自校验值，仅上传发生变化的包。发布不依赖 TeX 或 uv。
+白名单在 `tools/theme_assets.py` 的 `ASSET_FILES`，新增主题素材必须逐个审核并登记。
 每个 ZIP 附上该主题的来源与使用范围，机构素材不因此成为 GPL 授权素材。
 本地检查示例：
 
 ```bash
+make dist-theme-assets THEME=tokyo-night
+make dist-theme-assets THEME=undefined
 make dist-theme-assets THEME=tsinghua
 make dist-theme-assets THEME=pcl
 ```
 
-产物分别保存在 `build/theme-assets/tsinghua/` 和 `build/theme-assets/pcl/`。
+产物分别保存在 `build/theme-assets/<主题>/`。
 固定素材 Release 必须保持可修改；GitHub 的 immutable releases 会禁止附件替换。
 `gh release upload --clobber` 是先删除再上传，期间可能出现短暂下载失败；客户端校验失败会停止安装，
 可稍后重试。[GitHub 上传说明](https://cli.github.com/manual/gh_release_upload)

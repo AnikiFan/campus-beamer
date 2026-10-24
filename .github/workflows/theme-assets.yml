@@ -4,9 +4,13 @@ on:
   push:
     branches: [main]
     paths:
+      - 'theme/tokyo-night/assets/**'
+      - 'theme/tokyo-night/README.md'
+      - 'theme/undefined/assets/**'
+      - 'theme/undefined/README.md'
       - 'theme/tsinghua/assets/**'
-      - 'theme/pcl/assets/**'
       - 'theme/tsinghua/README.md'
+      - 'theme/pcl/assets/**'
       - 'theme/pcl/README.md'
       - 'tools/theme_assets.py'
       - '.github/workflows/theme-assets.yml'
@@ -27,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        theme: [tsinghua, pcl]
+        theme: [tokyo-night, undefined, tsinghua, pcl]
     permissions:
       contents: write
     env:
@@ -56,7 +60,7 @@ jobs:
           在模板根目录运行 make theme-assets THEME=$THEME 下载并校验素材。
           普通模板发布不重复附带这些素材；保留现有文件名以兼容旧版模板。
 
-          素材来源和使用范围见 ZIP 内的 THEME_ASSETS_NOTICES.md；机构素材不适用代码的 GPL 许可。
+          素材来源和使用范围见 ZIP 内的 THEME_ASSETS_NOTICES.md；各素材适用其来源说明中的许可。
           Asset source commit: $GITHUB_SHA
           EOF
           if gh release view "$TAG" > /dev/null 2>&1; then

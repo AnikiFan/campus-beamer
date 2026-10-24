@@ -10,7 +10,7 @@ from unittest.mock import patch
 import zipfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from theme_assets import asset_files, archive_name, NOTICE_NAME, download, install, package
+from theme_assets import THEMES, ASSET_FILES, asset_files, archive_name, NOTICE_NAME, download, install, package
 
 
 class ThemeAssetTests(unittest.TestCase):
@@ -40,7 +40,7 @@ class ThemeAssetTests(unittest.TestCase):
         self.assertEqual(first, self.archive.read_bytes())
         with zipfile.ZipFile(self.archive) as archive:
             self.assertEqual(set(archive.namelist()), set(self.files) | {NOTICE_NAME})
-            self.assertIn(b'not covered by the code license', archive.read(NOTICE_NAME))
+            self.assertIn(b'Asset licenses vary by theme and file', archive.read(NOTICE_NAME))
         self.assertEqual(self.archive.with_name('SHA256SUMS').read_text(),
                          f'{self.digest()}  {archive_name(self.theme)}\n')
 
@@ -83,6 +83,40 @@ class ThemeAssetTests(unittest.TestCase):
         self.assertFalse((self.target / 'theme/tsinghua').exists())
         with zipfile.ZipFile(self.archive) as archive:
             self.assertEqual(set(archive.namelist()), set(asset_files('pcl')) | {NOTICE_NAME})
+
+    def test_every_theme_packages_and_downloads_independently_from_source_zip(self):
+        from package_source import FILES, package as package_source
+        project = self.source
+        public_themes = {Path(name).parent.name for name in FILES
+                         if name.startswith('theme/') and name.endswith('/profile.tex')}
+        self.assertEqual(set(THEMES), public_themes - {'general'})
+        for name in (*FILES, *ASSET_FILES):
+            path = project / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(f'Public file: {name}')
+        self.assertFalse(set(ASSET_FILES) & set(FILES))
+        source_zip = self.root / 'source.zip'
+        package_source(project, source_zip)
+        for theme in THEMES:
+            with self.subTest(theme=theme):
+                target = self.root / theme
+                with zipfile.ZipFile(source_zip) as source:
+                    source.extractall(target)
+                bundled = {p.relative_to(target).as_posix() for p in (target / 'theme').glob('*/assets/*')}
+                self.assertTrue(bundled)
+                self.assertTrue(all(name.startswith('theme/general/assets/') for name in bundled))
+                bundle = self.root / theme / archive_name(theme)
+                package(project, bundle, theme)
+                checksum = bundle.with_name('SHA256SUMS')
+                with zipfile.ZipFile(bundle) as archive:
+                    self.assertEqual(set(archive.namelist()), set(asset_files(theme)) | {NOTICE_NAME})
+                with patch('theme_assets.urlopen', side_effect=[checksum.open('rb'), bundle.open('rb')]) as fetch:
+                    self.assertEqual(download(target, theme), len(asset_files(theme)))
+                self.assertIn(f'/theme-assets-{theme}/', fetch.call_args_list[0].args[0])
+                installed = {p.relative_to(target).as_posix() for p in (target / 'theme').glob('*/assets/*')}
+                self.assertEqual(installed - bundled, set(asset_files(theme)))
+                for name in installed:
+                    self.assertEqual((target / name).read_bytes(), (project / name).read_bytes())
 
     def test_partial_install_preserves_modified_assets_until_explicit_update(self):
         existing = self.target / self.files[-1]

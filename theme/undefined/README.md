@@ -2,6 +2,9 @@
 
 [主题使用与扩展](../README.md) · [返回首页](../../README.md)
 
+从 Release 源码包使用此主题前，在项目根目录运行 `make theme-assets THEME=undefined`，
+下载该主题独立维护的最新版素材。Git 克隆通常已包含素材。
+
 `undefined` 是奶蛙恶搞主题：经典黄色的封面分区、章节页和页脚，配奶油色正文与深色文字。
 左上角是一只圆形眼睛：黄色外圈、绿色虹膜，黑色瞳孔偏向右下方，注视页面中央，四周保留绿色间隙。
 封面右下角使用 Campus Beamer 字标，五个章节各有一幅不同的奶蛙名画配图。
@@ -17,7 +20,7 @@ make draft MAIN=example-undefined
 make MAIN=example-undefined
 ```
 
-完整示例沿用 general 的内容和页序。发行包包含本主题的 PDF；素材随源码包提供。
+完整示例沿用 general 的内容和页序。发行包包含本主题的 PDF；素材通过独立的最新版素材包提供。
 自己的汇报可选择章节配图，建议使用居中裁切，让角色的脸保留在画面内：
 
 ```tex

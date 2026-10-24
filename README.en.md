@@ -141,7 +141,7 @@ emblems, wordmarks and campus images.
 
 The dark [`tokyo-night`](theme/tokyo-night/README.md) profile is also included. Select it with
 `\documentclass[theme=tokyo-night]{campusbeamer}` and build its full demo with
-`make pdf MAIN=example-tokyo-night`. Its assets are included in the source ZIP.
+`make pdf MAIN=example-tokyo-night`. Download its theme assets as described below before using the source ZIP.
 
 The [`undefined`](theme/undefined/README.md) profile uses Naiwa’s signature yellow, a circular single-eye icon, and five distinct painting parodies.
 Select `theme=undefined` and run `make pdf MAIN=example-undefined` to view the full demo.
@@ -155,21 +155,18 @@ This is not an official university template.
 ## Download theme assets
 
 Extract your chosen Release's `campus-beamer-*-source.zip`; the default general theme is ready to use.
-Tsinghua and PCL each maintain their own latest asset bundle, separate from template versions.
+Other themes each maintain their own latest asset bundle, separate from template versions.
 Run only the command for the theme you need from the project root:
 
 ```bash
-make theme-assets THEME=tsinghua
-# For Peng Cheng Laboratory:
-make theme-assets THEME=pcl
+make theme-assets THEME=undefined
+# Replace undefined with tokyo-night, tsinghua or pcl for another theme.
 ```
 
 Only Python 3.10+ is needed. The command downloads that theme, verifies SHA-256 and installs it
 under `theme/<theme>/assets/`. Complete local assets are reused without network access;
 Git clones normally already include them.
-The [Tsinghua](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-tsinghua) and
-[PCL](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-pcl) bundles update independently.
-See [installation instructions](docs/installation.md#机构主题素材) for explicit updates and manual downloads.
+See [installation instructions](docs/installation.md#主题素材) for each theme’s download page, explicit updates and manual downloads.
 
 ## Recommended workflow: ideas and local materials
 

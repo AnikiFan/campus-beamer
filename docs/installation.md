@@ -7,25 +7,28 @@ agent 新建 `main.tex` 完成汇报。
 本项目需要 XeLaTeX；不支持用 pdfLaTeX 编译中文示例。
 如希望免去本机 TeX 和 uv 安装，可使用 [Docker 构建环境](docker.md)。
 
-## 机构主题素材
+<a id="机构主题素材"></a>
 
-Release 的源码 ZIP 保留默认 general 素材和全部文档预览图，清华与鹏城实验室的校徽、
-字标及校园图片分别存放在各自的最新版素材 Release 中。它们不与模板版本绑定。
+## 主题素材
+
+Release 的源码 ZIP 保留默认 general 素材、全部主题配置、可编辑素材源码、来源说明和文档预览图。
+其他主题的标志、字标和插图分别存放在各自的最新版素材 Release 中，不与模板版本绑定。
 解压源码包后，在项目根目录按需执行一条命令：
 
 ```bash
-make theme-assets THEME=tsinghua
-# 或选择鹏城实验室：
-make theme-assets THEME=pcl
+make theme-assets THEME=undefined
+# 其他主题：将 undefined 换成 tokyo-night、tsinghua 或 pcl。
 ```
 
 这个步骤只需 Python 3.10+ 和 GNU Make，不需要 uv、TeX 或额外 Python 包。
-没有 Make 时可直接运行 `python3 tools/theme_assets.py download --theme tsinghua`。
+没有 Make 时可直接运行 `python3 tools/theme_assets.py download --theme undefined`。
 脚本下载对应主题的 ZIP 和 SHA-256 校验文件，校验成功后将素材补齐到原路径。
 素材完整时直接复用；普通 `make` 编译不自动下载或更新。Git 克隆仍包含原素材，通常无需下载。
 
 下载入口：
 
+- [Tokyo Night 最新版素材](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-tokyo-night)
+- [undefined 最新版素材](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-undefined)
 - [清华最新版素材](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-tsinghua)
 - [鹏城实验室最新版素材](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-pcl)
 
@@ -36,10 +39,10 @@ make theme-assets THEME=pcl
 若希望主动更新本地已有素材，先保留自己修改的图片，再执行：
 
 ```bash
-python3 tools/theme_assets.py download --theme tsinghua --update
+python3 tools/theme_assets.py download --theme undefined --update
 ```
 
-将 `tsinghua` 换成 `pcl` 可更新另一主题。默认下载不会覆盖内容不同的已有图片；
+将 `undefined` 换成所选主题名可更新其他主题。默认下载不会覆盖内容不同的已有图片；
 `--update` 明确允许替换所选主题素材，不修改主题配置或用户汇报。
 网络失败或校验失败时不会安装下载内容；素材正在更新时可能短暂无法下载或校验不匹配，
 稍后重试即可。首次下载后可离线编译；旧版模板也获取最新素材，因此素材维护须保留既有文件路径。

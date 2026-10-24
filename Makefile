@@ -179,8 +179,8 @@ help:
 	  'make general-assets  Rebuild general-theme icon, wordmarks and abstract background' \
 	  'make undefined-assets    Rebuild the undefined eye and wordmark' \
 	  'make tokyo-night-assets  Rebuild Tokyo Night vectors from editable TeX sources' \
-	  'make theme-assets THEME=tsinghua|pcl  Download latest assets for one theme (Python only)' \
-	  'make dist-theme-assets THEME=tsinghua|pcl  Package reviewed assets for one theme' \
+	  'make theme-assets THEME=tokyo-night|undefined|tsinghua|pcl  Download latest assets for one theme (Python only)' \
+	  'make dist-theme-assets THEME=tokyo-night|undefined|tsinghua|pcl  Package reviewed assets for one theme' \
 	  'make theme-previews   Build theme samples and refresh README preview images' \
 	  'make logo            Rebuild project logo SVGs and PDF/PNG previews' \
 	  'make dist            Create a standalone source ZIP in build/dist/' \
