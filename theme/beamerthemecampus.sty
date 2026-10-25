@@ -616,6 +616,7 @@
 %   \begin{notebox}[Key]    ... \end{notebox}
 %   \begin{examplebox}      ... \end{examplebox}
 %   \begin{definitionbox}   ... \end{definitionbox}
+%   \begin{campusbox}[notecolor] ... \end{campusbox} % no title; optional color
 % ---------------------------------------------------------------
 \makeatletter
 \RequirePackage{environ}
@@ -645,6 +646,7 @@
   },
 }
 
+\newtcolorbox{campusbox}[1][tipcolor]{campus callout={#1},notitle}
 \newtcolorbox{tipbox}[1][\campus@tipboxdefault]{campus callout={tipcolor},title={#1}}
 \newtcolorbox{notebox}[1][\campus@noteboxdefault]{campus callout={notecolor},title={#1}}
 \newtcolorbox{alertbox}[1][\campus@alertboxdefault]{campus callout={alertcolor},title={#1}}

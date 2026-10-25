@@ -47,10 +47,29 @@
       \end{verbatim}
       \begin{itemize}
             \item 将环境名替换为 \texttt{notebox}、\texttt{alertbox}、\texttt{examplebox} 或 \texttt{definitionbox}。
-            \item 省略可选标题时，使用对应环境的默认标题。
+            \item 省略标题使用默认名称；无标题框用 \texttt{campusbox}。
       \end{itemize}
       \begin{tipbox}
-            这是省略可选标题后的显示效果。
+            省略可选标题时，会使用默认标题。
       \end{tipbox}
 \end{frame}
-\note{展示提示框环境的写法；省略标题会使用当前主题语言的默认名称。}
+\note{展示提示框环境的写法；省略标题会使用当前主题语言的默认名称。campusbox 完全去掉标题栏，其可选参数为颜色，默认 tipcolor。}
+
+
+\begin{frame}[fragile]{无标题正文框}
+  \begin{verbatim}
+\begin{campusbox}
+  一次只强调一个重点。
+\end{campusbox}
+  \end{verbatim}
+  \begin{campusbox}
+    一次只强调一个重点。
+  \end{campusbox}
+  \begin{campusbox}[notecolor]
+    可选参数选择配色，例如 \texttt{[notecolor]}。
+  \end{campusbox}
+  \begin{campusbox}[alertcolor]
+    标题栏及其空间均被移除，正文保留左侧色条。
+  \end{campusbox}
+\end{frame}
+\note{本页三个框都没有标题。campusbox 默认采用 tipcolor，可选参数为颜色而非标题。上方代码对应第一个框；后两个框展示备注和警告配色。}

@@ -62,10 +62,29 @@
   \end{verbatim}
   \begin{itemize}
     \item Other environments: \texttt{notebox}, \texttt{alertbox}, \texttt{examplebox}, \texttt{definitionbox}.
-    \item Omit the optional title to use the environment's default label.
+    \item Omit a title to use the default label; use \texttt{campusbox} for no title.
   \end{itemize}
   \begin{tipbox}
-    This box uses the default English title.
+    Omitting the optional title uses the default label.
   \end{tipbox}
 \end{frame}
-\note{Default labels follow the document's language setting. The optional argument overrides an individual box title.}
+\note{Default labels follow the document's language setting. The optional argument overrides an individual box title. For campusbox it selects the color instead, with tipcolor as the default; no title area is reserved.}
+
+
+\begin{frame}[fragile]{Titleless content boxes}
+  \begin{verbatim}
+\begin{campusbox}
+  Emphasize one point at a time.
+\end{campusbox}
+  \end{verbatim}
+  \begin{campusbox}
+    Emphasize one point at a time.
+  \end{campusbox}
+  \begin{campusbox}[notecolor]
+    Select a color with the optional argument, such as \texttt{[notecolor]}.
+  \end{campusbox}
+  \begin{campusbox}[alertcolor]
+    The title area is removed; the body keeps its colored left border.
+  \end{campusbox}
+\end{frame}
+\note{All three boxes are titleless. campusbox uses tipcolor by default and accepts a color, not a title, as its optional argument. The code produces the first box; the next two demonstrate note and alert colors.}

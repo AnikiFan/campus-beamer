@@ -30,7 +30,7 @@ EXPECTED_PAGES = {'aspect-ratio-43': 9, 'aspect-ratio-169': 9, 'aspect-ratio-not
                   'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 3,
                   'single-header': 5,
                   'profile-tokyo-night': 9, 'profile-general': 8, 'profile-general-legacy': 3, 'profile-pcl': 8, 'profile-selection': 6, 'profile-selection-legacy': 6,
-                  'demo-without-guides': 50, 'language-layout': 10,
+                  'demo-without-guides': 51, 'language-layout': 10,
                   'toc-overview': 7, 'page-styles': 10,
                   'class-options': 6, 'class-handout': 1, 'class-mixed-language': 2,
                   'code-windows': 6, 'class-metadata': 3, 'name-layout': 20,
@@ -39,7 +39,8 @@ EXPECTED_PAGES = {'aspect-ratio-43': 9, 'aspect-ratio-169': 9, 'aspect-ratio-not
                   'doc-citations': 7, 'description-alignment': 4, 'callout-layout': 1,
                   'overlays': 6, 'overlays-handout': 3,
                   'native-notes': 4, 'native-notes-screen': 4, 'profile-undefined': 10,
-                  'profile-eva': 11, 'profile-eva-english': 7}
+                  'profile-eva': 11, 'profile-eva-english': 7,
+                  'titleless-box': 3, 'titleless-box-dark': 3}
 
 
 def check_eva_english(document, log):
@@ -428,6 +429,31 @@ def check_caption_below(page, text, graphic_bottom, *, footer_top):
         raise RuntimeError('flow-layout: caption overlaps the footer')
 
 
+def check_titleless_box(document, log):
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('titleless-box: overflow or missing glyphs')
+    titled, plain, colors = document
+    if not titled.search_for('Tip') or plain.search_for('Tip'):
+        raise RuntimeError('titleless-box: default title behavior changed')
+    first = titled.search_for('Identical body text.')[0]
+    second = plain.search_for('Identical body text.')[0]
+    if abs(first.x0 - second.x0) > .5 or first.y0 - second.y0 < 8:
+        raise RuntimeError('titleless-box: body inset changed or title space remains')
+    for text in ('Note-colored', 'Alert-colored', 'Example-colored', 'Definition-colored',
+                 'A list remains supported.'):
+        if not colors.search_for(text):
+            raise RuntimeError(f'titleless-box: missing content {text}')
+    # tcolorbox paints a full frame rectangle, then covers its body area.
+    drawings = colors.get_drawings()
+    borders = [outer for outer, inner in zip(drawings, drawings[1:])
+               if outer['fill'] is not None and inner['fill'] is not None
+               and outer['rect'].height > 12
+               and 2.5 < inner['rect'].x0 - outer['rect'].x0 < 3.5
+               and abs(outer['rect'].y0 - inner['rect'].y0) < .1]
+    if len({tuple(drawing['fill']) for drawing in borders}) != 4:
+        raise RuntimeError('titleless-box: optional colors did not reach the borders')
+
+
 def check_callout_layout(document, log):
     if 'Overfull' in log or 'Missing character:' in log:
         raise RuntimeError('callout-layout: overflow or missing glyphs')
@@ -581,6 +607,9 @@ def check_public_demo(document):
     guide_text = ''.join(guide.get_text().split())
     if r'1baselineskip(\Huge)+1baselineskip(\tiny)=37.0pt' not in guide_text:
         raise RuntimeError('public demo: emblem width annotation is out of sync')
+    plain = next(page for page in document if page.search_for('无标题正文框'))
+    if not plain.search_for('一次只强调一个重点') or plain.search_for('Tip'):
+        raise RuntimeError('public demo: titleless box page missing or has a default title')
     overview = document[1]
     if not overview.search_for('目录') or len(overview.get_links()) != 5:
         raise RuntimeError('public demo: missing complete overview and section links')
@@ -996,6 +1025,10 @@ def check(root, output):
             if name.startswith('profile-selection'):
                 prepare_profile_fixture(workspace)
                 shutil.rmtree(workspace / 'theme/tsinghua')
+            if name == 'titleless-box-dark':
+                fixtures = workspace / 'tools/fixtures'
+                fixtures.mkdir(parents=True)
+                shutil.copy2(root / 'tools/fixtures/titleless-box.tex', fixtures)
             if name.startswith('aspect-ratio-'):
                 fixtures = workspace / 'tools/fixtures'
                 fixtures.mkdir(parents=True)
@@ -1070,6 +1103,8 @@ def check(root, output):
                     check_doc_citations(document, result.stdout)
                 if name == 'description-alignment':
                     check_description_alignment(document, result.stdout)
+                if name.startswith('titleless-box'):
+                    check_titleless_box(document, result.stdout)
                 if name == 'callout-layout':
                     check_callout_layout(document, result.stdout)
                 if name in ('overlays', 'overlays-handout'):

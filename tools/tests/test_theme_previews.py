@@ -163,7 +163,7 @@ class ThemePreviewTests(unittest.TestCase):
                 self.assertEqual(sum(f'preview-{general}-' in path for path in parsed.images), 10)
 
     def test_renderer_only_emits_selected_pages(self):
-        pdf = self.pdf('all.pdf', [f'Page {i}' for i in range(1, 51)])
+        pdf = self.pdf('all.pdf', [f'Page {i}' for i in range(1, max(page[1] for page in GALLERY) + 1)])
         for theme, count in (('tsinghua', 4), ('tokyo-night', 4), ('undefined', 4), ('eva', 4), ('general-en', 10)):
             output = self.root / theme
             output.mkdir()

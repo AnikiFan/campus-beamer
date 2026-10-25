@@ -1,0 +1,29 @@
+% Exercise title removal, optional functional colors and ordinary body content.
+\providecommand{\boxtesttheme}{general}
+\documentclass[theme=\boxtesttheme,language=english,cjk=false]{campusbeamer}
+\title{Callout comparison}
+\author{Template check}
+\begin{document}
+\section{Callouts}
+\subsection{Title area}
+\begin{frame}[t]{With a title}
+  \begin{tipbox}
+    Identical body text.
+  \end{tipbox}
+\end{frame}
+\begin{frame}[t]{Without a title}
+  \begin{campusbox}
+    Identical body text.
+  \end{campusbox}
+\end{frame}
+\subsection{Functional colors}
+\begin{frame}{Color selection}
+  \begin{campusbox}[notecolor]Note-colored content.\end{campusbox}
+  \begin{campusbox}[alertcolor]Alert-colored content.\end{campusbox}
+  \begin{campusbox}[examplecolor]Example-colored content.\end{campusbox}
+  \begin{campusbox}[definitioncolor]
+    Definition-colored content: $E=mc^2$.
+    \begin{itemize}\item A list remains supported.\end{itemize}
+  \end{campusbox}
+\end{frame}
+\end{document}

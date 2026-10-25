@@ -680,7 +680,7 @@ PDF/PPTX 的作者和导师属性保持正常姓名文本，不写入用于视�
 ## 英文 general 示例
 
 `examples/example-en.tex` 是 general 主题的完整英文功能演示，正文在 `examples/english/`。
-五章与 50 页顺序对应中文示例，正文、导航、引用字段示例和原生 TeX 备注均为英文。
+五章与 51 页顺序对应中文示例，正文、导航、引用字段示例和原生 TeX 备注均为英文。
 它使用 `language=english, cjk=false`，无需载入中文排版；主题几何与默认 general 一致。
 
 ```bash
@@ -756,6 +756,23 @@ Missing Semester\par\url{https://missing.csail.mit.edu/}
 按语义选择 `tipbox`（操作建议）、`notebox`（条件与补充说明）、`alertbox`（关键限制），
 以及定义、示例环境。标题概括说明类别，框内内容与主结构相关；避免机械套框和重复总结。
 完整的“主结构 + 条件框”示例见 `examples/sections/callout-layout.tex`。
+
+不需要标题时使用 `campusbox`。它沿用提示框的左侧色条、背景、正文大小和内边距，
+完全移除标题栏及其空间。可选参数是颜色，默认为 `tipcolor`：
+
+```tex
+\begin{campusbox}
+  只显示需要强调的正文。
+\end{campusbox}
+
+\begin{campusbox}[notecolor]
+  使用备注框配色，不显示标题。
+\end{campusbox}
+```
+
+可选颜色包括 `tipcolor`、`notecolor`、`alertcolor`、`examplecolor` 和 `definitioncolor`，
+跟随当前主题。完整示例第 37 页“无标题正文框”（英文为 “Titleless content boxes”）
+专门展示三种配色的无标题框。已有的 `tipbox` 等环境仍使用原来的默认标题和自定义标题规则。
 
 ## 代码与终端窗口
 

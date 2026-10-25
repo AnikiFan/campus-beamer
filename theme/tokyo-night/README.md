@@ -19,7 +19,7 @@ make draft MAIN=examples/example-tokyo-night
 make MAIN=examples/example-tokyo-night
 ```
 
-完整功能演示在 `build/example-tokyo-night.pdf`，内容与中文 general 示例对应，共 50 页。
+完整功能演示在 `build/example-tokyo-night.pdf`，内容与中文 general 示例对应，共 51 页。
 Release 仅包含 Tokyo Night 的 PDF。主题素材通过独立的最新版素材包提供。
 
 ## 配色

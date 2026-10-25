@@ -25,7 +25,7 @@ MATRIX_PAGES = (
     ('cover', 1, '封面', 'Cover', 'Campus Beamer 模板', 'Complete feature tour'),
     ('section', 21, '章节页', 'Section', '论文讲解与引用', 'Papers and citations'),
     ('body', 10, '正文页', 'Body', '三级内容结构', 'Three levels of structure'),
-    ('closing', 50, '致谢页', 'Closing', '感谢倾听', 'Thank you for listening'),
+    ('closing', 51, '致谢页', 'Closing', '感谢倾听', 'Thank you for listening'),
 )
 FEATURE_PAGES = (
     ('flow', 6, '流程图', 'Flowcharts', '流程图布局', 'Aligned flowchart'),

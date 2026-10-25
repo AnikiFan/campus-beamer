@@ -168,6 +168,7 @@ FILES = (
     'tools/fixtures/flow-layout.tex', 'tools/fixtures/url-layout.tex',
     'tools/fixtures/doc-citations.tex', 'tools/fixtures/description-alignment.tex',
     'tools/fixtures/callout-layout.tex',
+    'tools/fixtures/titleless-box.tex', 'tools/fixtures/titleless-box-dark.tex',
     'tools/fixtures/overlays.tex', 'tools/fixtures/overlays-handout.tex',
     'tools/fixtures/native-notes.tex', 'tools/fixtures/native-notes-screen.tex',
     'tools/tests/test_compare_pdf.py', 'tools/tests/test_doctor.py',
