@@ -13,8 +13,8 @@
 使用英文字母、数字、连字符或下划线，首字符为字母或数字。
 内置主题：`general`（[通用](general/README.md)，默认）、`tsinghua`（[清华](tsinghua/README.md)）、`pcl`（[鹏城实验室](pcl/README.md)）、`tokyo-night`（[深色](tokyo-night/README.md)）和 `undefined`（[奶蛙名画](undefined/README.md)）。
 例如 `\documentclass[theme=pcl]{campusbeamer}` 选择鹏城实验室主题。
-在仓库根目录运行 `make examples` 可导出清华、PCL、Tokyo Night 和 undefined 的 PDF 样例；`make MAIN=example` 导出 general 完整演示；单独构建使用
-`make pdf MAIN=example-tsinghua`、`make pdf MAIN=example-pcl`、`make pdf MAIN=example-tokyo-night` 或 `make pdf MAIN=example-undefined`。五个中文主题示例共用 `example.tex` 与 `examples/sections/` 的完整演示，页数、内容和顺序一致；
+在仓库根目录运行 `make examples` 可导出清华、PCL、Tokyo Night 和 undefined 的 PDF 样例；`make MAIN=examples/example` 导出 general 完整演示；单独构建使用
+`make pdf MAIN=examples/example-tsinghua`、`make pdf MAIN=examples/example-pcl`、`make pdf MAIN=examples/example-tokyo-night` 或 `make pdf MAIN=examples/example-undefined`。五个中文主题示例共用 `examples/example.tex` 与 `examples/sections/` 的完整演示，页数、内容和顺序一致；
 主题目录中的 `sample.tex` 只选择主题，`examples/theme-images.tex` 选择背景和各 section 起始页配图。
 每个 section 都有独立的图片配置位；清华示例已为五个 section 分别配置校园素材。
 未知名称或不完整的配置会给出编译错误。
@@ -95,8 +95,8 @@ theme/myschool/
 
 默认主题已从 `tsinghua` 改为 `general`。原有文稿需要保持清华样式时，
 显式设置 `\documentclass[theme=tsinghua]{campusbeamer}` 或 `\usetheme[theme=tsinghua]{campus}`。
-Release 仅提供 general 的 PPTX；机构主题可在本地用 `make MAIN=example-tsinghua`
-或 `make MAIN=example-pcl` 额外导出 PPTX。
+Release 仅提供 general 的 PPTX；机构主题可在本地用 `make MAIN=examples/example-tsinghua`
+或 `make MAIN=examples/example-pcl` 额外导出 PPTX。
 
 原 `theme/campuscolor.sty` 中的清华配置已移至 `theme/tsinghua/profile.tex`；
 前者现在是通用加载器。清华素材从 `assets/` 移至 `theme/tsinghua/assets/`。

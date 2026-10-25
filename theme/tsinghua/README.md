@@ -8,7 +8,7 @@
 使用 `\documentclass[theme=tsinghua]{campusbeamer}` 选择此主题；省略 `theme` 时使用通用 `general` 主题。
 `profile.tex` 定义配色和品牌标志，`assets/` 保存校徽、校名及校园示例素材。
 
-运行 `make pdf MAIN=example-tsinghua` 查看完整功能演示。三个主题共用同一份正文与逐页备注，
+运行 `make pdf MAIN=examples/example-tsinghua` 查看完整功能演示。三个主题共用同一份正文与逐页备注，
 页面数量和顺序一致，仅配色、标志与配图随主题变化；Release 仅为 general 额外提供 PPTX。
 
 ## 清华素材来源与使用声明

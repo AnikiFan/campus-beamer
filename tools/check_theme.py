@@ -945,8 +945,7 @@ def check(root, output):
     for name, expected in EXPECTED_PAGES.items():
         with tempfile.TemporaryDirectory(prefix=f'campus-{name}-') as temp:
             workspace = Path(temp)
-            for filename in ['example.tex', '.latexmkrc']:
-                shutil.copy2(root / filename, workspace / filename)
+            shutil.copy2(root / '.latexmkrc', workspace / '.latexmkrc')
             shutil.copytree(root / 'examples', workspace / 'examples')
             shutil.copytree(root / 'theme', workspace / 'theme')
             (workspace / 'assets').symlink_to(root / 'assets', target_is_directory=True)

@@ -20,7 +20,10 @@
 .DEFAULT_GOAL := all
 
 # Agent-authored main.tex takes precedence; a fresh copy builds the reference demo.
-MAIN ?= $(if $(wildcard main.tex),main,example)
+MAIN ?= $(if $(wildcard main.tex),main,examples/example)
+# Accept both explicit paths and the former MAIN=example shorthand.
+SOURCE := $(if $(wildcard $(MAIN).tex),$(MAIN).tex,$(if $(wildcard examples/$(MAIN).tex),examples/$(MAIN).tex,$(MAIN).tex))
+ENTRY := $(notdir $(basename $(SOURCE)))
 # Shared with .latexmkrc and the editor: all generated files stay under build/.
 BUILD_DIR := build
 DPI ?= 600
@@ -54,20 +57,20 @@ export THEME
 all: pptx
 
 pptx: pdf-build
-	$(UV) run --frozen python tools/export_presentation.py "$(MAIN).tex" --dpi "$(DPI)" --latexmk "$(LATEXMK)"
-	$(LATEXMK) -c "$(MAIN).tex"
+	$(UV) run --frozen python tools/export_presentation.py "$(SOURCE)" --dpi "$(DPI)" --latexmk "$(LATEXMK)"
+	$(LATEXMK) -c "$(SOURCE)"
 
 pdf: pdf-build
-	$(LATEXMK) -c "$(MAIN).tex"
+	$(LATEXMK) -c "$(SOURCE)"
 
 pdf-build:
-	$(LATEXMK) -xelatex -interaction=nonstopmode -halt-on-error -file-line-error "$(MAIN).tex"
-	$(UV) run --frozen python tools/add_video_posters.py "$(BUILD_DIR)/$(MAIN).pdf"
+	$(LATEXMK) -xelatex -interaction=nonstopmode -halt-on-error -file-line-error "$(SOURCE)"
+	$(UV) run --frozen python tools/add_video_posters.py "$(BUILD_DIR)/$(ENTRY).pdf"
 
 # Use the final layout, but skip high-DPI PPTX conversion and notes validation.
 draft: pdf-build
-	$(UV) run --frozen python tools/draft_preview.py "$(BUILD_DIR)/$(MAIN).pdf" --log "$(BUILD_DIR)/$(MAIN).log" --output "$(BUILD_DIR)/draft/$(MAIN)" --dpi "$(DRAFT_DPI)" --pages "$(PAGES)"
-	$(LATEXMK) -c "$(MAIN).tex"
+	$(UV) run --frozen python tools/draft_preview.py "$(BUILD_DIR)/$(ENTRY).pdf" --log "$(BUILD_DIR)/$(ENTRY).log" --output "$(BUILD_DIR)/draft/$(ENTRY)" --dpi "$(DRAFT_DPI)" --pages "$(PAGES)"
+	$(LATEXMK) -c "$(SOURCE)"
 
 doctor:
 	$(PYTHON) tools/doctor.py
@@ -92,19 +95,19 @@ check-theme:
 # Build the shared public feature tour with each non-default profile.
 # General PDF/PPTX is built separately by release; other profiles are PDF-only.
 examples:
-	$(MAKE) pdf MAIN=example-tsinghua
-	$(MAKE) pdf MAIN=example-pcl
-	$(MAKE) pdf MAIN=example-tokyo-night
-	$(MAKE) pdf MAIN=example-undefined
+	$(MAKE) pdf MAIN=examples/example-tsinghua
+	$(MAKE) pdf MAIN=examples/example-pcl
+	$(MAKE) pdf MAIN=examples/example-tokyo-night
+	$(MAKE) pdf MAIN=examples/example-undefined
 
 # Review all themes at 4:3; only Chinese general enters the release.
 examples-43:
-	$(MAKE) pdf MAIN=example-43
-	$(MAKE) pdf MAIN=example-en-43
-	$(MAKE) pdf MAIN=example-tsinghua-43
-	$(MAKE) pdf MAIN=example-pcl-43
-	$(MAKE) pdf MAIN=example-tokyo-night-43
-	$(MAKE) pdf MAIN=example-undefined-43
+	$(MAKE) pdf MAIN=examples/example-43
+	$(MAKE) pdf MAIN=examples/example-en-43
+	$(MAKE) pdf MAIN=examples/example-tsinghua-43
+	$(MAKE) pdf MAIN=examples/example-pcl-43
+	$(MAKE) pdf MAIN=examples/example-tokyo-night-43
+	$(MAKE) pdf MAIN=examples/example-undefined-43
 
 general-assets:
 	$(UV) run --frozen python tools/generate_general_assets.py
@@ -122,12 +125,12 @@ dist-theme-assets:
 	$(PYTHON) tools/theme_assets.py package --theme "$$THEME"
 
 theme-previews:
-	$(MAKE) pdf MAIN=example
-	$(MAKE) pdf MAIN=example-en
-	$(MAKE) pdf MAIN=example-tsinghua
-	$(MAKE) pdf MAIN=example-pcl
-	$(MAKE) pdf MAIN=example-tokyo-night
-	$(MAKE) pdf MAIN=example-undefined
+	$(MAKE) pdf MAIN=examples/example
+	$(MAKE) pdf MAIN=examples/example-en
+	$(MAKE) pdf MAIN=examples/example-tsinghua
+	$(MAKE) pdf MAIN=examples/example-pcl
+	$(MAKE) pdf MAIN=examples/example-tokyo-night
+	$(MAKE) pdf MAIN=examples/example-undefined
 	$(UV) run --frozen python tools/render_theme_previews.py \
 		--pdf build/example.pdf --theme general \
 		--pdf build/example-tsinghua.pdf --theme tsinghua \
@@ -149,10 +152,10 @@ version:
 release:
 	$(UV) lock --check --offline
 	$(MAKE) test
-	$(MAKE) draft MAIN=example
-	$(MAKE) MAIN=example DPI="$(DPI)"
-	$(MAKE) pdf MAIN=example-en
-	$(MAKE) pdf MAIN=example-43
+	$(MAKE) draft MAIN=examples/example
+	$(MAKE) MAIN=examples/example DPI="$(DPI)"
+	$(MAKE) pdf MAIN=examples/example-en
+	$(MAKE) pdf MAIN=examples/example-43
 	$(MAKE) examples DPI="$(DPI)"
 	$(UV) run --frozen python tools/render_theme_previews.py --check-only \
 		--pdf build/example.pdf --theme general \
@@ -167,12 +170,12 @@ release:
 # clean LaTeX intermediates; this explicit target is also available after a
 # failed build, once its logs have been inspected.
 clean:
-	$(LATEXMK) -c "$(MAIN).tex"
+	$(LATEXMK) -c "$(SOURCE)"
 
 help:
 	@printf '%s\n' \
-	  'make                 Build main.tex when present, otherwise example.tex (PDF + PPTX, 600 DPI)' \
-	  'make MAIN=example    Build the bundled reference demo explicitly' \
+	  'make                 Build main.tex when present, otherwise examples/example.tex (PDF + PPTX, 600 DPI)' \
+	  'make MAIN=examples/example    Build the bundled reference demo explicitly' \
 	  'make DPI=200         Build a smaller preview' \
 	  'make draft           Compile PDF and render 96-DPI page previews + layout report' \
 	  'make draft PAGES=2,5-8  Preview selected PDF pages (1-based); no PPTX export' \

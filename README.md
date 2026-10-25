@@ -29,9 +29,9 @@
 
 ## 示例页面
 
-`example.tex` 是版式与功能演示；general 主题完整功能演示的 PDF/PPTX，以及清华、鹏城实验室、Tokyo Night 和 undefined 主题的 PDF 样例请前往
+`examples/example.tex` 是版式与功能演示；general 主题完整功能演示的 PDF/PPTX，以及清华、鹏城实验室、Tokyo Night 和 undefined 主题的 PDF 样例请前往
 [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 下载。
-general 另提供完整英文版 [`example-en.tex`](example-en.tex)，可用 `make pdf MAIN=example-en` 编译。
+general 另提供完整英文版 [`examples/example-en.tex`](examples/example-en.tex)，可用 `make pdf MAIN=examples/example-en` 编译。
 Release 中的 `campus-beamer-X.Y.Z-example-en.pdf` 为英文 PDF；英文版不附带 PPTX。
 Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲者视图查看。
 渐进显示页包含实际 overlays：在 PDF/PPTX 中按页推进，可看到要点累积与内容替换，并查看各阶段备注。
@@ -120,20 +120,20 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
 校徽、校名和校园图像的使用范围见[素材来源与使用声明](assets/README.md)。
 
 内置深色主题 [`tokyo-night`](theme/tokyo-night/README.md)，使用 `\documentclass[theme=tokyo-night]{campusbeamer}`；
-运行 `make pdf MAIN=example-tokyo-night` 查看完整示例。首次使用源码包时，先按下文下载对应主题素材。
+运行 `make pdf MAIN=examples/example-tokyo-night` 查看完整示例。首次使用源码包时，先按下文下载对应主题素材。
 
 [`undefined`](theme/undefined/README.md) 是奶蛙名画主题，使用经典黄色、圆形单眼图标和五幅不同的奶蛙名画配图；
-使用 `theme=undefined`，运行 `make pdf MAIN=example-undefined` 查看示例。
+使用 `theme=undefined`，运行 `make pdf MAIN=examples/example-undefined` 查看示例。
 
 默认主题为与机构无关的 `general`；可用 `\documentclass[theme=general]{campusbeamer}` 显式选择。
 博士帽、透明项目字标、配色和可编辑素材集中在 [`theme/general/`](theme/general/README.md)。
-`example.tex` 展示模板的版式与功能；自己的汇报由 agent 根据你的需求生成。
+`examples/example.tex` 展示模板的版式与功能；自己的汇报由 agent 根据你的需求生成。
 本项目不是学校官方发布的模板。
 
 ## 页面比例
 
 默认 16:9；需要 4:3 时使用 `\documentclass[aspectratio=43]{campusbeamer}`，可与任意主题组合。
-Release 提供 general 主题的 4:3 PDF；本地运行 `make pdf MAIN=example-43` 构建。
+Release 提供 general 主题的 4:3 PDF；本地运行 `make pdf MAIN=examples/example-43` 构建。
 各主题与英文版的 4:3 示例命令见[页面比例](docs/class-options.md#页面比例)。
 
 目前随主题提供的插图主要按 16:9 版式裁剪，尚未专门针对 4:3 进行优化。
@@ -196,13 +196,13 @@ PPTX 自动保留原生章节分节、标题与作者，以及副标题、课题
 
 ```bash
 make doctor              # 检查环境
-make draft MAIN=example  # 查看示例的逐页预览与排版报告
-make MAIN=example        # 构建 build/example.pdf 和 build/example.pptx
+make draft MAIN=examples/example  # 查看示例的逐页预览与排版报告
+make MAIN=examples/example        # 构建 build/example.pdf 和 build/example.pptx
 make examples            # 构建清华、鹏城实验室、Tokyo Night 和 undefined PDF 样例
-make                     # 有 main.tex 时构建自己的汇报，否则构建 example.tex
+make                     # 有 main.tex 时构建自己的汇报，否则构建 examples/example.tex
 ```
 
-[`example.tex`](example.tex) 是供人和 agent 查阅的功能演示，正文在 `examples/sections/`，
+[`examples/example.tex`](examples/example.tex) 是供人和 agent 查阅的功能演示，正文在 `examples/sections/`，
 包含章节页、图像、公式、统一题注、引用、代码窗口、逐步显示、导航、视频与 TeX 备注。要直接查看完整 PDF/PPTX，请使用
 [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 中的附件；agent 根据汇报目标挑选适合的版式，
 另行生成你的内容。全部文档类选项及默认值也列在示例入口中，见[选项说明](docs/class-options.md)。
@@ -260,8 +260,7 @@ main.tex              agent 生成的汇报入口
 sections/             汇报元信息、章节与原生 TeX 备注
 materials/            论文、图片、实验结果等本地素材
 bibliography/         汇报文献数据库
-example*.tex          各主题和英文版的功能示例入口
-examples/             公共功能演示源码
+examples/             各主题、语言和比例的示例入口与公共演示正文
 STYLE.md              可调整的汇报风格偏好
 theme/                通用版式与各主题的配色、标志和素材
 docs/                 安装、使用与环境说明

@@ -98,7 +98,7 @@ class SourcePackageTests(unittest.TestCase):
         package(self.root, self.output)
         with ZipFile(self.output) as archive:
             names = set(archive.namelist())
-        self.assertIn('example-en.tex', names)
+        self.assertIn('examples/example-en.tex', names)
         self.assertIn('docs/images/preview-general-en-cover.png', names)
         for name in ('metadata.tex', 'refs.bib', '01_basics.tex', '02_papers.tex',
                      '03_callouts.tex', '04_navigation.tex', '05_media.tex',
@@ -124,7 +124,8 @@ class SourcePackageTests(unittest.TestCase):
         package(self.root, self.output)
         with ZipFile(self.output) as archive:
             names = archive.namelist()
-            self.assertIn('example.tex', names)
+            self.assertIn('examples/example.tex', names)
+            self.assertFalse(any(name.startswith('example') and '/' not in name for name in names))
             self.assertNotIn('prompt.md', names)
             self.assertIn('outline.md', names)
             for directory in ('materials', 'sections', 'bibliography'):

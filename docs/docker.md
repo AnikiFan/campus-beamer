@@ -58,7 +58,7 @@ docker run --rm --user "$(id -u):$(id -g)" \
 
 docker run --rm --user "$(id -u):$(id -g)" \
   --mount "type=bind,src=$(pwd),dst=/workspace" \
-  campus-beamer:local make MAIN=example DPI=200
+  campus-beamer:local make MAIN=examples/example DPI=200
 
 docker run --rm --user "$(id -u):$(id -g)" \
   --mount "type=bind,src=$(pwd),dst=/workspace" \

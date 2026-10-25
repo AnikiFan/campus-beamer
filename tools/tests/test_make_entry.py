@@ -14,7 +14,8 @@ class MakeEntryTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         project = Path(__file__).resolve().parents[2]
         shutil.copyfile(project / 'Makefile', self.root / 'Makefile')
-        (self.root / 'example.tex').write_text('Reference demo')
+        (self.root / 'examples').mkdir()
+        (self.root / 'examples/example.tex').write_text('Reference demo')
 
     def commands(self, *args):
         """Dry-run the real recipes without invoking TeX or the converter."""
@@ -24,8 +25,18 @@ class MakeEntryTests(unittest.TestCase):
 
     def test_fresh_copy_builds_example(self):
         commands = self.commands()
-        self.assertIn('"example.tex"', commands)
-        self.assertIn('tools/export_presentation.py "example.tex"', commands)
+        self.assertIn('"examples/example.tex"', commands)
+        self.assertIn('tools/export_presentation.py "examples/example.tex"', commands)
+
+    def test_nested_entry_and_shorthand_share_flat_output_paths(self):
+        for main in ('example', 'examples/example', str(self.root / 'examples/example')):
+            with self.subTest(main=main):
+                commands = self.commands('draft', f'MAIN={main}')
+                self.assertIn('"build/example.pdf"', commands)
+                self.assertIn('"build/example.log"', commands)
+                self.assertIn('"build/draft/example"', commands)
+                self.assertNotIn('"build/examples/', commands)
+        self.assertIn('"examples/example.tex"', self.commands('MAIN=example'))
 
     def test_generated_main_is_selected_with_matching_preview_path(self):
         (self.root / 'main.tex').write_text('User talk')
@@ -37,19 +48,19 @@ class MakeEntryTests(unittest.TestCase):
 
     def test_explicit_entry_overrides_automatic_selection(self):
         (self.root / 'main.tex').write_text('User talk')
-        commands = self.commands('MAIN=example')
-        self.assertIn('tools/export_presentation.py "example.tex"', commands)
+        commands = self.commands('MAIN=examples/example')
+        self.assertIn('tools/export_presentation.py "examples/example.tex"', commands)
         commands = self.commands('MAIN=talk')
         self.assertIn('tools/export_presentation.py "talk.tex"', commands)
 
     def test_release_uses_public_demo_even_with_private_entry(self):
         (self.root / 'main.tex').write_text('Private user presentation')
         commands = self.commands('release', 'MAIN=main')
-        self.assertIn('"example.tex"', commands)
-        self.assertIn('tools/export_presentation.py "example.tex"', commands)
+        self.assertIn('"examples/example.tex"', commands)
+        self.assertIn('tools/export_presentation.py "examples/example.tex"', commands)
         for entry in ('example-43', 'example-en', 'example-tsinghua', 'example-pcl', 'example-tokyo-night', 'example-undefined'):
-            self.assertIn(f'"{entry}.tex"', commands)
-            self.assertNotIn(f'tools/export_presentation.py "{entry}.tex"', commands)
+            self.assertIn(f'"examples/{entry}.tex"', commands)
+            self.assertNotIn(f'tools/export_presentation.py "examples/{entry}.tex"', commands)
         self.assertNotIn('"main.tex"', commands)
         self.assertNotIn('"build/main.pdf"', commands)
 

@@ -74,7 +74,7 @@ make release DPI=200
 ```
 
 `make release` 先检查锁文件同步，再顺序运行 Python 测试、完整功能演示 draft、中文 general 功能演示 PDF/PPTX、英文 general PDF、Tokyo Night、undefined PDF 与两套机构主题 PDF 导出、
-源码打包及版本化发行包生成。默认 600 DPI，构建 `example.tex`、`example-en.tex`、`example-tsinghua.tex`、`example-pcl.tex`、`example-tokyo-night.tex` 和 `example-undefined.tex`，
+源码打包及版本化发行包生成。默认 600 DPI，构建 `examples/example.tex`、`examples/example-en.tex`、`examples/example-tsinghua.tex`、`examples/example-pcl.tex`、`examples/example-tokyo-night.tex` 和 `examples/example-undefined.tex`，
 即使本地存在自己的 `main.tex` 也只导出公开演示。五个中文主题示例共用相同内容和页序，
 发行打包前会核对页数、章节、元信息和 README 预览锚点；仅中文 general 额外导出 PPTX。英文版独立编译，不参与中文主题样例的元信息一致性比较。
 当前版本在 `CHANGELOG.md` 中缺少非空章节，或演示产物缺失时，打包失败。
@@ -94,7 +94,7 @@ make release DPI=200
 
 本地 ZIP 只是便于一次性归档和校验。GitHub Release 会把源码 ZIP、PDF、PPTX、发行说明和校验文件分别列出，
 不要求用户为查看示例而下载源码压缩包。
-示例备注写在 `example.tex` 与各章节的原生 `\note` 中；Make 从同一份源码渲染并导入 PowerPoint speaker notes。
+示例备注写在 `examples/example.tex` 与各章节的原生 `\note` 中；Make 从同一份源码渲染并导入 PowerPoint speaker notes。
 
 查看 `build/draft/example/` 的全部页面预览与报告；编译成功不替代视觉检查。
 源码 ZIP 只包含 `tools/package_source.py` 的逐文件 `FILES` 白名单，包括两份 Release Please 配置。

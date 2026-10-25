@@ -13,10 +13,10 @@
 ```
 
 ```bash
-make pdf MAIN=example-tokyo-night
-make draft MAIN=example-tokyo-night
+make pdf MAIN=examples/example-tokyo-night
+make draft MAIN=examples/example-tokyo-night
 # 如需本地导出 PPTX：
-make MAIN=example-tokyo-night
+make MAIN=examples/example-tokyo-night
 ```
 
 完整功能演示在 `build/example-tokyo-night.pdf`，内容与中文 general 示例对应，共 50 页。

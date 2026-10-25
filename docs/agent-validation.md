@@ -16,7 +16,7 @@ make check-theme            # isolated theme fixtures
 make dist                   # reviewed standalone source ZIP
 ```
 
-`make` chooses `main.tex` when present and `example.tex` otherwise; explicit
+`make` chooses `main.tex` when present and `examples/example.tex` otherwise; explicit
 `MAIN` overrides it. `make draft` uses the final layout but skips PPTX export and
 notes-count validation. Failed builds retain logs/intermediates; do not present
 an older output as a newly built result. Successful targets clean TeX
@@ -174,7 +174,7 @@ PPTX XML evidence does not establish playback in a PowerPoint client.
 The converter defaults to 600 DPI and keeps the rendered slide as an image,
 internal/external links, speaker notes, PDF bookmarks, native PowerPoint
 sections, and talk metadata. Make renders native TeX notes into
-`build/<MAIN>.notes.pdf` and extracts its right-hand text screen for PowerPoint.
+`build/<entry basename>.notes.pdf` and extracts its right-hand text screen for PowerPoint.
 The generated PDF is tied to the slide PDF by a fingerprint and must have the
 same physical stage count. Direct converter calls can use `--notes-pdf`,
 `--notes-dir`, `--no-notes`, and `--verbose`; `--notes` retains legacy JSON import.

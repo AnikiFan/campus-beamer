@@ -35,16 +35,24 @@
     "@campus-video": "\\centering\n\\href{run:${1:../assets/video.mp4}}{%\n\t\\fbox{\\parbox[c][${2:.5}\\textwidth][c]{${3:.5}\\textwidth}{\\centering ${4:点击播放视频}}}%\n}",
     "@campus-finish": "\\referencespage[${1|shrink,break|}]\n\\backmatter"
   },
-  "latex-workshop.latex.recipe.default": "latexmk (xelatex)",
-  "latex-workshop.latex.outDir": "%DIR%/build",
-  "latex-workshop.latex.autoClean.run": "onSucceeded",
+  "latex-workshop.latex.recipe.default": "make (PDF)",
+  "latex-workshop.latex.outDir": "%WORKSPACE_FOLDER%/build",
+  "latex-workshop.latex.autoClean.run": "never",
   "latex-workshop.latex.clean.method": "command",
   "latex-workshop.latex.clean.command": "latexmk",
   "latex-workshop.latex.clean.args": ["-c", "%TEX%"],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "campus-pdf",
+      "command": "make",
+      "args": ["pdf", "MAIN=%DOC%"],
+      "cwd": "%WORKSPACE_FOLDER%"
+    }
+  ],
   "latex-workshop.latex.recipes": [
     {
-      "name": "latexmk (xelatex)",
-      "tools": ["xelatexmk"]
+      "name": "make (PDF)",
+      "tools": ["campus-pdf"]
     }
   ]
 }

@@ -18,7 +18,7 @@ or create `imageone`/`demographic` registries. Keep demo metadata literal in
 
 The public class is the configuration surface for new decks. Preserve legacy
 `\usetheme{campus}` and low-level layout compatibility unless the change is
-deliberate. Keep all public options and defaults documented in `example.tex`
+deliberate. Keep all public options and defaults documented in `examples/example.tex`
 and `docs/class-options.md`; use `layoutguides=true/false` only as the class
 option.
 
@@ -51,7 +51,7 @@ fixture and must not become a new public layout API.
 
 Inspect the affected theme code and the smallest relevant fixture first. Make a
 focused change, then run `make check-theme`; if the public demo may change,
-also run `make draft MAIN=example` and visually inspect the affected pages. For
+also run `make draft MAIN=examples/example` and visually inspect the affected pages. For
 a pure refactor, compare PDFs with `tools/compare_pdf.py` as described in
 `CONTRIBUTING.md`. Keep warnings visible and explain any benign remaining
 warning with visual evidence.

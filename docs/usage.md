@@ -6,7 +6,7 @@
 [返回首页](../README.md) · [English overview](../README.en.md) · [贡献指南](../CONTRIBUTING.md)
 
 所有命令均从项目根目录执行。根目录的 `outline.md` 直接承载用户草稿，
-`example.tex` 展示功能，`main.tex` 由 agent 按用户确认的大纲生成。
+`examples/example.tex` 展示功能，`main.tex` 由 agent 按用户确认的大纲生成。
 
 ## 快速开始
 
@@ -73,9 +73,9 @@ Python 依赖由 `uv run --frozen` 按 `uv.lock` 自动安装，无需另行运�
 
 ```bash
 make doctor                 # 检查环境
-make draft MAIN=example     # 查阅功能示例的实际页面
-make MAIN=example           # 构建示例 PDF/PPTX
-make                        # 构建 agent 生成的 main.tex；不存在时自动选择 example.tex
+make draft MAIN=examples/example     # 查阅功能示例的实际页面
+make MAIN=examples/example           # 构建示例 PDF/PPTX
+make                        # 构建 agent 生成的 main.tex；不存在时自动选择 examples/example.tex
 make draft                  # 所选入口的排版预览
 make DPI=200                # 较低分辨率导出；正式默认 600 DPI
 make MAIN=talk              # 构建其他入口 talk.tex
@@ -84,9 +84,9 @@ make clean                  # 清理所选入口的中间文件，保留产物�
 make help
 ```
 
-`MAIN` 是不含 `.tex` 后缀的入口名；显式设置会覆盖自动选择。含空格时用 `MAIN="my talk"`。
+`MAIN` 是相对于项目根目录、不含 `.tex` 后缀的入口路径；显式设置会覆盖自动选择。含空格时用 `MAIN="my talk"`。
 `make` 编译已有源码，不会调用模型；从提示词到内容的工作由遵循 `AGENTS.md` 的 agent 完成。
-`example.tex` 及其章节用于查阅版式，agent 另行编写自己的汇报内容。
+`examples/example.tex` 及其章节用于查阅版式，agent 另行编写自己的汇报内容。
 
 `latexmk` 自动处理多轮编译与 biber，跟踪正文、文献和素材；PPTX 转换每次都运行以应用最新备注与 DPI。
 PDF/PPTX、备注和临时文件统一在 `build/`：
@@ -107,7 +107,8 @@ build/
 └── dist/                     源码包
 ```
 
-构建示例时对应 `build/example.pdf`、`build/example.pptx` 和 `build/draft/example/`。
+示例入口集中在 `examples/`，例如 `make MAIN=examples/example`；旧简写 `make MAIN=example` 仍可使用。
+输出使用入口的文件名，不重复目录层级。构建示例时对应 `build/example.pdf`、`build/example.pptx` 和 `build/draft/example/`。
 `make`、`make pdf` 和 `make draft` 成功后自动清理所选入口的 LaTeX 中间文件，失败时保留诊断。
 转换失败会保留原 PPTX，不能把留存的文件当作本次结果；先查看退出码和日志，再运行 `make clean`。
 不要并行运行清理与构建，例如 `make -j clean all`。
@@ -260,7 +261,7 @@ general 为纯黑，清华配置下为紫色。正文展示核心信息与必要
 这些文件是本地生成的工作输出；修改备注应编辑 TeX。公式与图形的完整排版保留在备注 PDF，
 PPTX 备注以可提取的文字为准。备注 PDF 会按阶段数和幻灯片指纹核对，过期或错位时停止导出。
 
-公开演示的讲解直接写在 `example.tex` 与各章节中；
+公开演示的讲解直接写在 `examples/example.tex` 与各章节中；
 [`备注用法页`](../examples/sections/notes-guide.tex) 展示同源 TeX 备注及 PDF 备注屏选项。
 已有 JSON-only 讲稿仍保留兼容导入；
 迁移时把有效备注全部放入对应的 `\note`。开始使用原生命令后，所有阶段以 TeX 为准，
@@ -432,7 +433,7 @@ PDF 目录和文档信息；任一变化返回非零退出码。创建时间和�
 需要检查逐字节一致时，在前后两次完整编译中使用同一个 `SOURCE_DATE_EPOCH`，例如：
 
 ```bash
-SOURCE_DATE_EPOCH=1790911667 make pdf MAIN=example LATEXMK="latexmk -g"
+SOURCE_DATE_EPOCH=1790911667 make pdf MAIN=examples/example LATEXMK="latexmk -g"
 uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --strict-bytes
 ```
 
@@ -448,7 +449,7 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 - `tools/compare_pdf.py`：重构前后 PDF 的完整逐页像素与链接回归比较。
 - `outline.md`：根目录中的输入文件，包含基本信息栏与自由草稿区。
 - `materials/`：用户提供的论文源码、PDF、图片和数据，本地目录。
-- `example.tex`：完整功能演示入口与配置参考。
+- `examples/example.tex`：完整功能演示入口与配置参考。
 - `main.tex`：agent 生成的汇报入口、文献资源及章节顺序。
 - `sections/`：agent 生成的汇报元信息及正文。
 - `examples/sections/metadata.tex`：完整示例的标题、课题组、汇报人、导师和日期。
@@ -490,13 +491,13 @@ uv run --frozen python tools/compare_pdf.py before.pdf build/example.pdf --stric
 
 公式示例位于 `examples/sections/math-examples.tex`，展示行内数学、多行对齐、梯度、
 矩阵和分段函数；`examples/sections/bibliography-guide.tex` 展示文献字段、角落引用和文末列表的对应关系。
-两个文件分别由基础页面章节和论文讲解章节引入，通过 `example.tex` 编译查看。
+两个文件分别由基础页面章节和论文讲解章节引入，通过 `examples/example.tex` 编译查看。
 
 ### 汇报与示例目录
 
 用户汇报以 `main.tex` 为入口，元信息写在 `sections/metadata.tex`，
 章节直接写在 `sections/01_intro.tex` 等文件中；所需文献放在 `bibliography/`。
-公开演示由 `example.tex` 引入 `examples/` 中的正文与文献，两个写作区独立维护。
+公开演示由 `examples/example.tex` 引入 `examples/` 中的正文与文献，两个写作区独立维护。
 Agent 可以参考演示中的用法，在用户章节中编写所需页面。
 
 从旧版升级已有汇报时，将原 `sections/talk/` 中的文件移到 `sections/`，
@@ -505,7 +506,7 @@ Agent 可以参考演示中的用法，在用户章节中编写所需页面。
 
 ### 分文件组织完整示例
 
-`example.tex` 存放演示配置与章节入口，标题信息和正文分开放：
+`examples/example.tex` 存放演示配置与章节入口，标题信息和正文分开放：
 
 ```text
 examples/sections/
@@ -526,15 +527,15 @@ examples/sections/
 
 正文用 `\input{examples/sections/01_basics.tex}` 等命令按入口中的顺序组合，
 章节文件只包含内容，不重复写 `\documentclass` 或 `\begin{document}`。
-要给示例增加章节时，在 `example.tex` 中添加一条 `\input`；重排这些语句即可调整章节顺序。
+要给示例增加章节时，在 `examples/example.tex` 中添加一条 `\input`；重排这些语句即可调整章节顺序。
 资源和嵌套 `\input` 路径相对于项目根目录，例如章节中使用
 `theme/general/assets/backdrop.pdf` 和 `examples/sections/math-examples.tex`。
-查看示例时从根目录运行 `make MAIN=example` 或 `make draft MAIN=example`，不单独编译章节；
+查看示例时从根目录运行 `make MAIN=examples/example` 或 `make draft MAIN=examples/example`，不单独编译章节；
 `latexmk` 会追踪这些文件的变化。调整顺序后同步核对逐页备注。
 演示片段与所属章节同放在 `examples/sections/`，由章节中的 `\input` 引入。
 自己的汇报先按 `outline.md` 整理并确认大纲，再由 agent 组织在 `main.tex` 与 `sections/` 中，流程见 [Agent 制作指南](agent-authoring.md)。
 
-`example.tex` 在封面后先介绍推荐使用方式，再按“基础页面与图像、论文讲解与引用、提示框、导航布局、媒体与收尾”组织示例，
+`examples/example.tex` 在封面后先介绍推荐使用方式，再按“基础页面与图像、论文讲解与引用、提示框、导航布局、媒体与收尾”组织示例，
 五节分别包含 1、2、3、4、5 个 subsection，覆盖单列、两列及奇数项最后一行的排列。
 每节均显式调用 `\sectioncoverpage`，展示本节标题、全部小节和一句导读；第二节起始页前另有一次内容总览。
 五节使用 `theme/general/assets/backdrop.pdf` 的原创几何背景，
@@ -543,7 +544,7 @@ examples/sections/
 需要图片样式时，把图片路径传给 `\sectioncoverpage`。
 每节内先展示效果，再介绍对应命令，便于复制使用。新增 section 时可沿用该结构，起始页可以按需增删。
 
-微调封面、章节起始页或致谢页时，在所选入口（`main.tex` 或 `example.tex`）的文档类选项中加入
+微调封面、章节起始页或致谢页时，在所选入口（`main.tex` 或 `examples/example.tex`）的文档类选项中加入
 `layoutguides=true`，再运行 `make draft`：
 
 ```tex
@@ -675,13 +676,13 @@ PDF/PPTX 的作者和导师属性保持正常姓名文本，不写入用于视�
 
 ## 英文 general 示例
 
-`example-en.tex` 是 general 主题的完整英文功能演示，正文在 `examples/english/`。
+`examples/example-en.tex` 是 general 主题的完整英文功能演示，正文在 `examples/english/`。
 五章与 50 页顺序对应中文示例，正文、导航、引用字段示例和原生 TeX 备注均为英文。
 它使用 `language=english, cjk=false`，无需载入中文排版；主题几何与默认 general 一致。
 
 ```bash
-make pdf MAIN=example-en
-make draft MAIN=example-en
+make pdf MAIN=examples/example-en
+make draft MAIN=examples/example-en
 ```
 
 分别生成 `build/example-en.pdf` 和 `build/draft/example-en/` 逐页预览。
@@ -847,7 +848,7 @@ section 行到上方 subsection 行逐渐变淡。
 ```
 
 导航自动读取 Beamer 的结构，直接使用 `\section` 和 `\subsection` 即可。
-示例 `example.tex` 包含多个小节，可观察翻页时的高亮变化：
+示例 `examples/example.tex` 包含多个小节，可观察翻页时的高亮变化：
 
 ```tex
 \section[方法]{研究方法与系统设计}

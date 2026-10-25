@@ -73,7 +73,7 @@ def check():
         print(f'\n{failures} prerequisite check(s) failed. See docs/installation.md.')
     else:
         print('\nPrerequisite checks passed. Give your brief and local materials to the agent; '
-              'preview the reference demo with make draft MAIN=example.')
+              'preview the reference demo with make draft MAIN=examples/example.')
     print('This checks default tools and TeX files in PATH, not version compatibility, '
           'Python dependencies or slide layout. It creates no build files.')
     ffmpeg = shutil.which('ffmpeg')

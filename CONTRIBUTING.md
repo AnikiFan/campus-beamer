@@ -29,8 +29,8 @@
 ```bash
 make test
 make check-theme
-make draft MAIN=example
-make MAIN=example
+make draft MAIN=examples/example
+make MAIN=examples/example
 ```
 
 `make check-theme` 编译 `tools/fixtures/` 中的主题与文档类检查例，报告保存在 `build/theme-check/`。
@@ -58,7 +58,7 @@ README 每个主题一行，用四列比较封面、章节页、正文页和致�
 
 ## 组织与提交
 
-- 草稿入口 `outline.md` 和功能示例 `example.tex` 保留在根目录；用户汇报由 agent 生成在 `main.tex` 与 `sections/`，文档类、主题、配色和学校配置统一放在 `theme/`，通过 `.latexmkrc` 配置搜索路径。
+- 草稿入口 `outline.md` 保留在根目录，全部功能示例入口集中在 `examples/`；用户汇报由 agent 生成在 `main.tex` 与 `sections/`，文档类、主题、配色和学校配置统一放在 `theme/`，通过 `.latexmkrc` 配置搜索路径。
 - 中文演示元信息、章节正文与可复用演示片段放在 `examples/sections/`，英文版放在 `examples/english/`；两者共用的示例代码源文件放在 `examples/sections/code/`。
 - 用户文献数据库放在 `bibliography/`，中文公开演示文献放在 `examples/bibliography/`，英文版使用 `examples/english/refs.bib`；Dockerfile、构建上下文清单与容器入口放在 `docker/`。
 - 手册与少量精选预览放在 `docs/`；测试源码放在 `tools/fixtures/`。

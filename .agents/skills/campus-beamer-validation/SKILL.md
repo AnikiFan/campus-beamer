@@ -13,7 +13,7 @@ containing Makefile.
 ## Select the entry and scope
 
 Use the entry requested by the user. Otherwise Make selects main.tex when present
-and example.tex when absent; an explicit MAIN wins. Distinguish a build request,
+and examples/example.tex when absent; an explicit MAIN wins. Distinguish a build request,
 an output review, a diagnosis, and full delivery. Check the actual source and
 output timestamps; a stale artifact does not establish a successful build.
 

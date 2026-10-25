@@ -51,10 +51,10 @@
 所有内置主题都支持这两个比例，背景图片保持等比缩放并按页面裁切。
 切换比例后检查图片主体、图文页和标题与引用的间距；内容不会自动改写。
 
-`make pdf MAIN=example-43` 生成 general 的中文 4:3 示例；Release 附带这份 PDF。
+`make pdf MAIN=examples/example-43` 生成 general 的中文 4:3 示例；Release 附带这份 PDF。
 `make examples-43` 可生成所有主题的 4:3 PDF，以及英文 general 的 4:3 示例。
-例如 `make pdf MAIN=example-undefined-43`、`make pdf MAIN=example-en-43`。
-需要 PowerPoint 时运行 `make MAIN=example-43`，备注与链接保持原有导出流程。
+例如 `make pdf MAIN=examples/example-undefined-43`、`make pdf MAIN=examples/example-en-43`。
+需要 PowerPoint 时运行 `make MAIN=examples/example-43`，备注与链接保持原有导出流程。
 
 ## 原生讲者备注
 
@@ -70,7 +70,7 @@
 
 ## 文档类选项
 
-选项由 agent 写在生成入口的 `\documentclass[...]` 中，不必提前填写。功能示例 `example.tex` 列出全部模板选项、
+选项由 agent 写在生成入口的 `\documentclass[...]` 中，不必提前填写。功能示例 `examples/example.tex` 列出全部模板选项、
 默认值与可选值注释，方便直接修改；实际汇报也可以省略使用默认值的项：
 
 - `aspectratio=169`（默认）或 `43`：选择 16:9 或 4:3。页面分别为 16 × 9 cm 和 16 × 12 cm；

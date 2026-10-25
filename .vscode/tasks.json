@@ -36,7 +36,7 @@
       "type": "process",
       "command": "make",
       "args": [
-        "MAIN=example"
+        "MAIN=examples/example"
       ],
       "options": {
         "cwd": "${workspaceFolder}"

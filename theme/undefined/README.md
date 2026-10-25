@@ -14,10 +14,10 @@
 ```
 
 ```bash
-make pdf MAIN=example-undefined
-make draft MAIN=example-undefined
+make pdf MAIN=examples/example-undefined
+make draft MAIN=examples/example-undefined
 # 本地导出 PowerPoint：
-make MAIN=example-undefined
+make MAIN=examples/example-undefined
 ```
 
 完整示例沿用 general 的内容和页序。发行包包含本主题的 PDF；素材通过独立的最新版素材包提供。

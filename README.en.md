@@ -29,16 +29,16 @@
 
 ## English general example
 
-[`example-en.tex`](example-en.tex) is the complete **English general-theme feature tour**:
+[`examples/example-en.tex`](examples/example-en.tex) is the complete **English general-theme feature tour**:
 English slide text, navigation labels, bibliography examples and native TeX speaker notes.
 It uses `language=english, cjk=false`, so no Chinese typesetting is needed for this entry.
 
 Build its PDF from the project root:
 
 ```bash
-make pdf MAIN=example-en
+make pdf MAIN=examples/example-en
 # Render all pages for inspection:
-make draft MAIN=example-en
+make draft MAIN=examples/example-en
 ```
 
 The output is `build/example-en.pdf`. On [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases/latest),
@@ -48,7 +48,7 @@ The comparison below uses the English General demo and the Chinese demos for the
 
 ## Example pages
 
-`example.tex` is the layout and feature tour. Download
+`examples/example.tex` is the layout and feature tour. Download
 the Chinese general theme's PDF/PPTX feature tour, the English general PDF, and the Tsinghua, Peng Cheng Laboratory, Tokyo Night and undefined PDF samples
 from the [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases)
 page. The example PPTX includes per-slide PowerPoint speaker notes. Advance through
@@ -141,22 +141,22 @@ emblems, wordmarks and campus images.
 
 The dark [`tokyo-night`](theme/tokyo-night/README.md) profile is also included. Select it with
 `\documentclass[theme=tokyo-night]{campusbeamer}` and build its full demo with
-`make pdf MAIN=example-tokyo-night`. Download its theme assets as described below before using the source ZIP.
+`make pdf MAIN=examples/example-tokyo-night`. Download its theme assets as described below before using the source ZIP.
 
 The [`undefined`](theme/undefined/README.md) profile uses Naiwa’s signature yellow, a circular single-eye icon, and five distinct painting parodies.
-Select `theme=undefined` and run `make pdf MAIN=example-undefined` to view the full demo.
+Select `theme=undefined` and run `make pdf MAIN=examples/example-undefined` to view the full demo.
 
 The institution-neutral `general` profile is the default; select it explicitly with
 `\documentclass[theme=general]{campusbeamer}`. Its editable icon, transparent project
 wordmarks, colors and provenance live in [`theme/general/`](theme/general/README.md).
-`example.tex` demonstrates the layouts and features; the agent creates your presentation from your brief.
+`examples/example.tex` demonstrates the layouts and features; the agent creates your presentation from your brief.
 This is not an official university template.
 
 ## Aspect ratio
 
 The default is 16:9. Use `\documentclass[aspectratio=43]{campusbeamer}` for 4:3 with any theme.
-Releases include the Chinese general demo as a 4:3 PDF; build it with `make pdf MAIN=example-43`.
-For the English 4:3 demo, run `make pdf MAIN=example-en-43`.
+Releases include the Chinese general demo as a 4:3 PDF; build it with `make pdf MAIN=examples/example-43`.
+For the English 4:3 demo, run `make pdf MAIN=examples/example-en-43`.
 See [aspect ratio options](docs/class-options.md#页面比例) for all theme examples.
 
 The bundled illustrations are currently cropped for the 16:9 layout and have not been specifically optimized for 4:3.
@@ -227,14 +227,14 @@ the agent can check the existing tools. `uv run --frozen` creates `.venv` from
 
 ```bash
 make doctor              # Check tools, TeX packages and fonts
-make draft MAIN=example  # Inspect reference-example pages and layout report
-make pdf MAIN=example-en # English general PDF
-make MAIN=example        # build/example.pdf and build/example.pptx
+make draft MAIN=examples/example  # Inspect reference-example pages and layout report
+make pdf MAIN=examples/example-en # English general PDF
+make MAIN=examples/example        # build/example.pdf and build/example.pptx
 make examples            # Build all non-default theme PDFs
-make                     # Build main.tex if present; otherwise example.tex
+make                     # Build main.tex if present; otherwise examples/example.tex
 ```
 
-[`example.tex`](example.tex) is a reference for people and agents. Its content
+[`examples/example.tex`](examples/example.tex) is a reference for people and agents. Its content
 under `examples/sections/` demonstrates section pages, figures, equations, citations,
 consistent captions, code windows, progressive reveals, navigation, video and TeX
 speaker notes. The agent chooses useful layouts and creates
@@ -296,8 +296,7 @@ main.tex         The presentation entry created by the agent
 sections/        Talk metadata, chapters and native TeX notes
 materials/       Local papers, figures and experimental results
 bibliography/    The talk's bibliography
-example*.tex     Theme and English feature-tour entries
-examples/        Public feature-tour sources
+examples/        Theme, language and aspect-ratio entries plus demo content
 STYLE.md         Presentation style preferences you can adjust
 theme/           Shared layouts, theme palettes and artwork
 docs/            Installation, usage and environment guides

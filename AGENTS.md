@@ -103,13 +103,13 @@ an external dependency or a decision that genuinely needs the user.
 make doctor                 # inspect local prerequisites
 make test                   # Python regression tests
 make draft                  # compile and render the selected entry
-make MAIN=example           # build the public demo
-make                       # build main.tex, or example.tex if absent
+make MAIN=examples/example           # build the public demo
+make                       # build main.tex, or examples/example.tex if absent
 make check-theme            # compile theme fixtures
 make dist                   # create the reviewed standalone source ZIP
 ```
 
-The default entry is `main.tex` when present, otherwise `example.tex`; an
+The default entry is `main.tex` when present, otherwise `examples/example.tex`; an
 explicit `MAIN` wins. Use `make help` for the complete command list.
 
 ## Repository map
@@ -119,8 +119,8 @@ explicit `MAIN` wins. Use `make help` for the complete command list.
   Source ZIPs use `tools/templates/outline.md` as the starter outline.
 - `build/outline-normalized.md`: agent-expanded section/subsection content for
   review; keep approval tied to a specific outline revision.
-- `example.tex`, `examples/sections/`, `examples/bibliography/refs.bib`: public reference demo.
-- `example-en.tex`, `examples/english/`: English general reference demo; releases include its PDF only.
+- `examples/example.tex`, `examples/sections/`, `examples/bibliography/refs.bib`: public reference demo.
+- `examples/example-en.tex`, `examples/english/`: English general reference demo; releases include its PDF only.
 - `main.tex`, `sections/`, `bibliography/main.bib`, `materials/`: local
   agent-authored talk inputs and sources.
 - `theme/`: class, theme implementation, school profile, and code-window style.

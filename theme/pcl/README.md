@@ -22,7 +22,7 @@
 \sectioncoverpage[theme/pcl/assets/lakeside-aerial.jpg]{本节导读}
 ```
 
-运行 `make pdf MAIN=example-pcl` 查看完整功能演示。三个主题共用同一份正文与逐页备注，
+运行 `make pdf MAIN=examples/example-pcl` 查看完整功能演示。三个主题共用同一份正文与逐页备注，
 页面数量和顺序一致，仅配色、标志与配图随主题变化；Release 仅为 general 额外提供 PPTX。
 
 根目录 README 会展示 PCL 主题完整示例的代表性页面；其中的机构素材适用下述声明。
