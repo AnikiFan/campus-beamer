@@ -1,0 +1,4 @@
+# Campus Beamer / Overleaf (GPL-3.0-or-later)
+# Leave output placement to Overleaf; keep standard TeX search paths.
+$pdf_mode = 5;
+$ENV{'TEXINPUTS'} = './theme//:' . ($ENV{'TEXINPUTS'} // '');

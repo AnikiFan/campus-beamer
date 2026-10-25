@@ -153,6 +153,22 @@ make theme-assets THEME=undefined
 已有完整素材时不联网；Git 克隆通常已包含素材，无需另行下载。
 各主题的下载入口、显式更新和手动下载方法见[安装说明](docs/installation.md#主题素材)。
 
+## 在 Overleaf 中使用
+
+解压源码包后，在项目根目录运行：
+
+```bash
+make overleaf                                      # general，中文，16:9
+make overleaf THEME=tsinghua                        # 清华主题
+make overleaf OVERLEAF_LANGUAGE=english ASPECTRATIO=43  # 英文，4:3
+```
+
+只需 GNU Make 和 Python 3.10+，无需本地安装 LaTeX 或 uv。命令自动补齐所选主题素材，
+将可上传的 ZIP 写入 `build/overleaf/`。在 Overleaf 中选择 **New Project → Upload Project**，
+上传生成的 ZIP，再将主文件设为 `main.tex`、编译器设为 **XeLaTeX**。
+打包内容为公开示例；已有私人汇报不会被自动收录。
+在线生成 PDF；详细步骤、编译限制和 PPTX 导出方法见[Overleaf 使用说明](docs/workflows.md#overleaf-中编辑-pdf)。
+
 ## 推荐使用方式：提供思路与素材
 
 1. 克隆仓库或解压源码包，在支持本地文件读写和命令执行的 agent 中打开项目。

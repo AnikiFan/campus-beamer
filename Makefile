@@ -32,6 +32,8 @@ PAGES ?= all
 UV ?= uv
 LATEXMK ?= latexmk
 PYTHON ?= python3
+OVERLEAF_LANGUAGE ?= chinese
+ASPECTRATIO ?= 169
 
 DBLP_HOST ?= dblp.org
 CITATION_SOURCE ?= openalex
@@ -48,11 +50,13 @@ override BIB_OUTPUT := $(value BIB_OUTPUT)
 override BIB_REPORT := $(value BIB_REPORT)
 override INPUT_BIB := $(value INPUT_BIB)
 override THEME := $(value THEME)
+override OVERLEAF_LANGUAGE := $(value OVERLEAF_LANGUAGE)
+override ASPECTRATIO := $(value ASPECTRATIO)
 # Pass text through the environment, so titles/keys are not shell fragments.
 export QUERY DBLP_KEY DOI CITE_KEY DBLP_HOST CITATION_SOURCE BIB_OUTPUT BIB_REPORT INPUT_BIB
-export THEME
+export THEME OVERLEAF_LANGUAGE ASPECTRATIO
 
-.PHONY: all pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist version examples examples-43 theme-previews general-assets tokyo-night-assets undefined-assets theme-assets dist-theme-assets release clean help
+.PHONY: all pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist overleaf version examples examples-43 theme-previews general-assets tokyo-night-assets undefined-assets theme-assets dist-theme-assets release clean help
 
 all: pptx
 
@@ -144,6 +148,10 @@ logo:
 dist:
 	$(UV) run --frozen python tools/package_source.py
 
+# Public demo only; no TeX, uv or third-party Python packages needed.
+overleaf:
+	$(PYTHON) tools/package_overleaf.py --theme "$${THEME:-general}" --language "$$OVERLEAF_LANGUAGE" --aspectratio "$$ASPECTRATIO"
+
 version:
 	@$(UV) version --short
 
@@ -198,6 +206,8 @@ help:
 	  'make theme-previews   Build theme samples and refresh README preview images' \
 	  'make logo            Rebuild project logo SVGs and PDF/PNG previews' \
 	  'make dist            Create a standalone source ZIP in build/dist/' \
+	  'make overleaf        Create an uploadable general Chinese 16:9 ZIP (Make + Python only)' \
+	  '  THEME=tsinghua OVERLEAF_LANGUAGE=english ASPECTRATIO=43  Select theme, language and ratio' \
 	  'make version         Show the project version from pyproject.toml' \
 	  'make release         Test, build all public examples and package versioned release artifacts (600 DPI)' \
 	  'make clean           Remove LaTeX intermediates; retain PDF/PPTX and sources' \

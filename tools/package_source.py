@@ -21,6 +21,8 @@ import argparse
 import zipfile
 
 FILES = (
+    'tools/package_overleaf.py', 'tools/tests/test_package_overleaf.py',
+    'tools/templates/overleaf-latexmkrc', 'tools/templates/overleaf-README.md',
     'examples/example-43.tex',
     'examples/example-en-43.tex',
     'examples/example-tsinghua-43.tex',

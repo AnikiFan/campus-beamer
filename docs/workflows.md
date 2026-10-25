@@ -55,17 +55,53 @@ recipe 机制见 [LaTeX Workshop 文档](https://github.com/James-Yu/LaTeX-Works
 
 ## Overleaf 中编辑 PDF
 
-上传源码项目到 Overleaf 后，将需要编译的 `examples/example.tex`、agent 生成的 `main.tex` 或其他入口
-设为 **Main document**，编译器选 **XeLaTeX**。保持主题、配置、`assets/` 和汇报所用 `materials/` 的相对目录结构。
-Overleaf 使用其自己的 TeX 环境，需要具备[安装说明](installation.md)中的包和字体。
-本项目尚未在 Overleaf 实测；此处说明配置方式，不能视为在线兼容性保证。
-
-在线编辑产生 PDF；本地构建会把视频首帧写入 PDF，PPTX、视频嵌入和备注写入由本项目的 Python 转换器完成。
-导出 PPTX 时下载最新源码，保留 TeX 中的 `\note`、素材及文献相对路径，在具备本项目
-构建环境的本地根目录运行：
+从下载并解压的源码包根目录生成专用导入包：
 
 ```bash
-make MAIN=talk
+make overleaf
+make overleaf THEME=undefined
+make overleaf THEME=tokyo-night OVERLEAF_LANGUAGE=english ASPECTRATIO=43
+```
+
+默认值为 `THEME=general`、`OVERLEAF_LANGUAGE=chinese`、`ASPECTRATIO=169`。
+主题还可选 `tsinghua`、`pcl`、`tokyo-night`、`undefined`；语言可选 `chinese` 或 `english`，
+比例可选 `169` 或 `43`。这些参数可以组合，4:3 沿用现有 16:9 裁剪的插图。
+生成文件为 `build/overleaf/campus-beamer-<主题>-<zh或en>-<比例>.zip`。
+
+打包只需要 GNU Make 和 Python 3.10+，不调用 LaTeX、uv、FFmpeg 或 Node。
+没有 Make 时可直接运行等价命令：
+
+```bash
+python3 tools/package_overleaf.py --theme general --language english --aspectratio 169
+```
+
+general 素材随源码提供。其他主题已有完整素材时直接复用；缺失时自动下载该主题的最新版包并
+校验 SHA-256，只用于这次打包，不覆盖工作目录中已有的素材。需要更新完整的本地素材时，先按
+[素材安装说明](installation.md#主题素材)显式更新，再重新打包。
+包内是所选语言的完整公开示例，不读取用户的 `main.tex`、`outline.md`、`sections/` 或 `materials/`。
+
+1. 在 Overleaf 选择 **New Project → Upload Project**，上传生成的 ZIP。
+2. 在项目设置中将 **Main document** 设为根目录 `main.tex`，**Compiler** 设为 **XeLaTeX**。
+3. 编译后，修改 `main.tex` 中的选项，以及 `examples/sections/`（中文）或 `examples/english/`
+   （英文）中的元信息、正文和相关文献。
+
+导入包按官方要求提供[根目录主文件](https://docs.overleaf.com/getting-started/recompiling-your-project/the-main-document)
+和不带点的 [`latexmkrc`](https://docs.overleaf.com/managing-projects-and-files/the-latexmkrc-file)，
+后者设置主题搜索路径，由 Overleaf 管理编译输出。保持 `theme/`、`examples/` 和 `assets/` 的相对结构。
+Overleaf 使用其自己的 TeX 环境，需要具备[安装说明](installation.md)中的包和字体。
+本项目尚未在 Overleaf 在线实测。完整示例可能触及账号的[编译时限](https://docs.overleaf.com/getting-started/free-and-premium-plans/plan-limits)；
+遇到超时，可先在 `main.tex` 中注释不需要的章节输入。
+
+在线编辑产生 PDF，视频仅保留为本地文件链接，不会在 Overleaf 预览器中播放，也不自动生成视频首帧。
+本地构建会把视频首帧写入 PDF，PPTX、视频嵌入和备注写入由本项目的 Python 转换器完成。
+导出 PPTX 时，从 Overleaf 下载编辑后的源码，另行解压一份完整模板源码包。
+将编辑后的 `main.tex`、`examples/`、`theme/`、`assets/` 及新增素材按原相对路径复制进完整模板，
+保留其中的 `\note` 和文献；不要复制 Overleaf 的 `latexmkrc`，本地使用模板自带的 `.latexmkrc`。
+若视频链接使用 `run:assets/`，本地导出前将其改为 `run:../assets/`，匹配 `build/` 中的 PDF。
+在具备本项目构建环境的本地根目录运行：
+
+```bash
+make MAIN=main
 ```
 
 本地 Make 从 TeX 构建 PDF、渲染原生备注并导出 PPTX；默认 600 DPI，本地视频需要 FFmpeg。

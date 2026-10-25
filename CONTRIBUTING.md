@@ -96,6 +96,18 @@ agent 扩充后的详细大纲保存在忽略的 `build/outline-normalized.md`�
 [清华](theme/tsinghua/README.md)、[鹏城实验室](theme/pcl/README.md)。
 打包这些素材不表示已经取得授权。如有权利或署名问题，按该说明中的邮箱或本仓库 Issue 联系维护者。
 
+## Overleaf 导入包维护
+
+`make overleaf` 使用 `tools/package_overleaf.py` 从源码 `FILES` 白名单中选择公开演示依赖，
+只收录所选语言、通用主题与所选主题的配置、素材和许可声明。生成根目录 `main.tex`，
+使用 `tools/templates/overleaf-latexmkrc` 与 `overleaf-README.md`，不携带本地输出目录配置、
+测试工具或私人汇报。视频链接在包内改为相对于根目录 PDF，仓库源文件保持原样。
+缺失素材时通过现有下载器校验并暂存整份主题包，不混入本地不完整素材；该命令不上传任何文件。
+
+修改后运行 `make test`、`make dist`，并从独立目录解压生成的 Overleaf ZIP，用
+`latexmk -xelatex -interaction=nonstopmode -halt-on-error main.tex` 检查入口、文献及素材完整性。
+本地验证不代表 Overleaf 在线编译或免费套餐时限已验证；发布说明应分别记录。
+
 ## 版本维护
 
 版本号统一取自 `pyproject.toml`，使用 `make version` 查询；`uv.lock` 与版本保持同步。

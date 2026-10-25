@@ -178,6 +178,24 @@ under `theme/<theme>/assets/`. Complete local assets are reused without network 
 Git clones normally already include them.
 See [installation instructions](docs/installation.md#主题素材) for each theme’s download page, explicit updates and manual downloads.
 
+## Use in Overleaf
+
+Extract the source archive and run from its root:
+
+```bash
+make overleaf OVERLEAF_LANGUAGE=english                 # general, English, 16:9
+make overleaf THEME=tsinghua OVERLEAF_LANGUAGE=english   # Tsinghua theme
+make overleaf OVERLEAF_LANGUAGE=english ASPECTRATIO=43   # English, 4:3
+```
+
+Only GNU Make and Python 3.10+ are required; no local LaTeX installation or uv is needed.
+The command supplies the selected theme's assets and writes an uploadable ZIP to
+`build/overleaf/`. In Overleaf, choose **New Project → Upload Project**, upload the ZIP,
+and select **main.tex** as the main document and **XeLaTeX** as the compiler.
+Without a language option, `make overleaf` uses the Chinese demo. Packages contain the
+public demo, not your private talk. Overleaf produces a PDF; see the
+[workflow guide](docs/workflows.md#overleaf-中编辑-pdf) for compilation limits and local PPTX export.
+
 ## Recommended workflow: ideas and local materials
 
 1. Clone the repository or extract the source ZIP, then open the project with an agent that supports local file access and command execution.
