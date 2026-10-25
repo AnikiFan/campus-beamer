@@ -5,6 +5,18 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.21.0](https://github.com/AnikiFan/campus-beamer/compare/v0.20.0...v0.21.0) (2026-10-25)
+
+
+### Features
+
+* package Overleaf projects with make overleaf ([6df9322](https://github.com/AnikiFan/campus-beamer/commit/6df9322ebf8d0cd249aa846922fd41b94f180e25))
+
+
+### Documentation
+
+* explain the complete Overleaf setup in both READMEs ([6f3bdb8](https://github.com/AnikiFan/campus-beamer/commit/6f3bdb8bc300fc5c022d45f9bead934d9d25fbd3))
+
 ## [0.20.0](https://github.com/AnikiFan/campus-beamer/compare/v0.19.0...v0.20.0) (2026-10-24)
 
 
