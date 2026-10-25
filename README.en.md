@@ -180,7 +180,15 @@ See [installation instructions](docs/installation.md#主题素材) for each them
 
 ## Use in Overleaf
 
-Extract the source archive and run from its root:
+Generate a ZIP containing the template and theme assets, then upload it to Overleaf
+to edit and compile a PDF. Preparing the ZIP requires only **GNU Make and Python 3.10+**;
+no local LaTeX installation or uv is needed.
+
+1. Download and extract the source archive from
+   [Releases](https://github.com/AnikiFan/campus-beamer/releases), or clone the repository.
+   Open a terminal at the project root containing `Makefile`.
+2. Run one of the commands below. Required theme assets are supplied automatically;
+   you do not need to download them separately.
 
 ```bash
 make overleaf OVERLEAF_LANGUAGE=english                 # general, English, 16:9
@@ -188,13 +196,29 @@ make overleaf THEME=tsinghua OVERLEAF_LANGUAGE=english   # Tsinghua theme
 make overleaf OVERLEAF_LANGUAGE=english ASPECTRATIO=43   # English, 4:3
 ```
 
-Only GNU Make and Python 3.10+ are required; no local LaTeX installation or uv is needed.
-The command supplies the selected theme's assets and writes an uploadable ZIP to
-`build/overleaf/`. In Overleaf, choose **New Project → Upload Project**, upload the ZIP,
-and select **main.tex** as the main document and **XeLaTeX** as the compiler.
-Without a language option, `make overleaf` uses the Chinese demo. Packages contain the
-public demo, not your private talk. Overleaf produces a PDF; see the
-[workflow guide](docs/workflows.md#overleaf-中编辑-pdf) for compilation limits and local PPTX export.
+Choose a theme from `general`, `tsinghua`, `pcl`, `tokyo-night` or `undefined`, a language
+from `chinese` or `english`, and an aspect ratio of `169` or `43`. These options can be
+combined. Without a language option, `make overleaf` uses the Chinese demo.
+If Make is unavailable, run Python directly:
+
+```bash
+python3 tools/package_overleaf.py --theme general --language english --aspectratio 169
+```
+
+3. In Overleaf, choose **New Project → Upload Project** and upload the ZIP generated in
+   `build/overleaf/`. The first command above produces `campus-beamer-general-en-169.zip`.
+4. In project settings, select **Main document: main.tex** and **Compiler: XeLaTeX**,
+   then click **Recompile** to preview and download the PDF.
+
+Edit template options and chapter order in `main.tex`. Change the title and author in
+`examples/english/metadata.tex` (English) or `examples/sections/metadata.tex` (Chinese);
+the other `.tex` files in that directory contain the slide content. Bibliographies are
+in `examples/english/refs.bib` for English and `examples/bibliography/refs.bib` for Chinese.
+
+The package starts from the public demo and does not automatically include your local
+private talk. Overleaf produces a PDF; for PPTX, download the edited source and use the
+local export tools. See the [workflow guide](docs/workflows.md#overleaf-中编辑-pdf) for
+compile timeout guidance and the complete export procedure.
 
 ## Recommended workflow: ideas and local materials
 

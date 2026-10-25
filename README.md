@@ -155,7 +155,12 @@ make theme-assets THEME=undefined
 
 ## 在 Overleaf 中使用
 
-解压源码包后，在项目根目录运行：
+可以在本地生成一个包含主题素材的 ZIP，再上传到 Overleaf 编辑和编译 PDF。
+准备导入包只需 **GNU Make 和 Python 3.10+**，无需本地安装 LaTeX 或 uv。
+
+1. 从 [Releases](https://github.com/AnikiFan/campus-beamer/releases) 下载并解压源码包，
+   或克隆仓库；在包含 `Makefile` 的项目根目录打开终端。
+2. 选择下面一条命令生成导入包。所需主题素材会自动补齐，无需另外下载。
 
 ```bash
 make overleaf                                      # general，中文，16:9
@@ -163,11 +168,26 @@ make overleaf THEME=tsinghua                        # 清华主题
 make overleaf OVERLEAF_LANGUAGE=english ASPECTRATIO=43  # 英文，4:3
 ```
 
-只需 GNU Make 和 Python 3.10+，无需本地安装 LaTeX 或 uv。命令自动补齐所选主题素材，
-将可上传的 ZIP 写入 `build/overleaf/`。在 Overleaf 中选择 **New Project → Upload Project**，
-上传生成的 ZIP，再将主文件设为 `main.tex`、编译器设为 **XeLaTeX**。
-打包内容为公开示例；已有私人汇报不会被自动收录。
-在线生成 PDF；详细步骤、编译限制和 PPTX 导出方法见[Overleaf 使用说明](docs/workflows.md#overleaf-中编辑-pdf)。
+主题可选 `general`、`tsinghua`、`pcl`、`tokyo-night` 或 `undefined`；语言可选
+`chinese` 或 `english`；比例可选 `169` 或 `43`，三个选项可以组合。
+如果没有 Make，也可以直接运行：
+
+```bash
+python3 tools/package_overleaf.py --theme general --language chinese --aspectratio 169
+```
+
+3. 在 Overleaf 选择 **New Project → Upload Project**，上传 `build/overleaf/` 中生成的 ZIP。
+   例如默认命令生成 `campus-beamer-general-zh-169.zip`。
+4. 在项目设置中选择 **Main document: main.tex**、**Compiler: XeLaTeX**，点击 **Recompile**。
+   编译后即可预览和下载 PDF。
+
+导入后，在 `main.tex` 调整模板选项和章节顺序；在 `examples/sections/metadata.tex`（中文）或
+`examples/english/metadata.tex`（英文）修改标题、作者等信息，同目录中的其他 `.tex` 文件是正文。
+中文文献位于 `examples/bibliography/refs.bib`，英文文献位于 `examples/english/refs.bib`。
+
+导入包以公开示例为起点，不会自动打包本地私人汇报。Overleaf 用于生成 PDF；需要 PPTX 时，
+下载编辑后的源码并使用本地导出工具。编译超时的处理方式和完整导出步骤见
+[Overleaf 使用说明](docs/workflows.md#overleaf-中编辑-pdf)。
 
 ## 推荐使用方式：提供思路与素材
 
