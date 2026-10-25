@@ -5,6 +5,13 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.23.0](https://github.com/AnikiFan/campus-beamer/compare/v0.22.0...v0.23.0) (2026-10-25)
+
+
+### Features
+
+* add titleless campusbox with dedicated demo pages ([6ecde8e](https://github.com/AnikiFan/campus-beamer/commit/6ecde8e5d9e0e8804663dd6834af701a464f3de6))
+
 ## [0.22.0](https://github.com/AnikiFan/campus-beamer/compare/v0.21.0...v0.22.0) (2026-10-25)
 
 
