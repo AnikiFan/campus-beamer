@@ -10,8 +10,8 @@ import pymupdf
 
 
 def generate(root: Path, theme: str = 'general') -> None:
-    if theme not in ('general', 'tokyo-night', 'undefined'):
-        raise ValueError('Select general, tokyo-night or undefined.')
+    if theme not in ('general', 'tokyo-night', 'undefined', 'eva'):
+        raise ValueError('Select general, tokyo-night, undefined or eva.')
     output = root / f'build/{theme}-assets'
     output.mkdir(parents=True, exist_ok=True)
     assets = root / f'theme/{theme}/assets'
@@ -46,5 +46,5 @@ def generate(root: Path, theme: str = 'general') -> None:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--theme', choices=('general', 'tokyo-night', 'undefined'), default='general')
+    parser.add_argument('--theme', choices=('general', 'tokyo-night', 'undefined', 'eva'), default='general')
     generate(Path(__file__).resolve().parents[1], parser.parse_args().theme)

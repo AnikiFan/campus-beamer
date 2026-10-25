@@ -129,10 +129,10 @@ build/
 ## 更换学校
 
 文档类为 `campusbeamer`，自动加载名为 `campus` 的主题。默认使用与学校无关的 general 配置；
-使用 `\documentclass[theme=general]{campusbeamer}` 显式选择通用主题，也可选择 `tsinghua`、`pcl`、深色 `tokyo-night` 或奶蛙名画主题 `undefined`。配置、品牌标志、校园素材和来源声明
+使用 `\documentclass[theme=general]{campusbeamer}` 显式选择通用主题，也可选择 `tsinghua`、`pcl`、深色 `tokyo-night`、奶蛙名画主题 `undefined` 或 EVA 标题卡主题 `eva`。配置、品牌标志、校园素材和来源声明
 集中放在 `theme/<名称>/`；省略 `theme` 时默认使用 general。
 Release 源码包包含 general 素材，可直接编译默认示例。使用其他主题前，运行
-`make theme-assets THEME=undefined`，或将 `undefined` 换成所选主题名。这四个主题各自维护最新版素材包，
+`make theme-assets THEME=undefined`，或将 `undefined` 换成所选主题名。这些主题各自维护最新版素材包，
 已有完整素材时不下载，普通编译不自动更新。详见[素材安装](installation.md#主题素材)。
 
 内置的鹏城实验室主题使用 `theme=pcl`，配色、徽章及园区素材见[主题说明](../theme/pcl/README.md)。
@@ -542,6 +542,8 @@ examples/sections/
 展示左侧主色背景文字、右侧斜边图片的样式；原图右边缘贴齐页面右边缘，
 可直接修改原图来调整显示区域。新演示文稿的章节起始页默认使用整页主色背景；
 需要图片样式时，把图片路径传给 `\sectioncoverpage`。
+EVA 主题省略背景参数或使用 `[profile]` 时，会自动绘制右侧标题卡；
+前面的章节轮换四种日文构图，最后一节以「終。」收尾。详见 [EVA 主题说明](../theme/eva/README.md)。
 每节内先展示效果，再介绍对应命令，便于复制使用。新增 section 时可沿用该结构，起始页可以按需增删。
 
 微调封面、章节起始页或致谢页时，在所选入口（`main.tex` 或 `examples/example.tex`）的文档类选项中加入
@@ -590,7 +592,8 @@ section 起始页的编号标签、指导教师标签、参考文献页标题、
   `\section`，副标题区域自动列出该 section 下的全部 `subsection`，调用者只需提供图片和导读文字。
   可选参数也可填 `white`（左侧保持主色、右侧纯白）或 `primary`（整页主色、白色标题）：
   `\sectioncoverpage[white]{导读文字}`、`\sectioncoverpage[primary]{导读文字}`。
-  省略可选参数或写 `[]` 时使用主题主色背景（general 为纯黑）；也可以直接填写图片路径。
+  省略可选参数或写 `[]` 时使用主题默认背景：EVA 为动态标题卡，其余内置主题为主色背景（general 为纯黑）。
+  `[profile]` 也可显式选择主题绘图；显式图片路径或 `primary`、`white` 则覆盖主题绘图。
   图片默认不裁边。先等比例缩放覆盖右侧面板，再读取缩放后图片的实际宽度，按“左边位置 = 页面宽度 − 缩放后宽度”放置，使图片右边缘与页面右边缘重合；竖直方向居中，最后按斜边区域裁切。可直接调整原图来改变显示区域，图片自带白边也按原图显示。
   需要手动改变取景时，可在导读之后附加 `[trim right=.112,align=center]`：`trim right` 按原图宽度比例裁去右边缘，`align=center` 将照片在右侧面板的外接矩形中居中取景。可根据图片主体和页面比例选择取景；undefined 的 4:3 示例使用居中取景及少量右侧裁边。
   没有 subsection 时自动隐藏列表。每个 subsection 前显示数字编号（如 `1.1`、`1.2`）。

@@ -1,0 +1,77 @@
+% Live Japanese typography in the right-hand section panel.
+% Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
+% SPDX-License-Identifier: GPL-3.0-or-later
+% A redistributable approximation; no commercial Matisse font is bundled.
+\providecommand{\campusevajapanesefont}{HaranoAjiMincho-Heavy.otf}
+\AtBeginDocument{%
+  \newfontfamily\campusEvaJapanese{\campusevajapanesefont}%
+  \ifcsdef{newCJKfontfamily}{%
+    \newCJKfontfamily\campusEvaCJK{\campusevajapanesefont}%
+  }{\let\campusEvaCJK\relax}%
+}
+% Declare Japanese translations by section number in the talk's preamble.
+\newcommand{\campusevasectiontitle}[2]{\csdef{campusEvaTitle#1}{#2}}
+\newcommand{\campusEvaTitle}{%
+  \ifcsdef{campusEvaTitle\thesection}{\csuse{campusEvaTitle\thesection}}{\campusEvaLabel}}
+\newcommand{\campusEvaType}[2]{%
+  \campusEvaJapanese\campusEvaCJK\fontsize{#1}{#2}\selectfont
+  \hyphenpenalty=10000\exhyphenpenalty=10000\relax}
+\newcommand{\campusEvaNumber}{%
+  \ifcase\value{section}\or 壱\or 弐\or 参\or 四\or 伍\or 六\or 七\or 八\or 九\or 拾\else\thesection\fi}
+\newcommand{\campusEvaLabel}{第\campusEvaNumber 節}
+\newcommand{\campusEvaVerticalLabel}{第\\\campusEvaNumber\\節}
+% A presentation ending, not a claimed frame-exact reproduction of the anime.
+\newcommand{\campusevaendtext}{終。}
+\newcommand{\campussectionart}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \campus@splitcoordinates
+    \fill[black] \campus@splitpath;
+    % Text stays inside the narrowest panel width, including at 4:3.
+    \ifnum\value{section}=\csname beamer@sectionmax\endcsname\relax
+      \node[anchor=south east,text=white,inner sep=0pt,
+        font=\campusEvaType{40}{42}]
+        at ([xshift=-.055\paperwidth,yshift=.12\paperheight]current page.south east) {\campusevaendtext};
+    \else
+      \pgfmathtruncatemacro{\campusEvaLayout}{mod(\value{section}-1,4)}%
+      \ifcase\campusEvaLayout
+        % L-shape: vertical section number above an oversized low title.
+        \node[anchor=north east,text=white,align=center,inner sep=0pt,
+          font=\campusEvaType{22}{23}]
+          at ([xshift=-.035\paperwidth,yshift=-.07\paperheight]current page.north east)
+          {\campusEvaVerticalLabel};
+        \node[anchor=south east,text=white,align=right,text width=.27\paperwidth,
+          inner sep=0pt,font=\campusEvaType{29}{33}]
+          at ([xshift=-.035\paperwidth,yshift=.10\paperheight]current page.south east)
+          {\campusEvaTitle};
+      \or
+        % High title, small low-right horizontal number: an inverted composition.
+        \node[anchor=north east,text=white,align=right,text width=.25\paperwidth,
+          inner sep=0pt,font=\campusEvaType{32}{36}]
+          at ([xshift=-.035\paperwidth,yshift=-.16\paperheight]current page.north east)
+          {\campusEvaTitle};
+        \node[anchor=south east,text=white,inner sep=0pt,font=\campusEvaType{18}{20}]
+          at ([xshift=-.035\paperwidth,yshift=.08\paperheight]current page.south east)
+          {\campusEvaLabel};
+      \or
+        % Compact centered block with a deliberately expansive black field.
+        \node[anchor=center,text=white,align=center,text width=.27\paperwidth,
+          inner sep=0pt,font=\campusEvaType{38}{42}]
+          at ([xshift=.82\paperwidth,yshift=-.02\paperheight]current page.west)
+          {\campusEvaTitle};
+        \node[anchor=north east,text=white,inner sep=0pt,font=\campusEvaType{16}{18}]
+          at ([xshift=-.035\paperwidth,yshift=-.08\paperheight]current page.north east)
+          {\campusEvaLabel};
+      \or
+        % Staggered left-aligned title and a wide number along the lower edge.
+        \node[anchor=north west,text=white,align=left,text width=.25\paperwidth,
+          inner sep=0pt,font=\campusEvaType{26}{31}]
+          at ([xshift=.71\paperwidth,yshift=-.23\paperheight]current page.north west)
+          {\campusEvaTitle};
+        \node[anchor=south east,text=white,inner sep=0pt,font=\campusEvaType{25}{27}]
+          at ([xshift=-.035\paperwidth,yshift=.10\paperheight]current page.south east)
+          {\campusEvaLabel};
+      \fi
+    \fi
+    \campus@guidesplit
+  \end{tikzpicture}%
+}

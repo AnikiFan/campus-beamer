@@ -56,7 +56,7 @@ override ASPECTRATIO := $(value ASPECTRATIO)
 export QUERY DBLP_KEY DOI CITE_KEY DBLP_HOST CITATION_SOURCE BIB_OUTPUT BIB_REPORT INPUT_BIB
 export THEME OVERLEAF_LANGUAGE ASPECTRATIO
 
-.PHONY: all pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist overleaf version examples examples-43 theme-previews general-assets tokyo-night-assets undefined-assets theme-assets dist-theme-assets release clean help
+.PHONY: all pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist overleaf version examples examples-43 theme-previews general-assets tokyo-night-assets undefined-assets eva-assets theme-assets dist-theme-assets release clean help
 
 all: pptx
 
@@ -103,6 +103,7 @@ examples:
 	$(MAKE) pdf MAIN=examples/example-pcl
 	$(MAKE) pdf MAIN=examples/example-tokyo-night
 	$(MAKE) pdf MAIN=examples/example-undefined
+	$(MAKE) pdf MAIN=examples/example-eva
 
 # Review all themes at 4:3; only Chinese general enters the release.
 examples-43:
@@ -112,12 +113,16 @@ examples-43:
 	$(MAKE) pdf MAIN=examples/example-pcl-43
 	$(MAKE) pdf MAIN=examples/example-tokyo-night-43
 	$(MAKE) pdf MAIN=examples/example-undefined-43
+	$(MAKE) pdf MAIN=examples/example-eva-43
 
 general-assets:
 	$(UV) run --frozen python tools/generate_general_assets.py
 
 tokyo-night-assets:
 	$(UV) run --frozen python tools/generate_general_assets.py --theme tokyo-night
+
+eva-assets:
+	$(UV) run --frozen python tools/generate_general_assets.py --theme eva
 
 undefined-assets:
 	$(UV) run --frozen python tools/generate_general_assets.py --theme undefined
@@ -135,12 +140,14 @@ theme-previews:
 	$(MAKE) pdf MAIN=examples/example-pcl
 	$(MAKE) pdf MAIN=examples/example-tokyo-night
 	$(MAKE) pdf MAIN=examples/example-undefined
+	$(MAKE) pdf MAIN=examples/example-eva
 	$(UV) run --frozen python tools/render_theme_previews.py \
 		--pdf build/example.pdf --theme general \
 		--pdf build/example-tsinghua.pdf --theme tsinghua \
 		--pdf build/example-pcl.pdf --theme pcl \
 		--pdf build/example-tokyo-night.pdf --theme tokyo-night \
-		--pdf build/example-undefined.pdf --theme undefined --english-pdf build/example-en.pdf --update-readme
+		--pdf build/example-undefined.pdf --theme undefined \
+		--pdf build/example-eva.pdf --theme eva --english-pdf build/example-en.pdf --update-readme
 
 logo:
 	$(UV) run --frozen python tools/generate_logo.py
@@ -170,7 +177,8 @@ release:
 		--pdf build/example-tsinghua.pdf --theme tsinghua \
 		--pdf build/example-pcl.pdf --theme pcl \
 		--pdf build/example-tokyo-night.pdf --theme tokyo-night \
-		--pdf build/example-undefined.pdf --theme undefined --english-pdf build/example-en.pdf
+		--pdf build/example-undefined.pdf --theme undefined \
+		--pdf build/example-eva.pdf --theme eva --english-pdf build/example-en.pdf
 	$(MAKE) dist
 	$(UV) run --frozen python tools/package_release.py --version "$$($(UV) version --short)"
 
@@ -199,10 +207,11 @@ help:
 	  'make examples        Build all non-default theme PDF samples' \
 	  'make examples-43     Build all 4:3 review PDFs (including English general)' \
 	  'make general-assets  Rebuild general-theme icon, wordmarks and abstract background' \
+	  'make eva-assets      Rebuild EVA vectors from editable TeX sources' \
 	  'make undefined-assets    Rebuild the undefined eye and wordmark' \
 	  'make tokyo-night-assets  Rebuild Tokyo Night vectors from editable TeX sources' \
-	  'make theme-assets THEME=tokyo-night|undefined|tsinghua|pcl  Download latest assets for one theme (Python only)' \
-	  'make dist-theme-assets THEME=tokyo-night|undefined|tsinghua|pcl  Package reviewed assets for one theme' \
+	  'make theme-assets THEME=tokyo-night|undefined|eva|tsinghua|pcl  Download latest assets for one theme (Python only)' \
+	  'make dist-theme-assets THEME=tokyo-night|undefined|eva|tsinghua|pcl  Package reviewed assets for one theme' \
 	  'make theme-previews   Build theme samples and refresh README preview images' \
 	  'make logo            Rebuild project logo SVGs and PDF/PNG previews' \
 	  'make dist            Create a standalone source ZIP in build/dist/' \

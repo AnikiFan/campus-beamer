@@ -17,7 +17,7 @@ Release 的源码 ZIP 保留默认 general 素材、全部主题配置、可编�
 
 ```bash
 make theme-assets THEME=undefined
-# 其他主题：将 undefined 换成 tokyo-night、tsinghua 或 pcl。
+# 其他主题：将 undefined 换成 tokyo-night、eva、tsinghua 或 pcl。
 ```
 
 这个步骤只需 Python 3.10+ 和 GNU Make，不需要 uv、TeX 或额外 Python 包。
@@ -28,6 +28,7 @@ make theme-assets THEME=undefined
 下载入口：
 
 - [Tokyo Night 最新版素材](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-tokyo-night)
+- [EVA 最新版素材](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-eva)
 - [undefined 最新版素材](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-undefined)
 - [清华最新版素材](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-tsinghua)
 - [鹏城实验室最新版素材](https://github.com/AnikiFan/campus-beamer/releases/tag/theme-assets-pcl)
@@ -63,6 +64,10 @@ sudo apt-get update
 sudo apt-get install make latexmk biber texlive-xetex texlive-latex-extra \
   texlive-bibtex-extra texlive-fonts-recommended texlive-fonts-extra texlive-lang-chinese ffmpeg
 ```
+
+EVA 主题额外使用日文 Harano Aji Mincho Heavy 字体。精简安装请补装
+`texlive-lang-japanese`（Debian / Ubuntu）或 `tlmgr install haranoaji-extra`；
+参见 [EVA 字体说明](../theme/eva/README.md#字体)。
 
 macOS 安装包含上述工具的 MacTeX 和 GNU Make。Windows 用户可在 WSL 中使用相同命令；
 不在 WSL 的用户需自行提供兼容的 GNU Make、XeLaTeX 和 biber。

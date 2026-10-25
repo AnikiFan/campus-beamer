@@ -29,7 +29,7 @@
 
 ## 示例页面
 
-`examples/example.tex` 是版式与功能演示；general 主题完整功能演示的 PDF/PPTX，以及清华、鹏城实验室、Tokyo Night 和 undefined 主题的 PDF 样例请前往
+`examples/example.tex` 是版式与功能演示；general 主题完整功能演示的 PDF/PPTX，以及清华、鹏城实验室、Tokyo Night、undefined 和 EVA 主题的 PDF 样例请前往
 [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 下载。
 general 另提供完整英文版 [`examples/example-en.tex`](examples/example-en.tex)，可用 `make pdf MAIN=examples/example-en` 编译。
 Release 中的 `campus-beamer-X.Y.Z-example-en.pdf` 为英文 PDF；英文版不附带 PPTX。
@@ -56,6 +56,13 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
       <td nowrap><a href="docs/images/preview-general-section.png"><img src="docs/images/preview-general-section.png" alt="通用: 章节页" width="170"></a></td>
       <td nowrap><a href="docs/images/preview-general-body.png"><img src="docs/images/preview-general-body.png" alt="通用: 正文页" width="170"></a></td>
       <td nowrap><a href="docs/images/preview-general-closing.png"><img src="docs/images/preview-general-closing.png" alt="通用: 致谢页" width="170"></a></td>
+    </tr>
+    <tr>
+      <th scope="row" nowrap><a href="theme/eva/README.md">EVA</a></th>
+      <td nowrap><a href="docs/images/preview-eva-cover.png"><img src="docs/images/preview-eva-cover.png" alt="EVA: 封面" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-eva-section.png"><img src="docs/images/preview-eva-section.png" alt="EVA: 章节页" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-eva-body.png"><img src="docs/images/preview-eva-body.png" alt="EVA: 正文页" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-eva-closing.png"><img src="docs/images/preview-eva-closing.png" alt="EVA: 致谢页" width="170"></a></td>
     </tr>
     <tr>
       <th scope="row" nowrap><a href="theme/undefined/README.md">undefined</a></th>
@@ -139,6 +146,10 @@ Release 提供 general 主题的 4:3 PDF；本地运行 `make pdf MAIN=examples/
 目前随主题提供的插图主要按 16:9 版式裁剪，尚未专门针对 4:3 进行优化。
 使用 4:3 时请检查插图的取景与主体是否完整，必要时自行调整裁切。
 
+`eva` 使用二号机联想的红黑配色与《Q》的碎片化 NERV 标志，章节页右侧为日文黑白标题卡，最后一节以「終。」收尾。
+选择 `\documentclass[theme=eva]{campusbeamer}`，运行 `make pdf MAIN=examples/example-eva` 查看完整示例；
+4:3 版本使用 `make pdf MAIN=examples/example-eva-43`。构图和素材说明见 [EVA 主题](theme/eva/README.md)。
+
 ## 下载主题素材
 
 从 Release 下载并解压所选版本的 `campus-beamer-*-source.zip` 后，默认 general 主题可直接使用。
@@ -146,7 +157,7 @@ Release 提供 general 主题的 4:3 PDF；本地运行 `make pdf MAIN=examples/
 
 ```bash
 make theme-assets THEME=undefined
-# 将 undefined 换成 tokyo-night、tsinghua 或 pcl 即可下载其他主题。
+# 将 undefined 换成 tokyo-night、eva、tsinghua 或 pcl 即可下载其他主题。
 ```
 
 命令只需 Python 3.10+，会下载对应主题、校验 SHA-256 并安装到 `theme/<主题>/assets/`。
@@ -168,7 +179,7 @@ make overleaf THEME=tsinghua                        # 清华主题
 make overleaf OVERLEAF_LANGUAGE=english ASPECTRATIO=43  # 英文，4:3
 ```
 
-主题可选 `general`、`tsinghua`、`pcl`、`tokyo-night` 或 `undefined`；语言可选
+主题可选 `general`、`tsinghua`、`pcl`、`tokyo-night`、`undefined` 或 `eva`；语言可选
 `chinese` 或 `english`；比例可选 `169` 或 `43`，三个选项可以组合。
 如果没有 Make，也可以直接运行：
 
@@ -234,7 +245,7 @@ PPTX 自动保留原生章节分节、标题与作者，以及副标题、课题
 make doctor              # 检查环境
 make draft MAIN=examples/example  # 查看示例的逐页预览与排版报告
 make MAIN=examples/example        # 构建 build/example.pdf 和 build/example.pptx
-make examples            # 构建清华、鹏城实验室、Tokyo Night 和 undefined PDF 样例
+make examples            # 构建清华、鹏城实验室、Tokyo Night、undefined 和 EVA PDF 样例
 make                     # 有 main.tex 时构建自己的汇报，否则构建 examples/example.tex
 ```
 
@@ -264,7 +275,7 @@ VS Code、Overleaf 和命令行用法见[环境说明](docs/workflows.md)。
 
 ## 选择与定制主题
 
-内置 `general`（通用，默认）、`tokyo-night`（深色）、`tsinghua`（清华）、`pcl`（鹏城实验室）和 `undefined`（奶蛙名画）主题。
+内置 `general`（通用，默认）、`tokyo-night`（深色）、`tsinghua`（清华）、`pcl`（鹏城实验室）、`undefined`（奶蛙名画）和 `eva`（EVA 标题卡）主题。
 使用 `\documentclass[theme=pcl]{campusbeamer}` 切换，素材说明见[鹏城实验室主题](theme/pcl/README.md)。
 
 复制 `theme/general/` 为 `theme/myschool/`，修改其中的 `profile.tex` 与素材，
@@ -323,6 +334,7 @@ build/                生成的 PDF、PPTX 和逐页预览
   和[项目字标说明](assets/README.md#campus-beamer-项目字标)。
 - **Tokyo Night**：原创月牙星光标志、城市插画和项目字标适配采用 GPL-3.0-or-later；
   上游配色的 MIT 通知和字体许可见 [Tokyo Night 素材说明](theme/tokyo-night/README.md)。
+- **EVA**：《Q》的碎片化 NERV 标志、红黑背景与日文标题卡；标志权利、替代字体与视觉参考见 [EVA 素材说明](theme/eva/README.md)。
 - **undefined**：奶蛙眼睛图案与 AI 生成的名画恶搞配图，角色来源及权利说明见
   [undefined 素材说明](theme/undefined/README.md)。
 - **清华大学**：校徽、校名、组合标志及校园图像来自清华大学视觉形象识别系统和

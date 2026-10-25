@@ -58,7 +58,7 @@ class MakeEntryTests(unittest.TestCase):
         commands = self.commands('release', 'MAIN=main')
         self.assertIn('"examples/example.tex"', commands)
         self.assertIn('tools/export_presentation.py "examples/example.tex"', commands)
-        for entry in ('example-43', 'example-en', 'example-tsinghua', 'example-pcl', 'example-tokyo-night', 'example-undefined'):
+        for entry in ('example-43', 'example-en', 'example-tsinghua', 'example-pcl', 'example-tokyo-night', 'example-undefined', 'example-eva'):
             self.assertIn(f'"examples/{entry}.tex"', commands)
             self.assertNotIn(f'tools/export_presentation.py "examples/{entry}.tex"', commands)
         self.assertNotIn('"main.tex"', commands)

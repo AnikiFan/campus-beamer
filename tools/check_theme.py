@@ -38,7 +38,45 @@ EXPECTED_PAGES = {'aspect-ratio-43': 9, 'aspect-ratio-169': 9, 'aspect-ratio-not
                   'citation-top-right': 3, 'flow-layout': 1, 'url-layout': 2,
                   'doc-citations': 7, 'description-alignment': 4, 'callout-layout': 1,
                   'overlays': 6, 'overlays-handout': 3,
-                  'native-notes': 4, 'native-notes-screen': 4, 'profile-undefined': 10}
+                  'native-notes': 4, 'native-notes-screen': 4, 'profile-undefined': 10,
+                  'profile-eva': 11, 'profile-eva-english': 7}
+
+
+def check_eva_english(document, log):
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('profile-eva-english: overflow or missing glyphs')
+    titles = ('ページと画像', '論文と引用', '注記と強調', 'ナビと段階表示', '終。')
+    for number, title in enumerate(titles, start=1):
+        page = document[number]
+        if abs(page.rect.width / page.rect.height - 4 / 3) > .001:
+            raise RuntimeError('profile-eva-english: incorrect aspect ratio')
+        panel = pymupdf.Rect(page.rect.width * .64, 0, page.rect.width, page.rect.height)
+        text = ''.join(page.get_text(clip=panel).split())
+        if title.replace(' ', '') not in text:
+            raise RuntimeError(f'profile-eva-english: missing or hyphenated title {number}: {text}')
+
+
+def check_eva(document, log):
+    """Read the right panel: fifth chapter cycles, only actual final chapter ends."""
+    if 'Overfull' in log or 'Missing character:' in log:
+        raise RuntimeError('profile-eva: overflow or missing glyphs')
+    if document[0].get_images(full=True):
+        raise RuntimeError('profile-eva: cover identity must use vector artwork, not bitmaps')
+    titles = ('ページと画像', '論文と引用', '注記と強調', 'ナビと段階表示', '再び展開', '終。')
+    signatures = []
+    for number, title in enumerate(titles, start=1):
+        page = document[number]
+        panel = pymupdf.Rect(page.rect.width * .64, 0, page.rect.width, page.rect.height)
+        text = ''.join(page.get_text(clip=panel).split())
+        if title not in text or ('終。' in text and number != 6):
+            raise RuntimeError(f'profile-eva: incorrect chapter card {number}: {text}')
+        if number < 5:
+            signatures.append([(round(w[0]), round(w[1])) for w in page.get_text('words', clip=panel)])
+    if len({str(signature) for signature in signatures}) != 4:
+        raise RuntimeError('profile-eva: chapter compositions must vary')
+    for number in (7, 8):
+        if '終。' in document[number].get_text(clip=panel):
+            raise RuntimeError('profile-eva: explicit background should override title card')
 
 
 def prepare_profile_fixture(workspace):
@@ -992,6 +1030,10 @@ def check(root, output):
                         raise RuntimeError(f'{name}: default primary color must be pure black')
                     if 'CAMPUS' not in document[0].get_text():
                         raise RuntimeError(f'{name}: default cover must use the project wordmark')
+                if name == 'profile-eva':
+                    check_eva(document, result.stdout)
+                if name == 'profile-eva-english':
+                    check_eva_english(document, result.stdout)
                 if name == 'profile-undefined':
                     check_undefined(document, result.stdout)
                 if name == 'profile-tokyo-night':

@@ -13,6 +13,7 @@ DEMO_FORMATS = {'example': ('pdf', 'pptx'),
                 'example-43': ('pdf',),
                 'example-tokyo-night': ('pdf',),
                 'example-undefined': ('pdf',),
+                'example-eva': ('pdf',),
                 'example-tsinghua': ('pdf',), 'example-pcl': ('pdf',)}
 
 

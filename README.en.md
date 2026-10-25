@@ -49,7 +49,7 @@ The comparison below uses the English General demo and the Chinese demos for the
 ## Example pages
 
 `examples/example.tex` is the layout and feature tour. Download
-the Chinese general theme's PDF/PPTX feature tour, the English general PDF, and the Tsinghua, Peng Cheng Laboratory, Tokyo Night and undefined PDF samples
+the Chinese general theme's PDF/PPTX feature tour, the English general PDF, and the Tsinghua, Peng Cheng Laboratory, Tokyo Night, undefined and EVA PDF samples
 from the [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases)
 page. The example PPTX includes per-slide PowerPoint speaker notes. Advance through
 the PDF/PPTX to see cumulative reveals and content replacement, with notes for each stage.
@@ -75,6 +75,13 @@ download the corresponding PDF for the complete tour and interactive examples.
       <td nowrap><a href="docs/images/preview-general-en-section.png"><img src="docs/images/preview-general-en-section.png" alt="General: Section" width="170"></a></td>
       <td nowrap><a href="docs/images/preview-general-en-body.png"><img src="docs/images/preview-general-en-body.png" alt="General: Body" width="170"></a></td>
       <td nowrap><a href="docs/images/preview-general-en-closing.png"><img src="docs/images/preview-general-en-closing.png" alt="General: Closing" width="170"></a></td>
+    </tr>
+    <tr>
+      <th scope="row" nowrap><a href="theme/eva/README.md">EVA</a></th>
+      <td nowrap><a href="docs/images/preview-eva-cover.png"><img src="docs/images/preview-eva-cover.png" alt="EVA: Cover" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-eva-section.png"><img src="docs/images/preview-eva-section.png" alt="EVA: Section" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-eva-body.png"><img src="docs/images/preview-eva-body.png" alt="EVA: Body" width="170"></a></td>
+      <td nowrap><a href="docs/images/preview-eva-closing.png"><img src="docs/images/preview-eva-closing.png" alt="EVA: Closing" width="170"></a></td>
     </tr>
     <tr>
       <th scope="row" nowrap><a href="theme/undefined/README.md">undefined</a></th>
@@ -162,6 +169,11 @@ See [aspect ratio options](docs/class-options.md#页面比例) for all theme exa
 The bundled illustrations are currently cropped for the 16:9 layout and have not been specifically optimized for 4:3.
 When using 4:3, check the framing and visibility of the subject, and adjust the crop as needed.
 
+The [`eva`](theme/eva/README.md) profile combines a Unit-02-inspired red palette and the fragmented NERV emblem from Evangelion: 3.0 with Japanese black-and-white chapter cards.
+Four compositions rotate with the chapter content; the final chapter displays “終。” near the lower-right corner. Select
+`\documentclass[theme=eva]{campusbeamer}` and run `make pdf MAIN=examples/example-eva`,
+or `make pdf MAIN=examples/example-eva-43` for 4:3.
+
 ## Download theme assets
 
 Extract your chosen Release's `campus-beamer-*-source.zip`; the default general theme is ready to use.
@@ -170,7 +182,7 @@ Run only the command for the theme you need from the project root:
 
 ```bash
 make theme-assets THEME=undefined
-# Replace undefined with tokyo-night, tsinghua or pcl for another theme.
+# Replace undefined with tokyo-night, eva, tsinghua or pcl for another theme.
 ```
 
 Only Python 3.10+ is needed. The command downloads that theme, verifies SHA-256 and installs it
@@ -196,7 +208,7 @@ make overleaf THEME=tsinghua OVERLEAF_LANGUAGE=english   # Tsinghua theme
 make overleaf OVERLEAF_LANGUAGE=english ASPECTRATIO=43   # English, 4:3
 ```
 
-Choose a theme from `general`, `tsinghua`, `pcl`, `tokyo-night` or `undefined`, a language
+Choose a theme from `general`, `tsinghua`, `pcl`, `tokyo-night`, `undefined` or `eva`, a language
 from `chinese` or `english`, and an aspect ratio of `169` or `43`. These options can be
 combined. Without a language option, `make overleaf` uses the Chinese demo.
 If Make is unavailable, run Python directly:
@@ -304,7 +316,7 @@ See [environment workflows](docs/workflows.md) for VS Code, Overleaf and the com
 
 ## Choose and customize a theme
 
-Built-in profiles are `general` (default), `tsinghua`, `pcl` (Peng Cheng Laboratory), `tokyo-night` (dark), and `undefined` (Naiwa art parody).
+Built-in profiles are `general` (default), `tsinghua`, `pcl` (Peng Cheng Laboratory), `tokyo-night` (dark), `undefined` (Naiwa art parody), and `eva` (EVA title cards).
 Select PCL with `\documentclass[theme=pcl]{campusbeamer}`; see its
 [profile and asset provenance](theme/pcl/README.md).
 
@@ -365,6 +377,7 @@ Source code uses **GPL-3.0-or-later**; see [LICENSE](LICENSE). Asset terms are d
 - **Tokyo Night**: the original crescent-and-star icon, city illustration and project lettering
   adaptation use GPL-3.0-or-later. See the [Tokyo Night asset notice](theme/tokyo-night/README.md)
   for the upstream palette's MIT notice and font license.
+- **EVA**: fragmented NERV emblem from Evangelion: 3.0, red palette and Japanese title cards; see the [emblem rights, substitute font and visual source notice](theme/eva/README.md).
 - **undefined**: A Naiwa-inspired circular eye and AI-generated painting parodies. See the
   [asset provenance and rights notice](theme/undefined/README.md).
 - **Tsinghua**: the emblem, university name, combined marks and campus images come from the

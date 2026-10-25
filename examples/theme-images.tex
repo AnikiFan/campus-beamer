@@ -11,6 +11,19 @@
 \newcommand{\campusexamplesectionthreeimage}{theme/general/assets/backdrop.pdf}
 \newcommand{\campusexamplesectionfourimage}{theme/general/assets/backdrop.pdf}
 \newcommand{\campusexamplesectionfiveimage}{theme/general/assets/backdrop.pdf}
+\ifdefstring{\campusexampletheme}{eva}{%
+  \campusevasectiontitle{1}{ページと\\画像}%
+  \campusevasectiontitle{2}{論文と\\引用}%
+  \campusevasectiontitle{3}{注記と\\強調}%
+  \campusevasectiontitle{4}{ナビと\\段階表示}%
+  \campusevasectiontitle{5}{映像と\\結び}%
+
+  \renewcommand{\campusexampleimage}{theme/eva/assets/backdrop.pdf}%
+  \renewcommand{\campusexamplesectiononeimage}{profile}%
+  \renewcommand{\campusexamplesectiontwoimage}{profile}%
+  \renewcommand{\campusexamplesectionthreeimage}{profile}%
+  \renewcommand{\campusexamplesectionfourimage}{profile}%
+  \renewcommand{\campusexamplesectionfiveimage}{profile}}{}
 \ifdefstring{\campusexampletheme}{tsinghua}{%
   \renewcommand{\campusexampleimage}{theme/tsinghua/assets/sigs_building.jpg}%
   \renewcommand{\campusexamplesectiononeimage}{theme/tsinghua/assets/sigs_building.jpg}%

@@ -1,0 +1,15 @@
+% Original red/amber angular field for ordinary figure examples.
+% Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
+% SPDX-License-Identifier: GPL-3.0-or-later
+\documentclass[tikz,border=0pt]{standalone}
+\definecolor{evared}{HTML}{B92532}
+\definecolor{amber}{HTML}{F0C96C}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \path[use as bounding box] (0,0) rectangle (16,9);
+  \fill[black] (0,0) rectangle (16,9);
+  \fill[evared] (2,0) -- (8,0) -- (11,9) -- (5,9) -- cycle;
+  \fill[amber] (9,0) -- (9.3,0) -- (12.3,9) -- (12,9) -- cycle;
+  \fill[evared!50!black] (13,0) -- (16,0) -- (16,9) -- cycle;
+\end{tikzpicture}
+\end{document}

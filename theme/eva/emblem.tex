@@ -1,0 +1,78 @@
+% Editable vector reconstruction of the NERV 3.0 / Q emblem.
+% The underlying emblem remains third-party artwork; see README.md.
+% Large polygon landmarks follow the reference. The small seal-like glyphs
+% are a hand-drawn approximation, not a transcription of an official master.
+\documentclass[tikz,border=0pt]{standalone}
+\definecolor{brand}{HTML}{F4EDE7}
+\providecommand{\artcolor}{brand}
+\begin{document}
+\begin{tikzpicture}[x=.1pt,y=-.1pt]
+  \path[use as bounding box] (0,0) rectangle (1000,1000);
+  \begin{scope}[xshift=5pt]
+    % Angular leaf, stem, and the descending diagonal.
+    \fill[\artcolor]
+      (104,187) -- (204,187) -- (204,270) -- (236,302)
+      -- (313,225) -- (313,112) -- (383,42) -- (605,42)
+      -- (605,147) -- (552,201) -- (574,223) -- (621,177)
+      -- (840,177) -- (840,344) -- (755,429) -- (582,429)
+      -- (582,448) -- (631,448) -- (608,471) -- (488,592)
+      -- (488,492) -- (367,492) -- (490,368) -- (373,368)
+      -- (248,493) -- (124,368) -- (282,368) -- cycle;
+    % Detached left bar and the lower tangram fragments.
+    \fill[\artcolor] (60,368) rectangle (124,493);
+    \fill[\artcolor] (124,493) -- (248,493) -- (367,612) -- (124,612) -- cycle;
+    \fill[\artcolor] (367,492) -- (488,612) -- (367,612) -- cycle;
+    \fill[\artcolor] (608,471) -- (796,612) -- (608,612) -- cycle;
+    % Lower-right split tail and the detached rising triangle.
+    \fill[\artcolor]
+      (478,612) -- (609,612) -- (609,666) -- (621,678)
+      -- (644,658) -- (734,658) -- (734,947)
+      -- (537,752) -- (478,810) -- cycle;
+    \fill[\artcolor] (361,695) -- (478,810) -- (478,865) -- (361,865) -- cycle;
+    % Four small seal-like signs, arranged one above a row of three.
+    % Every stroke is a vector path. There is no bitmap, font dependency,
+    % bounding white rectangle, or image mask in this emblem.
+    \begin{scope}[draw=\artcolor,line width=.30pt,line cap=round,line join=round]
+      \begin{scope}[shift={(60,666)}]
+        \draw (4,4)--(34,4)--(34,18)--(18,18)--(18,31)--(42,31)--(42,46)--(6,46);
+        \draw (9,13)--(9,38)--(28,38);
+        \draw (45,4)--(84,4)--(84,22)--(59,22)--(59,36)--(83,36)--(83,49)--(49,49);
+        \draw (48,14)--(72,14);
+        \draw (7,56)--(32,56)--(32,73)--(16,73)--(16,85)--(43,85)--(43,63)--(57,63)--(57,84)--(84,84);
+        \draw (7,65)--(7,85);
+        \draw (67,56)--(84,56)--(84,73)--(69,73)--(69,65);
+        \draw (34,49)--(45,56);
+      \end{scope}
+      \begin{scope}[shift={(60,768)}]
+        \draw (5,5)--(37,5)--(37,21)--(18,21)--(18,35)--(38,35)--(38,51)--(5,51)--(5,28);
+        \draw (5,13)--(27,13);
+        \draw (47,5)--(82,5)--(82,20)--(61,20)--(61,39)--(48,39)--(48,29);
+        \draw (72,29)--(83,29)--(83,53)--(58,53)--(58,67)--(80,67)--(80,85);
+        \draw (6,61)--(37,61)--(37,76)--(17,76)--(17,86);
+        \draw (6,70)--(6,86);
+        \draw (46,49)--(46,85)--(67,85)--(67,76);
+        \draw (27,84)--(36,84);
+      \end{scope}
+      \begin{scope}[shift={(161,768)}]
+        \draw (5,4)--(22,4)--(22,22)--(40,22)--(40,4)--(58,4)--(58,22)--(82,22)--(82,5)--(70,5);
+        \draw (6,15)--(6,39)--(28,39)--(28,29);
+        \draw (49,30)--(49,48)--(70,48)--(70,34)--(83,34)--(83,64)--(64,64)--(64,84);
+        \draw (5,50)--(35,50)--(35,67)--(18,67)--(18,84)--(45,84)--(45,58);
+        \draw (6,60)--(6,84);
+        \draw (55,55)--(55,74);
+        \draw (73,74)--(84,74)--(84,84)--(74,84);
+      \end{scope}
+      \begin{scope}[shift={(262,768)}]
+        \draw (5,4)--(34,4)--(34,20)--(17,20)--(17,36)--(39,36)--(39,50)--(6,50);
+        \draw (6,14)--(6,40);
+        \draw (45,4)--(83,4)--(83,20)--(61,20)--(61,34)--(83,34)--(83,50)--(49,50)--(49,25);
+        \draw (47,13)--(72,13);
+        \draw (6,60)--(27,60)--(27,84)--(6,84)--(6,71)--(16,71);
+        \draw (37,59)--(53,59)--(53,74)--(68,74)--(68,59)--(83,59)--(83,85);
+        \draw (38,70)--(38,85)--(58,85);
+        \draw (70,84)--(76,84);
+      \end{scope}
+    \end{scope}
+  \end{scope}
+\end{tikzpicture}
+\end{document}

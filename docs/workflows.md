@@ -64,7 +64,7 @@ make overleaf THEME=tokyo-night OVERLEAF_LANGUAGE=english ASPECTRATIO=43
 ```
 
 默认值为 `THEME=general`、`OVERLEAF_LANGUAGE=chinese`、`ASPECTRATIO=169`。
-主题还可选 `tsinghua`、`pcl`、`tokyo-night`、`undefined`；语言可选 `chinese` 或 `english`，
+主题还可选 `tsinghua`、`pcl`、`tokyo-night`、`undefined`、`eva`；语言可选 `chinese` 或 `english`，
 比例可选 `169` 或 `43`。这些参数可以组合，4:3 沿用现有 16:9 裁剪的插图。
 生成文件为 `build/overleaf/campus-beamer-<主题>-<zh或en>-<比例>.zip`。
 

@@ -11,10 +11,10 @@
 
 `theme` 默认为 `general`。名称对应 `theme/<名称>/profile.tex`，区分大小写，
 使用英文字母、数字、连字符或下划线，首字符为字母或数字。
-内置主题：`general`（[通用](general/README.md)，默认）、`tsinghua`（[清华](tsinghua/README.md)）、`pcl`（[鹏城实验室](pcl/README.md)）、`tokyo-night`（[深色](tokyo-night/README.md)）和 `undefined`（[奶蛙名画](undefined/README.md)）。
+内置主题：`general`（[通用](general/README.md)，默认）、`tsinghua`（[清华](tsinghua/README.md)）、`pcl`（[鹏城实验室](pcl/README.md)）、`tokyo-night`（[深色](tokyo-night/README.md)）、`undefined`（[奶蛙名画](undefined/README.md)）和 `eva`（[EVA 标题卡](eva/README.md)）。
 例如 `\documentclass[theme=pcl]{campusbeamer}` 选择鹏城实验室主题。
-在仓库根目录运行 `make examples` 可导出清华、PCL、Tokyo Night 和 undefined 的 PDF 样例；`make MAIN=examples/example` 导出 general 完整演示；单独构建使用
-`make pdf MAIN=examples/example-tsinghua`、`make pdf MAIN=examples/example-pcl`、`make pdf MAIN=examples/example-tokyo-night` 或 `make pdf MAIN=examples/example-undefined`。五个中文主题示例共用 `examples/example.tex` 与 `examples/sections/` 的完整演示，页数、内容和顺序一致；
+在仓库根目录运行 `make examples` 可导出清华、PCL、Tokyo Night、undefined 和 EVA 的 PDF 样例；`make MAIN=examples/example` 导出 general 完整演示；单独构建使用
+`make pdf MAIN=examples/example-tsinghua`、`make pdf MAIN=examples/example-pcl`、`make pdf MAIN=examples/example-tokyo-night`、`make pdf MAIN=examples/example-undefined` 或 `make pdf MAIN=examples/example-eva`。六个中文主题示例共用 `examples/example.tex` 与 `examples/sections/` 的完整演示，页数、内容和顺序一致；
 主题目录中的 `sample.tex` 只选择主题，`examples/theme-images.tex` 选择背景和各 section 起始页配图。
 每个 section 都有独立的图片配置位；清华示例已为五个 section 分别配置校园素材。
 未知名称或不完整的配置会给出编译错误。
@@ -28,7 +28,7 @@
 3. 在文档类中设置 `theme=myschool`。无需修改通用主题、文档类或登记主题名称。
 4. 编译并检查封面、目录、普通页、提示框与结束页；公开分发新增主题时，
    将审核后的文件逐一加入 `tools/package_source.py` 的 `FILES`，再运行 `make dist`。
-   同时提供 `theme/<名称>/sample.tex` 与根目录编译入口，将样例加入 Make 的 `examples`、
+   同时提供 `theme/<名称>/sample.tex` 与 `examples/` 编译入口，将样例加入 Make 的 `examples`、
    `theme-previews` 以及 `tools/package_release.py` 的 `DEMO_FORMATS`，更新中英文 README 预览。
    本地使用主题不需要修改打包清单。
 
@@ -102,3 +102,10 @@ Release 仅提供 general 的 PPTX；机构主题可在本地用 `make MAIN=exam
 前者现在是通用加载器。清华素材从 `assets/` 移至 `theme/tsinghua/assets/`。
 已有文稿若直接引用 `assets/sigs_*`、`assets/tsinghua_*`、`assets/emblem_*`
 或 `assets/wordmark*`，请更新为新路径。使用学校标志命令的页面会自动使用所选主题的路径。
+
+## 动态章节配图
+
+主题可在 `profile.tex` 中定义 `\campussectionart` 绘制章节背景，并从同目录加载其实现。
+`\sectioncoverpage{导读}` 或 `\sectioncoverpage[profile]{导读}` 使用该绘图；未定义时保持原有主色背景。
+显式的 `[primary]`、`[white]` 或图片路径仍优先于主题绘图。
+EVA 使用此接口生成右侧标题卡，左侧章节信息与通用几何保持不变；见 [EVA 说明](eva/README.md)。

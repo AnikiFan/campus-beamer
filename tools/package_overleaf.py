@@ -30,7 +30,7 @@ def public_files(theme: str, language: str) -> list[str]:
             selected.add(name)
         for profile in {'general', theme}:
             if name.startswith(f'theme/{profile}/') and (
-                path.name == 'profile.tex' or path.suffix in ('.md', '.txt')
+                path.name in ('profile.tex', 'section-art.tex') or path.suffix in ('.md', '.txt')
                 or '/assets/' in name
             ):
                 selected.add(name)

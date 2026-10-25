@@ -29,7 +29,7 @@ class ReleasePackageTests(unittest.TestCase):
 
     def test_public_artifacts_and_checksums(self):
         (self.root / 'build/main.pdf').write_bytes(b'Private user presentation')
-        for theme in ('43', 'tsinghua', 'pcl', 'tokyo-night', 'undefined'):
+        for theme in ('43', 'tsinghua', 'pcl', 'tokyo-night', 'undefined', 'eva'):
             (self.root / f'build/example-{theme}.pptx').write_bytes(b'Stale school export')
         (self.root / 'build/example-en.pptx').write_bytes(b'English PPTX must not be released')
         output = package(self.root, '0.1.0')
@@ -42,6 +42,7 @@ class ReleasePackageTests(unittest.TestCase):
                              'campus-beamer-0.1.0-example-tsinghua.pdf',
                              'campus-beamer-0.1.0-example-pcl.pdf',
                              'campus-beamer-0.1.0-example-tokyo-night.pdf',
+                             'campus-beamer-0.1.0-example-eva.pdf',
                              'campus-beamer-0.1.0-example-undefined.pdf'})
             self.assertEqual(set(archive.namelist()), expected)
             for line in archive.read('SHA256SUMS').decode().splitlines():

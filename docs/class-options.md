@@ -75,7 +75,7 @@
 
 - `aspectratio=169`（默认）或 `43`：选择 16:9 或 4:3。页面分别为 16 × 9 cm 和 16 × 12 cm；
   保持相同宽度、字号与正文边距，4:3 增加纵向空间。PDF 与 PPTX 使用相同比例。
-- `theme=general`（默认）、`tsinghua`（清华）、`pcl`（鹏城实验室）、`tokyo-night`（深色）或 `undefined`（奶蛙名画）：选择 `theme/<名称>/profile.tex`；可复制主题目录添加学校，见[主题使用与扩展](../theme/README.md)。
+- `theme=general`（默认）、`tsinghua`（清华）、`pcl`（鹏城实验室）、`tokyo-night`（深色）、`undefined`（奶蛙名画）或 `eva`（EVA 标题卡）：选择 `theme/<名称>/profile.tex`；可复制主题目录添加学校，见[主题使用与扩展](../theme/README.md)。
 - `language=chinese`（默认）或 `english`：选择主题自动生成的目录、章节标签、
   图表标签、提示框标题、日期和致谢文字。中文版本自动加载 xeCJK；英文版本默认不加载。
   不会翻译用户撰写的正文。

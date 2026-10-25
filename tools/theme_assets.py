@@ -12,10 +12,15 @@ import tempfile
 from urllib.request import urlopen
 import zipfile
 
-THEMES = ('tokyo-night', 'undefined', 'tsinghua', 'pcl')
+THEMES = ('tokyo-night', 'undefined', 'eva', 'tsinghua', 'pcl')
 BASE_URL = 'https://github.com/AnikiFan/campus-beamer/releases/download'
 NOTICE_NAME = 'THEME_ASSETS_NOTICES.md'
 ASSET_FILES = (
+    'theme/eva/assets/emblem_on_dark.pdf',
+    'theme/eva/assets/emblem_on_light.pdf',
+    'theme/eva/assets/wordmark_on_dark.pdf',
+    'theme/eva/assets/wordmark_on_light.pdf',
+    'theme/eva/assets/backdrop.pdf',
     'theme/undefined/assets/emblem_on_dark.pdf',
     'theme/undefined/assets/emblem_on_light.pdf',
     'theme/undefined/assets/wordmark_on_dark.pdf',

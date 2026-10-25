@@ -45,9 +45,9 @@ README 每个主题一行，用四列比较封面、章节页、正文页和致�
 达到下限仍超限时尝试 256 色调色板，否则报错。检查照片色阶、文字边缘与点击放大的效果。
 这项限制只用于 `docs/images/`，不改变主题原图或 PDF/PPTX 导出质量。
 `make test` 检查图片体积、图库总预算、README 引用与源码打包清单。
-`make theme-previews` 重建五套中文完整演示及英文 general 示例，更新全部预览和两个 README，
+`make theme-previews` 重建六套中文完整演示及英文 general 示例，更新全部预览和两个 README，
 并移除已知的废弃预览文件；不再单独保存与 general 缩略图重复的顶图和引用示例图。
-五套中文 PDF 的页数、章节和元信息必须一致；英文版保持同等功能覆盖与页序，并单独核对英文文本锚点。
+六套中文 PDF 的页数、章节和元信息必须一致；英文版保持同等功能覆盖与页序，并单独核对英文文本锚点。
 预览页码、用途和中英文锚点维护在 `tools/render_theme_previews.py` 的 `MATRIX_PAGES` 与
 `FEATURE_PAGES`。调整选页时同步维护显式源码打包清单；新增主题只需生成四种对比页。
 
@@ -115,7 +115,7 @@ agent 扩充后的详细大纲保存在忽略的 `build/outline-normalized.md`�
 `feat!:` 或正文中的 `BREAKING CHANGE:` 表示不兼容变化。
 Release Please 根据这些提交维护版本、锁文件和 [CHANGELOG.md](CHANGELOG.md)；
 合并发行 PR 前检查版本变化、迁移说明及完整演示的视觉效果。
-`make release` 运行测试、编译功能演示与全部内置主题样例，并生成包含源码 ZIP、中文 general PDF/PPTX、英文 general PDF、general 4:3 PDF、Tokyo Night、undefined PDF 和机构主题 PDF、
+`make release` 运行测试、编译功能演示与全部内置主题样例，并生成包含源码 ZIP、中文 general PDF/PPTX、英文 general PDF、general 4:3 PDF、Tokyo Night、undefined、EVA PDF 和机构主题 PDF、
 发行说明与校验和的版本化发行包。发行 PR 合并后，GitHub 工作流会自动构建并上传附件。
 详细配置、令牌与手动重试入口见
 [版本维护与发布](docs/releases.md)。

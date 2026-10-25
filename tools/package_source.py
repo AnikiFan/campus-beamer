@@ -21,6 +21,12 @@ import argparse
 import zipfile
 
 FILES = (
+    'examples/example-eva.tex', 'examples/example-eva-43.tex',
+    'theme/eva/profile.tex', 'theme/eva/section-art.tex', 'theme/eva/sample.tex',
+    'theme/eva/emblem.tex', 'theme/eva/wordmark.tex', 'theme/eva/backdrop.tex', 'theme/eva/README.md',
+    'tools/fixtures/profile-eva.tex', 'tools/fixtures/profile-eva-english.tex',
+    'docs/images/preview-eva-cover.png', 'docs/images/preview-eva-section.png',
+    'docs/images/preview-eva-body.png', 'docs/images/preview-eva-closing.png',
     'tools/package_overleaf.py', 'tools/tests/test_package_overleaf.py',
     'tools/templates/overleaf-latexmkrc', 'tools/templates/overleaf-README.md',
     'examples/example-43.tex',

@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
     paths:
+      - 'theme/eva/assets/**'
+      - 'theme/eva/README.md'
       - 'theme/tokyo-night/assets/**'
       - 'theme/tokyo-night/README.md'
       - 'theme/undefined/assets/**'
@@ -31,7 +33,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        theme: [tokyo-night, undefined, tsinghua, pcl]
+        theme: [tokyo-night, undefined, eva, tsinghua, pcl]
     permissions:
       contents: write
     env:

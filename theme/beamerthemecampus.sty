@@ -1190,9 +1190,9 @@
 
 % Generate a section opening slide on demand.  The section title and number are
 % read from the current \section.  The subsection list is loaded from the TOC;
-% The optional background accepts an image path, white, or primary (purple is a legacy alias).
+% Background accepts an image path, white, primary (purple is a legacy alias), or profile.
 % Usage: \sectioncoverpage[image|white|primary]{introductory text}[image options]
-% An omitted (or empty) background retains the original solid primary-color default.
+% Omitted/empty/profile uses optional profile art; otherwise solid primary color.
 % (The name deliberately avoids Beamer's built-in \sectionpage command.)
 \NewDocumentCommand{\sectioncoverpage}{O{} +m O{}}{%
   \begingroup
@@ -1211,14 +1211,16 @@
   \campuspartialheadline{0.56\paperwidth}
   \setbeamercolor{normal text}{fg=campusonprimary,bg=maincolor}
   \setbeamertemplate{background}{}
-  \ifdefstring{\campus@sectionbackground}{white}{%
+  \ifboolexpr{ test {\ifdefempty{\campus@sectionbackground}} or test {\ifdefstring{\campus@sectionbackground}{profile}} }{%
+    \ifcsdef{campussectionart}{\setbeamertemplate{background}{\campussectionart}}{}%
+  }{\ifdefstring{\campus@sectionbackground}{white}{%
     \setbeamertemplate{background}{\TikzWhiteRightSplit}
   }{%
     \ifboolexpr{ test {\ifdefstring{\campus@sectionbackground}{primary}} or test {\ifdefstring{\campus@sectionbackground}{purple}} }{}{%
       \ifdefempty{\campus@sectionbackground}{}{%
         \setbeamertemplate{background}{\TikzSplitSlide[#3]{\campus@sectionbackground}}}%
     }%
-  }
+  }}
   \frame[t]{%
   \begin{tikzpicture}[remember picture,overlay]
     \node[anchor=west,inner sep=0pt,outer sep=0pt] (section-title)

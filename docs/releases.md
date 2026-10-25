@@ -73,9 +73,9 @@ make release
 make release DPI=200
 ```
 
-`make release` 先检查锁文件同步，再顺序运行 Python 测试、完整功能演示 draft、中文 general 功能演示 PDF/PPTX、英文 general PDF、Tokyo Night、undefined PDF 与两套机构主题 PDF 导出、
-源码打包及版本化发行包生成。默认 600 DPI，构建 `examples/example.tex`、`examples/example-en.tex`、`examples/example-tsinghua.tex`、`examples/example-pcl.tex`、`examples/example-tokyo-night.tex` 和 `examples/example-undefined.tex`，
-即使本地存在自己的 `main.tex` 也只导出公开演示。五个中文主题示例共用相同内容和页序，
+`make release` 先检查锁文件同步，再顺序运行 Python 测试、完整功能演示 draft、中文 general 功能演示 PDF/PPTX、英文 general PDF、Tokyo Night、undefined、EVA PDF 与两套机构主题 PDF 导出、
+源码打包及版本化发行包生成。默认 600 DPI，构建 `examples/example.tex`、`examples/example-en.tex`、`examples/example-tsinghua.tex`、`examples/example-pcl.tex`、`examples/example-tokyo-night.tex`、`examples/example-undefined.tex` 和 `examples/example-eva.tex`，
+即使本地存在自己的 `main.tex` 也只导出公开演示。六个中文主题示例共用相同内容和页序，
 发行打包前会核对页数、章节、元信息和 README 预览锚点；仅中文 general 额外导出 PPTX。英文版独立编译，不参与中文主题样例的元信息一致性比较。
 当前版本在 `CHANGELOG.md` 中缺少非空章节，或演示产物缺失时，打包失败。
 支持 Release Please 的普通、链接式版本标题及手动的 `[X.Y.Z]` 标题。
@@ -86,6 +86,7 @@ make release DPI=200
 - `campus-beamer-X.Y.Z-example.pdf` 与 `campus-beamer-X.Y.Z-example.pptx`：中文 general 主题的完整功能演示；只有它提供 PPTX。
 - `campus-beamer-X.Y.Z-example-43.pdf`：中文 general 主题的 4:3 完整功能演示，只提供 PDF。
 - `campus-beamer-X.Y.Z-example-en.pdf`：英文 general 完整功能演示，只提供 PDF。
+- `campus-beamer-X.Y.Z-example-eva.pdf`：EVA 标题卡主题完整功能演示，只提供 PDF。
 - `campus-beamer-X.Y.Z-example-undefined.pdf`：undefined 奶蛙名画主题完整功能演示，只提供 PDF。
 - `campus-beamer-X.Y.Z-example-tokyo-night.pdf`：Tokyo Night 深色主题完整功能演示，只提供 PDF。
 - `campus-beamer-X.Y.Z-example-tsinghua.pdf` 与 `campus-beamer-X.Y.Z-example-pcl.pdf`：清华和鹏城实验室主题样例；GitHub Release 中分别上传。
@@ -117,6 +118,7 @@ Git 仓库继续跟踪主题素材，发布构建直接使用检出的文件，�
 | 主题 | Release 标签 | 附件 |
 | --- | --- | --- |
 | Tokyo Night | `theme-assets-tokyo-night` | `campus-beamer-tokyo-night-assets.zip` |
+| EVA | `theme-assets-eva` | `campus-beamer-eva-assets.zip` |
 | undefined | `theme-assets-undefined` | `campus-beamer-undefined-assets.zip` |
 | 清华 | `theme-assets-tsinghua` | `campus-beamer-tsinghua-assets.zip` |
 | 鹏城实验室 | `theme-assets-pcl` | `campus-beamer-pcl-assets.zip` |
@@ -126,7 +128,7 @@ Git 仓库继续跟踪主题素材，发布构建直接使用检出的文件，�
 保持原有文件名和目录结构，以兼容旧模板。更新前留存必要备份，更新后下载并校验附件。
 
 `.github/workflows/theme-assets.yml` 在素材、来源声明或素材发布工具变化时运行，也可手动触发。
-它分别打包四个主题，比较各自校验值，仅上传发生变化的包。发布不依赖 TeX 或 uv。
+它分别打包各个可选主题，比较各自校验值，仅上传发生变化的包。发布不依赖 TeX 或 uv。
 白名单在 `tools/theme_assets.py` 的 `ASSET_FILES`，新增主题素材必须逐个审核并登记。
 每个 ZIP 附上该主题的来源与使用范围，机构素材不因此成为 GPL 授权素材。
 本地检查示例：
@@ -134,6 +136,7 @@ Git 仓库继续跟踪主题素材，发布构建直接使用检出的文件，�
 ```bash
 make dist-theme-assets THEME=tokyo-night
 make dist-theme-assets THEME=undefined
+make dist-theme-assets THEME=eva
 make dist-theme-assets THEME=tsinghua
 make dist-theme-assets THEME=pcl
 ```
@@ -176,7 +179,7 @@ demo pages before merging.
 
 On merging, the **Release Please** workflow creates `vX.Y.Z` and a GitHub Release,
 then checks out that tag and runs Docker `make release` in the same workflow.
-It attaches the source ZIP, the Chinese general feature tour as PDF/PPTX, the English general feature tour as PDF, the Tokyo Night and undefined PDFs, and both institution samples as PDF,
+It attaches the source ZIP, the Chinese general feature tour as PDF/PPTX, the English general feature tour as PDF, the Tokyo Night, undefined and EVA PDFs, and both institution samples as PDF,
 release notes and checksum as separate
 assets, then updates the release body with the notes, including the shared license
 scope and image-based PPTX limitation.

@@ -1,0 +1,39 @@
+% Dynamic title cards: all four compositions, actual final section and overrides.
+\documentclass[theme=eva]{campusbeamer}
+\title{EVA 章节标题卡}
+\author{Campus Beamer}
+\date{}
+\campusevasectiontitle{1}{ページと\\画像}
+\campusevasectiontitle{2}{論文と\\引用}
+\campusevasectiontitle{3}{注記と\\強調}
+\campusevasectiontitle{4}{ナビと\\段階表示}
+\campusevasectiontitle{5}{再び\\展開}
+\campusevasectiontitle{6}{映像と\\結び}
+\begin{document}
+\maketitle
+\section{基础页面与图像}
+\subsection{布局}
+\sectioncoverpage{左侧导读保持不变。}
+\section{论文讲解与引用}
+\subsection{证据}
+\sectioncoverpage[profile]{右侧显示本节的日文标题。}
+\section{提示框}
+\subsection{强调}
+\sectioncoverpage{第三种构图。}
+\section{导航与渐进显示}
+\subsection{顺序}
+\sectioncoverpage{第四种构图。}
+\section{再次展开}
+\subsection{延续}
+\sectioncoverpage{第五节仍是标题卡，不提前显示终。}
+\section{媒体与收尾}
+\subsection{总结}
+\sectioncoverpage{第六节才是最后一节。}
+\sectioncoverpage[primary]{显式选择纯色背景。}
+\sectioncoverpage[white]{显式选择白色背景。}
+\begin{frame}{颜色与对比}
+  \begin{tipbox}正文内容与强调色。\end{tipbox}
+  \begin{alertbox}警告保持清晰。\end{alertbox}
+\end{frame}
+\backmatter
+\end{document}
