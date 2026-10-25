@@ -5,6 +5,13 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.22.0](https://github.com/AnikiFan/campus-beamer/compare/v0.21.0...v0.22.0) (2026-10-25)
+
+
+### Features
+
+* add EVA theme with Japanese title cards and vector NERV emblem ([f2a0563](https://github.com/AnikiFan/campus-beamer/commit/f2a0563c4be30ac5a894ba47d43f12b67eb8d89e))
+
 ## [0.21.0](https://github.com/AnikiFan/campus-beamer/compare/v0.20.0...v0.21.0) (2026-10-25)
 
 
