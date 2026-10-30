@@ -20,17 +20,23 @@
 未知名称或不完整的配置会给出编译错误。
 已有 Beamer 文稿也可使用 `\usetheme[theme=general]{campus}`。
 
-## 添加学校
+<a id="添加学校"></a>
 
-1. 从仓库根目录复制一个主题目录，例如 `cp -R theme/general theme/myschool`。
-2. 修改 `theme/myschool/profile.tex` 中的六种功能色，并替换 `assets/` 中的四个标志文件。
-   删除不需要的原学校照片和标志，更新同目录的 `README.md`，记录自己的素材来源、作者和许可。
-3. 在文档类中设置 `theme=myschool`。无需修改通用主题、文档类或登记主题名称。
-4. 编译并检查封面、目录、普通页、提示框与结束页；公开分发新增主题时，
-   将审核后的文件逐一加入 `tools/package_source.py` 的 `FILES`，再运行 `make dist`。
-   同时提供 `theme/<名称>/sample.tex` 与 `examples/` 编译入口，将样例加入 Make 的 `examples`、
-   `theme-previews` 以及 `tools/package_release.py` 的 `DEMO_FORMATS`，更新中英文 README 预览。
-   本地使用主题不需要修改打包清单。
+## 添加主题
+
+学校主题和独立视觉主题都可从同一入口开始：
+
+```bash
+make theme-new THEME=myschool
+# 编辑 theme/myschool/ 中的配色、素材与说明后：
+make theme-preview THEME=myschool
+```
+
+创建命令提供可编译的 general 起点，不覆盖已有目录；预览命令构建完整公开示例的
+16:9 和 4:3 页面。纯配色主题可以保留通用标志，也可替换为自己的素材。
+在文档类中设置 `theme=myschool` 即可使用，无需登记名称。
+向项目贡献主题的步骤见[贡献指南](../CONTRIBUTING.md)，公共图库与发行接入由维护者按
+[接入清单](../docs/maintaining.md#接入新主题)完成。
 
 目录约定：
 
@@ -38,11 +44,13 @@
 theme/myschool/
 ├── profile.tex
 ├── README.md
+├── demo-images.tex        # 可选，公开示例配图
 └── assets/
-    ├── emblem_on_dark.png
-    ├── emblem_on_light.png
-    ├── wordmark_on_dark.png
-    └── wordmark_on_light.png
+    ├── emblem_on_dark.pdf
+    ├── emblem_on_light.pdf
+    ├── wordmark_on_dark.pdf
+    ├── wordmark_on_light.pdf
+    └── backdrop.pdf
 ```
 
 `profile.tex` 定义 `maincolor`、`tipcolor`、`notecolor`、`alertcolor`、
@@ -64,6 +72,12 @@ theme/myschool/
 
 个人信息和演讲内容写在文稿中；学校照片可与主题一起保存，但由具体页面显式引用，
 切换主题不会自动替换正文照片。布局、字体与几何参数继续使用通用主题。
+
+公开功能示例会在默认配图配置后读取 `theme/<名称>/demo-images.tex`（存在时）。
+可在其中用 `\renewcommand` 设置 `\campusexampleimage` 与
+`\campusexamplesectiononeimage` 至 `\campusexamplesectionfiveimage`；前者必须是图片路径，
+后五项也可用 `primary`、`white` 或 `profile`。工具生成的文件已包含起始配置。
+此入口仅用于公开示例与主题预览，不会改写用户汇报。
 
 ## 主题的可选前景与背景颜色
 

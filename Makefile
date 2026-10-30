@@ -57,11 +57,18 @@ export QUERY DBLP_KEY DOI CITE_KEY DBLP_HOST CITATION_SOURCE BIB_OUTPUT BIB_REPO
 export THEME OVERLEAF_LANGUAGE ASPECTRATIO
 
 .PHONY: all init pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist overleaf version examples examples-43 theme-previews general-assets tokyo-night-assets undefined-assets eva-assets theme-assets dist-theme-assets release clean help
+.PHONY: theme-new theme-preview
 
 all: pptx
 
 init:
 	$(PYTHON) tools/init_talk.py
+
+theme-new:
+	$(PYTHON) tools/theme_contrib.py new --theme "$$THEME"
+
+theme-preview:
+	+$(PYTHON) tools/theme_contrib.py preview --theme "$$THEME" --make "$(MAKE)"
 
 pptx: pdf-build
 	$(UV) run --frozen python tools/export_presentation.py "$(SOURCE)" --dpi "$(DPI)" --latexmk "$(LATEXMK)"
@@ -196,6 +203,8 @@ help:
 	@printf '%s\n' \
 	  'make                 Build main.tex when present, otherwise examples/example.tex (PDF + PPTX, 600 DPI)' \
 	  'make init            Create a private outline.md from the starter; preserve an existing draft' \
+	  'make theme-new THEME=my-theme      Create a theme starter without overwriting existing files' \
+	  'make theme-preview THEME=my-theme  Preview the public demo in 16:9 and 4:3' \
 	  'make MAIN=examples/example    Build the bundled reference demo explicitly' \
 	  'make DPI=200         Build a smaller preview' \
 	  'make draft           Compile PDF and render 96-DPI page previews + layout report' \

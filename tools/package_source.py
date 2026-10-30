@@ -65,6 +65,8 @@ FILES = (
     'README.md', 'README.en.md', 'LICENSE', 'SECURITY.md', 'ACCESSIBILITY.md', 'CHANGELOG.md',
     'release-please-config.json', '.release-please-manifest.json',
     'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md', 'AGENTS.md', '.editorconfig', '.gitattributes', '.gitignore', '.latexmkrc', 'Makefile',
+    'docs/maintaining.md', 'tools/theme_contrib.py', 'tools/tests/test_theme_contrib.py',
+    'tools/templates/theme-README.md', 'tools/templates/theme-demo-images.tex',
     '.agents/skills/campus-beamer-authoring/SKILL.md',
     '.agents/skills/campus-beamer-validation/SKILL.md',
     '.agents/skills/campus-mermaid/SKILL.md',

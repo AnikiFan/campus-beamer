@@ -182,7 +182,8 @@ make overleaf OVERLEAF_LANGUAGE=english ASPECTRATIO=43
 | [pcl](theme/pcl/README.md) | 鹏城实验室标志与园区配图 | `examples/example-pcl` |
 
 运行 `make pdf MAIN=examples/example-eva` 可查看相应示例；`make examples` 构建所有非默认主题 PDF。
-复制 `theme/general/` 为自己的主题目录，修改 `profile.tex` 与素材后即可使用，无需修改通用代码。
+运行 `make theme-new THEME=my-theme` 创建自己的主题，修改 `profile.tex` 与素材后即可使用。
+`make theme-preview THEME=my-theme` 可一次预览 16:9 和 4:3；欢迎按[主题贡献流程](CONTRIBUTING.md)分享。
 配置方法见[主题使用与扩展](theme/README.md)，各主题页面提供素材来源与使用范围。
 
 ### 下载主题素材
@@ -256,7 +257,7 @@ build/                PDF、PPTX、备注 PDF 与预览
 
 ## 参与改进
 
-欢迎提交可复现的问题、文档改进和有来源说明的主题配置。请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)，
+最欢迎贡献新主题、改进已有主题，也欢迎提交可复现的问题和文档修正。简单的创建、预览和提交步骤见 [CONTRIBUTING.md](CONTRIBUTING.md)，
 附最小示例及必要日志；勿提交私人汇报、备注或素材。版本变化见 [CHANGELOG.md](CHANGELOG.md)，
 维护流程见[发布指南](docs/releases.md)。
 

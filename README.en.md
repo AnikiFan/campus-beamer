@@ -185,7 +185,8 @@ The institution-neutral `general` theme is the default. Select another with `\do
 | [pcl](theme/pcl/README.md) | Peng Cheng Laboratory marks and campus images | `examples/example-pcl` |
 
 Run `make pdf MAIN=examples/example-eva` for a selected demo; `make examples` builds all non-default theme PDFs.
-To add a local theme, copy `theme/general/`, then edit its `profile.tex` and assets. No changes to shared code are needed.
+Run `make theme-new THEME=my-theme`, then edit its `profile.tex` and assets.
+Use `make theme-preview THEME=my-theme` to preview both 16:9 and 4:3. Share your theme through the [theme contribution workflow](CONTRIBUTING.md).
 See [theme configuration](theme/README.md); each theme page documents its assets and usage terms.
 
 ### Download theme assets
@@ -259,8 +260,8 @@ build/                PDF, PPTX, notes PDF and previews
 
 ## Contributing
 
-Reproducible issues, documentation improvements and themes with documented provenance are welcome.
-Read [CONTRIBUTING.md](CONTRIBUTING.md), include a minimal example and relevant logs, and exclude private presentations, notes and materials.
+New themes and improvements to existing themes are especially welcome, alongside reproducible issues and documentation fixes.
+Follow the short create–preview–submit workflow in [CONTRIBUTING.md](CONTRIBUTING.md); maintainers help with gallery and release integration. Exclude private presentations, notes and materials.
 See [CHANGELOG.md](CHANGELOG.md) for changes and [release maintenance](docs/releases.md) for the publishing workflow.
 
 ## License and assets

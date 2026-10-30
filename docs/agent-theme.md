@@ -4,6 +4,13 @@ Read this guide when changing `theme/`, class options, layout geometry, visual
 fixtures, or school configuration. Content changes should stay in the talk
 sources and do not need this guide.
 
+For a new profile, `make theme-new THEME=my-theme` creates a scoped starter with
+source notices; `make theme-preview THEME=my-theme` renders the public feature
+tour at both 16:9 and 4:3 without selecting a private talk. Keep demo artwork
+overrides in the theme's optional `demo-images.tex`. See [CONTRIBUTING.md](../CONTRIBUTING.md)
+for the contributor workflow and the [maintainer checklist](maintaining.md#接入新主题)
+for deliberate gallery, package and release integration.
+
 ## Boundaries
 
 Keep the implementation institution-neutral and use `campus…` identifiers.
