@@ -56,9 +56,12 @@ override ASPECTRATIO := $(value ASPECTRATIO)
 export QUERY DBLP_KEY DOI CITE_KEY DBLP_HOST CITATION_SOURCE BIB_OUTPUT BIB_REPORT INPUT_BIB
 export THEME OVERLEAF_LANGUAGE ASPECTRATIO
 
-.PHONY: all pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist overleaf version examples examples-43 theme-previews general-assets tokyo-night-assets undefined-assets eva-assets theme-assets dist-theme-assets release clean help
+.PHONY: all init pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist overleaf version examples examples-43 theme-previews general-assets tokyo-night-assets undefined-assets eva-assets theme-assets dist-theme-assets release clean help
 
 all: pptx
+
+init:
+	$(PYTHON) tools/init_talk.py
 
 pptx: pdf-build
 	$(UV) run --frozen python tools/export_presentation.py "$(SOURCE)" --dpi "$(DPI)" --latexmk "$(LATEXMK)"
@@ -167,6 +170,7 @@ version:
 release:
 	$(UV) lock --check --offline
 	$(MAKE) test
+	$(MAKE) check-theme
 	$(MAKE) draft MAIN=examples/example
 	$(MAKE) MAIN=examples/example DPI="$(DPI)"
 	$(MAKE) pdf MAIN=examples/example-en
@@ -191,6 +195,7 @@ clean:
 help:
 	@printf '%s\n' \
 	  'make                 Build main.tex when present, otherwise examples/example.tex (PDF + PPTX, 600 DPI)' \
+	  'make init            Create a private outline.md from the starter; preserve an existing draft' \
 	  'make MAIN=examples/example    Build the bundled reference demo explicitly' \
 	  'make DPI=200         Build a smaller preview' \
 	  'make draft           Compile PDF and render 96-DPI page previews + layout report' \

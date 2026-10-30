@@ -75,7 +75,8 @@ README 每个主题一行，用四列比较封面、章节页、正文页和致�
 ## CI 与发布资料
 
 `.github/workflows/ci.yml` 在仓库根目录运行 Python 测试与源码打包检查。
-本地通过不等于远程 CI 已通过。主题编译验证需要 TeX 环境，使用 `make check-theme`。
+涉及主题、工具、示例或构建配置时，还在 Docker 中运行 `make check-theme` 和公开示例的 PDF/PPTX 导出。
+纯文档变更跳过该较慢的任务；手动触发时执行全部检查。本地通过不等于远程 CI 已通过。
 
 `make dist` 生成 `build/dist/campus-beamer.zip`，只包含清单内的源码、文档、配置和示例素材。
 除 general 外，所有 `theme/<名称>/assets/` 素材不进入该 ZIP，按主题分别维护最新版包；
@@ -84,12 +85,14 @@ general 素材、全部主题配置、可编辑素材源码、来源说明和文
 这份 ZIP 可以作为独立仓库的根目录；GitHub 只从仓库根目录读取 workflows。
 不包含 `.venv`、生成的备注、构建产物，或未列入清单的根目录汇报；新增源码时同步更新打包清单。
 `materials/`、`sections/` 和 `bibliography/` 仅打包各自的 `.gitkeep` 以保留写作目录；其中的用户内容及生成的 `main.tex` 不会被打包。
-源码包公开文件逐一登记在 `tools/package_source.py` 的 `FILES` 白名单中，不递归收录目录中的新文件。
+源码包公开文件逐一登记在 `tools/package_source.py` 的 `FILES` 白名单中，不递归收录目录中的新文件；
+根目录 `outline.md` 是唯一的生成入口，由已登记的 `tools/templates/outline.md` 提供。
 独立主题素材包使用 `tools/theme_assets.py` 的 `ASSET_FILES` 白名单，详见[素材发布流程](docs/releases.md#每个主题独立维护最新版素材)。
 新增文件默认不打包；审核其内容可公开后，再将路径加入白名单并运行 `make test`、`make dist`。
 清单文件及其父目录不能是符号链接。已登记文件的内容仍需审核，白名单不代替隐私检查。
-`outline.md` 是用户草稿入口。源码包从 `tools/templates/outline.md` 提供起始模板，
-本地草稿保持原样；修改大纲模板时同步更新这两份文件。
+`outline.md` 是被 Git 忽略的用户草稿入口，克隆仓库后用 `make init` 创建，已有内容不会被覆盖。
+源码包从 `tools/templates/outline.md` 提供起始模板，本地草稿保持原样；修改公共模板只需编辑该模板文件。
+旧版本曾跟踪根目录大纲，升级前应先在仓库外备份已填写的内容，更新后恢复为本地文件。
 agent 扩充后的详细大纲保存在忽略的 `build/outline-normalized.md`。公共提交应排除已填写的
 私人大纲；其余白名单文件同样需要审核内容是否适合公开。
 各机构素材的来源、使用范围和权利人联系方式见对应主题说明：

@@ -16,7 +16,7 @@
    锁文件的其他依赖版本、下载地址和哈希不因项目版本变化而更新。
 3. 维护者检查发行 PR 的版本、变更记录、CI 和全部演示页面，再合并。
 4. 合并后的默认分支 push 创建 `vX.Y.Z` tag 和 GitHub Release。
-   **同一次工作流**随后检出该 tag，运行 Docker 中的 `make release`，上传发行 ZIP，
+   **同一次工作流**随后检出该 tag，运行 Docker 中的 `make release`，将包内 PDF、PPTX、源码 ZIP 和校验文件分别上传为 Release 附件，
    并以包内 `RELEASE_NOTES.md` 更新 Release 正文，保留素材许可边界与 PPTX 限制说明。
 
 `pyproject.toml` 的 `[project].version` 是构建版本入口，使用 `MAJOR.MINOR.PATCH`；
@@ -73,7 +73,7 @@ make release
 make release DPI=200
 ```
 
-`make release` 先检查锁文件同步，再顺序运行 Python 测试、完整功能演示 draft、中文 general 功能演示 PDF/PPTX、英文 general PDF、Tokyo Night、undefined、EVA PDF 与两套机构主题 PDF 导出、
+`make release` 先检查锁文件同步，再顺序运行 Python 测试、主题编译与错误路径检查、完整功能演示 draft、中文 general 功能演示 PDF/PPTX、英文 general PDF、Tokyo Night、undefined、EVA PDF 与两套机构主题 PDF 导出、
 源码打包及版本化发行包生成。默认 600 DPI，构建 `examples/example.tex`、`examples/example-en.tex`、`examples/example-tsinghua.tex`、`examples/example-pcl.tex`、`examples/example-tokyo-night.tex`、`examples/example-undefined.tex` 和 `examples/example-eva.tex`，
 即使本地存在自己的 `main.tex` 也只导出公开演示。六个中文主题示例共用相同内容和页序，
 发行打包前会核对页数、章节、元信息和 README 预览锚点；仅中文 general 额外导出 PPTX。英文版独立编译，不参与中文主题样例的元信息一致性比较。
@@ -113,7 +113,7 @@ Git 仓库继续跟踪主题素材，发布构建直接使用检出的文件，�
 请下载项目上传的 `campus-beamer-*-source.zip`；GitHub 自动生成的 `Source code (zip/tar.gz)`
 仍是 Git 仓库快照，包含仓库中跟踪的主题素材。
 
-四个非默认主题各使用独立的固定标签和附件名：
+所有非默认主题各使用独立的固定标签和附件名：
 
 | 主题 | Release 标签 | 附件 |
 | --- | --- | --- |
@@ -152,7 +152,8 @@ make dist-theme-assets THEME=pcl
 
 - `tag` 留空：构建所选 ref 的发行包，仅上传 Actions artifact，不创建 Release 或上传 Release 附件。
 - `tag` 填写已有的 `vX.Y.Z`：检出该 tag，确认它与项目版本一致且 GitHub Release 已存在，
-  重建并上传该版发行 ZIP。相同名称的附件被替换，Release 正文更新为包内发行说明。
+  重建该版发行包，并将其内容分别上传为 Release 附件；完整发行 ZIP 留作 Actions artifact。
+  相同名称的附件被替换，Release 正文更新为包内发行说明。
 
 Actions artifact 保留 14 天；GitHub Release 附件不受此期限影响。
 构建失败会上传可用的 LaTeX 日志与 draft 报告。

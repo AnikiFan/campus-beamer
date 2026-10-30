@@ -134,6 +134,7 @@
 \def\campusclass@hasnotes{false}
 \AddToHook{cmd/note/before}{\gdef\campusclass@hasnotes{true}}
 \def\campusclass@noteslayout{none}
+\def\campusclass@notestextformat{lines}
 \ifdefstring{\campusnotesmode}{slides}{\campusclass@shownotesfalse}{}
 \ifdefstring{\campusnotesmode}{notes}{\campusclass@shownotestrue}{}
 \ifcampusclass@shownotes
@@ -147,9 +148,27 @@
   \setbeameroption{hide notes}
 \fi
 \ifdefstring{\campusnotesmode}{notes}{%
+  % Only the private export render carries semantic paragraph boundaries.
+  % A zero-size white glyph supplies ActualText without changing line geometry.
+  \def\campusclass@notestextformat{paragraphs-v1}%
+  \newif\ifcampusclass@innotetext
+  \newcommand\campusclass@notebreak{\smash{\rlap{%
+    \special{pdf:literal direct /Span << /ActualText <FEFFE000> >> BDC}%
+    {\color{white}\fontsize{1}{1}\selectfont .}%
+    \special{pdf:literal direct EMC}%
+  }}}%
+  \AddToHook{para/begin}{\ifcampusclass@innotetext\campusclass@notebreak\fi}%
   \AddToHook{begindocument/end}{%
     \setbeamertemplate{note page}[plain]%
-    \addtobeamertemplate{note page}{\addfontfeatures{Numbers=Lining}}{}%
+    \addtobeamertemplate{note page}{%
+      \addfontfeatures{Numbers=Lining}%
+      \campusclass@innotetexttrue
+      \hyphenpenalty=10000 % Avoid inserting discretionary hyphens in exported text.
+      \let\campusclass@notelinebreak\\%
+      \def\\{\campusclass@notebreak\campusclass@notelinebreak}%
+      \let\campusclass@notenewline\newline
+      \def\newline{\campusclass@notebreak\campusclass@notenewline}%
+    }{\campusclass@innotetextfalse}%
   }%
 }{}
 \newwrite\campusclass@notesstate
@@ -181,6 +200,7 @@
         /CampusContact (\campusclass@pdfcontact)
         /CampusLanguage (\campusclass@language)
         /CampusNotesLayout (\campusclass@noteslayout)
+        /CampusNotesTextFormat (\campusclass@notestextformat)
       >>}%
     }%
     \expandafter\AtBeginDvi\expandafter{\campusclass@docinfo}%

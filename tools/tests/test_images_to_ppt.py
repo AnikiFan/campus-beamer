@@ -39,12 +39,12 @@ class ConversionTests(unittest.TestCase):
         with redirect_stdout(StringIO()), redirect_stderr(StringIO()):
             return converter.convert_pdf_to_pptx(self.pdf, self.pptx, dpi=72, **kwargs)
 
-    def video_fixture(self, path, size='160x90'):
+    def video_fixture(self, path, size='160x90', color='red'):
         if not shutil.which('ffmpeg'):
             self.skipTest('FFmpeg is needed for real video export tests')
         path.parent.mkdir(parents=True, exist_ok=True)
         subprocess.run(['ffmpeg', '-v', 'error', '-nostdin', '-f', 'lavfi',
-                        '-i', f'color=c=red:s={size}:d=0.12', '-c:v', 'mpeg4',
+                        '-i', f'color=c={color}:s={size}:d=0.12', '-c:v', 'mpeg4',
                         '-y', str(path)], capture_output=True, check=True, timeout=30)
         return path
 
@@ -332,6 +332,41 @@ class ConversionTests(unittest.TestCase):
             pixmap = doc[0].get_pixmap(alpha=False)
             self.assertGreater(pixmap.pixel(100, 200)[0], 200)
             self.assertLess(pixmap.pixel(100, 200)[1], 20)
+
+    def test_changed_video_replaces_poster_and_restores_uncovered_artwork(self):
+        video = self.video_fixture(self.root / 'demo.mp4')
+        with pymupdf.open() as doc:
+            page = doc.new_page(width=400, height=200)
+            page.draw_rect(page.rect, fill=(1, 1, 1))
+            page.insert_link({'kind': pymupdf.LINK_LAUNCH,
+                              'from': pymupdf.Rect(100, 50, 300, 150), 'file': video.name})
+            doc.save(self.pdf)
+        self.assertEqual(poster_tool.add_video_posters(self.pdf), 1)
+        self.video_fixture(video, '90x160', 'blue')
+        self.assertEqual(poster_tool.add_video_posters(self.pdf), 1)
+        with pymupdf.open(self.pdf) as doc:
+            pixmap = doc[0].get_pixmap()
+            self.assertGreater(pixmap.pixel(200, 100)[2], 200)
+            self.assertLess(pixmap.pixel(200, 100)[0], 20)
+            self.assertEqual(pixmap.pixel(130, 100), (255, 255, 255))
+            self.assertEqual(len(doc[0].get_links()), 1)
+        saved = self.pdf.read_bytes()
+        self.assertEqual(poster_tool.add_video_posters(self.pdf), 0)
+        self.assertEqual(self.pdf.read_bytes(), saved)
+        video.write_bytes(b'Undecodable replacement')
+        with self.assertRaises(RuntimeError):
+            poster_tool.add_video_posters(self.pdf)
+        self.assertEqual(self.pdf.read_bytes(), saved)
+
+    def test_legacy_poster_requires_recompile_without_changing_pdf(self):
+        with pymupdf.open() as doc:
+            doc.new_page()
+            doc.set_metadata({'keywords': poster_tool.MARKER})
+            doc.save(self.pdf)
+        saved = self.pdf.read_bytes()
+        with self.assertRaisesRegex(ValueError, 'Recompile'):
+            poster_tool.add_video_posters(self.pdf)
+        self.assertEqual(self.pdf.read_bytes(), saved)
 
     def test_portrait_video_fits_rotated_pdf_placeholder(self):
         video = self.video_fixture(self.root / 'portrait.mp4', '90x160')

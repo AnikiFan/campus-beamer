@@ -10,7 +10,7 @@ import sys
 
 import pymupdf
 
-from images_to_ppt import convert_pdf_to_pptx, pdf_info_string
+from images_to_ppt import convert_pdf_to_pptx, pdf_info_string, validate_notes_log
 from add_video_posters import add_video_posters
 
 
@@ -24,6 +24,8 @@ def render_variant(source: Path, mode: str, latexmk: str) -> Path:
                        '\\input{\\detokenize{' + source.as_posix() + '}}\n')
     subprocess.run([latexmk, '-xelatex', '-interaction=nonstopmode', '-halt-on-error',
                     '-file-line-error', str(wrapper)], check=True)
+    if mode == 'notes':
+        validate_notes_log(wrapper.with_suffix('.pdf'))
     return wrapper.with_suffix('.pdf')
 
 

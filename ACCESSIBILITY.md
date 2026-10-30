@@ -15,7 +15,7 @@ have limited semantic structure depending on the TeX engine and viewer.
 - Use readable text and uncluttered frames. Run `make draft` and inspect every
   page at the intended presentation size, including section pages and overlays.
 - Give every meaningful figure, equation and video a short spoken description in
-  `build/main.notes.json`. Explain trends and conclusions, not just the file
+  the corresponding TeX `\note` (see [native notes](docs/usage.md#原生讲者备注)). Explain trends and conclusions, not just the file
   name or a visual label.
 - For video, provide captions or a transcript when available, describe the
   important visual information in the notes, and keep the poster frame useful.

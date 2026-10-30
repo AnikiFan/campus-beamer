@@ -48,6 +48,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import unicodedata
 from urllib.parse import quote, unquote, urlsplit
 from uuid import uuid4
 from xml.etree import ElementTree as ET
@@ -265,8 +266,38 @@ def pdf_info_string(pdf, key: str) -> str:
     return value if kind == 'string' else ''
 
 
+def validate_notes_log(path: Path) -> None:
+    """Reject clipped note renders when their LaTeX diagnostics are available."""
+    log = path.with_suffix('.log')
+    if log.is_file():
+        text = log.read_text(encoding='utf-8', errors='replace')
+        if re.search(r'^Overfull \\[hv]box\b', text, re.MULTILINE):
+            raise ValueError(
+                f'Native notes render overflows; text may be clipped. See {log}. '
+                'Shorten or split the affected notes before exporting. Previous PPTX was not replaced.')
+
+
+def reflow_native_note(text: str) -> str:
+    """Join PDF line wraps inside TeX-marked paragraphs, retaining real breaks."""
+    paragraphs = []
+    for paragraph in text.split('\ue000'):
+        lines = [line.strip() for line in paragraph.splitlines() if line.strip()]
+        if not lines:
+            continue
+        joined = lines[0]
+        for line in lines[1:]:
+            # CJK line wraps do not introduce spaces; explicit hyphens stay intact.
+            tight = (joined.endswith('-')
+                     or unicodedata.east_asian_width(joined[-1]) in ('W', 'F')
+                     or unicodedata.east_asian_width(line[0]) in ('W', 'F'))
+            joined += ('' if tight else ' ') + line
+        paragraphs.append(joined)
+    return '\n'.join(paragraphs)
+
+
 def load_native_notes(path: str | Path, slides_pdf, slides_path: Path) -> list[str]:
     """Extract native Beamer note text from an explicitly marked right screen."""
+    validate_notes_log(Path(path))
     with pymupdf.open(path) as notes_pdf:
         if not notes_pdf.is_pdf or notes_pdf.needs_pass:
             raise ValueError('Native notes must be an unencrypted PDF.')
@@ -277,13 +308,16 @@ def load_native_notes(path: str | Path, slides_pdf, slides_path: Path) -> list[s
         fingerprint = pdf_info_string(notes_pdf, 'CampusSlidesSHA256')
         if fingerprint and fingerprint != hashlib.sha256(slides_path.read_bytes()).hexdigest():
             raise ValueError('Native notes PDF does not match this slide PDF. Rebuild with make.')
+        semantic_breaks = pdf_info_string(notes_pdf, 'CampusNotesTextFormat') == 'paragraphs-v1'
         result = []
         for page, slide in zip(notes_pdf, slides_pdf):
             if (page.rotation or abs(page.rect.width - 2 * slide.rect.width) > .5
                     or abs(page.rect.height - slide.rect.height) > .5):
                 raise ValueError('Native notes PDF has an unexpected second-screen geometry.')
             right = pymupdf.Rect(page.rect.width / 2, 0, page.rect.width, page.rect.height)
-            result.append(page.get_text('text', clip=right, sort=True).strip())
+            # Content-stream order keeps list labels with the paragraph marker.
+            text = page.get_text('text', clip=right, sort=not semantic_breaks).strip()
+            result.append(reflow_native_note(text) if semantic_breaks else text)
         return result
 
 

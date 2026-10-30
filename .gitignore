@@ -10,6 +10,8 @@ __pycache__/
 /materials/*
 !/materials/.gitkeep
 /main.tex
+/outline.md
+/theme/*/.installed-assets/
 /sections/*
 !/sections/.gitkeep
 /bibliography/*

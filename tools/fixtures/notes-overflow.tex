@@ -1,0 +1,16 @@
+% Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
+% SPDX-License-Identifier: GPL-3.0-or-later
+\documentclass[language=english,cjk=true]{campusbeamer}
+\title{Notes overflow regression}
+\begin{document}
+\section{Notes}
+\subsection{Content preservation}
+\begin{frame}{Long notes must fail explicitly}
+  \only<1>{English paragraph notes.}
+  \only<2>{Chinese list notes.}
+  \note<1>{\foreach \i in {1,...,40}{Note line \i: supporting explanation.\par}}
+  \note<2>{\begin{enumerate}
+    \foreach \i in {1,...,40}{\item 第\i 条讲解：应完整保留或明确报错。}
+  \end{enumerate}}
+\end{frame}
+\end{document}

@@ -27,15 +27,59 @@
 
 ![默认 general 主题的封面预览](docs/images/preview-general-cover.png)
 
+PDF 由 LaTeX 排版，PPTX 保留页面外观、跳转、视频和讲者备注。
+**PPTX 每页是一张渲染图像，文字不能作为 PowerPoint 原生文本编辑。**
+修改内容应编辑 TeX 源码或交给 agent，再重新导出。本项目不是学校官方模板。
+
+## 快速开始
+
+所有命令从包含 `Makefile` 的项目根目录运行。
+
+### 制作自己的汇报
+
+1. 克隆仓库或解压 [Release 源码包](https://github.com/AnikiFan/campus-beamer/releases)，在支持本地文件读写和命令执行的 agent 中打开。
+2. 运行 `make init` 创建本地 `outline.md`（已有文件不会被覆盖），填写基本信息与演讲思路；将论文、图片和实验结果放进 `materials/`。
+3. 对 agent 说：**“根据大纲制作 PPT。”** 它按 [AGENTS.md](AGENTS.md) 阅读材料，扩充详细大纲到 `build/outline-normalized.md`，供你确认。
+4. 确认后，agent 编排页面和原生 TeX 备注、检查排版，并导出 `build/main.pdf` 与 `build/main.pptx`。
+
+[起始大纲](tools/templates/outline.md)展示可填写的字段。[STYLE.md](STYLE.md) 可调整内容密度、备注分工、引用与日期风格。
+内容修订回到大纲确认；已确认范围内的拆页、精简和布局由 agent 完成。外部检索、新素材或事实修改需先确认。
+`outline.md`、`main.tex`、`sections/`、`materials/` 和个人文献目录默认被 Git 忽略。
+克隆旧版本升级时，先备份自己填写的大纲，再更新仓库。
+
+### 本地查看功能示例
+
+准备 **GNU Make、Python 3.10+、uv、XeLaTeX、latexmk、biber** 和模板字体；视频首帧及嵌入需要 FFmpeg。
+具体步骤见[安装说明](docs/installation.md)，也可用 [Docker 环境](docs/docker.md)。
+
+```bash
+make doctor                       # 检查环境
+make draft MAIN=examples/example   # PDF、逐页预览与排版报告
+make MAIN=examples/example         # build/example.pdf 和 build/example.pptx
+```
+
+`uv run --frozen` 会按锁文件准备 Python 环境，首次下载依赖需要联网。
+直接查看成品可到 [Releases](https://github.com/AnikiFan/campus-beamer/releases) 下载：中文 general 提供 PDF/PPTX，英文 general 及其他主题提供 PDF。
+英文示例使用 `make pdf MAIN=examples/example-en`，输出 `build/example-en.pdf`。
+
+### 在 Overleaf 中编辑 PDF
+
+准备导入包只需 **GNU Make 和 Python 3.10+**，不需要本地 LaTeX 或 uv：
+
+```bash
+make overleaf                                      # general，中文，16:9
+make overleaf THEME=eva                             # 选择主题
+make overleaf OVERLEAF_LANGUAGE=english ASPECTRATIO=43
+```
+
+将 `build/overleaf/` 中的 ZIP 上传为新项目，选择 `main.tex` 和 **XeLaTeX**。
+导入包从公开示例开始，缺少的主题素材会自动补齐。在线编辑、编译限制和本地 PPTX 导出见
+[Overleaf 使用说明](docs/workflows.md#overleaf-中编辑-pdf)；本项目尚未完成 Overleaf 在线实测。
+
 ## 示例页面
 
-`examples/example.tex` 是版式与功能演示；general 主题完整功能演示的 PDF/PPTX，以及清华、鹏城实验室、Tokyo Night、undefined 和 EVA 主题的 PDF 样例请前往
-[GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 下载。
-general 另提供完整英文版 [`examples/example-en.tex`](examples/example-en.tex)，可用 `make pdf MAIN=examples/example-en` 编译。
-Release 中的 `campus-beamer-X.Y.Z-example-en.pdf` 为英文 PDF；英文版不附带 PPTX。
-Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲者视图查看。
-渐进显示页包含实际 overlays：在 PDF/PPTX 中按页推进，可看到要点累积与内容替换，并查看各阶段备注。
-下表按主题比较封面、章节页、正文页和致谢页；点击缩略图可放大，完整页面与交互示例见各主题 PDF。
+下表比较各主题的封面、章节页、正文页和致谢页；点击图片可放大。
+完整示例包括公式、代码、引用、逐步显示、导航、视频与原生讲者备注。
 
 <!-- demo-gallery:start -->
 
@@ -124,206 +168,97 @@ Release 中的示例 PPTX 已写入逐页 PowerPoint 备注，可直接在演讲
 
 <!-- demo-gallery:end -->
 
-校徽、校名和校园图像的使用范围见[素材来源与使用声明](assets/README.md)。
+## 选择与定制主题
 
-内置深色主题 [`tokyo-night`](theme/tokyo-night/README.md)，使用 `\documentclass[theme=tokyo-night]{campusbeamer}`；
-运行 `make pdf MAIN=examples/example-tokyo-night` 查看完整示例。首次使用源码包时，先按下文下载对应主题素材。
+默认使用与机构无关的 `general`。通过 `\documentclass[theme=eva]{campusbeamer}` 切换主题。
 
-[`undefined`](theme/undefined/README.md) 是奶蛙名画主题，使用经典黄色、圆形单眼图标和五幅不同的奶蛙名画配图；
-使用 `theme=undefined`，运行 `make pdf MAIN=examples/example-undefined` 查看示例。
+| 主题 | 外观与用途 | 完整示例入口 |
+| --- | --- | --- |
+| [general](theme/general/README.md) | 黑白通用主题，原创博士帽与项目字标 | `examples/example` |
+| [tokyo-night](theme/tokyo-night/README.md) | 深色正文与夜间配色 | `examples/example-tokyo-night` |
+| [undefined](theme/undefined/README.md) | 奶蛙黄色配色、单眼图标与名画配图 | `examples/example-undefined` |
+| [eva](theme/eva/README.md) | 二号机联想的红黑配色、《Q》碎片化 NERV 标志与日文标题卡，最后一节以「終。」收尾 | `examples/example-eva` |
+| [tsinghua](theme/tsinghua/README.md) | 清华大学标志与校园配图 | `examples/example-tsinghua` |
+| [pcl](theme/pcl/README.md) | 鹏城实验室标志与园区配图 | `examples/example-pcl` |
 
-默认主题为与机构无关的 `general`；可用 `\documentclass[theme=general]{campusbeamer}` 显式选择。
-博士帽、透明项目字标、配色和可编辑素材集中在 [`theme/general/`](theme/general/README.md)。
-`examples/example.tex` 展示模板的版式与功能；自己的汇报由 agent 根据你的需求生成。
-本项目不是学校官方发布的模板。
+运行 `make pdf MAIN=examples/example-eva` 可查看相应示例；`make examples` 构建所有非默认主题 PDF。
+复制 `theme/general/` 为自己的主题目录，修改 `profile.tex` 与素材后即可使用，无需修改通用代码。
+配置方法见[主题使用与扩展](theme/README.md)，各主题页面提供素材来源与使用范围。
+
+### 下载主题素材
+
+Release 的 `campus-beamer-*-source.zip` 自带 general 素材；其他主题使用独立素材包：
+
+```bash
+make theme-assets THEME=eva
+# 也可选择 tokyo-night、undefined、tsinghua 或 pcl。
+```
+
+命令需要 GNU Make 和 Python 3.10+，下载后校验 SHA-256；已有完整素材时不联网。
+Git 克隆通常已包含素材。手动下载、显式更新及安装记录见[素材安装说明](docs/installation.md#主题素材)。
 
 ## 页面比例
 
-默认 16:9；需要 4:3 时使用 `\documentclass[aspectratio=43]{campusbeamer}`，可与任意主题组合。
-Release 提供 general 主题的 4:3 PDF；本地运行 `make pdf MAIN=examples/example-43` 构建。
-各主题与英文版的 4:3 示例命令见[页面比例](docs/class-options.md#页面比例)。
-
-目前随主题提供的插图主要按 16:9 版式裁剪，尚未专门针对 4:3 进行优化。
-使用 4:3 时请检查插图的取景与主体是否完整，必要时自行调整裁切。
-
-`eva` 使用二号机联想的红黑配色与《Q》的碎片化 NERV 标志，章节页右侧为日文黑白标题卡，最后一节以「終。」收尾。
-选择 `\documentclass[theme=eva]{campusbeamer}`，运行 `make pdf MAIN=examples/example-eva` 查看完整示例；
-4:3 版本使用 `make pdf MAIN=examples/example-eva-43`。构图和素材说明见 [EVA 主题](theme/eva/README.md)。
-
-## 下载主题素材
-
-从 Release 下载并解压所选版本的 `campus-beamer-*-source.zip` 后，默认 general 主题可直接使用。
-其他主题分别维护一份最新版素材，不随每次模板发布重复打包；在项目根目录执行对应命令：
+默认 16:9；4:3 使用 `\documentclass[aspectratio=43]{campusbeamer}`，可与任意主题组合。
 
 ```bash
-make theme-assets THEME=undefined
-# 将 undefined 换成 tokyo-night、eva、tsinghua 或 pcl 即可下载其他主题。
+make pdf MAIN=examples/example-43       # general 中文 4:3，Release 提供此 PDF
+make pdf MAIN=examples/example-eva-43   # EVA 4:3
+make pdf MAIN=examples/example-en-43    # general 英文 4:3
 ```
 
-命令只需 Python 3.10+，会下载对应主题、校验 SHA-256 并安装到 `theme/<主题>/assets/`。
-已有完整素材时不联网；Git 克隆通常已包含素材，无需另行下载。
-各主题的下载入口、显式更新和手动下载方法见[安装说明](docs/installation.md#主题素材)。
+随附插图主要按 16:9 裁剪，4:3 下应检查主体与取景并调整裁切；文字内容不会自动改写。
+全部选项见[文档类与页面比例](docs/class-options.md#页面比例)。
 
-## 在 Overleaf 中使用
+## 功能与文档
 
-可以在本地生成一个包含主题素材的 ZIP，再上传到 Overleaf 编辑和编译 PDF。
-准备导入包只需 **GNU Make 和 Python 3.10+**，无需本地安装 LaTeX 或 uv。
+| 需要做什么 | 说明 |
+| --- | --- |
+| 设置语言、比例、导航与引用宽度 | [文档类选项](docs/class-options.md) |
+| 安排图文、公式、提示框与代码 | [使用手册](docs/usage.md) |
+| 编写与导出讲者备注 | [原生 TeX 备注](docs/usage.md#原生讲者备注)；在 `\note` 中编辑 |
+| 展示渐进内容与换页效果 | [Overlays 与切换](docs/usage.md#逐步显示与换页效果) |
+| 查找文献与核验引用数 | [文献工具](docs/literature.md) |
+| 使用 VS Code、命令行或 Overleaf | [环境说明](docs/workflows.md) |
+| 制作、验证或绘图的 Agent 流程 | [内置 Agent Skills](docs/usage.md#内置-agent-skills) |
 
-1. 从 [Releases](https://github.com/AnikiFan/campus-beamer/releases) 下载并解压源码包，
-   或克隆仓库；在包含 `Makefile` 的项目根目录打开终端。
-2. 选择下面一条命令生成导入包。所需主题素材会自动补齐，无需另外下载。
-
-```bash
-make overleaf                                      # general，中文，16:9
-make overleaf THEME=tsinghua                        # 清华主题
-make overleaf OVERLEAF_LANGUAGE=english ASPECTRATIO=43  # 英文，4:3
-```
-
-主题可选 `general`、`tsinghua`、`pcl`、`tokyo-night`、`undefined` 或 `eva`；语言可选
-`chinese` 或 `english`；比例可选 `169` 或 `43`，三个选项可以组合。
-如果没有 Make，也可以直接运行：
-
-```bash
-python3 tools/package_overleaf.py --theme general --language chinese --aspectratio 169
-```
-
-3. 在 Overleaf 选择 **New Project → Upload Project**，上传 `build/overleaf/` 中生成的 ZIP。
-   例如默认命令生成 `campus-beamer-general-zh-169.zip`。
-4. 在项目设置中选择 **Main document: main.tex**、**Compiler: XeLaTeX**，点击 **Recompile**。
-   编译后即可预览和下载 PDF。
-
-导入后，在 `main.tex` 调整模板选项和章节顺序；在 `examples/sections/metadata.tex`（中文）或
-`examples/english/metadata.tex`（英文）修改标题、作者等信息，同目录中的其他 `.tex` 文件是正文。
-中文文献位于 `examples/bibliography/refs.bib`，英文文献位于 `examples/english/refs.bib`。
-
-导入包以公开示例为起点，不会自动打包本地私人汇报。Overleaf 用于生成 PDF；需要 PPTX 时，
-下载编辑后的源码并使用本地导出工具。编译超时的处理方式和完整导出步骤见
-[Overleaf 使用说明](docs/workflows.md#overleaf-中编辑-pdf)。
-
-## 推荐使用方式：提供思路与素材
-
-1. 克隆仓库或解压源码包，在支持本地文件读写和命令执行的 agent 中打开项目。
-2. 提前把素材放进 `materials/`：例如从 arXiv 下载的论文 LaTeX 源码包、论文 PDF、图片或自己的实验结果。
-3. 在根目录的 [`outline.md`](outline.md) 中填写基本信息，并在草稿区写下演讲思路。草稿可使用自然语言、笔记或章节列表，也可注明目标、素材路径和讲解偏好。
-4. 向 agent 发出制作请求：
-
-> 根据大纲制作 PPT。
-
-agent 按 [`AGENTS.md`](AGENTS.md) 读取草稿和素材，先扩充成按章节（`section`）与小节（`subsection`）组织的详细大纲，
-展开要点、解释、证据和讲述顺序，供你审阅。内容补充与重组在这个阶段完成。
-确认后，它会按详细大纲编排页面、分配正文与备注、检查排版，并导出 `build/main.pdf` 和 `build/main.pptx`。
-
-制作、验证与 Mermaid 图形流程由仓库内置的 [Agent Skills](docs/usage.md#内置-agent-skills) 提供，agent 按任务调用对应入口。
-
-[`STYLE.md`](STYLE.md) 定义默认汇报风格，**可按你的需求修改**：
-包括每页内容密度、正文与备注的分工、备注详细程度、引用位置及日期格式。
-agent 在制作和修订时应用这些偏好；当前大纲中的明确要求优先。
-论文源码包的解压，以及正文、图注、图片和文献的阅读与整理，也由 agent 完成。
-大纲扩充以演讲目标和已提供材料为依据；需要外部检索、新素材或修改事实时，agent 会集中列出待确认事项。
-
-内容修订回到详细大纲，确认后再同步页面与备注。制作阶段中的拆页、精简措辞和版式调整，
-由 agent 在已确认内容和时长范围内完成。
-
-讲者备注直接写在 TeX 的 `\note` 中。默认 `shownotes=false` 的 PDF 只含幻灯片；
-设置 `shownotes=true` 可生成右侧带备注的 PDF，PPTX 在两种设置下都会保留讲者备注。
-详见[原生讲者备注](docs/usage.md#原生讲者备注)。
-
-PPTX 自动保留原生章节分节、标题与作者，以及副标题、课题组、指导教师、汇报日期等文档属性。
-
-**PPTX 每页是一张渲染图像，文字不能作为 PowerPoint 原生文本编辑。**
-请把修改意见交给 agent，或直接编辑生成的 `.tex` 源码。
-`make` 负责已有源码的编译与转换；从思路到内容的写作由 agent 完成。
-
-## 环境与功能示例
-
-制作环境需要 **GNU Make、uv、XeLaTeX、latexmk、biber** 及模板的 TeX 包／字体。
-可以使用本机的 TeX Live / MacTeX，或使用 [Docker 环境](docs/docker.md)；
-详细安装步骤见[安装说明](docs/installation.md)。使用 `make doctor` 检查本地环境。
-`uv run --frozen` 按 `uv.lock` 自动建立 `.venv`，首次下载 Python 依赖需要联网。
-
-```bash
-make doctor              # 检查环境
-make draft MAIN=examples/example  # 查看示例的逐页预览与排版报告
-make MAIN=examples/example        # 构建 build/example.pdf 和 build/example.pptx
-make examples            # 构建清华、鹏城实验室、Tokyo Night、undefined 和 EVA PDF 样例
-make                     # 有 main.tex 时构建自己的汇报，否则构建 examples/example.tex
-```
-
-[`examples/example.tex`](examples/example.tex) 是供人和 agent 查阅的功能演示，正文在 `examples/sections/`，
-包含章节页、图像、公式、统一题注、引用、代码窗口、逐步显示、导航、视频与 TeX 备注。要直接查看完整 PDF/PPTX，请使用
-[GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases) 中的附件；agent 根据汇报目标挑选适合的版式，
-另行生成你的内容。全部文档类选项及默认值也列在示例入口中，见[选项说明](docs/class-options.md)。
-
-- 默认 16:9，可用 `aspectratio=43` 选择 4:3，支持中英文；默认章节页使用所选主题的主色。
-- 完整目录可用 `\sectiontocpage[overview]` 统一展示章节；[简洁页面](docs/usage.md#简洁页面与图片背景)支持单行页眉、底行页脚及居中等比铺满的可调透明度图片背景。
-- 自动适配图片、公式、论文讲解页及[终端风格代码窗口](docs/usage.md#代码与终端窗口)。
-- `biblatex` / `biber` 文献管理，角落引用与已引用文献汇总；[网页来源引用](docs/usage.md#网页来源引用)同时显示来源名与实际 URL。可按需使用 [DBLP 与引用数工具](docs/literature.md)。
-- PDF → PPTX 保留跳转、外部链接、本地视频与逐页备注；PDF 和 PPTX 的视频首帧预览需要 FFmpeg。
-- [逐步显示与换页效果](docs/usage.md#逐步显示与换页效果)：按讲解顺序使用 overlays，PPTX 保留各阶段及明确设置的淡入／溶解切换。
-- `make draft` 提供逐页预览和排版诊断，帮助 agent 精简、拆页并检查溢出。
-
-<details>
-<summary>查看引用与导航示例</summary>
-
-![完整演示中的角落引用与章节导航](docs/images/preview-general-citations.png)
-
-</details>
-
-`materials/` 用于个人素材，`build/` 保存构建产物。个人汇报源码、素材和备注默认仅保存在本地；
-目录和分发规则见[使用手册](docs/usage.md#快速开始)。
-VS Code、Overleaf 和命令行用法见[环境说明](docs/workflows.md)。
-
-## 选择与定制主题
-
-内置 `general`（通用，默认）、`tokyo-night`（深色）、`tsinghua`（清华）、`pcl`（鹏城实验室）、`undefined`（奶蛙名画）和 `eva`（EVA 标题卡）主题。
-使用 `\documentclass[theme=pcl]{campusbeamer}` 切换，素材说明见[鹏城实验室主题](theme/pcl/README.md)。
-
-复制 `theme/general/` 为 `theme/myschool/`，修改其中的 `profile.tex` 与素材，
-然后使用 `\documentclass[theme=myschool]{campusbeamer}`。本地添加主题无需修改通用代码或登记名称。
-详见[主题使用与扩展](theme/README.md)。
-
-自己的汇报信息由 agent 根据大纲写入 `sections/metadata.tex`；照片和插图由章节文件引用。
-主题配色、透明标志和章节页背景的配置见[主题使用与扩展](theme/README.md)。
+默认 `shownotes=false` 的 PDF 仅含幻灯片；`shownotes=true` 可生成右侧带备注的 PDF。
+两种设置都向 PPTX 写入讲者备注。PPTX 还保留原生章节分节、标题、作者及汇报日期等属性。
 
 ## 常用命令
 
 ```bash
-make pdf                       # 编译 PDF，成功后自动清理 LaTeX 中间文件
+make init                      # 创建私人大纲，保留已有内容
+make                           # 有 main.tex 时构建自己的汇报，否则构建公开示例
+make pdf                       # 只构建 PDF
 make DPI=200                   # 较小的 PPTX，适合预览
-make draft PAGES=3,8-10         # 局部页面排版检查
-make literature QUERY="论文标题" # 搜索 DBLP 候选
-make bibtex DBLP_KEY=conf/...    # 下载单条 BibTeX 和引用次数到 build/literature/
-make citations DOI=10.../...    # 查询引用次数、来源与日期
-make version                   # 查看当前模板版本
-make clean                     # 手动清理失败构建留下的中间文件
+make draft PAGES=3,8-10         # 指定页面的预览与排版检查
+make literature QUERY="论文标题"
+make bibtex DBLP_KEY=conf/...   # 暂存 BibTeX 与引用快照供核对
+make clean                     # 清理 LaTeX 中间文件，保留最终产物
 make help                      # 查看全部入口
 ```
 
 ## 项目结构
 
 ```text
-outline.md            填写基本信息与演讲思路
+outline.md            make init 创建的本地草稿
 main.tex              agent 生成的汇报入口
-sections/             汇报元信息、章节与原生 TeX 备注
-materials/            论文、图片、实验结果等本地素材
-bibliography/         汇报文献数据库
-examples/             各主题、语言和比例的示例入口与公共演示正文
-STYLE.md              可调整的汇报风格偏好
-theme/                通用版式与各主题的配色、标志和素材
+sections/             个人汇报元信息、章节与 TeX 备注
+materials/            论文、图片与实验结果
+bibliography/         个人文献数据库
+examples/             公开功能与主题示例
+theme/                通用版式与主题配置
+STYLE.md              可调整的汇报风格
 docs/                 安装、使用与环境说明
-build/                生成的 PDF、PPTX 和逐页预览
+build/                PDF、PPTX、备注 PDF 与预览
 ```
-
-从项目根目录运行 `make`。复制模板时保留 `theme/` 和 `.latexmkrc`。
 
 ## 参与改进
 
-欢迎报告可复现的排版、转换和导航问题，也欢迎贡献文档及学校配置示例。
-提交前请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)，附最小示例与必要日志；
-不要把自己的完整汇报、私人备注或编译中间文件提交到源码仓库。
-
-版本变化见 [CHANGELOG.md](CHANGELOG.md)。代码测试、预览更新、源码打包和发布流程见
-[贡献指南](CONTRIBUTING.md)与[发布指南](docs/releases.md)。
+欢迎提交可复现的问题、文档改进和有来源说明的主题配置。请阅读 [CONTRIBUTING.md](CONTRIBUTING.md)，
+附最小示例及必要日志；勿提交私人汇报、备注或素材。版本变化见 [CHANGELOG.md](CHANGELOG.md)，
+维护流程见[发布指南](docs/releases.md)。
 
 ## 许可与素材
 

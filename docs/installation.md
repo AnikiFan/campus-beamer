@@ -3,7 +3,7 @@
 [返回首页](../README.md) · [完整手册](usage.md) · [编辑器与在线用法](workflows.md)
 
 命令从项目根目录执行。`examples/example.tex` 是功能演示；用户在根目录 `outline.md` 中写草稿并准备素材，
-agent 新建 `main.tex` 完成汇报。
+agent 新建 `main.tex` 完成汇报。克隆仓库后用 `make init` 创建本地大纲，已有大纲不会被覆盖。
 本项目需要 XeLaTeX；不支持用 pdfLaTeX 编译中文示例。
 如希望免去本机 TeX 和 uv 安装，可使用 [Docker 构建环境](docker.md)。
 
@@ -36,6 +36,10 @@ make theme-assets THEME=undefined
 也可以从相应页面手动下载 `campus-beamer-<主题>-assets.zip` 和 `SHA256SUMS`，
 校验后解压到项目根目录，保持 ZIP 内的 `theme/<主题>/assets/` 层级。
 主题配置和来源声明保留在源码包中，素材包也附有 `THEME_ASSETS_NOTICES.md`。
+下载器将包内声明原样保存在 `theme/<主题>/.installed-assets/THEME_ASSETS_NOTICES.md`，
+同目录的 `receipt.json` 记录压缩包及素材的 SHA-256，不覆盖本地主题 README。
+这些记录随下载素材进入 Overleaf 包，留在本地时被 Git 忽略。
+旧安装不会因素材完整而自动补取声明；需要补齐时使用下面的显式更新命令。
 
 若希望主动更新本地已有素材，先保留自己修改的图片，再执行：
 
@@ -221,7 +225,8 @@ node .agents/skills/campus-mermaid/scripts/render.mjs \
 - **引用未解析或 biber 报错**：查看 `build/` 中的 `.log` 和 `.blg`，确认条目键、`.bib` 内容及版本兼容。
   先保存诊断，再执行 `make clean` 后重新编译。不要手工修改 `.bbl` / `.bcf`。
 - **编译或导出失败**：失败后留下的 PDF/PPTX 不是这次的结果，先检查退出码和日志。
-- **备注数量不匹配**：每个最终 PDF 页面都要一条备注，空页用空字符串；包含 overlays 和续页。
+- **备注数量不匹配**：重新从同一份 TeX 构建幻灯片和备注，核对 overlays 和续页；显式空备注使用 `\note{}`。旧 JSON 导入才使用空字符串。
+- **备注渲染溢出**：根据日志精简或拆分过长备注，再重新构建；导出停止时，原 PPTX 仍是上次结果。
 - **uv 下载失败**：检查网络和 `uv.lock` 中的源。修改依赖后显式运行 `uv lock`，
   `--frozen` 不会自行更新锁文件。
 - **PPTX 很大**：默认 600 DPI；预览时可用 `make DPI=200`，正式导出按需要恢复分辨率。

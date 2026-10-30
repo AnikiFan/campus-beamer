@@ -14,7 +14,7 @@ import pymupdf
 from pptx import Presentation
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from images_to_ppt import convert_pdf_to_pptx
+from images_to_ppt import convert_pdf_to_pptx, reflow_native_note
 
 
 def info(pdf, key, value):
@@ -26,6 +26,16 @@ def info(pdf, key, value):
 
 
 class NativeNotesTests(unittest.TestCase):
+    def test_semantic_reflow_preserves_paragraphs_lists_and_cjk_word_boundaries(self):
+        text = ('\ue000English words wrap\nonto the next line with slide-\nbased examples.'
+                '\ue000中文自动折行不应\n插入空格。'
+                '\ue000\n• First list item\ncontinues here.'
+                '\ue000Explicit break.\ue000\nAnother line.')
+        self.assertEqual(reflow_native_note(text),
+                         'English words wrap onto the next line with slide-based examples.\n'
+                         '中文自动折行不应插入空格。\n• First list item continues here.\n'
+                         'Explicit break.\nAnother line.')
+
     def setUp(self):
         temp = tempfile.TemporaryDirectory()
         self.addCleanup(temp.cleanup)
@@ -112,6 +122,22 @@ class NativeNotesTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'different page counts'):
             self.convert()
         self.assertEqual(self.pptx.read_bytes(), b'Previous valid export')
+
+    def test_overflow_in_native_notes_preserves_previous_export(self):
+        self.note_pdf()
+        for box in ('v', 'h'):
+            with self.subTest(box=box):
+                self.notes.with_suffix('.log').write_text(
+                    f'Overfull \\{box}box (20pt too high) detected at line 42\n')
+                self.pptx.write_bytes(b'Previous valid export')
+                with self.assertRaisesRegex(ValueError, 'notes render overflows'):
+                    self.convert()
+                self.assertEqual(self.pptx.read_bytes(), b'Previous valid export')
+
+    def test_underfull_notes_are_not_treated_as_content_loss(self):
+        self.note_pdf()
+        self.notes.with_suffix('.log').write_text('Underfull \\hbox (badness 10000)\n')
+        self.assertEqual(self.convert().slides[0].notes_slide.notes_text_frame.text, 'First note')
 
     def test_stale_notes_are_rejected_even_with_equal_page_counts(self):
         self.note_pdf(fingerprint='0' * 64)

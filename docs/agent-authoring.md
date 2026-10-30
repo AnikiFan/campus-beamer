@@ -36,6 +36,8 @@ and continue.
 ## Two-stage outline workflow
 
 The user supplies basic information and a free-form draft in `outline.md`.
+If it is absent, `make init` creates it from `tools/templates/outline.md` without
+overwriting an existing file. The root draft is ignored by Git.
 Read the draft for its purpose, priorities, facts, and material paths. Use
 [STYLE.md](../STYLE.md) to guide the eventual presentation.
 

@@ -8,7 +8,7 @@ import tempfile
 import zipfile
 
 from package_source import FILES
-from theme_assets import THEMES, asset_files, checked_path, download
+from theme_assets import THEMES, INSTALL_RECORDS, asset_files, checked_path, download
 
 LANGUAGES = ('chinese', 'english')
 ASPECT_RATIOS = ('169', '43')
@@ -73,11 +73,18 @@ def package(root: Path, output: Path, theme: str = 'general', language: str = 'c
         # Download into staging when incomplete; never overwrite or mix partial local edits.
         if all(checked_path(root, name).is_file() for name in names):
             contents.update({name: checked_path(root, name).read_bytes() for name in names})
+            for filename in INSTALL_RECORDS:
+                name = f'theme/{theme}/.installed-assets/{filename}'
+                if checked_path(root, name).is_file():
+                    contents[name] = checked_path(root, name).read_bytes()
         else:
             with tempfile.TemporaryDirectory(prefix='campus-overleaf-assets-') as temporary:
                 staging = Path(temporary)
                 download(staging, theme)
                 contents.update({name: checked_path(staging, name).read_bytes() for name in names})
+                for filename in INSTALL_RECORDS:
+                    name = f'theme/{theme}/.installed-assets/{filename}'
+                    contents[name] = checked_path(staging, name).read_bytes()
     for name, data in contents.items():
         if name.startswith('examples/') and name.endswith('.tex'):
             # Overleaf emits its PDF at the project root, unlike the local build/ workflow.

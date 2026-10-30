@@ -24,3 +24,56 @@ jobs:
         run: uv lock --check --offline
       - name: Validate source distribution
         run: make dist
+
+  tex-and-export:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Select changes requiring TeX validation
+        id: scope
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          if [ -n "$BASE" ] && git cat-file -e "$BASE^{commit}" 2>/dev/null &&
+             git diff --quiet "$BASE" HEAD -- theme tools examples Makefile .latexmkrc \
+               pyproject.toml uv.lock docker .github/workflows; then
+            echo 'run=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Set up Docker Buildx
+        if: steps.scope.outputs.run == 'true'
+        uses: docker/setup-buildx-action@v4
+      - name: Build the documented environment
+        if: steps.scope.outputs.run == 'true'
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: docker/Dockerfile
+          load: true
+          tags: campus-beamer:ci
+          cache-from: type=gha,scope=campus-beamer-ci
+          cache-to: type=gha,scope=campus-beamer-ci,mode=max
+      - name: Validate theme fixtures and public PDF/PPTX export
+        if: steps.scope.outputs.run == 'true'
+        run: |
+          docker run --rm --user "$(id -u):$(id -g)" \
+            --mount "type=bind,src=$(pwd),dst=/workspace" campus-beamer:ci \
+            make check-theme
+          docker run --rm --user "$(id -u):$(id -g)" \
+            --mount "type=bind,src=$(pwd),dst=/workspace" campus-beamer:ci \
+            make MAIN=examples/example DPI=120
+      - name: Upload TeX diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tex-diagnostics
+          path: |
+            build/theme-check/
+            build/*.log
+            build/*.blg
+          if-no-files-found: ignore

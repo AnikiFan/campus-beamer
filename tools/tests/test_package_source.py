@@ -10,6 +10,7 @@ from zipfile import ZipFile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from package_source import FILES, package
+from init_talk import initialize
 
 
 class SourcePackageTests(unittest.TestCase):
@@ -138,7 +139,7 @@ class SourcePackageTests(unittest.TestCase):
         project = Path(__file__).resolve().parents[2]
         (self.root / '.gitignore').write_bytes((project / '.gitignore').read_bytes())
         subprocess.run(['git', 'init', '-q', str(self.root)], check=True)
-        private = ('main.tex', 'sections/metadata.tex', 'sections/code/snippet.py',
+        private = ('outline.md', 'main.tex', 'sections/metadata.tex', 'sections/code/snippet.py',
                    'sections/talk/legacy.tex', 'bibliography/main.bib',
                    'bibliography/extra.bib', 'materials/paper.pdf')
         public = ('sections/.gitkeep', 'bibliography/.gitkeep', 'materials/.gitkeep',
@@ -180,7 +181,24 @@ class SourcePackageTests(unittest.TestCase):
         (self.root / 'docs/unknown-link').symlink_to(self.root / 'README.md')
         package(self.root, self.output)
         with ZipFile(self.output) as archive:
-            self.assertEqual(set(archive.namelist()), set(FILES))
+            self.assertEqual(set(archive.namelist()), set(FILES) | {'outline.md'})
+
+    def test_initialize_preserves_private_outline_and_git_does_not_stage_it(self):
+        project = Path(__file__).resolve().parents[2]
+        (self.root / '.gitignore').write_bytes((project / '.gitignore').read_bytes())
+        self.assertTrue(initialize(self.root))
+        outline = self.root / 'outline.md'
+        outline.write_text('PRIVATE AUDIT SENTINEL')
+        self.assertFalse(initialize(self.root))
+        self.assertEqual(outline.read_text(), 'PRIVATE AUDIT SENTINEL')
+        subprocess.run(['git', 'init', '-q', str(self.root)], check=True)
+        subprocess.run(['git', 'add', '.'], cwd=self.root, check=True)
+        tracked = subprocess.check_output(['git', 'ls-files'], cwd=self.root, text=True).splitlines()
+        self.assertNotIn('outline.md', tracked)
+        self.assertIn('tools/templates/outline.md', tracked)
+        package(self.root, self.output)
+        with ZipFile(self.output) as archive:
+            self.assertNotIn(b'PRIVATE AUDIT SENTINEL', archive.read('outline.md'))
 
     def test_symlinked_parent_directory_does_not_replace_previous_zip(self):
         package(self.root, self.output)

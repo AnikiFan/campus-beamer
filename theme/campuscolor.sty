@@ -25,7 +25,7 @@
 
 % Select a directory name, never a path or a TeX input expression.
 \ExplSyntaxOn
-\exp_args:NnV \regex_match:nnTF { \A [a-zA-Z0-9] [a-zA-Z0-9_-]* \Z } \campusprofile@theme
+\exp_args:NnV \regex_match:nnTF { \A [a-zA-Z0-9] [-a-zA-Z0-9_]* \Z } \campusprofile@theme
   { }
   { \PackageError{campuscolor}{Invalid~theme~name}
       {Use~a~directory~name~containing~letters,~digits,~hyphens~or~underscores.} }

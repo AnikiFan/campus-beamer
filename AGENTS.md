@@ -101,6 +101,7 @@ an external dependency or a decision that genuinely needs the user.
 
 ```text
 make doctor                 # inspect local prerequisites
+make init                   # create a private outline without overwriting it
 make test                   # Python regression tests
 make draft                  # compile and render the selected entry
 make MAIN=examples/example           # build the public demo
@@ -115,6 +116,7 @@ explicit `MAIN` wins. Use `make help` for the complete command list.
 ## Repository map
 
 - `outline.md`: basic information and the user's free-form draft at the repository root.
+  Create it with `make init` when absent. Git ignores this local file.
   Preserve filled content as user input; do not commit it to the public template.
   Source ZIPs use `tools/templates/outline.md` as the starter outline.
 - `build/outline-normalized.md`: agent-expanded section/subsection content for

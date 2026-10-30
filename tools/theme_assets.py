@@ -4,6 +4,7 @@
 """Package or install the latest per-theme assets (stdlib only)."""
 import argparse
 import hashlib
+import json
 from pathlib import Path, PurePosixPath
 import re
 import shutil
@@ -15,6 +16,7 @@ import zipfile
 THEMES = ('tokyo-night', 'undefined', 'eva', 'tsinghua', 'pcl')
 BASE_URL = 'https://github.com/AnikiFan/campus-beamer/releases/download'
 NOTICE_NAME = 'THEME_ASSETS_NOTICES.md'
+INSTALL_RECORDS = (NOTICE_NAME, 'receipt.json')
 ASSET_FILES = (
     'theme/eva/assets/emblem_on_dark.pdf',
     'theme/eva/assets/emblem_on_light.pdf',
@@ -125,6 +127,8 @@ def install(root: Path, archive_path: Path, checksum: str, theme: str, *, update
         if not set(asset_files(theme)).issubset(names) or NOTICE_NAME not in names:
             raise ValueError('Incomplete theme asset archive.')
         pending = []
+        hashes = {}
+        notices = b''
         for info in archive.infolist():
             name = info.filename
             path = PurePosixPath(name)
@@ -139,13 +143,34 @@ def install(root: Path, archive_path: Path, checksum: str, theme: str, *, update
             # Read all members now so CRC failures cannot cause a partial installation.
             data = archive.read(info)
             if name == NOTICE_NAME:
-                continue  # Provenance also lives in each theme's README in the source ZIP.
+                notices = data
+                continue
+            hashes[name] = hashlib.sha256(data).hexdigest()
             destination = checked_path(root, name)
             if destination.exists():
                 if destination.read_bytes() == data:
                     continue
                 if not update:
                     raise ValueError(f'Existing asset differs: {name}; use --update to replace it.')
+            staged = Path(temporary) / name
+            staged.parent.mkdir(parents=True, exist_ok=True)
+            staged.write_bytes(data)
+            pending.append((staged, destination))
+        changed_assets = len(pending)
+        records = {
+            NOTICE_NAME: notices,
+            'receipt.json': (json.dumps({
+                'theme': theme, 'archive_sha256': checksum.lower(),
+                'asset_sha256': hashes,
+            }, sort_keys=True, indent=2) + '\n').encode('utf-8'),
+        }
+        # Keep the downloaded notice alongside its receipt, without replacing
+        # the source README or mixing it with a different asset generation.
+        for filename, data in records.items():
+            name = f'theme/{theme}/.installed-assets/{filename}'
+            destination = checked_path(root, name)
+            if destination.is_file() and destination.read_bytes() == data:
+                continue
             staged = Path(temporary) / name
             staged.parent.mkdir(parents=True, exist_ok=True)
             staged.write_bytes(data)
@@ -165,7 +190,7 @@ def install(root: Path, archive_path: Path, checksum: str, theme: str, *, update
                 replacement.replace(destination)
             finally:
                 replacement.unlink(missing_ok=True)
-    return len(pending)
+    return changed_assets
 
 
 def download(root: Path, theme: str, *, update: bool = False) -> int:

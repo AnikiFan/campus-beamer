@@ -13,7 +13,7 @@ root containing Makefile.
 ## Start from the user's inputs
 
 Read the [authoring guide](../../../docs/agent-authoring.md),
-[STYLE.md](../../../STYLE.md), and the root [outline.md](../../../outline.md)
+[STYLE.md](../../../STYLE.md), and the local root `outline.md`
 or explicitly supplied brief. STYLE.md contains editable preferences; the
 current brief's explicit requirements take precedence. Inspect the authorized
 materials and relevant template examples as needed.

@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Overleaf archives must compile independently and exclude private talk inputs."""
 from pathlib import Path
+import json
 import shutil
 import subprocess
 import sys
@@ -13,7 +14,7 @@ import zipfile
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from package_overleaf import package
 from package_source import FILES
-from theme_assets import ASSET_FILES, THEMES, asset_files, package as package_assets
+from theme_assets import ASSET_FILES, THEMES, NOTICE_NAME, asset_files, package as package_assets
 
 
 class OverleafPackageTests(unittest.TestCase):
@@ -91,6 +92,23 @@ class OverleafPackageTests(unittest.TestCase):
         with zipfile.ZipFile(self.output) as archive:
             self.assertEqual(archive.read(names[0]), original)
             self.assertNotEqual(archive.read(names[1]), b'Local modified asset')
+            with zipfile.ZipFile(bundle) as downloaded:
+                self.assertEqual(archive.read(f'theme/undefined/.installed-assets/{NOTICE_NAME}'),
+                                 downloaded.read(NOTICE_NAME))
+            receipt = json.loads(archive.read('theme/undefined/.installed-assets/receipt.json'))
+            self.assertEqual(receipt['theme'], 'undefined')
+            self.assertEqual(set(receipt['asset_sha256']), set(names))
+
+    def test_local_download_notices_survive_repackaging(self):
+        records = self.root / 'theme/pcl/.installed-assets'
+        records.mkdir()
+        (records / NOTICE_NAME).write_text('Downloaded source and rights notice')
+        (records / 'receipt.json').write_text('{"theme": "pcl"}')
+        with patch('theme_assets.urlopen', side_effect=AssertionError('Unexpected network')):
+            package(self.root, self.output, 'pcl')
+        with zipfile.ZipFile(self.output) as archive:
+            self.assertEqual(archive.read(f'theme/pcl/.installed-assets/{NOTICE_NAME}'),
+                             (records / NOTICE_NAME).read_bytes())
 
     def test_invalid_download_preserves_previous_zip(self):
         package(self.root, self.output)

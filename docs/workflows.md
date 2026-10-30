@@ -8,7 +8,7 @@
 关键 TeX 包和默认 Fandol 字体；无需先建立 `.venv`，不会下载或编译文件。
 若系统只有 `python` 命令，可用 `make doctor PYTHON=python`，解释器需要 Python 3.10 或更新版本。
 检查通过后可运行 `make MAIN=examples/example` 验证编译与导出。
-日常使用时，直接在根目录的 [`outline.md`](../outline.md) 写草稿，再对 agent 说
+日常使用时，先用 `make init` 创建根目录的 `outline.md`，填写草稿（见[起始模板](../tools/templates/outline.md)），再对 agent 说
 “根据大纲制作 PPT”。它会按 `AGENTS.md` 执行两阶段流程：
 
 1. agent 读取 `AGENTS.md`、`STYLE.md`、用户草稿及提供的材料，扩充为按 section/subsection
@@ -110,7 +110,9 @@ make MAIN=main
 
 ## GitHub Actions
 
-当前工作流检查 Python 测试和源码打包，不生成 PDF 或 PPTX。
+工作流检查 Python 测试和源码打包。涉及主题、工具、示例或构建配置时，
+还在 Docker 中运行主题测试和公开示例的 PDF/PPTX 导出；CI 的 PPTX 使用 120 DPI 以控制资源消耗。
+纯文档变更跳过 TeX 任务，手动触发执行全部检查。
 工作流文件是仓库根目录下的 `.github/workflows/ci.yml`，在 push、pull request 或手动触发时运行。
 应在仓库的 Actions 页面核实执行结果。
-完整 TeX 编译与逐页检查使用本地 `make draft`、`make check-theme` 和 `make`。
+人工逐页检查仍使用本地 `make draft`；自动检查不能代替页面可读性和播放器行为的核对。

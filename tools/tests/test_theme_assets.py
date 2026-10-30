@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 """Per-theme assets must install completely without escaping or overwriting local edits."""
 import hashlib
+import json
 from pathlib import Path
 import sys
 import tempfile
@@ -64,6 +65,33 @@ class ThemeAssetTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Incomplete'):
             install(self.target, self.archive, self.digest(), self.theme)
         self.assertEqual(list(self.target.iterdir()), [])
+
+    def test_installed_notice_matches_bundle_without_replacing_old_readme(self):
+        readme = self.target / f'theme/{self.theme}/README.md'
+        readme.parent.mkdir(parents=True)
+        readme.write_text('Old source notice with local edits')
+        install(self.target, self.archive, self.digest(), self.theme)
+        records = readme.parent / '.installed-assets'
+        with zipfile.ZipFile(self.archive) as bundle:
+            self.assertEqual((records / NOTICE_NAME).read_bytes(), bundle.read(NOTICE_NAME))
+        receipt = json.loads((records / 'receipt.json').read_text())
+        self.assertEqual(receipt['archive_sha256'], self.digest())
+        self.assertEqual(receipt['asset_sha256'][self.files[0]],
+                         hashlib.sha256((self.target / self.files[0]).read_bytes()).hexdigest())
+        self.assertEqual(readme.read_text(), 'Old source notice with local edits')
+        (self.source / f'theme/{self.theme}/README.md').write_text('Updated source notice')
+        package(self.source, self.archive, self.theme)
+        install(self.target, self.archive, self.digest(), self.theme, update=True)
+        self.assertIn('Updated source notice', (records / NOTICE_NAME).read_text())
+        self.assertEqual(readme.read_text(), 'Old source notice with local edits')
+
+    def test_symlinked_installation_record_fails_before_any_assets_are_written(self):
+        records = self.target / f'theme/{self.theme}/.installed-assets'
+        records.parent.mkdir(parents=True)
+        records.symlink_to(self.source, target_is_directory=True)
+        with self.assertRaisesRegex(ValueError, 'symlinks'):
+            install(self.target, self.archive, self.digest(), self.theme)
+        self.assertFalse((self.target / self.files[0]).exists())
 
     def test_download_verifies_the_remote_checksum(self):
         checksum = self.archive.with_name('SHA256SUMS')

@@ -27,34 +27,62 @@
 
 ![English general feature tour](docs/images/preview-general-en-cover.png)
 
-## English general example
+LaTeX produces the PDF; PPTX preserves the rendered pages, links, video and speaker notes.
+**Each PPTX slide is an image: its text is not editable as native PowerPoint text.**
+Edit the TeX source or ask your agent to revise it, then export again. This is not an official university template.
 
-[`examples/example-en.tex`](examples/example-en.tex) is the complete **English general-theme feature tour**:
-English slide text, navigation labels, bibliography examples and native TeX speaker notes.
-It uses `language=english, cjk=false`, so no Chinese typesetting is needed for this entry.
+## Quick start
 
-Build its PDF from the project root:
+Run commands from the project root containing `Makefile`. Detailed manuals and theme notices are primarily in Chinese.
+
+### Create your own presentation
+
+1. Clone the repository or extract a [Release source archive](https://github.com/AnikiFan/campus-beamer/releases), then open it in an agent that can read local files and run commands.
+2. Run `make init` to create a local `outline.md` without overwriting an existing draft. Fill in your brief and put papers, figures and results in `materials/`.
+3. Ask the agent to **create a presentation from the outline**. It follows [AGENTS.md](AGENTS.md), reads your materials and develops `build/outline-normalized.md` for your confirmation.
+4. After confirmation, it arranges slides and native TeX notes, checks the layout and exports `build/main.pdf` and `build/main.pptx`.
+
+See the [starter outline](tools/templates/outline.md) for the fields and [STYLE.md](STYLE.md) for editable writing and layout preferences.
+Content revisions return to outline review; layout changes stay within the approved content. External research, new assets and factual changes require confirmation.
+The local outline, `main.tex`, `sections/`, `materials/` and personal bibliography are ignored by Git.
+Before updating an older clone, back up any outline you have filled in.
+
+### Build the reference example locally
+
+Install **GNU Make, Python 3.10+, uv, XeLaTeX, latexmk, biber** and the template fonts.
+Local video previews and embedding also require FFmpeg. See [installation](docs/installation.md) or the [Docker environment](docs/docker.md).
 
 ```bash
-make pdf MAIN=examples/example-en
-# Render all pages for inspection:
-make draft MAIN=examples/example-en
+make doctor
+make draft MAIN=examples/example-en  # English PDF and page previews
+make MAIN=examples/example           # Chinese general PDF + PPTX
 ```
 
-The output is `build/example-en.pdf`. On [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases/latest),
-choose **`campus-beamer-X.Y.Z-example-en.pdf`** for the English edition.
-Releases include this English PDF only; the existing Chinese general edition supplies PDF and PPTX.
-The comparison below uses the English General demo and the Chinese demos for the other themes.
+`uv run --frozen` prepares the locked Python environment; first-time dependency downloads need network access.
+For ready-made examples, visit [Releases](https://github.com/AnikiFan/campus-beamer/releases).
+Choose `campus-beamer-X.Y.Z-example-en.pdf` for English. Releases provide Chinese general as PDF/PPTX and English general and other themes as PDF.
+The English entry is [`examples/example-en.tex`](examples/example-en.tex); it uses `language=english,cjk=false` and includes English notes.
+
+### Edit a PDF in Overleaf
+
+Preparing the import ZIP needs only **GNU Make and Python 3.10+**, without local LaTeX or uv:
+
+```bash
+make overleaf OVERLEAF_LANGUAGE=english
+make overleaf THEME=eva OVERLEAF_LANGUAGE=english
+make overleaf OVERLEAF_LANGUAGE=english ASPECTRATIO=43
+```
+
+Upload the ZIP from `build/overleaf/` as a new project, selecting `main.tex` and **XeLaTeX**.
+The package starts from the public demo and downloads missing theme assets automatically.
+See [Overleaf editing and local PPTX export](docs/workflows.md#overleaf-中编辑-pdf) for details and compilation limits.
+Online Overleaf compilation has not yet been tested by this project.
 
 ## Example pages
 
-`examples/example.tex` is the layout and feature tour. Download
-the Chinese general theme's PDF/PPTX feature tour, the English general PDF, and the Tsinghua, Peng Cheng Laboratory, Tokyo Night, undefined and EVA PDF samples
-from the [GitHub Releases](https://github.com/AnikiFan/campus-beamer/releases)
-page. The example PPTX includes per-slide PowerPoint speaker notes. Advance through
-the PDF/PPTX to see cumulative reveals and content replacement, with notes for each stage.
-Compare each theme's cover, section, body and closing layouts below. Click a thumbnail to enlarge it;
-download the corresponding PDF for the complete tour and interactive examples.
+Compare covers, section pages, body slides and closing pages below; click a thumbnail to enlarge it.
+The General row and shared features use the English demo; other theme rows use their Chinese demos.
+The complete examples cover math, code, citations, overlays, navigation, video and native notes.
 
 <!-- demo-gallery:start -->
 
@@ -143,229 +171,97 @@ All themes share these features; the examples below use General.
 
 <!-- demo-gallery:end -->
 
-See the [asset source and rights notice](assets/README.md) for the permitted use of
-emblems, wordmarks and campus images.
+## Choose and customize a theme
 
-The dark [`tokyo-night`](theme/tokyo-night/README.md) profile is also included. Select it with
-`\documentclass[theme=tokyo-night]{campusbeamer}` and build its full demo with
-`make pdf MAIN=examples/example-tokyo-night`. Download its theme assets as described below before using the source ZIP.
+The institution-neutral `general` theme is the default. Select another with `\documentclass[theme=eva]{campusbeamer}`.
 
-The [`undefined`](theme/undefined/README.md) profile uses Naiwa’s signature yellow, a circular single-eye icon, and five distinct painting parodies.
-Select `theme=undefined` and run `make pdf MAIN=examples/example-undefined` to view the full demo.
+| Theme | Appearance and use | Complete example entry |
+| --- | --- | --- |
+| [general](theme/general/README.md) | Black and white, original graduation cap and project lettering | `examples/example` |
+| [tokyo-night](theme/tokyo-night/README.md) | Dark surfaces and a night palette | `examples/example-tokyo-night` |
+| [undefined](theme/undefined/README.md) | Naiwa yellow, single-eye icon and painting parodies | `examples/example-undefined` |
+| [eva](theme/eva/README.md) | Unit-02-inspired red and black, fragmented NERV emblem from Evangelion: 3.0, Japanese title cards and a final “終。” card | `examples/example-eva` |
+| [tsinghua](theme/tsinghua/README.md) | Tsinghua marks and campus images | `examples/example-tsinghua` |
+| [pcl](theme/pcl/README.md) | Peng Cheng Laboratory marks and campus images | `examples/example-pcl` |
 
-The institution-neutral `general` profile is the default; select it explicitly with
-`\documentclass[theme=general]{campusbeamer}`. Its editable icon, transparent project
-wordmarks, colors and provenance live in [`theme/general/`](theme/general/README.md).
-`examples/example.tex` demonstrates the layouts and features; the agent creates your presentation from your brief.
-This is not an official university template.
+Run `make pdf MAIN=examples/example-eva` for a selected demo; `make examples` builds all non-default theme PDFs.
+To add a local theme, copy `theme/general/`, then edit its `profile.tex` and assets. No changes to shared code are needed.
+See [theme configuration](theme/README.md); each theme page documents its assets and usage terms.
+
+### Download theme assets
+
+Release `campus-beamer-*-source.zip` archives include general assets. Other themes use independent bundles:
+
+```bash
+make theme-assets THEME=eva
+# Also available: tokyo-night, undefined, tsinghua, pcl.
+```
+
+This requires GNU Make and Python 3.10+. Downloads are checked with SHA-256; complete local assets are reused offline.
+Git clones normally already contain the assets. See [asset installation](docs/installation.md#主题素材) for manual downloads, updates and installation records.
 
 ## Aspect ratio
 
 The default is 16:9. Use `\documentclass[aspectratio=43]{campusbeamer}` for 4:3 with any theme.
-Releases include the Chinese general demo as a 4:3 PDF; build it with `make pdf MAIN=examples/example-43`.
-For the English 4:3 demo, run `make pdf MAIN=examples/example-en-43`.
-See [aspect ratio options](docs/class-options.md#页面比例) for all theme examples.
-
-The bundled illustrations are currently cropped for the 16:9 layout and have not been specifically optimized for 4:3.
-When using 4:3, check the framing and visibility of the subject, and adjust the crop as needed.
-
-The [`eva`](theme/eva/README.md) profile combines a Unit-02-inspired red palette and the fragmented NERV emblem from Evangelion: 3.0 with Japanese black-and-white chapter cards.
-Four compositions rotate with the chapter content; the final chapter displays “終。” near the lower-right corner. Select
-`\documentclass[theme=eva]{campusbeamer}` and run `make pdf MAIN=examples/example-eva`,
-or `make pdf MAIN=examples/example-eva-43` for 4:3.
-
-## Download theme assets
-
-Extract your chosen Release's `campus-beamer-*-source.zip`; the default general theme is ready to use.
-Other themes each maintain their own latest asset bundle, separate from template versions.
-Run only the command for the theme you need from the project root:
 
 ```bash
-make theme-assets THEME=undefined
-# Replace undefined with tokyo-night, eva, tsinghua or pcl for another theme.
+make pdf MAIN=examples/example-43      # Chinese general 4:3; included in Releases
+make pdf MAIN=examples/example-eva-43  # EVA 4:3
+make pdf MAIN=examples/example-en-43   # English general 4:3
 ```
 
-Only Python 3.10+ is needed. The command downloads that theme, verifies SHA-256 and installs it
-under `theme/<theme>/assets/`. Complete local assets are reused without network access;
-Git clones normally already include them.
-See [installation instructions](docs/installation.md#主题素材) for each theme’s download page, explicit updates and manual downloads.
+Bundled illustrations are primarily cropped for 16:9. Check subject visibility and adjust crops for 4:3; content is not rewritten automatically.
+See [class and aspect ratio options](docs/class-options.md#页面比例).
 
-## Use in Overleaf
+## Features and documentation
 
-Generate a ZIP containing the template and theme assets, then upload it to Overleaf
-to edit and compile a PDF. Preparing the ZIP requires only **GNU Make and Python 3.10+**;
-no local LaTeX installation or uv is needed.
+| Task | Guide |
+| --- | --- |
+| Set language, ratio, navigation and citation width | [Class options](docs/class-options.md) |
+| Arrange images, equations, callouts and code | [User guide](docs/usage.md) |
+| Write and export speaker notes | [Native TeX notes](docs/usage.md#原生讲者备注); edit `\note` |
+| Reveal content in stages | [Overlays and transitions](docs/usage.md#逐步显示与换页效果) |
+| Find literature and verify citation counts | [Literature tools](docs/literature.md) |
+| Use VS Code, the terminal or Overleaf | [Environment workflows](docs/workflows.md) |
+| Follow the authoring, validation or diagram workflow | [Built-in Agent Skills](docs/usage.md#内置-agent-skills) |
 
-1. Download and extract the source archive from
-   [Releases](https://github.com/AnikiFan/campus-beamer/releases), or clone the repository.
-   Open a terminal at the project root containing `Makefile`.
-2. Run one of the commands below. Required theme assets are supplied automatically;
-   you do not need to download them separately.
-
-```bash
-make overleaf OVERLEAF_LANGUAGE=english                 # general, English, 16:9
-make overleaf THEME=tsinghua OVERLEAF_LANGUAGE=english   # Tsinghua theme
-make overleaf OVERLEAF_LANGUAGE=english ASPECTRATIO=43   # English, 4:3
-```
-
-Choose a theme from `general`, `tsinghua`, `pcl`, `tokyo-night`, `undefined` or `eva`, a language
-from `chinese` or `english`, and an aspect ratio of `169` or `43`. These options can be
-combined. Without a language option, `make overleaf` uses the Chinese demo.
-If Make is unavailable, run Python directly:
-
-```bash
-python3 tools/package_overleaf.py --theme general --language english --aspectratio 169
-```
-
-3. In Overleaf, choose **New Project → Upload Project** and upload the ZIP generated in
-   `build/overleaf/`. The first command above produces `campus-beamer-general-en-169.zip`.
-4. In project settings, select **Main document: main.tex** and **Compiler: XeLaTeX**,
-   then click **Recompile** to preview and download the PDF.
-
-Edit template options and chapter order in `main.tex`. Change the title and author in
-`examples/english/metadata.tex` (English) or `examples/sections/metadata.tex` (Chinese);
-the other `.tex` files in that directory contain the slide content. Bibliographies are
-in `examples/english/refs.bib` for English and `examples/bibliography/refs.bib` for Chinese.
-
-The package starts from the public demo and does not automatically include your local
-private talk. Overleaf produces a PDF; for PPTX, download the edited source and use the
-local export tools. See the [workflow guide](docs/workflows.md#overleaf-中编辑-pdf) for
-compile timeout guidance and the complete export procedure.
-
-## Recommended workflow: ideas and local materials
-
-1. Clone the repository or extract the source ZIP, then open the project with an agent that supports local file access and command execution.
-2. Put prepared materials in `materials/`: for example an arXiv LaTeX source archive, a paper PDF, figures or your own results.
-3. Fill in the basic information in the root [`outline.md`](outline.md), then write your ideas in the draft area using prose, notes or a section list. Include goals, material paths and speaking preferences as useful.
-4. Ask the agent:
-
-> Make a presentation from the outline.
-
-The agent follows [`AGENTS.md`](AGENTS.md), reads the draft and materials, and develops a detailed outline with substantive content for each section and subsection.
-It expands key points, explanations, evidence and the narrative for your review. Content development and restructuring happen at this stage.
-After confirmation, it composes pages, distributes content between slides and notes, checks the layout and exports `build/main.pdf` and `build/main.pptx`.
-
-The agent uses the repository's [authoring, validation and Mermaid Agent Skills](docs/usage.md#内置-agent-skills)
-for the corresponding tasks.
-
-[`STYLE.md`](STYLE.md) defines the default presentation style. **Edit it to suit your needs:**
-slide density, the split between slides and notes, note detail, citation placement and date formatting.
-The agent applies these preferences when authoring and revising; explicit requirements in the current outline take precedence.
-It also unpacks paper source archives and reads the text, captions, figures and bibliography.
-Outline development follows the talk's goals and supplied materials. External research, new assets or changes to facts are collected as questions for your confirmation.
-
-Content revisions return to the detailed outline for confirmation before updating slides and notes.
-During production, the agent can split frames, condense wording and adjust layouts within the approved content and time budget.
-
-Speaker notes live in native TeX `\note` commands. The default `shownotes=false`
-PDF contains slides only; `shownotes=true` adds a right-hand notes screen. PPTX
-exports include speaker notes in either mode. See [native notes](docs/usage.md#原生讲者备注).
-
-PPTX exports automatically include native sections and document properties: title,
-author, subtitle, group, advisor and presentation date.
-
-**PPTX slides are rendered images, not editable native PowerPoint text.**
-Give edits to the agent or edit the generated `.tex` source.
-Make compiles and converts existing content; the agent performs the writing.
-
-Beamer overlays can reveal content in meaningful stages. PPTX exports preserve each stage
-and explicit fade/dissolve transitions; see [progressive reveals](docs/usage.md#逐步显示与换页效果).
-
-## Environment and reference example
-
-The build environment needs GNU Make, uv, XeLaTeX, latexmk, biber and the template's TeX packages/fonts.
-Use TeX Live / MacTeX or the [Docker environment](docs/docker.md).
-See [installation instructions](docs/installation.md). Set up the environment once;
-the agent can check the existing tools. `uv run --frozen` creates `.venv` from
-`uv.lock`; the initial dependency download needs network access.
-
-```bash
-make doctor              # Check tools, TeX packages and fonts
-make draft MAIN=examples/example  # Inspect reference-example pages and layout report
-make pdf MAIN=examples/example-en # English general PDF
-make MAIN=examples/example        # build/example.pdf and build/example.pptx
-make examples            # Build all non-default theme PDFs
-make                     # Build main.tex if present; otherwise examples/example.tex
-```
-
-[`examples/example.tex`](examples/example.tex) is a reference for people and agents. Its content
-under `examples/sections/` demonstrates section pages, figures, equations, citations,
-consistent captions, code windows, progressive reveals, navigation, video and TeX
-speaker notes. The agent chooses useful layouts and creates
-your content separately. The example also lists all public class options and
-defaults; see [class options](docs/class-options.md).
-
-- Default 16:9 layout, with 4:3 available through `aspectratio=43`, and Chinese and English support; full primary-color section pages by default.
-- `\sectiontocpage[overview]` shows all sections uniformly; [focus frames](docs/usage.md#简洁页面与图片背景) use a single header/footer row and optional centered image backgrounds with cover scaling and adjustable opacity.
-- Fitted figures, equations, paper walkthroughs and [terminal-style code windows](docs/usage.md#代码与终端窗口).
-- `biblatex` / `biber`, corner citations and cited references; optional [DBLP and citation-count tools](docs/literature.md).
-- [Web source references](docs/usage.md#网页来源引用) show the source name and actual URL in the shared corner-citation style.
-- PDF-to-PPTX export preserving navigation, external links, embedded local video and per-page notes. Video poster previews in both PDF and PPTX need FFmpeg.
-- `make draft` page previews and diagnostics for density, alignment and overflow review.
-
-<details>
-<summary>See corner citations and navigation</summary>
-
-![Corner citations and section navigation from the full demo](docs/images/preview-general-en-citations.png)
-
-</details>
-
-Use `materials/` for personal source material and `build/` for outputs. Personal talk source, materials and notes stay local by default;
-see the [user guide](docs/usage.md#快速开始) for directory and distribution rules.
-See [environment workflows](docs/workflows.md) for VS Code, Overleaf and the command line.
-
-## Choose and customize a theme
-
-Built-in profiles are `general` (default), `tsinghua`, `pcl` (Peng Cheng Laboratory), `tokyo-night` (dark), `undefined` (Naiwa art parody), and `eva` (EVA title cards).
-Select PCL with `\documentclass[theme=pcl]{campusbeamer}`; see its
-[profile and asset provenance](theme/pcl/README.md).
-
-Copy `theme/general/` to `theme/myschool/`, edit its `profile.tex` and assets, then
-select `theme=myschool` in the document class. No theme registry or shared-code edits are needed
-for local use. See [theme setup and extension](theme/README.md).
-
-The agent writes your talk metadata in `sections/metadata.tex`; section files reference your
-photos and illustrations. See [theme setup and extension](theme/README.md) for palette,
-transparent artwork and section-background options.
+The default `shownotes=false` PDF contains only slides; `shownotes=true` adds a right-hand notes screen.
+Both modes export notes to PPTX, along with native sections, title, author and presentation-date properties.
 
 ## Common commands
 
 ```bash
-make pdf                       # Build the PDF
-make DPI=200                   # Smaller PPTX for previewing
-make draft PAGES=3,8-10         # Inspect selected pages
-make literature QUERY="title"  # Search DBLP candidates
-make bibtex DBLP_KEY=conf/...    # Download BibTeX and citation metadata
-make citations DOI=10.../...    # Query citation count, provider and date
-make version                   # Show the current template version
-make clean                     # Remove intermediates after a failed build
-make help                      # List all commands
+make init                       # Create a private outline; keep existing content
+make                            # Build main.tex, or the public demo when absent
+make pdf                        # PDF only
+make DPI=200                    # Smaller PPTX for previews
+make draft PAGES=3,8-10          # Preview selected pages and inspect layout
+make literature QUERY="paper title"
+make bibtex DBLP_KEY=conf/...    # Stage BibTeX and citation data for review
+make clean                      # Remove TeX intermediates; keep final outputs
+make help                       # List all targets
 ```
 
 ## Project files
 
 ```text
-outline.md       Your talk details and free-form draft
-main.tex         The presentation entry created by the agent
-sections/        Talk metadata, chapters and native TeX notes
-materials/       Local papers, figures and experimental results
-bibliography/    The talk's bibliography
-examples/        Theme, language and aspect-ratio entries plus demo content
-STYLE.md         Presentation style preferences you can adjust
-theme/           Shared layouts, theme palettes and artwork
-docs/            Installation, usage and environment guides
-build/           Generated PDF, PPTX and page previews
+outline.md            Local brief created by make init
+main.tex              Agent-authored presentation entry
+sections/             Personal metadata, chapters and TeX notes
+materials/            Papers, figures and results
+bibliography/         Personal bibliography
+examples/             Public feature and theme examples
+theme/                Shared layout and theme configuration
+STYLE.md              Editable presentation preferences
+docs/                 Installation, usage and environment guides
+build/                PDF, PPTX, notes PDF and previews
 ```
-
-Run Make from the project root. Keep `theme/` and `.latexmkrc` when copying the template.
-Use `make help` to see all available commands.
 
 ## Contributing
 
-Bug reports, documentation improvements and new theme profiles are welcome.
-See [CONTRIBUTING.md](CONTRIBUTING.md) for reporting and development instructions,
-[CHANGELOG.md](CHANGELOG.md) for version changes, and the [release guide](docs/releases.md)
-for packaging and publishing.
+Reproducible issues, documentation improvements and themes with documented provenance are welcome.
+Read [CONTRIBUTING.md](CONTRIBUTING.md), include a minimal example and relevant logs, and exclude private presentations, notes and materials.
+See [CHANGELOG.md](CHANGELOG.md) for changes and [release maintenance](docs/releases.md) for the publishing workflow.
 
 ## License and assets
 

@@ -21,9 +21,11 @@ import argparse
 import os
 import shutil
 import subprocess
+import sys
 import tempfile
 
 import pymupdf
+from pptx import Presentation
 from images_to_ppt import campus_metadata, pdf_info_string
 
 EXPECTED_PAGES = {'aspect-ratio-43': 9, 'aspect-ratio-169': 9, 'aspect-ratio-notes': 9,
@@ -1005,6 +1007,69 @@ def check_aspect_ratio(name, document, log):
             raise RuntimeError(f'{name}: overlay stages changed')
 
 
+def check_note_overflow(root, output):
+    """A successful TeX render must not export clipped speaker notes."""
+    with tempfile.TemporaryDirectory(prefix='campus-note-overflow-') as temp:
+        workspace = Path(temp)
+        shutil.copy2(root / '.latexmkrc', workspace / '.latexmkrc')
+        shutil.copytree(root / 'theme', workspace / 'theme')
+        shutil.copy2(root / 'tools/fixtures/notes-overflow.tex', workspace / 'notes-overflow.tex')
+        result = subprocess.run(['latexmk', '-xelatex', '-interaction=nonstopmode',
+                                 '-halt-on-error', 'notes-overflow.tex'], cwd=workspace,
+                                text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        (output / 'notes-overflow.slides.log').write_text(result.stdout)
+        if result.returncode:
+            raise RuntimeError('notes-overflow: audience PDF did not compile')
+        previous = workspace / 'build/notes-overflow.pptx'
+        previous.write_bytes(b'Previous complete PPTX')
+        result = subprocess.run([sys.executable, str(root / 'tools/export_presentation.py'),
+                                 'notes-overflow.tex', '--dpi', '36'], cwd=workspace,
+                                text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        (output / 'notes-overflow.build.log').write_text(result.stdout)
+        if (result.returncode == 0 or 'notes render overflows' not in result.stdout
+                or previous.read_bytes() != b'Previous complete PPTX'):
+            raise RuntimeError('notes-overflow: clipped notes must fail without replacing the PPTX')
+        print('notes-overflow: rejected clipped bilingual overlay notes; previous PPTX retained')
+
+
+def check_note_reflow(root, output):
+    """Real TeX paragraphs survive export while visual line wraps disappear."""
+    with tempfile.TemporaryDirectory(prefix='campus-note-reflow-') as temp:
+        workspace = Path(temp)
+        shutil.copy2(root / '.latexmkrc', workspace / '.latexmkrc')
+        shutil.copytree(root / 'theme', workspace / 'theme')
+        shutil.copy2(root / 'tools/fixtures/notes-reflow.tex', workspace / 'notes-reflow.tex')
+        for command in (
+            ['latexmk', '-xelatex', '-interaction=nonstopmode', '-halt-on-error', 'notes-reflow.tex'],
+            [sys.executable, str(root / 'tools/export_presentation.py'), 'notes-reflow.tex', '--dpi', '36'],
+        ):
+            result = subprocess.run(command, cwd=workspace, text=True,
+                                    stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            with (output / 'notes-reflow.build.log').open('a') as log:
+                log.write(result.stdout)
+            if result.returncode:
+                raise RuntimeError('notes-reflow: build/export failed; inspect its build log')
+        presentation = Presentation(workspace / 'build/notes-reflow.pptx')
+        text = presentation.slides[-1].notes_slide.notes_text_frame.text
+        expected = [
+            'A long English paragraph that automatically wraps over several lines should become '
+            'a single paragraph in PowerPoint speaker notes without joining separate words or '
+            'changing the intentional word slide-based.',
+            'Second explicit paragraph.',
+            'An intentional line break.',
+            'Another explicit newline.',
+            '• First list item that contains enough English text to wrap automatically onto '
+            'another line in the note screen.',
+            '• 第二个列表项目用中文说明自动换行应当合并为连续的文字，并且不应在两个中文字之间插入额外的空格。',
+            '最后一个中文段落。',
+        ]
+        if text.splitlines() != expected:
+            raise RuntimeError(f'notes-reflow: paragraph content or boundaries changed: {text!r}')
+        (output / 'notes-reflow.txt').write_text(text)
+        shutil.copy2(workspace / 'build/notes-reflow.notes.pdf', output / 'notes-reflow.notes.pdf')
+        print('notes-reflow: bilingual paragraphs, lists and explicit breaks preserved in PPTX')
+
+
 def check(root, output):
     if not shutil.which('latexmk'):
         raise RuntimeError('latexmk is required for theme checks')
@@ -1041,6 +1106,8 @@ def check(root, output):
                                     cwd=workspace, text=True, stdout=subprocess.PIPE,
                                     stderr=subprocess.STDOUT)
             (output / f'{name}.build.log').write_text(result.stdout)
+            if 'Invalid end-point for range' in result.stdout:
+                raise RuntimeError(f'{name}: invalid theme-name regular expression')
             if (workspace / 'build' / f'{name}.log').exists():
                 shutil.copy2(workspace / 'build' / f'{name}.log', output / f'{name}.log')
             if result.returncode:
@@ -1114,6 +1181,8 @@ def check(root, output):
                 check_class_fixture(name, document, result.stdout)
             print(f'{name}: {pages} pages compiled; inspect {output / f"{name}.pdf"}')
     check_class_errors(root, output)
+    check_note_overflow(root, output)
+    check_note_reflow(root, output)
 
 
 def main():

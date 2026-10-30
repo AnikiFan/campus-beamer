@@ -74,7 +74,7 @@ FILES = (
     '.agents/skills/campus-mermaid/assets/config.json',
     '.agents/skills/campus-mermaid/scripts/render.mjs',
     'docker/Dockerfile', 'docker/Dockerfile.dockerignore', 'docker/entrypoint.sh',
-    'examples/example.tex', 'examples/example-en.tex', 'examples/example-tokyo-night.tex', 'examples/example-tsinghua.tex', 'examples/example-pcl.tex', 'outline.md', 'STYLE.md', 'materials/.gitkeep',
+    'examples/example.tex', 'examples/example-en.tex', 'examples/example-tokyo-night.tex', 'examples/example-tsinghua.tex', 'examples/example-pcl.tex', 'STYLE.md', 'materials/.gitkeep',
     'examples/english/metadata.tex', 'examples/english/refs.bib',
     'examples/english/01_basics.tex', 'examples/english/02_papers.tex',
     'examples/english/03_callouts.tex', 'examples/english/04_navigation.tex',
@@ -151,7 +151,7 @@ FILES = (
     'tools/add_video_posters.py', 'tools/check_theme.py', 'tools/compare_pdf.py', 'tools/doctor.py',
     'tools/draft_preview.py', 'tools/generate_demo_video.py',
     'tools/generate_logo.py', 'tools/render_wordmarks.py', 'tools/recolor_pcl_wordmark.py',
-    'tools/images_to_ppt.py', 'tools/export_presentation.py', 'tools/literature.py',
+    'tools/images_to_ppt.py', 'tools/export_presentation.py', 'tools/literature.py', 'tools/init_talk.py',
     'tools/theme_assets.py', 'tools/tests/test_theme_assets.py',
     '.github/workflows/theme-assets.yml',
     'tools/package_release.py', 'tools/package_source.py', 'tools/render_theme_previews.py',
@@ -171,6 +171,7 @@ FILES = (
     'tools/fixtures/titleless-box.tex', 'tools/fixtures/titleless-box-dark.tex',
     'tools/fixtures/overlays.tex', 'tools/fixtures/overlays-handout.tex',
     'tools/fixtures/native-notes.tex', 'tools/fixtures/native-notes-screen.tex',
+    'tools/fixtures/notes-overflow.tex', 'tools/fixtures/notes-reflow.tex',
     'tools/tests/test_compare_pdf.py', 'tools/tests/test_doctor.py',
     'tools/tests/test_draft_preview.py', 'tools/tests/test_images_to_ppt.py',
     'tools/tests/test_literature.py', 'tools/tests/test_make_entry.py',
@@ -202,19 +203,20 @@ def package(root, output):
     temporary = output.with_suffix('.zip.tmp')
     try:
         with zipfile.ZipFile(temporary, 'w', compression=zipfile.ZIP_DEFLATED) as archive:
-            for path in paths:
+            entries = {path.relative_to(root).as_posix(): path for path in paths}
+            # This virtual archive entry never reads the local private draft.
+            entries['outline.md'] = root / 'tools/templates/outline.md'
+            for name, path in sorted(entries.items()):
                 # The archive is unpacked directly into the project root.
-                name = path.relative_to(root).as_posix()
                 info = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
                 info.compress_type = zipfile.ZIP_DEFLATED
                 info.external_attr = 0o100644 << 16
                 # Distribute the starter template instead of the user's draft.
-                source = root / 'tools/templates/outline.md' if name == 'outline.md' else path
-                archive.writestr(info, source.read_bytes())
+                archive.writestr(info, path.read_bytes())
         temporary.replace(output)
     finally:
         temporary.unlink(missing_ok=True)
-    return len(paths)
+    return len(entries)
 
 
 def main():

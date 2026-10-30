@@ -42,8 +42,8 @@ docker run --rm \
 默认命令就是 `make`：有 agent 生成的 `main.tex` 时输出 `build/main.pdf` 和 `build/main.pptx`，
 否则输出功能示例的 `build/example.pdf` 和 `build/example.pptx`。保留链接、视频和备注。
 思路与素材交给 agent 完成写作，容器负责编译和转换，不调用模型。
-agent 生成的备注放在挂载项目的 `build/main.notes.json`，构建会自动读取；
-镜像和源码包不包含这些生成产物，首次制作新汇报时按最终页序生成备注。
+讲者备注与页面一起保存在挂载项目的 TeX `\note` 中；构建自动渲染备注 PDF，
+再按最终页序写入 PPTX。修改备注请编辑 TeX，详见[原生讲者备注](usage.md#原生讲者备注)。
 使用宿主机 UID/GID，避免 Linux 下产生属于 root 的文件；挂载目录必须对当前用户可写。
 Windows 建议在 WSL 中执行这些命令。
 镜像默认使用 UTC。如果汇报中的 `\today` 需要本地日期，在 `docker run` 中加入
