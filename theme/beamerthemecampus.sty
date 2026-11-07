@@ -37,6 +37,7 @@
 \newcommand{\campus@guidefontlabel}[3]{%
   \begingroup
     \usebeamerfont{#1}%
+    \ifstrequal{#1}{title}{\setlength{\baselineskip}{1em}}{}%
     \edef\campus@guidefontsize{\f@size}%
     \edef\campus@guidebaselineskip{\the\baselineskip}%
     \scriptsize\texttt{#3} (\campus@guidefontsize pt);\space
@@ -75,7 +76,7 @@
 \RequirePackage{graphicx,campuscolor}
 \RequirePackage{multicol}
 
-% No navigation symbols
+% Suppress Beamer's separate lower-right strip; selected controls live in our footline.
 \setbeamertemplate{navigation symbols}{}
 
 \newlength{\campusheadlineheight}
@@ -114,6 +115,7 @@
 \newlength{\campusfootlinetextraise}
 \newlength{\campusfootlinenudge}
 \newsavebox{\campus@footertext}
+\newsavebox{\campus@footercontrols}
 \newlength{\campusfitgraphicwidth}
 \newlength{\campusfitgraphicheight}
 \newlength{\campusrightimagewidth}
@@ -461,16 +463,35 @@
 \setbeamertemplate{footline}{%
   \campus@footnavigation
   \begin{beamercolorbox}[wd=\textwidth,ht=\campusfootlineheight,dp=\campusfootlinedepth,vmode]{footline}
-  \campus@centerfootertext{\campusfootlineheight}{\campusfootlinedepth}{%
-    \hbox to \textwidth{%
-      \hspace*{\campuslogoleftskip}%
-      \hbox to \dimexpr\textwidth-2\campuslogoleftskip\relax{%
-        \usebeamerfont{footline}\insertframenumber/\inserttotalframenumber
-        \ifstrempty{\@footlinepayoff}{}{%
-          \hfill\@footlinepayoff
+  \sbox{\campus@footercontrols}{%
+    % PGF translates the symbol bounds (-1.5pt, 5.5pt) into a 7pt-high box.
+    % Give the hit areas the same height and zero depth as that rendered box.
+    % Beamer's taller default hit areas would extend below this compact band.
+    \def\beamer@linkspace##1{%
+      \special{dvipdfmx:catch_phantom true height 7pt depth 0pt}%
+      \vbox to7pt{\vfil}\kern##1}%
+    \setbeamercolor{navigation symbols dimmed}{fg=campusonprimary!70!maincolor}%
+    \color{campusonprimary}%
+    \insertframenavigationsymbol\hspace{4pt}%
+    \color{campusonprimary}\insertbackfindforwardnavigationsymbol}%
+  % Center controls independently so their height cannot move the text baseline.
+  \hbox{%
+    \rlap{\hspace*{\dimexpr\campuslogoleftskip+\campuslogowidth\relax}%
+      \campus@centerfootertext{\campusfootlineheight}{\campusfootlinedepth}{%
+        \usebox{\campus@footercontrols}}}%
+    \campus@centerfootertext{\campusfootlineheight}{\campusfootlinedepth}{%
+      \hbox to \textwidth{%
+        \hspace*{\campuslogoleftskip}%
+        \hbox to \dimexpr\textwidth-2\campuslogoleftskip\relax{%
+          \usebeamerfont{footline}%
+          \makebox[\campuslogowidth][l]{\insertframenumber/\inserttotalframenumber}%
+          \hspace*{\wd\campus@footercontrols}%
+          \ifstrempty{\@footlinepayoff}{}{%
+            \hfill\@footlinepayoff
+          }%
         }%
+        \hspace*{\campuslogoleftskip}%
       }%
-      \hspace*{\campuslogoleftskip}%
     }%
   }%
   \end{beamercolorbox}
@@ -838,20 +859,30 @@
 }
 \newcommand{\campus@authorlabel}[1]{%
   {\mdseries
-    \sbox{\campus@authorlabelbox}{\campus@presenterlabel}%
-    \setlength{\campus@authorlabelwidth}{\wd\campus@authorlabelbox}%
-    \sbox{\campus@authorlabelbox}{\campus@advisorlabel}%
-    \ifdim\wd\campus@authorlabelbox>\campus@authorlabelwidth
+    \ifdefempty{\@advisor}{%
+      #1\campus@authorlabelcolon\ifcampus@chinesenames\else\space\fi
+    }{%
+      \sbox{\campus@authorlabelbox}{\campus@presenterlabel}%
       \setlength{\campus@authorlabelwidth}{\wd\campus@authorlabelbox}%
-    \fi
-    \sbox{\campus@authorlabelbox}{#1}%
-    \setlength{\campus@authorlabelnaturalwidth}{\wd\campus@authorlabelbox}%
-    \ifdim\campus@authorlabelnaturalwidth=\campus@authorlabelwidth
-      \usebox{\campus@authorlabelbox}%
-    \else
-      \makebox[\campus@authorlabelwidth][s]{\campus@spreadlabel{#1}}%
-    \fi
-    \makebox[1em][l]{\campus@authorlabelcolon}}%
+      \sbox{\campus@authorlabelbox}{\campus@advisorlabel}%
+      \ifdim\wd\campus@authorlabelbox>\campus@authorlabelwidth
+        \setlength{\campus@authorlabelwidth}{\wd\campus@authorlabelbox}%
+      \fi
+      \sbox{\campus@authorlabelbox}{#1}%
+      \setlength{\campus@authorlabelnaturalwidth}{\wd\campus@authorlabelbox}%
+      \ifdim\campus@authorlabelnaturalwidth=\campus@authorlabelwidth
+        \usebox{\campus@authorlabelbox}%
+      \else
+        \makebox[\campus@authorlabelwidth][s]{\campus@spreadlabel{#1}}%
+      \fi
+      \makebox[1em][l]{\campus@authorlabelcolon}}}%
+}
+% A wrapped cover/closing title is one compact block. Keep the chosen font
+% size; use one em between baselines, with TeX's normal collision fallback.
+\newcommand{\campus@titleparagraph}{%
+  \raggedright\usebeamerfont{title}%
+  \setlength{\baselineskip}{1em}%
+  \inserttitle\par
 }
 % Keep each cover metadata row on exactly one baseline of its active font.
 % Using fixed-height boxes avoids paragraph glue or font-transition effects
@@ -881,8 +912,7 @@
     \node[anchor=west,inner sep=0pt,outer sep=0pt] (cover-title)
       at ([xshift=\campuslogoleftskip]current page.west) {%
       \begin{minipage}{\dimexpr\campustitleboxwidth-20pt-\campustitleboxleftskip\relax}
-        \raggedright\usebeamerfont{title}\usebeamercolor[fg]{title}%
-        \inserttitle\par
+        \usebeamercolor[fg]{title}\campus@titleparagraph
       \end{minipage}%
     };
     \node[anchor=north west,inner sep=0pt,outer sep=0pt,
@@ -1468,8 +1498,7 @@
       \node[anchor=west,inner sep=0pt,outer sep=0pt] (backmatter-title)
         at ([xshift=\campuslogoleftskip]current page.west) {%
         \begin{minipage}{\dimexpr\campustitleboxwidth-20pt-\campustitleboxleftskip\relax}
-          \raggedright\usebeamerfont{title}\usebeamercolor[fg]{normal text}%
-          \inserttitle\par
+          \usebeamercolor[fg]{normal text}\campus@titleparagraph
         \end{minipage}%
       };
     }%

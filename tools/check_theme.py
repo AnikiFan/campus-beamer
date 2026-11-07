@@ -35,7 +35,7 @@ EXPECTED_PAGES = {'aspect-ratio-43': 9, 'aspect-ratio-169': 9, 'aspect-ratio-not
                   'demo-without-guides': 51, 'language-layout': 10,
                   'toc-overview': 7, 'page-styles': 10,
                   'class-options': 6, 'class-handout': 1, 'class-mixed-language': 2,
-                  'code-windows': 6, 'class-metadata': 3, 'name-layout': 20,
+                  'code-windows': 6, 'class-metadata': 3, 'name-layout': 24,
                   'section-toc-spacing': 42, 'date-display': 12,
                   'citation-top-right': 3, 'flow-layout': 1, 'url-layout': 2,
                   'doc-citations': 7, 'description-alignment': 4, 'callout-layout': 1,
@@ -850,6 +850,11 @@ def check_name_layout(document, log):
             box = name_box(content[0], name)
             glyph_width = content[0][0]['bbox'][2] - content[0][0]['bbox'][0]
             close(box.width, len(name) * glyph_width, 'natural name without advisor')
+            label = page.search_for('汇报人：')
+            if len(label) != 1:
+                raise RuntimeError('name-layout: missing natural presenter label')
+            close(label[0].width, 4 * glyph_width, 'natural label without advisor')
+            close(box.x0, label[0].x1, 'no extra spacing after presenter label')
     for start in (14, 16, 18):
         for page in (document[start], document[start + 1]):
             speaker_row = rows(page)[0]
@@ -859,6 +864,22 @@ def check_name_layout(document, log):
     for page in (document[12], document[13]):
         if not page.search_for('Ada Lovelace') or not page.search_for('Alan Turing Professor'):
             raise RuntimeError('name-layout: English names/title no longer use natural spacing')
+    for index in range(20, 24):
+        page = document[index]
+        spans = [span for block in page.get_text('dict')['blocks']
+                 for line in block.get('lines', []) for span in line['spans']]
+        title = [span for span in spans if span['size'] > 20
+                 and span['bbox'][0] < page.rect.width * .6]
+        baselines = sorted({round(span['origin'][1], 3) for span in title})
+        if len(baselines) != 2:
+            raise RuntimeError('name-layout: expected two title lines')
+        close(baselines[1] - baselines[0], title[0]['size'], 'compact title baseline')
+        if index < 22 and not page.search_for('Speaker: Ada Lovelace'):
+            raise RuntimeError('name-layout: lone English presenter must use natural spacing')
+        if index % 2:
+            previous = document[index - 1].search_for(title[0]['text'])[0]
+            current = page.search_for(title[0]['text'])[0]
+            close(previous.y0, current.y0, 'cover/closing title anchor')
 
 
 def check_class_errors(root, output):
@@ -981,6 +1002,54 @@ def check_language_layout(document):
             raise RuntimeError(f'language-layout: font sizes differ on pages {a+1}/{b+1}')
 
 
+def check_footer_controls(document, page_index, expected_targets=None):
+    """Check the rendered hit areas, frame destinations and PDF reader actions."""
+    page = document[page_index]
+    filled = [drawing['rect'] for drawing in page.get_drawings() if drawing['fill']]
+    band = min((rect for rect in filled
+                if abs(rect.y1 - page.rect.height) < .1
+                and abs(rect.width - page.rect.width) < .1), key=lambda rect: rect.height)
+    emblem = next(rect for rect in filled
+                  if abs(rect.y0) < .1 and 0 < rect.x0 < 50 and 20 < rect.width < 80)
+    controls = []
+    for xref, kind, _ in page.annot_xrefs():
+        if kind != pymupdf.PDF_ANNOT_LINK:
+            continue
+        raw = document.xref_get_key(xref, 'Rect')[1]
+        rect = pymupdf.Rect([float(value) for value in raw.strip('[]').split()])
+        rect = rect * page.transformation_matrix
+        if rect.y0 < band.y0 - .1:
+            continue
+        if rect.y1 > band.y1 + .1:
+            raise RuntimeError('footer controls: click target extends below the page')
+        controls.append((rect, xref))
+    controls.sort(key=lambda item: item[0].x0)
+    if len(controls) != 7 or abs(controls[0][0].x0 - emblem.x1) > .1:
+        raise RuntimeError('footer controls: expected two groups starting at emblem block right edge')
+    ink = pymupdf.Rect()
+    for drawing in page.get_drawings():
+        rect = drawing['rect']
+        if (rect.x0 >= controls[0][0].x0 and rect.x1 <= controls[-1][0].x1
+                and rect.y0 >= band.y0):
+            stroke = (drawing['width'] or 0) / 2
+            ink |= rect + (-stroke, -stroke, stroke, stroke)
+    if ink.is_empty or abs((ink.y0 + ink.y1 - band.y0 - band.y1) / 2) > .2:
+        raise RuntimeError('footer controls: visible artwork is not vertically centered in the band')
+    actions = [document.xref_get_key(xref, 'A/N')[1] for _, xref in controls[4:]]
+    if actions != ['/GoBack', '/Find', '/GoForward']:
+        raise RuntimeError('footer controls: incorrect reader history/find commands')
+    destinations = document.resolve_names()
+    targets = []
+    for _, xref in controls[:4]:
+        name = document.xref_get_key(xref, 'A/D')[1]
+        target = destinations.get(name, {}).get('page')
+        if target is None or not 0 <= target < len(document):
+            raise RuntimeError('footer controls: unresolved frame destination')
+        targets.append(target)
+    if expected_targets is not None and targets != expected_targets:
+        raise RuntimeError(f'footer controls: incorrect overlay targets {targets}')
+
+
 def check_aspect_ratio(name, document, log):
     if 'Overfull' in log or 'Missing character:' in log:
         raise RuntimeError(f'{name}: overflow or missing glyphs')
@@ -994,6 +1063,13 @@ def check_aspect_ratio(name, document, log):
     if ('Cover speaker note.' in texts[0]) != notes:
         raise RuntimeError(f'{name}: incorrect notes visibility')
     if not notes:
+        for index, targets in ((4, [3, 4, 5, 6]), (5, [3, 4, 5, 6]),
+                               (6, [5, 6, 6, 7]), (7, [6, 7, 7, 8])):
+            check_footer_controls(document, index, targets)
+        for index in (0, 1, 2, 3, 8):
+            if any(document.xref_get_key(xref, 'A/N')[1] == '/Find'
+                   for xref, _, _ in document[index].annot_xrefs()):
+                raise RuntimeError('footer controls: controls leaked onto a plain page')
         for index in (4, 5):
             page = document[index]
             if not page.search_for('Body and citation') or not page.search_for('Anchors and content'):

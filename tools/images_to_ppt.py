@@ -72,6 +72,7 @@ class LinkSummary:
     external: int = 0
     embedded: int = 0
     skipped: int = 0
+    viewer_only: int = 0
 
 
 def campus_metadata(pdf) -> dict[str, str]:
@@ -759,7 +760,19 @@ def convert_pdf_to_pptx(
             placement = (left, top, width, height)
             slide.background.fill.solid()
             slide.background.fill.fore_color.rgb = RGBColor(255, 255, 255)
-            links = page.get_links()
+            # These Beamer controls invoke PDF reader UI, not document targets.
+            # Report them separately; strict link validation still covers all
+            # other unsupported actions and unresolved destinations.
+            viewer_xrefs = {
+                xref for xref, kind, _ in page.annot_xrefs()
+                if kind == pymupdf.PDF_ANNOT_LINK
+                and pdf.xref_get_key(xref, 'A/S')[1] == '/Named'
+                and pdf.xref_get_key(xref, 'A/N')[1] in ('/GoBack', '/Find', '/GoForward')
+                and pdf.xref_get_key(xref, 'A/Next')[0] == 'null'
+                and pdf.xref_get_key(xref, 'AA')[0] == 'null'
+            }
+            summary.viewer_only += len(viewer_xrefs)
+            links = [link for link in page.get_links() if link.get('xref') not in viewer_xrefs]
             videos = {}
             for index, link in enumerate(links):
                 video = local_video_for_link(link, pdf_path)
@@ -778,7 +791,7 @@ def convert_pdf_to_pptx(
             # MuPDF omits some unsupported actions (e.g. JavaScript) entirely.
             # Include those in the skip count instead of claiming full coverage.
             annotation_count = sum(kind == pymupdf.PDF_ANNOT_LINK for _, kind, _ in page.annot_xrefs())
-            missing = max(0, annotation_count - len(links))
+            missing = max(0, annotation_count - len(links) - len(viewer_xrefs))
             summary.skipped += missing
             if missing and verbose:
                 print(f'  page {page_index + 1}: {missing} unreadable link annotation(s)')
@@ -825,6 +838,9 @@ def convert_pdf_to_pptx(
             if preserve_transitions:
                 transition_count += set_slide_transition(slide, page)
 
+        if summary.viewer_only:
+            print(f'NOTE: {summary.viewer_only} PDF reader history/find control(s) remain '
+                  'visible but have no PowerPoint action.', file=sys.stderr)
         if summary.skipped:
             message = f'{summary.skipped} link(s) could not be preserved; use --verbose for details.'
             if strict_links:
@@ -836,7 +852,8 @@ def convert_pdf_to_pptx(
         print(f'Transitions: {transition_count} slides with explicit PDF effects/timing')
         print(
             f'Links: {summary.internal} internal, {summary.external} external, '
-            f'{summary.embedded} embedded video, {summary.skipped} skipped'
+            f'{summary.embedded} embedded video, {summary.skipped} skipped, '
+            f'{summary.viewer_only} PDF reader controls (not exported as actions)'
         )
         return summary
 

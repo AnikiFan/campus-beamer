@@ -446,6 +446,22 @@ class ConversionTests(unittest.TestCase):
         self.assertAlmostEqual((hotspot.left - image.left) / image.width, 10 / 160, places=6)
         self.assertAlmostEqual((hotspot.top - image.top) / image.height, 20 / 180, places=6)
 
+    def test_pdf_reader_controls_do_not_block_strict_export(self):
+        with pymupdf.open() as doc:
+            page = doc.new_page()
+            for i, action in enumerate(('GoBack', 'Find', 'GoForward', 'NextPage')):
+                page.insert_link({'kind': pymupdf.LINK_URI,
+                                  'from': pymupdf.Rect(10 + 30*i, 20, 30 + 30*i, 40),
+                                  'uri': 'https://placeholder.invalid'})
+                page = doc.reload_page(page)
+                xref = page.annot_xrefs()[-1][0]
+                doc.xref_set_key(xref, 'A', f'<< /S /Named /N /{action} >>')
+            doc.save(self.pdf)
+        summary = self.convert(strict_links=True)
+        self.assertEqual(summary, converter.LinkSummary(internal=1, viewer_only=3))
+        # Only the actual page jump receives a PowerPoint hotspot.
+        self.assertEqual(len(Presentation(self.pptx).slides[0].shapes), 2)
+
     def test_unsupported_annotation_count_and_strict_mode(self):
         self.fixture(unsupported=True)
         summary = self.convert()
