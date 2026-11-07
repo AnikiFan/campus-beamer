@@ -5,6 +5,13 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.25.0](https://github.com/AnikiFan/campus-beamer/compare/v0.24.0...v0.25.0) (2026-11-07)
+
+
+### Features
+
+* add footer controls and refine cover typography ([f5bb8ca](https://github.com/AnikiFan/campus-beamer/commit/f5bb8ca76ed103aa3fdb8ac5495c94a53eb12a12))
+
 ## [0.24.0](https://github.com/AnikiFan/campus-beamer/compare/v0.23.0...v0.24.0) (2026-10-30)
 
 
