@@ -277,6 +277,46 @@ PPTX 备注以可提取的文字为准。备注 PDF 会按阶段数和幻灯片�
 
 ## 转换为 PowerPoint（保留跳转链接）
 
+### 可编辑文字导出（实验性）
+
+需要在 PowerPoint 中修改文字时，可以选择：
+
+```bash
+make pptx-editable                     # 当前入口，保留原来的图片版 PPTX
+make pptx-editable MAIN=examples/example
+```
+
+输出为 `build/<入口名>.editable.pptx`，并生成同名的 `.text-report.json` 报告。
+这个模式按 PDF 的行位置重建文字；同一行不同字体或样式可能分成多个文本框，修改后不会自动让后续行重排。
+普通文字可以选择、编辑和搜索，保留字体名称、PDF 中的字号、颜色、粗体、斜体和基线位置；
+可编辑版沿用 PDF 的实际页面尺寸，因此无需通过放大字号来适配页面。
+模板的页脚色带、校徽底色和标准 box 背景导出为原生形状，可以修改颜色、位置和尺寸。
+页脚各行及 box 与内部文字组合，可整体移动，也可取消组合后分别编辑；修改正文后 box 不会自动撑高。
+校徽单独导出为透明图片，可以移动、缩放和替换，内部线条仍属于图像。
+其余背景、配图、公式与无法可靠转换的文字保留为图像。box 内的公式和插图保留原来的叠放顺序。
+报告列出每页转换行数、所需字体、模板对象和保留为图像的内容及原因。
+背景默认以 600 DPI 导出；需要缩小文件时可通过 `DPI` 调低分辨率。
+整段文字的链接绑定到文本框本身，随文字一起移动和修改，避免播放软件自动添加蓝色或下划线。
+一段文字中的局部链接仍绑定到对应文字，保留在同一个文本框内；WPS 等软件可能对这类局部链接应用自己的颜色样式。
+图片链接以及大于文字范围的按钮仍保留独立点击区域。
+
+导出端需要 Fontconfig（`fc-match`、`fc-scan`），使用 TeX 字体时还需要 `kpsewhich`；
+Ubuntu/Debian 可安装 `fontconfig`，`kpsewhich` 随 TeX Live 提供。
+字体必须能在本机精确匹配；未找到时保留原图，不自动替换字体。本模式不嵌入字体，接收方应安装报告中列出的字体。
+PowerPoint 与 LaTeX 的字形选择、字距和排版不同，不能保证逐像素一致，正式汇报前应在实际播放软件中检查。
+原有链接、备注、分节和换页效果继续导出；PDF 阅读器的搜索按钮不会因此变成 PowerPoint 搜索按钮。
+
+Make 会单独编译带正确文字编码及模板元素标记的 `build/<入口名>.editable-slides.pdf`，源文件及原 PDF 不变。
+已有可靠文字编码的 PDF 也可直接转换；未经过模板标记的 PDF 仅转换文字，不会猜测哪些图形属于页脚或 box：
+
+```bash
+uv run --frozen python tools/images_to_ppt.py build/main.pdf build/main.editable.pptx --editable-text
+```
+
+默认 `make` 仍采用下面的图片导出方式，适合优先保持原始排版的场景。
+
+### 图片导出
+
 `tools/images_to_ppt.py` 将 PDF 的每一页渲染为一张幻灯片，并叠加近乎透明的
 可点击区域，保留目录、章节导航、交叉引用、网址、邮箱及本地文件链接。
 同时自动写入 PowerPoint 原生分节和文档属性；运行 `make` 即可完成，无需额外参数或元信息文件。
@@ -293,7 +333,8 @@ uv run --frozen tools/images_to_ppt.py build/main.pdf build/main.pptx --notes-pd
 `pyproject.toml` 是依赖清单，`uv.lock` 固定完整依赖版本。
 Make 使用 `--frozen` 按锁文件安装，不重新解析依赖；修改依赖清单后需先运行 `uv lock`，
 再执行 `make`。现有锁文件中的下载地址需要能够访问。
-只有两个直接依赖：`pymupdf`（渲染 PDF、读取链接）和 `python-pptx`（写入 PPTX）；
+直接依赖为 `pymupdf`（渲染 PDF、读取链接）、`python-pptx`（写入 PPTX）和
+`pikepdf`（拆分带标记的模板元素并保持绘制顺序）；
 其间接依赖由 `uv` 自动安装。转换已有 PDF 时无需安装 LaTeX、Poppler 或 LibreOffice。
 只有嵌入本地视频时需要系统命令 `ffmpeg`；普通链接和没有视频的 PDF 不需要它。
 

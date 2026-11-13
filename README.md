@@ -28,8 +28,8 @@
 ![默认 general 主题的封面预览](docs/images/preview-general-cover.png)
 
 PDF 由 LaTeX 排版，PPTX 保留页面外观、跳转、视频和讲者备注。
-**PPTX 每页是一张渲染图像，文字不能作为 PowerPoint 原生文本编辑。**
-修改内容应编辑 TeX 源码或交给 agent，再重新导出。本项目不是学校官方模板。
+默认 PPTX 每页是一张渲染图像；修改内容可编辑 TeX 源码或交给 agent，再重新导出。
+需要在 PowerPoint 中修改文字、页脚和提示框时，可运行实验性命令 `make pptx-editable`；校徽可独立移动或替换，公式等复杂内容保留为图像，接收方需要相应字体。详见[可编辑导出](docs/usage.md#可编辑文字导出实验性)。本项目不是学校官方模板。
 
 ## 快速开始
 

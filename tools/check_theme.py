@@ -26,7 +26,7 @@ import tempfile
 
 import pymupdf
 from pptx import Presentation
-from images_to_ppt import campus_metadata, pdf_info_string
+from images_to_ppt import campus_metadata, pdf_info_string, convert_pdf_to_pptx
 
 EXPECTED_PAGES = {'aspect-ratio-43': 9, 'aspect-ratio-169': 9, 'aspect-ratio-notes': 9,
                   'brand-variants': 4, 'layout-guides': 5, 'layout-guides-off': 3,
@@ -42,7 +42,8 @@ EXPECTED_PAGES = {'aspect-ratio-43': 9, 'aspect-ratio-169': 9, 'aspect-ratio-not
                   'overlays': 6, 'overlays-handout': 3,
                   'native-notes': 4, 'native-notes-screen': 4, 'profile-undefined': 10,
                   'profile-eva': 11, 'profile-eva-english': 7,
-                  'titleless-box': 3, 'titleless-box-dark': 3}
+                  'titleless-box': 3, 'titleless-box-dark': 3,
+                  'editable-elements': 3, 'editable-elements-dark43': 3}
 
 
 def check_eva_english(document, log):
@@ -1166,10 +1167,11 @@ def check(root, output):
             if name.startswith('profile-selection'):
                 prepare_profile_fixture(workspace)
                 shutil.rmtree(workspace / 'theme/tsinghua')
-            if name == 'titleless-box-dark':
+            if name in ('titleless-box-dark', 'editable-elements-dark43'):
                 fixtures = workspace / 'tools/fixtures'
                 fixtures.mkdir(parents=True)
-                shutil.copy2(root / 'tools/fixtures/titleless-box.tex', fixtures)
+                base = 'titleless-box.tex' if name == 'titleless-box-dark' else 'editable-elements.tex'
+                shutil.copy2(root / 'tools/fixtures' / base, fixtures)
             if name.startswith('aspect-ratio-'):
                 fixtures = workspace / 'tools/fixtures'
                 fixtures.mkdir(parents=True)
@@ -1255,6 +1257,18 @@ def check(root, output):
                 if name in ('native-notes', 'native-notes-screen'):
                     check_native_notes(document, result.stdout, shown=name.endswith('-screen'))
                 check_class_fixture(name, document, result.stdout)
+            if name.startswith('editable-elements'):
+                target = output / f'{name}.pptx'
+                convert_pdf_to_pptx(pdf, target, dpi=96, editable_text=True,
+                                    auto_notes=False, strict_links=True)
+                deck = Presentation(target)
+                names = [shape.name for slide in deck.slides for shape in slide.shapes]
+                if names.count('Emblem') != 3:
+                    raise RuntimeError(f'{name}: emblem must be an independent image on each slide')
+                if sum(n.startswith('Template group: box-') for n in names) != 4:
+                    raise RuntimeError(f'{name}: all callouts must be editable groups')
+                if sum(n.startswith('Template group: footer-') for n in names) != 6:
+                    raise RuntimeError(f'{name}: each body page needs three editable footer rows')
             print(f'{name}: {pages} pages compiled; inspect {output / f"{name}.pdf"}')
     check_class_errors(root, output)
     check_note_overflow(root, output)

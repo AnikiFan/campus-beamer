@@ -11,6 +11,7 @@ make test                   # Python regression tests
 make draft                  # final layout + previews + report
 make draft PAGES=3,8-10     # focused visual iteration
 make                         # PDF, notes-aware PPTX, then cleanup
+make pptx-editable            # opt-in native text; separate .editable.pptx
 make pdf                    # PDF only, then cleanup
 make check-theme            # isolated theme fixtures
 make dist                   # reviewed standalone source ZIP
@@ -170,6 +171,22 @@ If delivering a handout, inspect its separate final-state output and notes count
 PPTX XML evidence does not establish playback in a PowerPoint client.
 
 ## PDF/PPTX contract
+
+The optional `make pptx-editable` mode preserves the PDF's physical page size
+and reconstructs supported text as native text boxes. Inspect the accompanying
+`.text-report.json`: retained math, unsupported fonts, overlapping text and
+failed removal checks stay in raster artwork. The editable compile marks template
+decorations; check native footer/callout groups, independent emblems, original
+fill colors, absence of inherited shadows, and clipping/stacking of retained
+formulas or pictures. Move a group and edit a child shape to confirm the original
+decoration is not still painted into a background image. Check links after
+grouping, and exercise light 16:9 and dark 4:3 fixtures. Confirm editable text
+was removed from the background, survives a real text edit, uses the intended
+font/size/color, and retains line positions after rendering in the target
+presentation application. Font names alone do not prove font availability.
+Check the ordinary notes, link, video and transition contract in this mode too.
+LibreOffice rendering is useful evidence but is not Microsoft PowerPoint
+validation. The default image mode and its output filename remain unchanged.
 
 The converter defaults to 600 DPI and keeps the rendered slide as an image,
 internal/external links, speaker notes, PDF bookmarks, native PowerPoint

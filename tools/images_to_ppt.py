@@ -26,8 +26,10 @@ exists. FFmpeg is required only for these local videos. Other links become
 clickable areas, and the original PDF is never modified.
 Level-one PDF bookmarks become native PowerPoint sections. Standard PDF
 document properties and the Campus class's cover metadata are copied to PPTX.
-Only PyMuPDF and python-pptx are direct dependencies. Slide content remains an
-image; each PDF page (including each Beamer overlay) becomes one slide.
+PyMuPDF renders content, python-pptx writes slides, and pikepdf separates tagged
+template artwork. By default slide content remains an image; --editable-text
+reconstructs supported text and template decorations as native objects.
+Each PDF page (including each Beamer overlay) becomes one slide.
 PDF Fade/Dissolve transitions and explicit page durations become native PPTX
 slide transitions; no effect is added to pages without transition settings.
 """
@@ -64,6 +66,9 @@ from pptx.oxml import parse_xml
 from pptx.oxml.ns import qn
 from pptx.oxml.xmlchemy import OxmlElement
 from pptx.util import Inches
+
+from editable_text import prepare_text, add_text, bind_text_link
+from editable_graphics import add_graphics, group_template_objects
 
 
 @dataclass
@@ -564,22 +569,24 @@ def render_page(page, dpi: int, video_rects: list[pymupdf.Rect]):
     with pymupdf.open() as clean:
         clean.insert_pdf(page.parent, from_page=page.number, to_page=page.number)
         target = clean[0]
-        areas = []
-        for rect in video_rects:
-            # Half a point includes centered strokes and their anti-aliasing.
-            area = pymupdf.Rect(rect) * page.derotation_matrix
-            area = pymupdf.Rect(area.x0 - .5, area.y0 - .5, area.x1 + .5, area.y1 + .5)
-            areas.append(area)
-            target.add_redact_annot(area, fill=None, cross_out=False)
-        # Image redaction would whiten parts of a photographic background.
-        # Delete only images wholly inside placeholders, and only when every
-        # occurrence of that image on this page is contained in a placeholder.
-        for xref in {image[0] for image in target.get_images()}:
-            boxes = target.get_image_rects(xref)
-            if boxes and all(any(area.contains(box) for area in areas) for box in boxes):
-                target.delete_image(xref)
-        target.apply_redactions(images=0, graphics=1, text=0)
+        erase_video_placeholders(target, video_rects)
         return target.get_pixmap(dpi=dpi, colorspace=pymupdf.csRGB, alpha=False)
+
+
+def erase_video_placeholders(target, video_rects):
+    """Remove placeholder content from a disposable page, retaining its backdrop."""
+    areas = []
+    for rect in video_rects:
+        area = pymupdf.Rect(rect) * target.derotation_matrix
+        area = pymupdf.Rect(area.x0-.5, area.y0-.5, area.x1+.5, area.y1+.5)
+        areas.append(area)
+        target.add_redact_annot(area, fill=None, cross_out=False)
+    for xref in {image[0] for image in target.get_images()}:
+        boxes = target.get_image_rects(xref)
+        if boxes and all(any(area.contains(box) for area in areas) for box in boxes):
+            target.delete_image(xref)
+    if areas:
+        target.apply_redactions(images=0, graphics=1, text=0)
 
 
 def make_invisible_hotspot(shape) -> None:
@@ -682,6 +689,7 @@ def convert_pdf_to_pptx(
     notes_dir: str | Path | None = None,
     preserve_transitions: bool = True,
     notes_pdf_path: str | Path | None = None,
+    editable_text: bool = False,
 ) -> LinkSummary:
     pdf_path = Path(pdf_path).resolve()
     pptx_path = Path(pptx_path).resolve()
@@ -693,6 +701,8 @@ def convert_pdf_to_pptx(
         raise ValueError('Output must use the .pptx extension.')
     if type(dpi) is not int or dpi <= 0:
         raise ValueError('DPI must be a positive integer.')
+    if editable_text and any(not shutil.which(tool) for tool in ('fc-match', 'fc-scan')):
+        raise ValueError('Editable text requires Fontconfig (fc-match and fc-scan).')
     if notes_path is not None and notes_pdf_path is not None:
         raise ValueError('Choose either native PDF notes or legacy JSON notes.')
     automatic_notes = notes_path is None and notes_pdf_path is None and auto_notes
@@ -736,7 +746,9 @@ def convert_pdf_to_pptx(
 
         prs = Presentation()
         first_rect = pdf[0].rect
-        prs.slide_width = Inches(13.333)
+        # Native text keeps the PDF's physical point size. Image mode retains
+        # its established widescreen canvas for backward compatibility.
+        prs.slide_width = round(first_rect.width * 12700) if editable_text else Inches(13.333)
         prs.slide_height = round(prs.slide_width * first_rect.height / first_rect.width)
         slides = [prs.slides.add_slide(prs.slide_layouts[6]) for _ in pdf]
         campus = campus_metadata(pdf)
@@ -747,6 +759,7 @@ def convert_pdf_to_pptx(
             set_slide_notes(slide, note)
         summary = LinkSummary()
         transition_count = 0
+        text_report = []
         posters: dict[Path, bytes] = {}
         print(f'Input: {pdf_path}\nPages: {len(pdf)} | DPI: {dpi}')
 
@@ -783,10 +796,29 @@ def convert_pdf_to_pptx(
                     posters[video_path] = video_poster(video_path)
                 rect = video_placeholder_rect(page, link['from']) & page.rect
                 videos[index] = (video_path, mime_type, rect)
-            pixmap = render_page(page, dpi, [video[2] for video in videos.values()])
-            with BytesIO(pixmap.tobytes('png')) as image:
-                slide.shapes.add_picture(image, *placement)
-            del pixmap
+            video_rects = [video[2] for video in videos.values()]
+            editable_lines = []
+            graphics = None
+            if editable_text:
+                clean, editable_lines, report = prepare_text(page, video_rects)
+                try:
+                    erase_video_placeholders(clean[0], video_rects)
+                    graphics = add_graphics(slide, clean, placement, dpi)
+                    if graphics is None:
+                        pixmap = render_page(clean[0], dpi, [])
+                    else:
+                        report['decorations'] = graphics[1]
+                finally:
+                    clean.close()
+                text_report.append(report)
+            else:
+                pixmap = render_page(page, dpi, video_rects)
+            if graphics is None:
+                with BytesIO(pixmap.tobytes('png')) as image:
+                    slide.shapes.add_picture(image, *placement)
+                del pixmap
+            native_text = (add_text(slide, editable_lines, page.rect, placement, links)
+                           if editable_text else [])
 
             # MuPDF omits some unsupported actions (e.g. JavaScript) entirely.
             # Include those in the skip count instead of claiming full coverage.
@@ -821,6 +853,13 @@ def convert_pdf_to_pptx(
                     if verbose:
                         print(f'  page {page_index + 1} -> embedded {video_path}')
                     continue
+                if editable_text and bind_text_link(slide, native_text, link_index, link['from'],
+                        target=slides[target_page] if target_page is not None else None, uri=uri):
+                    if target_page is not None:
+                        summary.internal += 1
+                    else:
+                        summary.external += 1
+                    continue
                 hotspot = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE, *bounds)
                 make_invisible_hotspot(hotspot)
                 if target_page is not None:
@@ -834,6 +873,8 @@ def convert_pdf_to_pptx(
                 if verbose:
                     destination = f'slide {target_page + 1}' if target_page is not None else uri
                     print(f'  page {page_index + 1} -> {destination}')
+            if graphics is not None:
+                group_template_objects(slide, graphics[0], native_text, page.rect, placement)
             print(f'Converted page {page_index + 1}/{len(pdf)}')
             if preserve_transitions:
                 transition_count += set_slide_transition(slide, page)
@@ -848,6 +889,12 @@ def convert_pdf_to_pptx(
             print(f'WARNING: {message}', file=sys.stderr)
         set_export_properties(prs, summary.embedded)
         save_presentation(prs, pptx_path)
+        if editable_text:
+            report_path = pptx_path.with_suffix('.text-report.json')
+            report_path.write_text(json.dumps(dict(mode='editable', pages=text_report,
+                fonts_embedded=False), ensure_ascii=False, indent=2) + '\n')
+            print(f'Editable text: {sum(p["editable_lines"] for p in text_report)} lines; '
+                  f'report: {report_path}')
         print(f'Saved: {pptx_path}')
         print(f'Transitions: {transition_count} slides with explicit PDF effects/timing')
         print(
@@ -863,6 +910,7 @@ def main() -> None:
     parser.add_argument('input_pdf', type=Path, help='Input Beamer/PDF file')
     parser.add_argument('output_pptx', type=Path, nargs='?', help='Output file (default: input name with .pptx)')
     parser.add_argument('--dpi', type=int, default=600, help='Rendering DPI (default: 600)')
+    parser.add_argument('--editable-text', action='store_true', help='Experimental native text and tagged template decorations')
     parser.add_argument('--notes', type=Path, help='JSON speaker notes, one entry per final PDF page')
     parser.add_argument('--notes-pdf', type=Path, help='Native Campus second-screen notes PDF generated from TeX')
     parser.add_argument('--notes-dir', type=Path, help='Auto-load native PDF or legacy JSON notes from this directory (default: PDF directory)')
@@ -874,12 +922,14 @@ def main() -> None:
     args = parser.parse_args()
     try:
         convert_pdf_to_pptx(
-            args.input_pdf, args.output_pptx or args.input_pdf.with_suffix('.pptx'),
+            args.input_pdf, args.output_pptx or args.input_pdf.with_suffix(
+                '.editable.pptx' if args.editable_text else '.pptx'),
             args.dpi, args.verbose, args.strict_links,
             args.notes, auto_notes=not args.no_notes, strict_notes=args.strict_notes,
             notes_dir=args.notes_dir,
             preserve_transitions=not args.no_transitions,
             notes_pdf_path=args.notes_pdf,
+            editable_text=args.editable_text,
         )
     except (OSError, RuntimeError, ValueError) as exc:
         parser.exit(1, f'Error: {exc}\n')

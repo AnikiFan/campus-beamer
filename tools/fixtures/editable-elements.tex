@@ -1,0 +1,33 @@
+% Structured decoration export: light/dark profiles and both page proportions.
+\providecommand{\objecttesttheme}{general}
+\providecommand{\objecttestaspect}{169}
+\XeTeXgenerateactualtext=1
+\AddToHook{package/beamerthemecampus/after}{\RequirePackage{campuseditable}}
+\documentclass[theme=\objecttesttheme,aspectratio=\objecttestaspect,language=english,cjk=false]{campusbeamer}
+\title{Editable template objects}
+\author{Template check}
+\date{2026-11-13}
+\begin{document}
+\maketitle
+\section{Objects}
+\subsection{Callouts and links}
+\begin{frame}[t]{Named callouts}
+  \begin{tipbox}Move this callout as a group.\end{tipbox}
+  \begin{notebox}Keep its original color and alignment.\end{notebox}
+  \begin{alertbox}
+    \href{https://example.org/objects}{External link}\quad
+    \hyperlink{objects-detail}{Next slide}
+  \end{alertbox}
+\end{frame}
+\subsection{Mixed content}
+\begin{frame}[label=objects-detail]{A titleless box with graphics}
+  \begin{campusbox}[examplecolor]
+    An editable label above preserved mathematical content.
+    \[E=mc^2\]
+    \begin{tikzpicture}
+      \fill[examplecolor] (0,0) circle[radius=3mm];
+      \draw[->] (.5,0) -- (2,0);
+    \end{tikzpicture}
+  \end{campusbox}
+\end{frame}
+\end{document}

@@ -29,6 +29,7 @@
 
 \RequirePackage{etoolbox}
 \RequirePackage{tikz}
+\providecommand{\campuseditabletag}[2]{#2}
 
 % Optional red typography/layout overlays for title, section and closing pages.
 % Disabled by default; configured only by the campusbeamer class option.
@@ -688,13 +689,13 @@
 \newcommand{\campus@logoblock}{%
   \begin{tikzpicture}[remember picture,overlay]
     \usebeamercolor{logo block}%
-    \fill[bg] ([xshift=\campuslogoleftskip]current page.north west)
+    \campuseditabletag{logo-background}{\fill[bg] ([xshift=\campuslogoleftskip]current page.north west)
       rectangle ([xshift=\dimexpr\campuslogoleftskip+\campuslogowidth\relax,
-        yshift=-\campuslogoheight]current page.north west);
+        yshift=-\campuslogoheight]current page.north west);}%
     \node[anchor=south,inner sep=0pt,outer sep=0pt]
       at ([xshift=\dimexpr\campuslogoleftskip+.5\campuslogowidth\relax,
         yshift=\dimexpr-\campuslogoheight+\campuslogopadding\relax]current page.north west)
-      {\pgfuseimage{\@logo}};
+      {\campuseditabletag{emblem}{\pgfuseimage{\@logo}}};
   \end{tikzpicture}%
 }
 % Put the logo in each slide's top left area.

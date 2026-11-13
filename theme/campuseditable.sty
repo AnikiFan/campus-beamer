@@ -1,0 +1,36 @@
+% Copyright (C) 2026 Xiao Fan <xiaofan140@gmail.com>
+% SPDX-License-Identifier: GPL-3.0-or-later
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{campuseditable}[2026/11/13 Structured decorations for editable export]
+% Loaded only by the editable-export wrapper. Marked content carries roles;
+% the PDF still paints exactly the same paths at the same coordinates.
+\renewcommand{\campuseditabletag}[2]{%
+  \special{pdf:code /CampusEditable << /Role (#1) >> BDC}%
+  #2\special{pdf:code EMC}}
+
+\newcount\campus@editableboxcount
+\newcommand{\campus@editablebox}{%
+  \global\advance\campus@editableboxcount by1
+  \edef\campus@editableboxid{box-\the\campus@editableboxcount}%
+  \let\campus@editableframe\tcb@frame@code
+  \let\campus@editableinterior\tcb@interior@code
+  \let\campus@editableinteriortitled\tcb@interiortitled@code
+  \let\campus@editabletitle\tcb@title@code
+  \def\tcb@frame@code{\campuseditabletag{\campus@editableboxid}{\campus@editableframe}}%
+  \def\tcb@interior@code{\campuseditabletag{\campus@editableboxid}{\campus@editableinterior}}%
+  \def\tcb@interiortitled@code{\campuseditabletag{\campus@editableboxid}{\campus@editableinteriortitled}}%
+  \def\tcb@title@code{\campuseditabletag{\campus@editableboxid}{\campus@editabletitle}}%
+}
+\tcbset{campus callout/.append style={code={\campus@editablebox}}}
+
+% Only the background painting operation is tagged. Text, controls and link
+% annotations remain independent and retain Beamer's original layout.
+\newcommand{\campus@editablefooter}{%
+  \begingroup
+  \let\campus@editablecolorblock\color@block
+  \def\color@block##1##2##3{%
+    \campuseditabletag{footer-\beamer@colbox@color}{%
+      \campus@editablecolorblock{##1}{##2}{##3}}}%
+}
+\expandafter\let\expandafter\campus@editableoriginalfooter\csname beamer@@tmpl@footline\endcsname
+\setbeamertemplate{footline}{\campus@editablefooter\campus@editableoriginalfooter\endgroup}

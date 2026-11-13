@@ -18,9 +18,12 @@ def render_variant(source: Path, mode: str, latexmk: str) -> Path:
     """Compile a separate job; never rewrite the user's entry or its options."""
     if any(character in source.as_posix() for character in '{}%\\\n\r'):
         raise ValueError('The entry path contains characters unsafe in a TeX input filename.')
-    suffix = 'notes' if mode == 'notes' else 'slides'
+    suffix = {'notes': 'notes', 'slides': 'slides', 'editable': 'editable-slides'}[mode]
     wrapper = Path('build') / f'{source.stem}.{suffix}.tex'
-    wrapper.write_text('\\def\\campusnotesmode{' + mode + '}\n'
+    wrapper.write_text(('\\XeTeXgenerateactualtext=1\n'
+                        '\\AddToHook{package/beamerthemecampus/after}{\\RequirePackage{campuseditable}}\n'
+                        if mode == 'editable' else '')
+                       + '\\def\\campusnotesmode{' + ('slides' if mode == 'editable' else mode) + '}\n'
                        '\\input{\\detokenize{' + source.as_posix() + '}}\n')
     subprocess.run([latexmk, '-xelatex', '-interaction=nonstopmode', '-halt-on-error',
                     '-file-line-error', str(wrapper)], check=True)
@@ -29,10 +32,10 @@ def render_variant(source: Path, mode: str, latexmk: str) -> Path:
     return wrapper.with_suffix('.pdf')
 
 
-def export(source: Path, *, dpi=600, latexmk='latexmk'):
+def export(source: Path, *, dpi=600, latexmk='latexmk', editable_text=False):
     """Use a clean slide PDF for images and a separate native note render for text."""
     pdf_path = Path('build') / (source.stem + '.pdf')
-    output = pdf_path.with_suffix('.pptx')
+    output = pdf_path.with_suffix('.editable.pptx' if editable_text else '.pptx')
     with pymupdf.open(pdf_path) as pdf:
         layout = pdf_info_string(pdf, 'CampusNotesLayout')
     if layout and layout not in ('none', 'right'):
@@ -40,11 +43,19 @@ def export(source: Path, *, dpi=600, latexmk='latexmk'):
     if layout not in ('none', 'right'):
         # Preserve the original exporter behavior for legacy Beamer/theme users.
         legacy = pdf_path.with_suffix('.notes.json')
-        return convert_pdf_to_pptx(pdf_path, output, dpi=dpi, strict_links=True,
+        slides = render_variant(source, 'editable', latexmk) if editable_text else pdf_path
+        if editable_text:
+            add_video_posters(slides)
+        result = convert_pdf_to_pptx(slides, output, dpi=dpi, strict_links=True,
                                   strict_notes=True, auto_notes=False,
+                                  editable_text=editable_text,
                                   notes_path=legacy if legacy.is_file() else None)
-    slides = render_variant(source, 'slides', latexmk) if layout == 'right' else pdf_path
-    if layout == 'right':
+        if editable_text:
+            subprocess.run([latexmk, '-c', str(slides.with_suffix('.tex'))], check=True)
+        return result
+    slides = (render_variant(source, 'editable', latexmk) if editable_text else
+              render_variant(source, 'slides', latexmk) if layout == 'right' else pdf_path)
+    if layout == 'right' or editable_text:
         add_video_posters(slides)
     native = render_variant(source, 'notes', latexmk)
     has_notes = native.with_suffix('.campus-notes').read_text().strip()
@@ -62,11 +73,13 @@ def export(source: Path, *, dpi=600, latexmk='latexmk'):
     if has_notes == 'false' and legacy.is_file():
         print('Legacy JSON notes retained; add native note commands to make TeX authoritative.')
         result = convert_pdf_to_pptx(slides, output, dpi=dpi, strict_links=True,
+                                     editable_text=editable_text,
                                      strict_notes=True, auto_notes=False, notes_path=legacy)
     else:
         result = convert_pdf_to_pptx(slides, output, dpi=dpi, strict_links=True,
+                                     editable_text=editable_text,
                                      strict_notes=True, auto_notes=False, notes_pdf_path=native)
-    for variant in (native, slides if layout == 'right' else None):
+    for variant in (native, slides if layout == 'right' or editable_text else None):
         if variant is not None:
             subprocess.run([latexmk, '-c', str(variant.with_suffix('.tex'))], check=True)
     return result
@@ -77,9 +90,10 @@ def main():
     parser.add_argument('source', type=Path, help='Talk entry, e.g. main.tex')
     parser.add_argument('--dpi', type=int, default=600)
     parser.add_argument('--latexmk', default='latexmk')
+    parser.add_argument('--editable-text', action='store_true', help='Write a separate .editable.pptx with native text')
     args = parser.parse_args()
     try:
-        export(args.source, dpi=args.dpi, latexmk=args.latexmk)
+        export(args.source, dpi=args.dpi, latexmk=args.latexmk, editable_text=args.editable_text)
     except (OSError, ValueError, RuntimeError, subprocess.CalledProcessError) as exc:
         print(f'Presentation export failed: {exc}', file=sys.stderr)
         raise SystemExit(1) from exc

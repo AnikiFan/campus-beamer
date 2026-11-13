@@ -57,7 +57,7 @@ export QUERY DBLP_KEY DOI CITE_KEY DBLP_HOST CITATION_SOURCE BIB_OUTPUT BIB_REPO
 export THEME OVERLEAF_LANGUAGE ASPECTRATIO
 
 .PHONY: all init pptx pdf pdf-build draft doctor test literature bibtex citations check-theme logo dist overleaf version examples examples-43 theme-previews general-assets tokyo-night-assets undefined-assets eva-assets theme-assets dist-theme-assets release clean help
-.PHONY: theme-new theme-preview
+.PHONY: theme-new theme-preview pptx-editable
 
 all: pptx
 
@@ -72,6 +72,10 @@ theme-preview:
 
 pptx: pdf-build
 	$(UV) run --frozen python tools/export_presentation.py "$(SOURCE)" --dpi "$(DPI)" --latexmk "$(LATEXMK)"
+	$(LATEXMK) -c "$(SOURCE)"
+
+pptx-editable: pdf-build
+	$(UV) run --frozen python tools/export_presentation.py "$(SOURCE)" --dpi "$(DPI)" --latexmk "$(LATEXMK)" --editable-text
 	$(LATEXMK) -c "$(SOURCE)"
 
 pdf: pdf-build
@@ -207,6 +211,7 @@ help:
 	  'make theme-preview THEME=my-theme  Preview the public demo in 16:9 and 4:3' \
 	  'make MAIN=examples/example    Build the bundled reference demo explicitly' \
 	  'make DPI=200         Build a smaller preview' \
+	  'make pptx-editable   Editable text and template objects in build/<entry>.editable.pptx' \
 	  'make draft           Compile PDF and render 96-DPI page previews + layout report' \
 	  'make draft PAGES=2,5-8  Preview selected PDF pages (1-based); no PPTX export' \
 	  'make MAIN=talk       Build talk.tex -> PDF/PPTX with native TeX speaker notes' \

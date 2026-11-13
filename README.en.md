@@ -28,8 +28,8 @@
 ![English general feature tour](docs/images/preview-general-en-cover.png)
 
 LaTeX produces the PDF; PPTX preserves the rendered pages, links, video and speaker notes.
-**Each PPTX slide is an image: its text is not editable as native PowerPoint text.**
-Edit the TeX source or ask your agent to revise it, then export again. This is not an official university template.
+By default, each PPTX slide is an image. Edit the TeX source or ask your agent to revise it, then export again.
+To edit text, footers and callouts, try `make pptx-editable`. Emblems can be moved or replaced independently; formulas and other complex content remain images. Recipients need the matching fonts. See [editable export](docs/usage.md#可编辑文字导出实验性). This is not an official university template.
 
 ## Quick start
 
