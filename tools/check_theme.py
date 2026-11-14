@@ -508,8 +508,7 @@ def check_doc_citations(document, log):
                 raise RuntimeError('doc-citations: compact source lacks a full body URL')
         for span in corner:
             box = pymupdf.Rect(span['bbox'])
-            gray = all(abs(((span['color'] >> shift) & 255) - 128) <= 1
-                       for shift in (16, 8, 0))
+            gray = span['color'] == 0x686A71
             if abs(span['size'] - 6 * 72 / 72.27) > .05 or not gray:
                 raise RuntimeError('doc-citations: citation font/color changed or was reduced')
             if any(box.intersects(header) for header in headers) or box.x1 > page.rect.width - 10:
@@ -599,7 +598,7 @@ def check_public_demo(document):
     """The public tour must exercise real reveal states and working links."""
     guide = next(page for page in document if page.search_for('版式对齐检查'))
     blocks = [drawing['rect'] for drawing in guide.get_drawings()
-              if drawing.get('fill') == (0.0, 0.0, 0.0)
+              if drawing.get('fill') is not None
               and abs(drawing['rect'].y0) < .1
               and 0 < drawing['rect'].x0 < 50
               and drawing['rect'].width < 80]
@@ -616,7 +615,7 @@ def check_public_demo(document):
     overview = document[1]
     if not overview.search_for('目录') or len(overview.get_links()) != 5:
         raise RuntimeError('public demo: missing complete overview and section links')
-    # The current-section TOC keeps other entries legible on general's black.
+    # The current-section TOC keeps other entries legible on general's graphite.
     inactive_colors = caption_colors(document[19], '基础页面与图像')
     if not inactive_colors or any(color < 0x808080 for color in inactive_colors):
         raise RuntimeError('public demo: inactive TOC entries are too dark')
@@ -1078,7 +1077,8 @@ def check_aspect_ratio(name, document, log):
             if not any(link.get('uri', '').startswith('https://github.com/') for link in page.get_links()):
                 raise RuntimeError(f'{name}: missing clickable corner citation')
             pixmap = page.get_pixmap()
-            if pixmap.pixel(2, pixmap.height - 3) != (0, 0, 0):
+            if any(abs(a - b) > 1 for a, b in
+                   zip(pixmap.pixel(2, pixmap.height - 3), (36, 38, 43))):
                 raise RuntimeError(f'{name}: footer is not anchored to the page bottom')
         if 'Second visible point.' in texts[4] or 'Second visible point.' not in texts[5]:
             raise RuntimeError(f'{name}: overlay stages changed')
@@ -1204,8 +1204,9 @@ def check(root, output):
                         raise RuntimeError(f'{name}: overflow or missing glyphs')
                     body = document[4 if name == 'profile-general' else 1]
                     pixmap = body.get_pixmap()
-                    if pixmap.pixel(2, pixmap.height - 3) != (0, 0, 0):
-                        raise RuntimeError(f'{name}: default primary color must be pure black')
+                    if any(abs(a - b) > 1 for a, b in
+                           zip(pixmap.pixel(2, pixmap.height - 3), (36, 38, 43))):
+                        raise RuntimeError(f'{name}: default primary color must be graphite')
                     if 'CAMPUS' not in document[0].get_text():
                         raise RuntimeError(f'{name}: default cover must use the project wordmark')
                 if name == 'profile-eva':

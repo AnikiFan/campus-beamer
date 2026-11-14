@@ -54,7 +54,7 @@ theme/myschool/
 ```
 
 `profile.tex` 定义 `maincolor`、`tipcolor`、`notecolor`、`alertcolor`、
-`examplecolor`、`definitioncolor`。页脚使用主色与 `campusonprimary` 文字（默认白色）；general 的主色为纯黑 `#000000`。
+`examplecolor`、`definitioncolor`。页脚使用主色与 `campusonprimary` 文字（默认白色）；general 的主色为石墨灰 `#24262B`。
 目录中非当前章节统一使用 65% 前景色混合，保持各主题的可读性。
 四个品牌命令分别是 `\schoolemblemondark`、`\schoolemblemonlight`、
 `\schoolwordmarkondark`、`\schoolwordmarkonlight`。使用加载器提供的
@@ -82,7 +82,7 @@ theme/myschool/
 ## 主题的可选前景与背景颜色
 
 现有六种功能色和四个素材路径仍是必填字段。以下颜色可以在 `profile.tex` 中覆盖；
-省略时保持原有浅色主题效果，不需要在文稿中修改通用主题。
+省略时采用浅色主题的默认值，不需要在文稿中修改通用主题。
 
 | 可选颜色 | 默认值 | 用途 |
 |---|---|---|
@@ -90,12 +90,14 @@ theme/myschool/
 | `campusbackground` | `white` | 正文、封面左侧与提示框的基底 |
 | `campustext` / `campusheading` | `darkgray` | 正文 / 页眉文字 |
 | `campusaccent` | `maincolor` | 标题、结构标记、图注标签和正文导航 |
-| `campusmetadatatext` | `black` | 封面作者、导师、日期 |
-| `campuscitation` | `black!50` | 角落引用 |
-| `campusnavigationmuted` | `black!55` | 正文中非当前导航条目 |
+| `campusmetadatatext` | `campustext` | 封面作者、导师、日期 |
+| `campuscitation` | `campustext!80!campusbackground` | 角落引用 |
+| `campusnavigationmuted` | `campustext!80!campusbackground` | 正文中非当前导航条目 |
 | `campusnavigationsection` | `maincolor!18!white` | 章节导航底色 |
 | `campusnavigationsubsection` | `maincolor!7!white` | 小节导航底色 |
-| `campuscallouttitlebase` / `campuscallouttext` | `black` | 提示框标题混色基准 / 正文 |
+| `campuscallouttitlebase` / `campuscallouttext` | `campustext` | 提示框标题混色基准 / 正文 |
+
+内置主题可以覆盖这些默认值；general 的具体灰阶与功能色见其[配色说明](general/README.md)。
 
 `maincolor` 继续控制封面右侧、默认章节页和页脚底色；深色主题应配合明亮的 `campusaccent`。
 黄色等明亮主色应配合深色 `campusonprimary`，如 [`undefined/profile.tex`](undefined/profile.tex)。

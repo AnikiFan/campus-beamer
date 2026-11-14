@@ -8,15 +8,28 @@
 
 % Main theme color: cover panels, section pages, headings, navigation and footer.
 % The footer uses this color automatically; it has no separate color option.
-\definecolor{maincolor}{HTML}{000000}
+\definecolor{maincolor}{HTML}{24262B}
 
 % Callout colors: name the role, not the hue. The theme derives each box's
 % background, title shade and border from its role color.
-\definecolor{tipcolor}{HTML}{22A7E5}
+\definecolor{tipcolor}{HTML}{3B7898}
 \colorlet{notecolor}{maincolor} % Follows the main color unless set independently.
-\definecolor{alertcolor}{HTML}{EC008C}
-\definecolor{examplecolor}{RGB/cmyk}{20,185,120/.73,0,.67,0}
-\definecolor{definitioncolor}{HTML}{B36B16} % Distinct from the black note color.
+\definecolor{alertcolor}{HTML}{B44D62}
+\definecolor{examplecolor}{HTML}{407F67}
+\definecolor{definitioncolor}{HTML}{9B7138} % Distinct from the graphite note color.
+
+% Layered neutral roles: keep the canvas white for imported figures, with
+% graphite panels, softer body text and readable small secondary labels.
+\definecolor{campusbackground}{HTML}{FFFFFF}
+\definecolor{campustext}{HTML}{383A40}
+\colorlet{campusheading}{maincolor}
+\colorlet{campusmetadatatext}{campustext}
+\definecolor{campuscitation}{HTML}{686A71}
+\definecolor{campusnavigationmuted}{HTML}{65676D}
+\definecolor{campusnavigationsection}{HTML}{E6E7EB}
+\definecolor{campusnavigationsubsection}{HTML}{F1F2F4}
+\colorlet{campuscallouttitlebase}{maincolor}
+\colorlet{campuscallouttext}{campustext}
 
 % Transparent emblems: white artwork for dark blocks, colored artwork for light blocks.
 % Paths may include extensions. Keep local artwork beside this profile in assets/.
