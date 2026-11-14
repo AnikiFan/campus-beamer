@@ -8,7 +8,7 @@ resolution-markers = [
 
 [[package]]
 name = "beamer-to-pptx"
-version = "0.25.0"
+version = "0.26.0"
 source = { virtual = "." }
 dependencies = [
     { name = "pikepdf", version = "10.13.0.post1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
