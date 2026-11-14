@@ -5,6 +5,14 @@
 This file tracks public releases. `pyproject.toml` is the version source of truth;
 see [the release guide](docs/releases.md).
 
+## [0.26.0](https://github.com/AnikiFan/campus-beamer/compare/v0.25.0...v0.26.0) (2026-11-14)
+
+
+### Features
+
+* **export:** add editable text and template objects to PPTX ([e8e82cc](https://github.com/AnikiFan/campus-beamer/commit/e8e82cc520febd2d4958f7c378b3fd99c77350ed))
+* **theme:** soften general palette with layered graphite tones ([7372298](https://github.com/AnikiFan/campus-beamer/commit/73722980946133f8a6d58785acf13ffcd64f5ad2))
+
 ## [0.25.0](https://github.com/AnikiFan/campus-beamer/compare/v0.24.0...v0.25.0) (2026-11-07)
 
 
